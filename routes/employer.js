@@ -1,8 +1,13 @@
-var router = require("koa-router")();
+const router = require("koa-router")();
+const ApiWrapper = require("../services/api-wrapper");
+
+const apiWrapper = new ApiWrapper();
 
 router
-    .get("/", (next) => {
-        
+    .get("/", async (next) => {
+        let response = await apiWrapper.get("Employers");
+
+        console.log(response);
     })
     .post("/", (next) => {
 
