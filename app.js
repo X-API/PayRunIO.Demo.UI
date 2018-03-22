@@ -20,7 +20,7 @@ fs.readdirSync(path.join(__dirname, `routes`)).forEach((file) => {
 });
 
 router.get("/", async (ctx, next) => {
-    await ctx.render("index");
+    await ctx.render("index", { title: "Get started" });
 });
 
 app
