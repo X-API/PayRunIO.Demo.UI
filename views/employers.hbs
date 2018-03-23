@@ -1,0 +1,30 @@
+<div class="row actions">
+    <div class="col-sm-12">
+        <a class="btn btn-primary btn-lg" href="/employer/new" role="button">Add a new employer</a>
+    </div>
+</div>
+
+{{#if employers}}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Bank Account</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each employers}}
+        <tr>
+            <th scope="row">
+                <a href="/employer/{{this.Id}}">
+                    {{this.Name}}
+                </a>
+            </th>
+            <td>Mark</td>
+            <td>Otto</td>
+        </tr>
+        {{/each}}
+  </tbody>
+</table>
+{{/if}}

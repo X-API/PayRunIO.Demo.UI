@@ -2,6 +2,7 @@ const rp = require("request-promise");
 const Constants = require("../constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
+const Url = require("url");
 
 module.exports = class APIWrapper {
     async get(relativeUrl) {
@@ -9,6 +10,25 @@ module.exports = class APIWrapper {
         let response = await rp(options);
 
         return response;
+    }
+
+    async getAndExtractLinks(relativeUrl) {
+        let options = this.getOptions(relativeUrl, "GET");
+        let response = await rp(options);
+        let items = [];
+
+        if (response.LinkCollection.Links) {
+            for (let link of response.LinkCollection.Links.Link) {
+                let href = link["@href"];
+                let item = await apiWrapper.get(href);
+                let parts = href.split("/");
+                let id = parts[parts.length - 1];
+
+                items.push(Object.assign(item[0], { Id: id }));
+            }
+        }
+
+        return items;
     }
 
     async post(relativeUrl, body) {
@@ -33,13 +53,15 @@ module.exports = class APIWrapper {
             }
         });
 
+        let url = Url.resolve(Constants.apiUrl, relativeUrl);
+
         let request_data = {
-            url: Constants.apiUrl,
+            url: url,
             method: method
         };
 
         let options = {
-            uri: Constants.apiUrl,
+            uri: url,
             headers: oauth.toHeader(oauth.authorize(request_data)),
             json: true
         };

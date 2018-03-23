@@ -4,6 +4,7 @@ const Helmet = require("koa-helmet");
 const Serve = require("koa-static");
 const Compress = require("koa-compress");
 const Handlebars = require("koa-hbs-renderer");
+const BodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
 
@@ -34,6 +35,7 @@ app
     }))
     .use(Helmet())
     .use(Compress())
+    .use(BodyParser())
     .use(Serve("./content"))
     .use(router.routes())
     .use(router.allowedMethods());
