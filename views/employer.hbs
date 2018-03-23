@@ -1,0 +1,45 @@
+{{#if ShowTabs}}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">Employees</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="schedules-tab" data-toggle="tab" href="#schedules" role="tab" aria-controls="schedules" aria-selected="false">Pay Schedules</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        </div>
+        
+        <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+            <h4>Employees</h4>
+
+            <div class="row actions">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary btn-sm" href="#" role="button">Add a new employee</a>
+                </div>
+            </div>
+
+                        
+        </div>
+        
+        <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
+            <h4>Pay schedules</h4>
+
+            <div class="row actions">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary btn-sm" href="#" role="button">Add a new pay schedule</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>    
+{{else}}
+
+{{/if}}

@@ -10,6 +10,7 @@ router
         let employers = await apiWrapper.getAndExtractLinks("Employers");
 
         ctx.render("employers", {
+            title: "Employers",
             employers: employers
         });
     })
@@ -30,11 +31,16 @@ router
     .get("/:id", async (ctx, next) => {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
-        let employees = await apiWrapper.get(`Employer/${id}/Employees`);
+        let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
+        let paySchedules = await apiWrapper.getAndExtractLinks(`Employer/${id}/PaySchedules`);
 
+        let body = Object.assign(response.Employer, {
+            ShowTabs: true,
+            Employees: employees,
+            PaySchedules: paySchedules
+        });
 
-
-        ctx.render("employer/employer", response.Employer);
+        ctx.render("employer", body);
     })
     .post("/:id", (next) => {
         

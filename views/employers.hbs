@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th scope="col">Name</th>
+            <th scope="col">Region</th>
             <th scope="col">Address</th>
             <th scope="col">Bank Account</th>
         </tr>
@@ -21,8 +22,9 @@
                     {{this.Name}}
                 </a>
             </th>
-            <td>Mark</td>
-            <td>Otto</td>
+            <td>{{this.Region}}</td>
+            <td>{{address this.Address}}</td>
+            <td>{{bankAccount this.BankAccount}}</td>
         </tr>
         {{/each}}
   </tbody>

@@ -30,7 +30,8 @@ app
         environment: "development",
         paths: {
             views: path.join(__dirname, "views"),
-            layouts: path.join(__dirname, "layouts")
+            layouts: path.join(__dirname, "layouts"),
+            helpers:  path.join(__dirname, "helpers")
         }
     }))
     .use(Helmet())

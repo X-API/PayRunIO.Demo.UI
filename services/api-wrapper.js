@@ -20,11 +20,12 @@ module.exports = class APIWrapper {
         if (response.LinkCollection.Links) {
             for (let link of response.LinkCollection.Links.Link) {
                 let href = link["@href"];
-                let item = await apiWrapper.get(href);
+                let wrapper = await this.get(href);
+                let item = wrapper[Object.keys(wrapper)[0]];
                 let parts = href.split("/");
                 let id = parts[parts.length - 1];
 
-                items.push(Object.assign(item[0], { Id: id }));
+                items.push(Object.assign(item, { Id: id }));
             }
         }
 
