@@ -1,6 +1,7 @@
 const router = require("koa-router")();
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
+const Employee = require("./employee");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
@@ -48,5 +49,7 @@ router
     .post("/:id/delete", (next) => {
         
     });
+
+router.use("/", Employee.routes());
 
 module.exports = router;

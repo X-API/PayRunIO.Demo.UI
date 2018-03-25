@@ -7,22 +7,16 @@ const Handlebars = require("koa-hbs-renderer");
 const BodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
+const Employer = require("./routes/employer");
 
 let app = new Koa();
 let router = new Router();
 
-fs.readdirSync(path.join(__dirname, `routes`)).forEach((file) => {
-    if (file.substr(-3) === `.js`) {
-        let instance = require(`./routes/${file}`);
-        let route = file.toLowerCase().replace(`.js`, ``)
-
-        router.use(`/${route}`, instance.routes());
-    }
-});
-
 router.get("/", async (ctx, next) => {
     await ctx.render("index", { title: "Get started" });
 });
+
+router.use("/employer", Employer.routes());
 
 app
     .use(Handlebars({
