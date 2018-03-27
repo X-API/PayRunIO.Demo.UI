@@ -1,6 +1,28 @@
 .container {
   margin-top: 10px; }
 
+.content-container {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
 .actions {
-  margin-top: 10px;
   margin-bottom: 20px; }
+
+h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid 1px #e9ecef;
+  padding-bottom: 5px;
+  color: #6c757d; }
+
+form {
+  padding-bottom: 30px; }
+  form span.notes {
+    display: block;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: #6c757d; }
+    form span.notes a {
+      color: #6c757d;
+      text-decoration: underline; }

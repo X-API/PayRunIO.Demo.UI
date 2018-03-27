@@ -1,0 +1,262 @@
+<form method="POST">
+    {{>validationErrors}}
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control form-control-lg" id="Name" value="{{Name}}" placeholder="Legal name of the employer" required>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="Revisionumber">Revision</label>
+                <input type="number" class="form-control" id="Revisionumber" value="{{Revision}}" placeholder="Revision number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="effectiveDate">Effective date</label>
+                <input type="date" class="form-control" id="effectiveDate" value="{{EffectiveDate}}" placeholder="Date the revision will come into effect" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bacsServiceUserNumber">Bacs service user number</label>
+
+                <input type="number" class="form-control" id="bacsServiceUserNumber" value="{{BacsServiceUserNumber}}" placeholder="Unique identifier making payments throught the BACS network">
+            </div>  
+
+            <div class="form-group">
+                <label for="apprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
+
+                <input type="number" class="form-control" id="apprenticeshipLevyAllowance" value="{{ApprenticeshipLevyAllowance}}" placeholder="The employer's annual levy allowance">
+
+                <span class="notes">The apprenticeship levy will only apply to employers with annual paybill in excess of £3 million.</span>
+            </div>                       
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="region">Region</label>
+
+                <select class="form-control" id="region" required>
+                    <option value="NotSet">Not set</option>
+                    <option value="England">England</option>
+                    <option value="Scotland">Scotland</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="territory">Territory</label>
+
+                <select class="form-control" id="territory" required>
+                    <option value="UnitedKingdom">United Kingdom</option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="claimEmploymentAllowance">
+                <label class="form-check-label" for="claimEmploymentAllowance">
+                    Claim employment allowance
+
+                    <span class="notes">
+                         See <a href="https://developer.payrun.io/docs/payroll-help/claiming-employment-allowance.html" target="_blank">Claiming the Employment Allowance</a> for more details.
+                    </span>
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="claimSmallEmployerRelief">
+                <label class="form-check-label" for="claimSmallEmployerRelief">
+                    Claim small employer relief
+
+                    <span class="notes">
+                         See <a href="https://developer.payrun.io/docs/payroll-help/claiming-small-employer-relief.html" target="_blank">Claiming Small Employer Relief</a> for more details.
+                    </span>
+                </label>
+            </div>                          
+        </div>        
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <h4>Bank Account</h4>
+
+            <div class="form-group">
+                <label for="AccountName">Account name</label>
+
+                <input type="text" class="form-control" id="AccountName" value="{{BankAccount.AccountName}}" placeholder="Bank account name" required>             
+            </div>
+
+            <div class="form-group">
+                <label for="AccountNumber">Account number</label>
+
+                <input type="number" class="form-control" id="AccountNumber" value="{{BankAccount.AccountNumber}}" placeholder="Bank account number" required>             
+            </div>
+
+            <div class="form-group">
+                <label for="SortCode">Sort code</label>
+
+                <input type="number" class="form-control" id="SortCode" value="{{BankAccount.SortCode}}" placeholder="Bank sort code" required>             
+            </div>                                  
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <h4>HMRC Settings</h4>
+
+            <div class="form-group">
+                <label for="taxOfficeNumber">Tax office number</label>
+
+                <input type="number" class="form-control" id="taxOfficeNumber" placeholder="Tax office number" required>
+
+                <span class="notes">
+                    The Tax Office Number is the first part of your employer's PAYE reference issued by HMRC; it consists of 3 numbers. Required to make RTI submissions.
+                </span>                
+            </div>
+
+            <div class="form-group">
+                <label for="taxOfficeReference">Tax office reference</label>
+
+                <input type="number" class="form-control" id="taxOfficeReference" placeholder="Tax office reference" required>
+
+                <span class="notes">
+                    The Tax Office Reference is the second part of your employer's PAYE refernce issued by HMRC; it consists of up to 10 apha-numeric charaters. Required to make RTI submissions.
+                </span>                
+            </div>
+
+            <div class="form-group">
+                <label for="accountingOfficeRef">Accounting office ref</label>
+
+                <input type="number" class="form-control" id="accountingOfficeRef" placeholder="Tax office reference" required>
+
+                <span class="notes">
+                    The Accounting Office Reference is issued by HMRC; typically it is found on employer's P30BC Employer Payment Booklet. Required to make RTI submissions.
+                </span>                
+            </div>
+
+            <div class="form-group">
+                <label for="SAUTR">SAUTR</label>
+
+                <input type="number" class="form-control" id="SAUTR" placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">               
+            </div>
+
+            <div class="form-group">
+                <label for="COTAXRef">COTAX Ref</label>
+
+                <input type="number" class="form-control" id="COTAXRef" placeholder="Corporation Tax reference; applicable to limited companies.">                
+            </div>
+
+            <div class="form-group">
+                <label for="Sender">Sender</label>
+
+                <select class="form-control" id="Sender">
+                    <option value="Individual">Individual</option>
+                    <option value="Company">Company</option>
+                    <option value="Agent">Agent</option>
+                    <option value="Bureau">Bureau</option>
+                    <option value="Partnership">Partnership</option>
+                    <option value="Trust">Trust</option>
+                    <option value="Employer">Employer</option>
+                    <option value="Government">Government</option>
+                    <option value="ActingInCapacity">ActingInCapacity</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <span class="notes">The entity type that is making the RTI submission on behalf of the employer. Required to make RTI submissions.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="SenderId">Sender Id</label>
+
+                <input type="text" class="form-control" id="SenderId" placeholder="Government gateway username issued to the employer by HMRC">
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Password</label>
+
+                <input type="password" class="form-control" id="Password" placeholder="Government gateway password issued to the employer by HMRC">
+            </div>
+
+            <div class="form-group">
+                <label for="ContactFirstName">Contact first name</label>
+
+                <input type="text" class="form-control" id="ContactFirstName" placeholder="Designated HMRC contact person's first name">
+            </div>   
+
+           <div class="form-group">
+                <label for="ContactLastName">Contact last name</label>
+
+                <input type="text" class="form-control" id="ContactLastName" placeholder="Designated HMRC contact person's last name">
+            </div>
+
+            <div class="form-group">
+                <label for="ContactEmail">Contact email</label>
+
+                <input type="email" class="form-control" id="ContactEmail" placeholder="Contact email">
+
+                <span class="notes">The designated HMRC contact person's email address; RTI submission acknowledgements will be sent to this address.</span>
+            </div>  
+
+            <div class="form-group">
+                <label for="ContactTelephone">Contact telephone</label>
+
+                <input type="tel" class="form-control" id="ContactTelephone" placeholder="Designated HMRC contact person's telephone number">
+            </div>
+
+            <div class="form-group">
+                <label for="ContactFax">Contact fax</label>
+
+                <input type="tel" class="form-control" id="ContactFax" placeholder="Designated HMRC contact person's fax number">
+            </div>                                                       
+        </div>        
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <h4>Address</h4>
+
+            <div class="form-group">
+                <label for="Address1">Address 1</label>
+
+                <input type="text" class="form-control" id="Address1" value="{{Address.Address1}}" placeholder="First line of the address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Address2">Address 2</label>
+
+                <input type="text" class="form-control" id="Address2" value="{{Address.Address2}}" placeholder="Second line of the address">
+            </div> 
+
+            <div class="form-group">
+                <label for="Address3">Address 3</label>
+
+                <input type="text" class="form-control" id="Address3" value="{{Address.Address3}}" placeholder="Third line of the address">
+            </div>
+
+            <div class="form-group">
+                <label for="Address4">Address 4</label>
+
+                <input type="text" class="form-control" id="Address4" value="{{Address.Address4}}" placeholder="Fourth line of the address">
+            </div>
+
+            <div class="form-group">
+                <label for="Postcode">Postcode</label>
+
+                <input type="text" class="form-control" id="Postcode" value="{{Address.Postcode}}" placeholder="Postcode">
+            </div>
+
+            <div class="form-group">
+                <label for="Country">Country</label>
+
+                <input type="text" class="form-control" id="Country" value="{{Address.Country}}" placeholder="Country">
+            </div>                                                                     
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <h4>Auto Enrolment</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </div>
+    </div>
+</form>

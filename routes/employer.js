@@ -10,7 +10,7 @@ router
     .get("/", async (ctx, next) => {
         let employers = await apiWrapper.getAndExtractLinks("Employers");
 
-        ctx.render("employers", {
+        await ctx.render("employers", {
             title: "Employers",
             employers: employers
         });
@@ -20,14 +20,26 @@ router
         let response = await apiWrapper.post("Employers", body);
 
         if (validationParser.containsErrors(response)) {
-            ctx.render("employer/employer", Object.assign(body, validationParser.extractErrors(response)));
+            await ctx.render("employer/employer", Object.assign(body, { 
+                errors: validationParser.extractErrors(response),
+                Breadcrumbs: [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: "Add a new Employer" }
+                ]                
+            }));
             return;
         }
 
-        ctx.redirect(response.Link["@href"]);
+        await ctx.redirect(response.Link["@href"]);
     })
     .get("/new", async (ctx, next) => {
-        ctx.render("employer", {});
+        await ctx.render("employer", {
+            title: "Add a new Employer",
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: "Add a new Employer" }
+            ]
+        });
     })    
     .get("/:id", async (ctx, next) => {
         let id = ctx.params.id;
@@ -37,11 +49,15 @@ router
 
         let body = Object.assign(response.Employer, {
             ShowTabs: true,
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: response.Employer.Name }
+            ],
             Employees: employees,
             PaySchedules: paySchedules
         });
 
-        ctx.render("employer", body);
+        await ctx.render("employer", body);
     })
     .post("/:id", (next) => {
         
