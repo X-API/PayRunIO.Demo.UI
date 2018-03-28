@@ -1,13 +1,14 @@
 const router = require("koa-router")();
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
+const EmployerUtils = require("../services/employer-utils");
 const Employee = require("./employee");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
 
 router
-    .get("/", async (ctx, next) => {
+    .get("/", async (ctx) => {
         let employers = await apiWrapper.getAndExtractLinks("Employers");
 
         await ctx.render("employers", {
@@ -15,12 +16,12 @@ router
             employers: employers
         });
     })
-    .post("/", async (ctx, next) => {
-        let body = ctx.request.body; // todo: need to parse this and build up an employer object. 
-        let response = await apiWrapper.post("Employers", body);
+    .post("/", async (ctx) => {
+        let body = EmployerUtils.parse(ctx.request.body);
+        let response = await apiWrapper.post("Employers", { Employer: body });
 
         if (validationParser.containsErrors(response)) {
-            await ctx.render("employer/employer", Object.assign(body, { 
+            await ctx.render("employer", Object.assign(body, { 
                 errors: validationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
@@ -32,7 +33,7 @@ router
 
         await ctx.redirect(response.Link["@href"]);
     })
-    .get("/new", async (ctx, next) => {
+    .get("/new", async (ctx) => {
         await ctx.render("employer", {
             title: "Add a new Employer",
             Breadcrumbs: [
@@ -41,26 +42,44 @@ router
             ]
         });
     })    
-    .get("/:id", async (ctx, next) => {
+    .get("/:id", async (ctx) => {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
         let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
         let paySchedules = await apiWrapper.getAndExtractLinks(`Employer/${id}/PaySchedules`);
 
         let body = Object.assign(response.Employer, {
+            Id: id,
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: response.Employer.Name }
             ],
             Employees: employees,
-            PaySchedules: paySchedules
+            PaySchedules: paySchedules,
+            title: response.Employer.Name
         });
 
         await ctx.render("employer", body);
     })
-    .post("/:id", (next) => {
+    .post("/:id", async (ctx) => {
+        let id = ctx.params.id;
+        let body = EmployerUtils.parse(ctx.request.body);
+        let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
+
+        if (validationParser.containsErrors(response)) {
+            await ctx.render("employer", Object.assign(body, { 
+                Id: id,
+                errors: validationParser.extractErrors(response),
+                Breadcrumbs: [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: body.Name }
+                ]                
+            }));
+            return;
+        }
         
+        await ctx.redirect(`/employer/${id}?success=Employer details saved`); // todo: append success query string
     })
     .post("/:id/delete", (next) => {
         

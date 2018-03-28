@@ -1,59 +1,107 @@
-<form method="POST">
+{{#if Id}}
+<form method="POST" action="/Employer/{{Id}}">
+{{else}}
+<form method="POST" action="/Employer">
+{{/if}}
+
     {{>validationErrors}}
 
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control form-control-lg" id="Name" value="{{Name}}" placeholder="Legal name of the employer" required>
+        <input type="text" 
+            class="form-control form-control-lg" 
+            id="Name" 
+            name="Name" 
+            value="{{Name}}" 
+            placeholder="Legal name of the employer" 
+            required 
+            maxlength="35">
     </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                <label for="Revisionumber">Revision</label>
-                <input type="number" class="form-control" id="Revisionumber" value="{{Revision}}" placeholder="Revision number" required>
+                <label for="Revision">Revision</label>
+                <input type="number" 
+                    class="form-control" 
+                    id="Revision" 
+                    name="Revision" 
+                    value="{{Revision}}" 
+                    placeholder="Revision number" 
+                    required 
+                    step="1" 
+                    min="0">
             </div>
 
             <div class="form-group">
-                <label for="effectiveDate">Effective date</label>
-                <input type="date" class="form-control" id="effectiveDate" value="{{EffectiveDate}}" placeholder="Date the revision will come into effect" required>
+                <label for="EffectiveDate">Effective date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="EffectiveDate" 
+                    name="EffectiveDate" 
+                    value="{{EffectiveDate}}" 
+                    placeholder="Date the revision will come into effect" 
+                    required>
             </div>
 
             <div class="form-group">
-                <label for="bacsServiceUserNumber">Bacs service user number</label>
+                <label for="BacsServiceUserNumber">Bacs service user number</label>
 
-                <input type="number" class="form-control" id="bacsServiceUserNumber" value="{{BacsServiceUserNumber}}" placeholder="Unique identifier making payments throught the BACS network">
+                <input type="number" 
+                    class="form-control" 
+                    id="BacsServiceUserNumber" 
+                    name="BacsServiceUserNumber" 
+                    value="{{BacsServiceUserNumber}}" 
+                    placeholder="Unique identifier making payments throught the BACS network" 
+                    step="1">
             </div>  
 
             <div class="form-group">
-                <label for="apprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
+                <label for="ApprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
 
-                <input type="number" class="form-control" id="apprenticeshipLevyAllowance" value="{{ApprenticeshipLevyAllowance}}" placeholder="The employer's annual levy allowance">
+                <input type="number" 
+                    class="form-control" 
+                    id="ApprenticeshipLevyAllowance" 
+                    name="ApprenticeshipLevyAllowance" 
+                    value="{{ApprenticeshipLevyAllowance}}" 
+                    placeholder="The employer's annual levy allowance" 
+                    min="0" 
+                    max="15000">
 
                 <span class="notes">The apprenticeship levy will only apply to employers with annual paybill in excess of £3 million.</span>
             </div>                       
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                <label for="region">Region</label>
+                <label for="Region">Region</label>
 
-                <select class="form-control" id="region" required>
+                {{#select Region}}
+                <select class="form-control" id="Region" name="Region" required>
                     <option value="NotSet">Not set</option>
                     <option value="England">England</option>
                     <option value="Scotland">Scotland</option>
                 </select>
+                {{/select}}
             </div>
 
             <div class="form-group">
-                <label for="territory">Territory</label>
+                <label for="Territory">Territory</label>
 
-                <select class="form-control" id="territory" required>
+                {{#select Territory}}
+                <select class="form-control" id="Territory" name="Territory" required>
                     <option value="UnitedKingdom">United Kingdom</option>
                 </select>
+                {{/select}}
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="claimEmploymentAllowance">
-                <label class="form-check-label" for="claimEmploymentAllowance">
+                <input class="form-check-input" 
+                    type="checkbox" 
+                    id="ClaimEmploymentAllowance" 
+                    name="ClaimEmploymentAllowance" 
+                    {{checkedIf ClaimEmploymentAllowance}}>
+
+                <label class="form-check-label" for="ClaimEmploymentAllowance">
                     Claim employment allowance
 
                     <span class="notes">
@@ -63,15 +111,46 @@
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="claimSmallEmployerRelief">
-                <label class="form-check-label" for="claimSmallEmployerRelief">
+                <input class="form-check-input" 
+                    type="checkbox" 
+                    id="ClaimSmallEmployerRelief" 
+                    name="ClaimSmallEmployerRelief" 
+                    {{checkedIf ClaimSmallEmployerRelief}}>
+
+                <label class="form-check-label" for="ClaimSmallEmployerRelief">
                     Claim small employer relief
 
                     <span class="notes">
                          See <a href="https://developer.payrun.io/docs/payroll-help/claiming-small-employer-relief.html" target="_blank">Claiming Small Employer Relief</a> for more details.
                     </span>
                 </label>
-            </div>                          
+            </div>
+
+            <div class="form-group">
+                <label for="RuleExclusions">Rule Exclusions</label>
+
+                <select class="form-control" id="RuleExclusions" name="RuleExclusions" multiple>
+                    <option value="NiMissingPayInstructionRule">NiMissingPayInstructionRule</option>
+                    <option value="TaxMissingPayInstructionRule">TaxMissingPayInstructionRule</option>
+                    <option value="TaxCodeUpliftRule">TaxCodeUpliftRule</option>
+                    <option value="NiSetExpectedLetterRule">NiSetExpectedLetterRule</option>
+                    <option value="NiDateOfBirthChangeRetrospectiveCRule">NiDateOfBirthChangeRetrospectiveCRule</option>
+                    <option value="NiDefermentStatusChangeRule">NiDefermentStatusChangeRule</option>
+                    <option value="NiEndContractedOutTransferRule">NiEndContractedOutTransferRule</option>
+                    <option value="PaymentAfterLeavingRule">PaymentAfterLeavingRule</option>
+                    <option value="LeaverEndInstructionsRule">LeaverEndInstructionsRule</option>
+                    <option value="P45StudentLoanInstructionRule">P45StudentLoanInstructionRule</option>
+                    <option value="P45TaxInstructionRule">P45TaxInstructionRule</option>
+                    <option value="P45YtdTaxRule">P45YtdTaxRule</option>
+                    <option value="YtdInstructionRule">YtdInstructionRule</option>
+                    <option value="TaxCodeRegionChangeRule">TaxCodeRegionChangeRule</option>
+                </select>
+
+                <span class="notes">
+                    The list of pre-claculation rules to exclude by default for all employees. 
+                    See <a href="http://developer.payrun.io/docs/key-concepts/pre-calculation-rules.html" target="_blank">Pre-calculation rules</a> for more information on how they work.
+                </span>
+            </div>                                     
         </div>        
     </div>
 
@@ -82,19 +161,37 @@
             <div class="form-group">
                 <label for="AccountName">Account name</label>
 
-                <input type="text" class="form-control" id="AccountName" value="{{BankAccount.AccountName}}" placeholder="Bank account name" required>             
+                <input type="text" 
+                    class="form-control" 
+                    id="AccountName" 
+                    name="BankAccount[AccountName]" 
+                    value="{{BankAccount.AccountName}}" 
+                    placeholder="Bank account name" required>             
             </div>
 
             <div class="form-group">
                 <label for="AccountNumber">Account number</label>
 
-                <input type="number" class="form-control" id="AccountNumber" value="{{BankAccount.AccountNumber}}" placeholder="Bank account number" required>             
+                <input type="number" 
+                    class="form-control" 
+                    id="AccountNumber" 
+                    name="BankAccount[AccountNumber]"  
+                    value="{{BankAccount.AccountNumber}}" 
+                    placeholder="Bank account number" 
+                    required 
+                    step="1">             
             </div>
 
             <div class="form-group">
                 <label for="SortCode">Sort code</label>
 
-                <input type="number" class="form-control" id="SortCode" value="{{BankAccount.SortCode}}" placeholder="Bank sort code" required>             
+                <input type="text" 
+                    class="form-control" 
+                    id="SortCode" 
+                    name="BankAccount[SortCode]" 
+                    value="{{BankAccount.SortCode}}" 
+                    placeholder="Bank sort code" 
+                    required>             
             </div>                                  
         </div>
 
@@ -102,51 +199,85 @@
             <h4>HMRC Settings</h4>
 
             <div class="form-group">
-                <label for="taxOfficeNumber">Tax office number</label>
+                <label for="TaxOfficeNumber">Tax office number</label>
 
-                <input type="number" class="form-control" id="taxOfficeNumber" placeholder="Tax office number" required>
+                <input type="number" 
+                    class="form-control" 
+                    id="TaxOfficeNumber" 
+                    name="HmrcSettings[TaxOfficeNumber]"
+                    value="{{HmrcSettings.TaxOfficeNumber}}" 
+                    placeholder="Tax office number" 
+                    required 
+                    step="1" 
+                    maxlength="3">
 
                 <span class="notes">
-                    The Tax Office Number is the first part of your employer's PAYE reference issued by HMRC; it consists of 3 numbers. Required to make RTI submissions.
+                    The Tax Office Number is the first part of your employer's PAYE reference 
+                    issued by HMRC; it consists of 3 numbers. Required to make RTI submissions.
                 </span>                
             </div>
 
             <div class="form-group">
-                <label for="taxOfficeReference">Tax office reference</label>
+                <label for="TaxOfficeReference">Tax office reference</label>
 
-                <input type="number" class="form-control" id="taxOfficeReference" placeholder="Tax office reference" required>
+                <input type="text" 
+                    class="form-control" 
+                    id="TaxOfficeReference" 
+                    name="HmrcSettings[TaxOfficeReference]"
+                    value="{{HmrcSettings.TaxOfficeReference}}"   
+                    placeholder="Tax office reference" 
+                    required 
+                    maxlength="10">
 
                 <span class="notes">
-                    The Tax Office Reference is the second part of your employer's PAYE refernce issued by HMRC; it consists of up to 10 apha-numeric charaters. Required to make RTI submissions.
+                    The Tax Office Reference is the second part of your employer's PAYE refernce issued 
+                    by HMRC; it consists of up to 10 apha-numeric charaters. Required to make RTI submissions.
                 </span>                
             </div>
 
             <div class="form-group">
-                <label for="accountingOfficeRef">Accounting office ref</label>
+                <label for="AccountingOfficeRef">Accounting office ref</label>
 
-                <input type="number" class="form-control" id="accountingOfficeRef" placeholder="Tax office reference" required>
+                <input type="text" 
+                    class="form-control" 
+                    id="AccountingOfficeRef" 
+                    name="HmrcSettings[AccountingOfficeRef]" 
+                    value="{{HmrcSettings.AccountingOfficeRef}}"  
+                    placeholder="Tax office reference" required>
 
                 <span class="notes">
-                    The Accounting Office Reference is issued by HMRC; typically it is found on employer's P30BC Employer Payment Booklet. Required to make RTI submissions.
+                    The Accounting Office Reference is issued by HMRC; typically it is found on 
+                    employer's P30BC Employer Payment Booklet. Required to make RTI submissions.
                 </span>                
             </div>
 
             <div class="form-group">
                 <label for="SAUTR">SAUTR</label>
 
-                <input type="number" class="form-control" id="SAUTR" placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">               
+                <input type="number" 
+                    class="form-control" 
+                    id="SAUTR" 
+                    name="HmrcSettings[SAUTR]"
+                    value="{{HmrcSettings.SAUTR}}"  
+                    placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">               
             </div>
 
             <div class="form-group">
                 <label for="COTAXRef">COTAX Ref</label>
 
-                <input type="number" class="form-control" id="COTAXRef" placeholder="Corporation Tax reference; applicable to limited companies.">                
+                <input type="number" 
+                    class="form-control" 
+                    id="COTAXRef" 
+                    name="HmrcSettings[COTAXRef]" 
+                    value="{{HmrcSettings.COTAXRef}}"  
+                    placeholder="Corporation Tax reference; applicable to limited companies.">                
             </div>
 
             <div class="form-group">
                 <label for="Sender">Sender</label>
 
-                <select class="form-control" id="Sender">
+                {{#select HmrcSettings.Sender}}
+                <select class="form-control" id="Sender" name="HmrcSettings[Sender]">
                     <option value="Individual">Individual</option>
                     <option value="Company">Company</option>
                     <option value="Agent">Agent</option>
@@ -158,6 +289,7 @@
                     <option value="ActingInCapacity">ActingInCapacity</option>
                     <option value="Other">Other</option>
                 </select>
+                {{/select}}
 
                 <span class="notes">The entity type that is making the RTI submission on behalf of the employer. Required to make RTI submissions.</span>
             </div>
@@ -165,31 +297,58 @@
             <div class="form-group">
                 <label for="SenderId">Sender Id</label>
 
-                <input type="text" class="form-control" id="SenderId" placeholder="Government gateway username issued to the employer by HMRC">
+                <input type="text" 
+                    class="form-control" 
+                    id="SenderId" 
+                    name="HmrcSettings[SenderId]" 
+                    value="{{HmrcSettings.SenderId}}"  
+                    placeholder="Government gateway username issued to the employer by HMRC" 
+                    maxlength="35">
             </div>
 
             <div class="form-group">
                 <label for="Password">Password</label>
 
-                <input type="password" class="form-control" id="Password" placeholder="Government gateway password issued to the employer by HMRC">
+                <input type="text" 
+                    class="form-control" 
+                    id="Password" 
+                    name="HmrcSettings[Password]" 
+                    value="{{HmrcSettings.Password}}"  
+                    placeholder="Government gateway password issued to the employer by HMRC" 
+                    maxlength="35">
             </div>
 
             <div class="form-group">
                 <label for="ContactFirstName">Contact first name</label>
 
-                <input type="text" class="form-control" id="ContactFirstName" placeholder="Designated HMRC contact person's first name">
+                <input type="text" 
+                    class="form-control" 
+                    id="ContactFirstName" 
+                    name="HmrcSettings[ContactFirstName]" 
+                    value="{{HmrcSettings.ContactFirstName}}"  
+                    placeholder="Designated HMRC contact person's first name">
             </div>   
 
            <div class="form-group">
                 <label for="ContactLastName">Contact last name</label>
 
-                <input type="text" class="form-control" id="ContactLastName" placeholder="Designated HMRC contact person's last name">
+                <input type="text" 
+                    class="form-control" 
+                    id="ContactLastName" 
+                    name="HmrcSettings[ContactLastName]" 
+                    value="{{HmrcSettings.ContactLastName}}"  
+                    placeholder="Designated HMRC contact person's last name">
             </div>
 
             <div class="form-group">
                 <label for="ContactEmail">Contact email</label>
 
-                <input type="email" class="form-control" id="ContactEmail" placeholder="Contact email">
+                <input type="email" 
+                    class="form-control" 
+                    id="ContactEmail" 
+                    name="HmrcSettings[ContactEmail]"
+                    value="{{HmrcSettings.ContactEmail}}"  
+                    placeholder="Contact email">
 
                 <span class="notes">The designated HMRC contact person's email address; RTI submission acknowledgements will be sent to this address.</span>
             </div>  
@@ -197,13 +356,23 @@
             <div class="form-group">
                 <label for="ContactTelephone">Contact telephone</label>
 
-                <input type="tel" class="form-control" id="ContactTelephone" placeholder="Designated HMRC contact person's telephone number">
+                <input type="tel" 
+                    class="form-control" 
+                    id="ContactTelephone" 
+                    name="HmrcSettings[ContactTelephone]" 
+                    value="{{HmrcSettings.ContactTelephone}}" 
+                    placeholder="Designated HMRC contact person's telephone number">
             </div>
 
             <div class="form-group">
                 <label for="ContactFax">Contact fax</label>
 
-                <input type="tel" class="form-control" id="ContactFax" placeholder="Designated HMRC contact person's fax number">
+                <input type="tel" 
+                    class="form-control" 
+                    id="ContactFax" 
+                    name="HmrcSettings[ContactFax]" 
+                    value="{{HmrcSettings.ContactFax}}" 
+                    placeholder="Designated HMRC contact person's fax number">
             </div>                                                       
         </div>        
     </div>
@@ -215,42 +384,231 @@
             <div class="form-group">
                 <label for="Address1">Address 1</label>
 
-                <input type="text" class="form-control" id="Address1" value="{{Address.Address1}}" placeholder="First line of the address" required>
+                <input type="text" 
+                    class="form-control" 
+                    id="Address1" 
+                    name="Address[Address1]" 
+                    value="{{Address.Address1}}" 
+                    placeholder="First line of the address" required>
             </div>
 
             <div class="form-group">
                 <label for="Address2">Address 2</label>
 
-                <input type="text" class="form-control" id="Address2" value="{{Address.Address2}}" placeholder="Second line of the address">
+                <input type="text" 
+                    class="form-control" 
+                    id="Address2" 
+                    name="Address[Address2]"
+                    value="{{Address.Address2}}" 
+                    placeholder="Second line of the address">
             </div> 
 
             <div class="form-group">
                 <label for="Address3">Address 3</label>
 
-                <input type="text" class="form-control" id="Address3" value="{{Address.Address3}}" placeholder="Third line of the address">
+                <input type="text" 
+                    class="form-control" 
+                    id="Address3" 
+                    name="Address[Address3]" 
+                    value="{{Address.Address3}}" 
+                    placeholder="Third line of the address">
             </div>
 
             <div class="form-group">
                 <label for="Address4">Address 4</label>
 
-                <input type="text" class="form-control" id="Address4" value="{{Address.Address4}}" placeholder="Fourth line of the address">
+                <input type="text" 
+                    class="form-control" 
+                    id="Address4" 
+                    name="Address[Address4]" 
+                    value="{{Address.Address4}}" 
+                    placeholder="Fourth line of the address">
             </div>
 
             <div class="form-group">
                 <label for="Postcode">Postcode</label>
 
-                <input type="text" class="form-control" id="Postcode" value="{{Address.Postcode}}" placeholder="Postcode">
+                <input type="text" 
+                    class="form-control" 
+                    id="Postcode" 
+                    name="Address[Postcode]" 
+                    value="{{Address.Postcode}}" 
+                    placeholder="Postcode">
             </div>
 
             <div class="form-group">
                 <label for="Country">Country</label>
 
-                <input type="text" class="form-control" id="Country" value="{{Address.Country}}" placeholder="Country">
+                <input type="text" 
+                    class="form-control" 
+                    id="Country" 
+                    name="Address[Country]" 
+                    value="{{Address.Country}}" 
+                    placeholder="Country">
             </div>                                                                     
         </div>
 
         <div class="col-sm-12 col-md-6">
             <h4>Auto Enrolment</h4>
+
+            <div class="form-group">
+                <label for="StagingDate">Staging date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="StagingDate" 
+                    name="AutoEnrolment[StagingDate]" 
+                    value="{{AutoEnrolment.StagingDate}}" 
+                    placeholder="Auto enrolment staging date" 
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="PostponementDate">Postponement date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="PostponementDate" 
+                    name="AutoEnrolment[PostponementDate]" 
+                    value="{{AutoEnrolment.PostponementDate}}" 
+                    placeholder="Optional auto enrolment deferment date">
+            </div>
+
+            <div class="form-group">
+                <label for="ReEnrolmentDayOffset">Re enrolment day offset</label>
+                <input type="number"
+                    class="form-control" 
+                    id="ReEnrolmentDayOffset" 
+                    name="AutoEnrolment[ReEnrolmentDayOffset]" 
+                    value="{{AutoEnrolment.ReEnrolmentDayOffset}}" 
+                    placeholder="Re enrolment day offset" 
+                    min="-31" 
+                    max="31">
+
+                <span class="notes">
+                    The optional employers auto enrolment re-enrolment day offset. 
+                    Allows the tri-annual re-enrolment to be offset by a number of days. 
+                    Supports positive and negative integers.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="ReEnrolmentMonthOffset">Re enrolment month offset</label>
+                <input type="number"
+                    class="form-control" 
+                    id="ReEnrolmentMonthOffset" 
+                    name="AutoEnrolment[ReEnrolmentMonthOffset]" 
+                    value="{{AutoEnrolment.ReEnrolmentMonthOffset}}" 
+                    placeholder="Re enrolment month offset" 
+                    min="-3" 
+                    max="3">
+
+                <span class="notes">
+                    The optional employers auto enrolment re-enrolment month offset. 
+                    Allows the tri-annual re-enrolment to be offset by a number of months. 
+                    Supports positive and negative integers.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="PrimaryFirstName">Primary first name</label>
+                <input type="number"
+                    class="form-control" 
+                    id="PrimaryFirstName" 
+                    name="AutoEnrolment[PrimaryFirstName]" 
+                    value="{{AutoEnrolment.PrimaryFirstName}}" 
+                    placeholder="Auto enrolment primary contact first name">
+            </div>
+
+            <div class="form-group">
+                <label for="PrimaryLastName">Primary last name</label>
+                <input type="number"
+                    class="form-control" 
+                    id="PrimaryLastName" 
+                    name="AutoEnrolment[PrimaryLastName]" 
+                    value="{{AutoEnrolment.PrimaryLastName}}" 
+                    placeholder="Auto enrolment primary contact last name">
+            </div>
+
+            <div class="form-group">
+                <label for="PrimaryEmail">Primary email</label>
+                <input type="number"
+                    class="form-control" 
+                    id="PrimaryEmail" 
+                    name="AutoEnrolment[PrimaryEmail]" 
+                    value="{{AutoEnrolment.PrimaryEmail}}" 
+                    placeholder="Auto enrolment primary contact email address">
+            </div>
+
+            <div class="form-group">
+                <label for="PrimaryTelephone">Primary telephone</label>
+                <input type="tel"
+                    class="form-control" 
+                    id="PrimaryTelephone" 
+                    name="AutoEnrolment[PrimaryTelephone]" 
+                    value="{{AutoEnrolment.PrimaryTelephone}}" 
+                    placeholder="Auto enrolment primary contact telephone number">
+            </div>
+
+            <div class="form-group">
+                <label for="PrimaryJobTitle">Primary job title</label>
+                <input type="tel"
+                    class="form-control" 
+                    id="PrimaryJobTitle" 
+                    name="AutoEnrolment[PrimaryJobTitle]" 
+                    value="{{AutoEnrolment.PrimaryJobTitle}}" 
+                    placeholder="Auto enrolment primary contact job title" 
+                    maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="SecondaryFirstName">Secondary first name</label>
+                <input type="number"
+                    class="form-control" 
+                    id="SecondaryFirstName" 
+                    name="AutoEnrolment[SecondaryFirstName]" 
+                    value="{{AutoEnrolment.SecondaryFirstName}}" 
+                    placeholder="Auto enrolment secondary contact first name">
+            </div>
+
+            <div class="form-group">
+                <label for="SecondaryLastName">Secondary last name</label>
+                <input type="number"
+                    class="form-control" 
+                    id="SecondaryLastName" 
+                    name="AutoEnrolment[SecondaryLastName]" 
+                    value="{{AutoEnrolment.SecondaryLastName}}" 
+                    placeholder="Auto enrolment secondary contact last name">
+            </div>
+
+            <div class="form-group">
+                <label for="SecondaryEmail">Secondary email</label>
+                <input type="number"
+                    class="form-control" 
+                    id="SecondaryEmail" 
+                    name="AutoEnrolment[SecondaryEmail]" 
+                    value="{{AutoEnrolment.SecondaryEmail}}" 
+                    placeholder="Auto enrolment secondary contact email address">
+            </div>
+
+            <div class="form-group">
+                <label for="SecondaryTelephone">Secondary telephone</label>
+                <input type="tel"
+                    class="form-control" 
+                    id="SecondaryTelephone" 
+                    name="AutoEnrolment[SecondaryTelephone]" 
+                    value="{{AutoEnrolment.SecondaryTelephone}}" 
+                    placeholder="Auto enrolment secondary contact telephone number">
+            </div>
+
+            <div class="form-group">
+                <label for="SecondaryJobTitle">Secondary job title</label>
+                <input type="tel"
+                    class="form-control" 
+                    id="SecondaryJobTitle" 
+                    name="AutoEnrolment[SecondaryJobTitle]" 
+                    value="{{AutoEnrolment.SecondaryJobTitle}}" 
+                    placeholder="Auto enrolment secondary contact job title" 
+                    maxlength="50">
+            </div>                                                                                                                       
         </div>
     </div>
 

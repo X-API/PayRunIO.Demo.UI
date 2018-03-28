@@ -4,6 +4,6 @@ module.exports = class ValidationParser {
     }
 
     extractErrors(response) {
-        return response.Errors.Error;
+        return response.ErrorModel.Errors.Error;
     }
 };

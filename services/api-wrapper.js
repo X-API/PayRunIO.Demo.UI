@@ -35,11 +35,28 @@ module.exports = class APIWrapper {
     async post(relativeUrl, body) {
         let options = this.getOptions(relativeUrl, "POST");
 
-        options.body = body;
+        options.body = this.cleanObject(body);
 
-        let response = await rp(options);
+        return await this.sendRequest(options);
+    }
 
-        return response;
+    async put(relativeUrl, body) {
+        let options = this.getOptions(relativeUrl, "PUT");
+
+        options.body = this.cleanObject(body);
+
+        return await this.sendRequest(options);
+    }
+
+    async sendRequest(options) {
+        try {
+            let response = await rp(options);
+
+            return response;
+        }
+        catch(error) {
+            return error.error;
+        }
     }
 
     getOptions(relativeUrl, method) {
@@ -63,10 +80,29 @@ module.exports = class APIWrapper {
 
         let options = {
             uri: url,
+            method: method,
             headers: oauth.toHeader(oauth.authorize(request_data)),
             json: true
         };
 
         return options;
     }
+
+    cleanObject(obj) {
+        let cleanObj = JSON.parse(JSON.stringify(obj));
+      
+        Object.keys(cleanObj).forEach(key => {
+            if (cleanObj[key] && typeof cleanObj[key] === "object") {
+                cleanObj[key] = this.cleanObject(cleanObj[key]);
+            }
+            else if (cleanObj[key] === undefined || cleanObj[key] === null || cleanObj[key].toString().trim().length === 0) {
+                delete cleanObj[key];
+            }
+            else {
+                cleanObj[key] = cleanObj[key];
+            }
+        });
+      
+        return cleanObj;
+      };    
 }
