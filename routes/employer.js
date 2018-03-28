@@ -2,6 +2,7 @@ const router = require("koa-router")();
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
+const StatusUtils = require("../services/status-utils");
 const Employee = require("./employee");
 
 const apiWrapper = new ApiWrapper();
@@ -26,7 +27,7 @@ router
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: "Add a new Employer" }
-                ]                
+                ]
             }));
             return;
         }
@@ -57,7 +58,8 @@ router
             ],
             Employees: employees,
             PaySchedules: paySchedules,
-            title: response.Employer.Name
+            title: response.Employer.Name,
+            Status: StatusUtils.extract(ctx)
         });
 
         await ctx.render("employer", body);
@@ -79,7 +81,7 @@ router
             return;
         }
         
-        await ctx.redirect(`/employer/${id}?success=Employer details saved`); // todo: append success query string
+        await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`); // todo: append success query string
     })
     .post("/:id/delete", (next) => {
         
