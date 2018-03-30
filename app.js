@@ -9,6 +9,8 @@ const BodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
 const Employer = require("./routes/employer");
+const Employee = require("./routes/employee");
+const PaySchedule = require("./routes/pay-schedule");
 
 let app = new Koa();
 let router = new Router();
@@ -18,6 +20,8 @@ router.get("/", async (ctx, next) => {
 });
 
 router.use("/employer", Employer.routes());
+router.use("/employer", Employee.routes());
+router.use("/employer", PaySchedule.routes());
 
 app
     .use(HandlebarsRenderer({

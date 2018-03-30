@@ -12,7 +12,7 @@
   margin-top: 20px;
   margin-bottom: 20px; }
 
-h4 {
+h4:not(.modal-title) {
   margin-top: 10px;
   margin-bottom: 10px;
   border-bottom: solid 1px #e9ecef;
@@ -30,3 +30,9 @@ form {
     form span.notes a {
       color: #6c757d;
       text-decoration: underline; }
+
+.bootbox-close-button {
+  display: none; }
+
+.tab-pane {
+  padding-top: 20px; }

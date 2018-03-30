@@ -3,7 +3,6 @@ const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
 const StatusUtils = require("../services/status-utils");
-const Employee = require("./employee");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
@@ -92,7 +91,5 @@ router
     .post("/:id/delete", async ctx => {
         
     });
-
-router.use("/", Employee.routes());
 
 module.exports = router;

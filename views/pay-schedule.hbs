@@ -4,6 +4,8 @@
 <form method="POST" action="/Employer/{{EmployerId}}/PaySchedule">
 {{/if}}
 
+    {{>breadcrumbs}}
+
     {{>validationErrors}}
 
     <div class="form-group">
@@ -19,7 +21,7 @@
     </div>
 
     <div class="form-group">
-        <label for="PayFrequency">Name</label>
+        <label for="PayFrequency">Pay Frequency</label>
 
         {{#select PayFrequency}}
         <select id="PayFrequency" name="PayFrequency" class="form-control form-control-lg" required>
