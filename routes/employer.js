@@ -9,7 +9,7 @@ const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
 
 router
-    .get("/", async (ctx) => {
+    .get("/", async ctx => {
         let employers = await apiWrapper.getAndExtractLinks("Employers");
 
         await ctx.render("employers", {
@@ -17,12 +17,14 @@ router
             employers: employers
         });
     })
-    .post("/", async (ctx) => {
+
+    .post("/", async ctx => {
         let body = EmployerUtils.parse(ctx.request.body);
         let response = await apiWrapper.post("Employers", { Employer: body });
 
         if (validationParser.containsErrors(response)) {
             await ctx.render("employer", Object.assign(body, { 
+                title: "Add a new Employer",
                 errors: validationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
@@ -32,9 +34,10 @@ router
             return;
         }
 
-        await ctx.redirect(response.Link["@href"]);
+        await ctx.redirect(response.Link["@href"] + "?status=Employer details saved&statusType=success");
     })
-    .get("/new", async (ctx) => {
+
+    .get("/new", async ctx => {
         await ctx.render("employer", {
             title: "Add a new Employer",
             Breadcrumbs: [
@@ -42,8 +45,9 @@ router
                 { Name: "Add a new Employer" }
             ]
         });
-    })    
-    .get("/:id", async (ctx) => {
+    })
+
+    .get("/:id", async ctx => {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
         let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
@@ -64,7 +68,8 @@ router
 
         await ctx.render("employer", body);
     })
-    .post("/:id", async (ctx) => {
+
+    .post("/:id", async ctx => {
         let id = ctx.params.id;
         let body = EmployerUtils.parse(ctx.request.body);
         let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
@@ -83,7 +88,8 @@ router
         
         await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`); // todo: append success query string
     })
-    .post("/:id/delete", (next) => {
+
+    .post("/:id/delete", async ctx => {
         
     });
 

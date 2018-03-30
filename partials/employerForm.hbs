@@ -131,6 +131,7 @@
             <div class="form-group">
                 <label for="RuleExclusions">Rule Exclusions</label>
 
+                {{#multipleSelect RuleExclusions}}
                 <select class="form-control" id="RuleExclusions" name="RuleExclusions" multiple>
                     <option value="NiMissingPayInstructionRule">NiMissingPayInstructionRule</option>
                     <option value="TaxMissingPayInstructionRule">TaxMissingPayInstructionRule</option>
@@ -147,6 +148,7 @@
                     <option value="YtdInstructionRule">YtdInstructionRule</option>
                     <option value="TaxCodeRegionChangeRule">TaxCodeRegionChangeRule</option>
                 </select>
+                {{/multipleSelect}}
 
                 <span class="notes">
                     The list of pre-claculation rules to exclude by default for all employees. 
@@ -168,7 +170,9 @@
                     id="AccountName" 
                     name="BankAccount[AccountName]" 
                     value="{{BankAccount.AccountName}}" 
-                    placeholder="Bank account name" required>             
+                    placeholder="Bank account name" 
+                    required 
+                    maxlength="18"> 
             </div>
 
             <div class="form-group">
@@ -181,7 +185,9 @@
                     value="{{BankAccount.AccountNumber}}" 
                     placeholder="Bank account number" 
                     required 
-                    step="1">             
+                    step="1" 
+                    maxlength="8" 
+                    minlength="7">             
             </div>
 
             <div class="form-group">
@@ -193,7 +199,9 @@
                     name="BankAccount[SortCode]" 
                     value="{{BankAccount.SortCode}}" 
                     placeholder="Bank sort code" 
-                    required>             
+                    required 
+                    minlength="6" 
+                    maxlength="8">             
             </div>                                  
         </div>
 
