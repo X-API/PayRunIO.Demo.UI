@@ -11,9 +11,11 @@ const path = require("path");
 const Employer = require("./routes/employer");
 const Employee = require("./routes/employee");
 const PaySchedule = require("./routes/pay-schedule");
+const argv = require('minimist')(process.argv.slice(2));
 
 let app = new Koa();
 let router = new Router();
+let port = argv.p || 3000;
 
 router.get("/", async (ctx, next) => {
     await ctx.render("index", { title: "Get started" });
@@ -43,4 +45,6 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-app.listen(3000);
+app.listen(port, () => {
+    console.log(`up and listing on port ${port}`)
+});

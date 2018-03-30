@@ -37,6 +37,7 @@
     "koa-helmet": "^3.3.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
+    "minimist": "^1.2.0",
     "oauth-1.0a": "^2.2.4",
     "request": "^2.85.0",
     "request-promise": "^4.2.2"
