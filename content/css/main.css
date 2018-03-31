@@ -21,6 +21,11 @@ h4:not(.modal-title) {
 
 form {
   padding-bottom: 30px; }
+  form span.intro {
+    display: block;
+    font-size: 17px;
+    margin-top: 5px;
+    margin-bottom: 15px; }
   form span.notes {
     display: block;
     font-size: 13px;
@@ -30,6 +35,9 @@ form {
     form span.notes a {
       color: #6c757d;
       text-decoration: underline; }
+  form div.form-check {
+    margin-top: 20px;
+    margin-bottom: 20px; }
 
 .bootbox-close-button {
   display: none; }

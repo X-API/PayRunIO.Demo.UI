@@ -1,6 +1,13 @@
 form {
     padding-bottom: 30px;
 
+    span.intro {
+        display: block;
+        font-size: 17px; 
+        margin-top: 5px;
+        margin-bottom: 15px;                 
+    }
+
     span.notes {
         display: block;
         font-size: 13px;
@@ -12,5 +19,10 @@ form {
             color: #6c757d;
             text-decoration: underline;
         }
+    }
+
+    div.form-check {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 }
