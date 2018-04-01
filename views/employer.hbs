@@ -23,11 +23,37 @@
         <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
             <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary btn-sm" href="/employer/{{Id}}/employee/new" role="button">Add a new employee</a>
+                    <a class="btn btn-primary" href="/employer/{{Id}}/employee/new" role="button">Add a new employee</a>
                 </div>
             </div>
 
-                        
+            {{#if Employees}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Bank Account</th>
+                        <th width="50px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each Employees}}
+                    <tr>
+                        <th scope="row">
+                            <a href="/employer/{{../Id}}/employee/{{this.Id}}">
+                                {{this.Code}}
+                            </a>
+                        </th>
+                        <td>{{this.LastName}}</td>
+                        <td>{{address this.Address}}</td>
+                        <td>{{bankAccount this.BankAccount}}</td>
+                    </tr>
+                    {{/each}}
+            </tbody>
+            </table>
+            {{/if}}                                    
         </div>
         
         <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">

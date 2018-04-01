@@ -31,6 +31,18 @@ module.exports = class EmployerUtils {
             employee.RuleExclusions = "None";
         }
 
+        let hasPartnerValueSet = false;
+
+        for (let prop in employee.EmployeePartner) {
+            if (employee.EmployeePartner[prop] && employee.EmployeePartner.hasOwnProperty(prop)) {
+                hasPartnerValueSet = true;
+            }
+        }
+
+        if (!hasPartnerValueSet) {
+            employee.EmployeePartner = null;
+        }
+
         return employee;
     }
 };
