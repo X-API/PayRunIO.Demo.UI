@@ -38,6 +38,8 @@ form {
   form div.form-check {
     margin-top: 20px;
     margin-bottom: 20px; }
+  form input.initials, form input.title {
+    width: 80px; }
 
 .bootbox-close-button {
   display: none; }

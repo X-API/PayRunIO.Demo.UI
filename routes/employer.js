@@ -1,11 +1,13 @@
 const router = require("koa-router")();
 const ApiWrapper = require("../services/api-wrapper");
+const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
 const StatusUtils = require("../services/status-utils");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
+const employerService = new EmployerService();
 
 router
     .get("/", async ctx => {
@@ -50,7 +52,7 @@ router
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
         let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
-        let paySchedules = await apiWrapper.getAndExtractLinks(`Employer/${id}/PaySchedules`);
+        let paySchedules = await employerService.getPaySchedules(id);
 
         let body = Object.assign(response.Employer, {
             Id: id,

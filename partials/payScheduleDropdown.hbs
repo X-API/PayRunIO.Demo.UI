@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label for="Gender">Gender</label>
+
+    <select class="form-control" id="PaySchedule" name="PaySchedule">
+        <option value="">Not set</option>
+
+        {{#each PaySchedules}}
+            {{#ifCond ../PayScheduleId this.Id this}}
+            <option value="{{this.Id}}" selected>{{this.Name}}</option>
+            {{else}}
+            <option value="{{this.Id}}">{{this.Name}}</option>
+            {{/ifCond}}
+        {{/each}}
+    </select>
+</div>

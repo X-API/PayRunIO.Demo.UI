@@ -1,7 +1,7 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{Id}}">
+<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}">
 {{else}}
-<form method="POST" action="/Employer">
+<form method="POST" action="/Employer/{{EmployerId}}/Employee">
 {{/if}}
 
     {{>validationErrors}}
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="Title">Title</label>
                 <input type="text" 
-                    class="form-control" 
+                    class="form-control title" 
                     id="Title" 
                     name="Title" 
                     value="{{Title}}" 
@@ -93,7 +93,7 @@
             <div class="form-group">
                 <label for="Initials">Initials</label>
                 <input type="text" 
-                    class="form-control" 
+                    class="form-control initials" 
                     id="Initials" 
                     name="Initials" 
                     value="{{Initials}}" 
@@ -144,7 +144,7 @@
             <div class="form-group">
                 <label for="WorkingWeek">Working week</label>
 
-                {{#multipleSelect NicLiability}}
+                {{#multipleSelect WorkingWeek}}
                 <select class="form-control" id="WorkingWeek" name="WorkingWeek" multiple required>
                     <option value="None">None</option>
                     <option value="Monday">Monday</option>
@@ -242,6 +242,8 @@
         </div>
 
         <div class="col-sm-12 col-md-6">
+            {{>payScheduleDropdown}}
+
             <div class="form-group">
                 <label for="NiNumber">Ni Number</label>
                 <input type="text" 
@@ -340,10 +342,10 @@
                     name="HoursPerWeek" 
                     value="{{HoursPerWeek}}" 
                     placeholder="Hours per week" 
-                    step="1" 
                     min="0" 
                     max="168" 
-                    required>
+                    required 
+                    step="0.5">
 
                 <span class="notes">
                     The employee's normal number of hours worked per week (irrespective of pay frequency).
@@ -422,7 +424,7 @@
             <div class="form-group">
                 <label for="EmployeePartner_Title">Title</label>
                 <input type="text" 
-                    class="form-control" 
+                    class="form-control title" 
                     id="EmployeePartner_Title" 
                     name="EmployeePartner[Title]" 
                     value="{{EmployeePartner.Title}}" 
@@ -444,7 +446,7 @@
             <div class="form-group">
                 <label for="EmployeePartner_Initials">Initials</label>
                 <input type="text" 
-                    class="form-control" 
+                    class="form-control initials" 
                     id="EmployeePartner_Initials" 
                     name="EmployeePartner[Initials]" 
                     value="{{EmployeePartner.Initials}}" 
@@ -493,6 +495,57 @@
         <div class="col-sm-12 col-md-6">
             <h4>Auto enrolment</h4>
 
+            <div class="form-group">
+                <label for="AEAssessmentOverride">AEAssessment override</label>
+
+                {{#select AEAssessmentOverride}}
+                <select class="form-control" id="AEAssessmentOverride" name="AEAssessmentOverride">
+                    <option value="None">Not set</option>
+                    <option value="OptOut">Opt out</option>
+                    <option value="OptIn">Opt in</option>
+                    <option value="VoluntaryJoiner">Voluntary joiner</option>
+                    <option value="ContractualPension">Contractual pension</option>
+                    <option value="CeasedMembership">Ceased membership</option>
+                    <option value="Leaver">Leaver</option>
+                    <option value="Excluded"Excluded></option>
+                </select>
+                {{/select}}
+
+                <span class="notes">
+                    The auto enrolment assessment override value. 
+                    Enables the auto enrolment assessment result to be overridden
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="AEAssessmentOverrideDate">Assessment override date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="AEAssessmentOverrideDate" 
+                    name="AEAssessmentOverrideDate" 
+                    value="{{AEAssessmentOverrideDate}}" 
+                    placeholder="Assessment override date">
+
+                <span class="notes">
+                    The auto enrolment assessment override date. 
+                    Determines the date when auto enrolment assessment override applies.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="AEPostponementDate">Postponement date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="AEPostponementDate" 
+                    name="AEPostponementDate" 
+                    value="{{AEPostponementDate}}" 
+                    placeholder="Postponement date">
+
+                <span class="notes">
+                    The auto enrolment deferment date. 
+                    Indicates the date when auto enrolment assessments are deferred to.
+                </span>
+            </div>            
             <!-- todo -->
         </div>
     </div>
