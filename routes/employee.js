@@ -4,6 +4,7 @@ const PayInstruction = require("./pay-instruction");
 const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
+const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
 const employerService = new EmployerService();
@@ -20,7 +21,7 @@ router
             PaySchedules: paySchedules,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: "Add a new Employee" }
             ]
         });        
@@ -38,7 +39,7 @@ router
                 errors: validationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
-                    { Name: "Employer", Url: `/employer/${employerId}` },
+                    { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                     { Name: "Add a new Employee" }
                 ]
             }));

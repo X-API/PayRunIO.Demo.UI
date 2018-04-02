@@ -4,6 +4,7 @@ const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
 const StatusUtils = require("../services/status-utils");
+const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
@@ -66,6 +67,8 @@ router
             title: response.Employer.Name,
             Status: StatusUtils.extract(ctx)
         });
+
+        AppState.currentEmployer = response.Employer;
 
         await ctx.render("employer", body);
     })

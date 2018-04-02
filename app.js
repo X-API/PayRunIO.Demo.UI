@@ -33,9 +33,9 @@ app
         hbs: Handlebars.create(),
         paths: {
             views: path.join(__dirname, "views"),
-            layouts: path.join(__dirname, "layouts"),
+            layouts: path.join(__dirname, "views", "layouts"),
             helpers: path.join(__dirname, "helpers"),
-            partials: path.join(__dirname, "partials")
+            partials: path.join(__dirname, "views", "partials")
         }
     }))
     .use(Helmet())

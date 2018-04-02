@@ -1,6 +1,7 @@
 const router = require("koa-router")();
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
+const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
@@ -14,7 +15,7 @@ router
             EmployerId: employerId,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: "Add a new Pay Schedule" }
             ]
         });        
@@ -34,7 +35,7 @@ router
                 errors: validationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
-                    { Name: "Employer", Url: employerRoute },
+                    { Name: AppState.currentEmployer.Name, Url: employerRoute },
                     { Name: "Add a new Pay Schedule" }
                 ]
             }));
@@ -56,7 +57,7 @@ router
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: response.PaySchedule.Name }
             ],
             title: response.PaySchedule.Name
@@ -81,7 +82,7 @@ router
                 errors: validationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
-                    { Name: "Employer", Url: employerRoute },
+                    { Name: AppState.currentEmployer.Name, Url: employerRoute },
                     { Name: body.Name }
                 ]
             }));
