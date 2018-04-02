@@ -1,3 +1,3 @@
 module.exports = (condition) => {
-    return condition ? "checked" : "";
+    return condition === true || (condition && condition.toString().toLowerCase() === "true") ? "checked" : "";
 };

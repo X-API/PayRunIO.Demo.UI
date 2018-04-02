@@ -2,4 +2,42 @@
 
 {{>status}}
 
-{{>employeeForm}}
+{{#if ShowTabs}}
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab" aria-controls="instructions" aria-selected="false">Instructions</a>
+        </li>        
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {{>employeeForm}}
+        </div>
+
+        <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
+            <div class="row actions">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new" role="button">Add a new instruction</a>
+                </div>
+            </div>
+
+            {{#if Instructions}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            {{/if}}                                    
+        </div>        
+    </div>        
+{{else}}
+    {{>employeeForm}}
+{{/if}}

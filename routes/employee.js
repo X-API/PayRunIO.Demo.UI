@@ -49,12 +49,58 @@ router
         await ctx.redirect(response.Link["@href"] + "?status=Employee details saved&statusType=success");        
     })
     
-    .get("/:employerId/employee/:employeeId", (ctx, next) => {
-        
+    .get("/:employerId/employee/:employeeId", async ctx => {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
+        let response = await apiWrapper.get(apiRoute);
+
+        let body = Object.assign(response.Employee, {
+            Id: employeeId,
+            title: response.Employee.Code,
+            EmployerId: employerId,
+            ShowTabs: true,
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: response.Employee.Code }
+            ]
+        });
+
+        await ctx.render("employee", body);        
     })
     
     .post("/:employerId/employee/:employeeId", (ctx, next) => {
         
+    })
+
+    .get("/:employerId/employee/:employeeId/leaver-details", async ctx => {
+
+    })
+
+    .get("/:employerId/employee/:employeeId/p45", async ctx => {
+
+    })
+
+    .get("/:employerId/employee/:employeeId/p60", async ctx => {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
+        let response = await apiWrapper.get(apiRoute);
+
+        let body = {
+            title: "Download P60",
+            EmployeeId: employeeId,
+            EmployerId: employerId,
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: response.Employee.Code, Url: `/employer/${employerId}/employee/${employeeId}` },
+                { Name: "Download P60" }
+            ]
+        };
+
+        await ctx.render("download-p60", body);                
     })
     
     .post("/:employerId/employee/:employeeId/delete", (ctx, next) => {

@@ -1,0 +1,11 @@
+.btn-link {
+    &.btn-danger {
+        color: #dc3545 !important;
+        border: none;
+
+        &:active {
+            background: none;
+            background-color: white !important;
+        }
+    }
+}

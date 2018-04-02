@@ -54,7 +54,6 @@ router
         let body = Object.assign(response.PaySchedule, {
             Id: payScheduleId,
             EmployerId: employerId,
-            ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },

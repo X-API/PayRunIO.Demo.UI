@@ -41,6 +41,13 @@ form {
   form input.initials, form input.title {
     width: 80px; }
 
+.btn-link.btn-danger {
+  color: #dc3545 !important;
+  border: none; }
+  .btn-link.btn-danger:active {
+    background: none;
+    background-color: white !important; }
+
 .bootbox-close-button {
   display: none; }
 

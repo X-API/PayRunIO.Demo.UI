@@ -49,6 +49,23 @@
                         <td>{{employeeName this}}</td>
                         <td>{{address this.Address}}</td>
                         <td>{{bankAccount this.BankAccount}}</td>
+                        <td>
+                            <a class="btn btn-link" 
+                               data-pay-schedule-id="{{this.Id}}" 
+                               data-employer-id="{{../Id}}">Add leaver details</button>
+                            <br>                            
+                            <a class="btn btn-link" 
+                               data-pay-schedule-id="{{this.Id}}" 
+                               data-employer-id="{{../Id}}">Download P45</button>
+                            <br>
+                            <a class="btn btn-link" 
+                               data-pay-schedule-id="{{this.Id}}" 
+                               data-employer-id="{{../Id}}">Download P60</button>
+                            <br>
+                            <a class="btn btn-link btn-danger" 
+                               data-pay-schedule-id="{{this.Id}}" 
+                               data-employer-id="{{../Id}}">Delete</button>
+                        </td>
                     </tr>
                     {{/each}}
             </tbody>
