@@ -5,6 +5,7 @@ const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
 const AppState = require("../app-state");
+const fs = require("fs");
 
 const apiWrapper = new ApiWrapper();
 const employerService = new EmployerService();
@@ -101,6 +102,20 @@ router
         };
 
         await ctx.render("download-p60", body);                
+    })
+
+    .post("/:employerId/employee/:employeeId/p60", async ctx => {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let body = ctx.request.body;
+        let year = body.Year;
+        let apiRoute = `/Report/P60/run?EmployerKey=${employerId}&EmployeeKey=${employeeId}&TaxYear=${year}&TransformDefinitionKey=P60-${year}-Pdf`;
+
+        let response = await apiWrapper.getFile(apiRoute);
+
+        ctx.set("Content-disposition", "attachment; filename=p60.pdf");
+        ctx.set("Content-type", "application/pdf");
+        ctx.body = response.body;
     })
     
     .post("/:employerId/employee/:employeeId/delete", (ctx, next) => {

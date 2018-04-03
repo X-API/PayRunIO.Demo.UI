@@ -26,7 +26,9 @@
   "homepage": "https://github.com/X-API/PayRunIO.Demo.UI#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "concurrently": "^3.5.1",
     "crypto": "^1.0.1",
+    "jasmine-node": "^1.14.5",
     "jquery": "^3.3.1",
     "jsdom": "^11.6.2",
     "koa": "^2.5.0",
@@ -38,12 +40,11 @@
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
     "minimist": "^1.2.0",
+    "moment": "^2.22.0",
+    "node-sass": "^4.7.2",
+    "nodemon": "^1.17.2",
     "oauth-1.0a": "^2.2.4",
     "request": "^2.85.0",
-    "request-promise": "^4.2.2",
-    "concurrently": "^3.5.1",
-    "jasmine-node": "^1.14.5",
-    "node-sass": "^4.7.2",
-    "nodemon": "^1.17.2"    
+    "request-promise": "^4.2.2"
   }
 }

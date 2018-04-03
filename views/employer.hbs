@@ -58,13 +58,9 @@
                                data-pay-schedule-id="{{this.Id}}" 
                                data-employer-id="{{../Id}}">Download P45</button>
                             <br>
-                            <a class="btn btn-link" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Download P60</button>
+                            <a class="btn btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">Download P60</a>
                             <br>
-                            <a class="btn btn-link btn-danger" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Delete</button>
+                            <a class="btn btn-link btn-danger">Delete</button>
                         </td>
                     </tr>
                     {{/each}}

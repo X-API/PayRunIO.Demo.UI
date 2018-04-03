@@ -1,5 +1,3 @@
-const Handlebars = require("handlebars");
-
 module.exports = (employee) => {
     let firstname = employee.FirstName || employee.Initials;
     

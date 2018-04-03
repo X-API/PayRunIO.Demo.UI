@@ -1,0 +1,19 @@
+<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{EmployeeId}}/p60">
+    {{>breadcrumbs}}
+
+    {{>validationErrors}}
+
+    <div class="form-group">
+        <label for="Year">Year</label>
+
+        <select id="Year" name="Year" class="form-control form-control-lg" required>
+            {{taxYears}}
+        </select>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Generate</button>
+        </div>
+    </div>    
+</form>

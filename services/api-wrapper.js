@@ -3,6 +3,7 @@ const Constants = require("../constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
+const fs = require("fs");
 
 module.exports = class APIWrapper {
     async get(relativeUrl) {
@@ -10,6 +11,16 @@ module.exports = class APIWrapper {
         let response = await rp(options);
 
         return response;
+    }
+
+    async getFile(relativeUrl) {
+        let options = this.getOptions(relativeUrl, "GET");
+
+        options.json = false;
+        options.encoding = null;
+        options.resolveWithFullResponse = true;
+
+        return await rp(options);
     }
 
     async getAndExtractLinks(relativeUrl) {
