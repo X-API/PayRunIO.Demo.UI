@@ -18,6 +18,8 @@ In `constants.js` there are three settings that should be overwritten when runni
 
 ## Scripts
 
+All scripts rely on local npm modules therefore run `npm install` before running the below scripts:
+
 ### `npm run watch`
 
 Will run the up the node server, listen on port 3000 and watch the following file types for changes. If a change is detected it will restart the server. 

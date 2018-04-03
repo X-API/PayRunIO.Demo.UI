@@ -40,13 +40,10 @@
     "minimist": "^1.2.0",
     "oauth-1.0a": "^2.2.4",
     "request": "^2.85.0",
-    "request-promise": "^4.2.2"
-  },
-  "devDependencies": {
+    "request-promise": "^4.2.2",
     "concurrently": "^3.5.1",
     "jasmine-node": "^1.14.5",
     "node-sass": "^4.7.2",
-    "nodemo": "^1.0.0",
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.17.2"    
   }
 }
