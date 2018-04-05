@@ -1,6 +1,5 @@
-const router = require("koa-router")();
+const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
-const PayInstruction = require("./pay-instruction");
 const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
@@ -11,12 +10,12 @@ const apiWrapper = new ApiWrapper();
 const employerService = new EmployerService();
 const validationParser = new ValidationParser();
 
-router
-    .get("/:employerId/employee/new", async ctx => {
+module.exports = class EmployeeController {
+    async requestNewEmployee(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
 
-        await ctx.render("employee", {
+        await ctx.render("employee", await BaseController.getExtendedViewModel({
             title: "Add a new Employee",
             EmployerId: employerId,
             PaySchedules: paySchedules,
@@ -25,16 +24,16 @@ router
                 { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: "Add a new Employee" }
             ]
-        });        
-    })
-
-    .post("/:employerId/employee", async ctx => {
+        }));        
+    }
+    
+    async addNewEmployee(ctx) {
         let body = EmployeeUtils.parse(ctx.request.body);
         let employerId = ctx.params.employerId;
         let response = await apiWrapper.post(`Employer/${employerId}/Employees`, { Employee: body });
 
         if (validationParser.containsErrors(response)) {
-            await ctx.render("employee", Object.assign(body, { 
+            await ctx.render("employee", await BaseController.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Employee",
                 EmployerId: employerId,
                 errors: validationParser.extractErrors(response),
@@ -43,14 +42,14 @@ router
                     { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                     { Name: "Add a new Employee" }
                 ]
-            }));
+            })));
             return;
         }
 
         await ctx.redirect(response.Link["@href"] + "?status=Employee details saved&statusType=success");        
-    })
-    
-    .get("/:employerId/employee/:employeeId", async ctx => {
+    }
+
+    async getEmployeeDetails(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
@@ -68,22 +67,10 @@ router
             ]
         });
 
-        await ctx.render("employee", body);        
-    })
+        await ctx.render("employee", await BaseController.getExtendedViewModel(body));
+    }
     
-    .post("/:employerId/employee/:employeeId", (ctx, next) => {
-        
-    })
-
-    .get("/:employerId/employee/:employeeId/leaver-details", async ctx => {
-
-    })
-
-    .get("/:employerId/employee/:employeeId/p45", async ctx => {
-
-    })
-
-    .get("/:employerId/employee/:employeeId/p60", async ctx => {
+    async request60(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
@@ -101,10 +88,10 @@ router
             ]
         };
 
-        await ctx.render("download-p60", body);                
-    })
-
-    .post("/:employerId/employee/:employeeId/p60", async ctx => {
+        await ctx.render("download-p60", await BaseController.getExtendedViewModel(body));
+    }
+    
+    async downloadP60(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let body = ctx.request.body;
@@ -115,13 +102,6 @@ router
 
         ctx.set("Content-disposition", "attachment; filename=p60.pdf");
         ctx.set("Content-type", "application/pdf");
-        ctx.body = response.body;
-    })
-    
-    .post("/:employerId/employee/:employeeId/delete", (ctx, next) => {
-        
-    });
-
-router.use("/", PayInstruction.routes());
-
-module.exports = router;
+        ctx.body = response.body;        
+    }
+};
