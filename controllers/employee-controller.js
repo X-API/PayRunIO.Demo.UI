@@ -9,7 +9,6 @@ const fs = require("fs");
 
 const apiWrapper = new ApiWrapper();
 const employerService = new EmployerService();
-const validationParser = new ValidationParser();
 
 module.exports = class EmployeeController extends BaseController {
     async requestNewEmployee(ctx) {
@@ -33,11 +32,11 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let response = await apiWrapper.post(`Employer/${employerId}/Employees`, { Employee: body });
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             await ctx.render("employee", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Employee",
                 EmployerId: employerId,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
@@ -78,7 +77,7 @@ module.exports = class EmployeeController extends BaseController {
         let body = EmployeeUtils.parse(ctx.request.body);
         let response = await apiWrapper.put(`/Employer/${employerId}/Employee/${employeeId}`, { Employee: body });
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             let extendedBody = Object.assign(body, {
                 Id: employeeId,
                 title: body.Code,

@@ -12,6 +12,7 @@ const RootController = require("./controllers/root-controller");
 const EmployerController = require("./controllers/employer-controller");
 const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
+const PayInstructionController = require("./controllers/pay-instruction-controller");
 const argv = require('minimist')(process.argv.slice(2));
 
 let app = new Koa();
@@ -22,7 +23,9 @@ let rootController = new RootController();
 let employerController = new EmployerController();
 let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
+let payInstructionController = new PayInstructionController();
 
+// root/get started
 router.get("/", async ctx => await rootController.getRootView(ctx));
 
 // employer
@@ -52,11 +55,11 @@ router.post("/employer/:employerId/employee/:employeeId/p60", async ctx => await
 router.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { });
 
 // pay instruction
-router.get("/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => { });
-router.post("/employer/:employerId/employee/:employeeId/payInstruction", async ctx => { });
-router.get("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => { });
-router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => { });
-router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId/delete", async ctx => { });;
+router.get("/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx));
+router.post("/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.addNewInstruction(ctx));
+router.get("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.getInstruction(ctx));
+router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.saveInstruction(ctx));
+router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId/delete", async ctx => payInstructionController.deleteInstruction(ctx));
 
 app
     .use(HandlebarsRenderer({

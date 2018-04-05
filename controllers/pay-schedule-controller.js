@@ -4,7 +4,6 @@ const ValidationParser = require("../services/validation-parser");
 const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
-const validationParser = new ValidationParser();
 
 module.exports = class PayScheduleController extends BaseController {
     async requestNewSchedule(ctx) {
@@ -28,11 +27,11 @@ module.exports = class PayScheduleController extends BaseController {
 
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: employerId,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: employerRoute },
@@ -74,11 +73,11 @@ module.exports = class PayScheduleController extends BaseController {
 
         let employerRoute = `/employer/${employerId}`;
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: body.Name,
                 EmployerId: employerId,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: employerRoute },

@@ -7,7 +7,6 @@ const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
-const validationParser = new ValidationParser();
 const employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
@@ -34,10 +33,10 @@ module.exports = class EmployerController extends BaseController {
         let body = EmployerUtils.parse(ctx.request.body);
         let response = await apiWrapper.post("Employers", { Employer: body });
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             await ctx.render("employer", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Employer",
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: "Add a new Employer" }
@@ -78,10 +77,10 @@ module.exports = class EmployerController extends BaseController {
         let body = EmployerUtils.parse(ctx.request.body);
         let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
 
-        if (validationParser.containsErrors(response)) {
+        if (ValidationParser.containsErrors(response)) {
             await ctx.render("employer", await this.getExtendedViewModel(Object.assign(body, { 
                 Id: id,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: body.Name }
