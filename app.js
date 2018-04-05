@@ -16,7 +16,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 let app = new Koa();
 let router = new Router();
-let port = argv.p || 3000;
+let port = process.env.PORT || 3000;
 
 let rootController = new RootController();
 let employerController = new EmployerController();
