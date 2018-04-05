@@ -7,7 +7,7 @@ $(function() {
 
     $(".nav-tabs a").on("click", function (e) {
         $(this).tab("show");
-        
+            
         window.location.hash = this.hash;
     });
 

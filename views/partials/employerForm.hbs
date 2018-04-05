@@ -4,94 +4,109 @@
 <form method="POST" action="/Employer">
 {{/if}}
 
+    <ul class="nav nav-tabs nav-fill" id="subTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="hmrc-tab" data-toggle="tab" href="#hmrc" role="tab" aria-controls="hmrc" aria-selected="false">RTI Settings</a>
+        </li>    
+        <li class="nav-item">
+            <a class="nav-link" id="ae-tab" data-toggle="tab" href="#ae" role="tab" aria-controls="ae" aria-selected="false">Auto Enrolment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="bankaccount-tab" data-toggle="tab" href="#bankaccount" role="tab" aria-controls="bankaccount" aria-selected="false">Bank Account</a>
+        </li>   
+        <li class="nav-item">
+            <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
+        </li>     
+    </ul>
+    
     {{>validationErrors}}
 
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" 
-            class="form-control form-control-lg" 
-            id="Name" 
-            name="Name" 
-            value="{{Name}}" 
-            placeholder="Legal name of the employer" 
-            required 
-            maxlength="35">
+<div class="tab-content" id="mySubTabContent">
+
+<div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" 
+                    class="form-control form-control-lg" 
+                    id="Name" 
+                    name="Name" 
+                    value="{{Name}}" 
+                    placeholder="Legal name of the employer" 
+                    required 
+                    maxlength="35" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+                <label for="EffectiveDate">Effective date</label>
+                <input type="date" 
+                    class="form-control form-control-lg" 
+                    id="EffectiveDate" 
+                    name="EffectiveDate" 
+                    value="{{EffectiveDate}}" 
+                    placeholder="Date the revision will come into effect" 
+                    required />
+            </div>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                <label for="Revision">Revision</label>
+                <label for="TaxOfficeNumber">Tax office number</label>
+
                 <input type="number" 
                     class="form-control" 
-                    id="Revision" 
-                    name="Revision" 
-                    value="{{Revision}}" 
-                    placeholder="Revision number" 
-                    required 
+                    id="TaxOfficeNumber" 
+                    name="HmrcSettings[TaxOfficeNumber]"
+                    value="{{HmrcSettings.TaxOfficeNumber}}" 
+                    placeholder="Tax office number" 
                     step="1" 
-                    min="0">
+                    maxlength="3">
+
+                <span class="notes">
+                    The Tax Office Number is the first part of your employer's PAYE reference 
+                    issued by HMRC; it consists of 3 numbers. Required to make RTI submissions.
+                </span>                
             </div>
 
             <div class="form-group">
-                <label for="EffectiveDate">Effective date</label>
-                <input type="date" 
+                <label for="TaxOfficeReference">Tax office reference</label>
+
+                <input type="text" 
                     class="form-control" 
-                    id="EffectiveDate" 
-                    name="EffectiveDate" 
-                    value="{{EffectiveDate}}" 
-                    placeholder="Date the revision will come into effect" 
-                    required>
+                    id="TaxOfficeReference" 
+                    name="HmrcSettings[TaxOfficeReference]"
+                    value="{{HmrcSettings.TaxOfficeReference}}"   
+                    placeholder="Tax office reference" 
+                    maxlength="10" />
+
+                <span class="notes">
+                    The Tax Office Reference is the second part of your employer's PAYE refernce issued 
+                    by HMRC; it consists of up to 10 apha-numeric charaters. Required to make RTI submissions.
+                </span>                
             </div>
 
             <div class="form-group">
-                <label for="BacsServiceUserNumber">Bacs service user number</label>
+                <label for="AccountingOfficeRef">Accounting office ref</label>
 
-                <input type="number" 
+                <input type="text" 
                     class="form-control" 
-                    id="BacsServiceUserNumber" 
-                    name="BacsServiceUserNumber" 
-                    value="{{BacsServiceUserNumber}}" 
-                    placeholder="Unique identifier making payments throught the BACS network" 
-                    step="1">
-            </div>  
+                    id="AccountingOfficeRef" 
+                    name="HmrcSettings[AccountingOfficeRef]" 
+                    value="{{HmrcSettings.AccountingOfficeRef}}"  
+                    placeholder="Tax office reference">
 
-            <div class="form-group">
-                <label for="ApprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
-
-                <input type="number" 
-                    class="form-control" 
-                    id="ApprenticeshipLevyAllowance" 
-                    name="ApprenticeshipLevyAllowance" 
-                    value="{{ApprenticeshipLevyAllowance}}" 
-                    placeholder="The employer's annual levy allowance" 
-                    min="0" 
-                    max="15000">
-
-                <span class="notes">The apprenticeship levy will only apply to employers with annual paybill in excess of £3 million.</span>
-            </div>                       
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label for="Region">Region</label>
-
-                {{#select Region}}
-                <select class="form-control" id="Region" name="Region" required>
-                    <option value="NotSet">Not set</option>
-                    <option value="England">England</option>
-                    <option value="Scotland">Scotland</option>
-                </select>
-                {{/select}}
-            </div>
-
-            <div class="form-group">
-                <label for="Territory">Territory</label>
-
-                {{#select Territory}}
-                <select class="form-control" id="Territory" name="Territory" required>
-                    <option value="UnitedKingdom">United Kingdom</option>
-                </select>
-                {{/select}}
+                <span class="notes">
+                    The Accounting Office Reference is issued by HMRC; typically it is found on 
+                    employer's P30BC Employer Payment Booklet. Required to make RTI submissions.
+                </span>                
             </div>
 
             <div class="form-check">
@@ -126,137 +141,83 @@
                 </label>
             </div>
 
-            {{>ruleExclusions}}                                     
+        </div>
+        <div class="col-sm-12 col-md-6">
+            {{> addressForm}}                    
         </div>        
     </div>
+</div>
 
+<div class="tab-pane fade" id="bankaccount" role="tabpanel" aria-labelledby="bankaccount-tab">
     <div class="row">
         <div class="col-sm-12 col-md-6">
             {{> bankAccountForm}}
         </div>
-
         <div class="col-sm-12 col-md-6">
-            <h4>HMRC Settings</h4>
-
             <div class="form-group">
-                <label for="TaxOfficeNumber">Tax office number</label>
+                <label for="BacsServiceUserNumber">Bacs service user number</label>
 
                 <input type="number" 
                     class="form-control" 
-                    id="TaxOfficeNumber" 
-                    name="HmrcSettings[TaxOfficeNumber]"
-                    value="{{HmrcSettings.TaxOfficeNumber}}" 
-                    placeholder="Tax office number" 
-                    required 
-                    step="1" 
-                    maxlength="3">
+                    id="BacsServiceUserNumber" 
+                    name="BacsServiceUserNumber" 
+                    value="{{BacsServiceUserNumber}}" 
+                    placeholder="Unique identifier making payments throught the BACS network" 
+                    step="1" />
+            </div>  
+        </div>
+    </div>
+</div>
 
-                <span class="notes">
-                    The Tax Office Number is the first part of your employer's PAYE reference 
-                    issued by HMRC; it consists of 3 numbers. Required to make RTI submissions.
-                </span>                
-            </div>
+<div class="tab-pane fade" id="hmrc" role="tabpanel" aria-labelledby="hmrc-tab">
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="Sender">Sender</label>
 
-            <div class="form-group">
-                <label for="TaxOfficeReference">Tax office reference</label>
+            {{#select HmrcSettings.Sender}}
+            <select class="form-control" id="Sender" name="HmrcSettings[Sender]">
+                <option value="Individual">Individual</option>
+                <option value="Company">Company</option>
+                <option value="Agent">Agent</option>
+                <option value="Bureau">Bureau</option>
+                <option value="Partnership">Partnership</option>
+                <option value="Trust">Trust</option>
+                <option value="Employer">Employer</option>
+                <option value="Government">Government</option>
+                <option value="ActingInCapacity">ActingInCapacity</option>
+                <option value="Other">Other</option>
+            </select>
+            {{/select}}
 
-                <input type="text" 
-                    class="form-control" 
-                    id="TaxOfficeReference" 
-                    name="HmrcSettings[TaxOfficeReference]"
-                    value="{{HmrcSettings.TaxOfficeReference}}"   
-                    placeholder="Tax office reference" 
-                    required 
-                    maxlength="10">
+            <span class="notes">The entity type that is making the RTI submission on behalf of the employer. Required to make RTI submissions.</span>
+        </div>
 
-                <span class="notes">
-                    The Tax Office Reference is the second part of your employer's PAYE refernce issued 
-                    by HMRC; it consists of up to 10 apha-numeric charaters. Required to make RTI submissions.
-                </span>                
-            </div>
+        <div class="form-group">
+            <label for="SenderId">Sender Id</label>
 
-            <div class="form-group">
-                <label for="AccountingOfficeRef">Accounting office ref</label>
+            <input type="text" 
+                class="form-control" 
+                id="SenderId" 
+                name="HmrcSettings[SenderId]" 
+                value="{{HmrcSettings.SenderId}}"  
+                placeholder="Government gateway username issued to the employer by HMRC" 
+                maxlength="35">
+        </div>
 
-                <input type="text" 
-                    class="form-control" 
-                    id="AccountingOfficeRef" 
-                    name="HmrcSettings[AccountingOfficeRef]" 
-                    value="{{HmrcSettings.AccountingOfficeRef}}"  
-                    placeholder="Tax office reference" required>
+        <div class="form-group">
+            <label for="Password">Password</label>
 
-                <span class="notes">
-                    The Accounting Office Reference is issued by HMRC; typically it is found on 
-                    employer's P30BC Employer Payment Booklet. Required to make RTI submissions.
-                </span>                
-            </div>
-
-            <div class="form-group">
-                <label for="SAUTR">SAUTR</label>
-
-                <input type="number" 
-                    class="form-control" 
-                    id="SAUTR" 
-                    name="HmrcSettings[SAUTR]"
-                    value="{{HmrcSettings.SAUTR}}"  
-                    placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">               
-            </div>
-
-            <div class="form-group">
-                <label for="COTAXRef">COTAX Ref</label>
-
-                <input type="number" 
-                    class="form-control" 
-                    id="COTAXRef" 
-                    name="HmrcSettings[COTAXRef]" 
-                    value="{{HmrcSettings.COTAXRef}}"  
-                    placeholder="Corporation Tax reference; applicable to limited companies.">                
-            </div>
-
-            <div class="form-group">
-                <label for="Sender">Sender</label>
-
-                {{#select HmrcSettings.Sender}}
-                <select class="form-control" id="Sender" name="HmrcSettings[Sender]">
-                    <option value="Individual">Individual</option>
-                    <option value="Company">Company</option>
-                    <option value="Agent">Agent</option>
-                    <option value="Bureau">Bureau</option>
-                    <option value="Partnership">Partnership</option>
-                    <option value="Trust">Trust</option>
-                    <option value="Employer">Employer</option>
-                    <option value="Government">Government</option>
-                    <option value="ActingInCapacity">ActingInCapacity</option>
-                    <option value="Other">Other</option>
-                </select>
-                {{/select}}
-
-                <span class="notes">The entity type that is making the RTI submission on behalf of the employer. Required to make RTI submissions.</span>
-            </div>
-
-            <div class="form-group">
-                <label for="SenderId">Sender Id</label>
-
-                <input type="text" 
-                    class="form-control" 
-                    id="SenderId" 
-                    name="HmrcSettings[SenderId]" 
-                    value="{{HmrcSettings.SenderId}}"  
-                    placeholder="Government gateway username issued to the employer by HMRC" 
-                    maxlength="35">
-            </div>
-
-            <div class="form-group">
-                <label for="Password">Password</label>
-
-                <input type="text" 
-                    class="form-control" 
-                    id="Password" 
-                    name="HmrcSettings[Password]" 
-                    value="{{HmrcSettings.Password}}"  
-                    placeholder="Government gateway password issued to the employer by HMRC" 
-                    maxlength="35">
-            </div>
+            <input type="text" 
+                class="form-control" 
+                id="Password" 
+                name="HmrcSettings[Password]" 
+                value="{{HmrcSettings.Password}}"  
+                placeholder="Government gateway password issued to the employer by HMRC" 
+                maxlength="35">
+        </div>                                            
+    </div> 
+        <div class="col-sm-12 col-md-6">
 
             <div class="form-group">
                 <label for="ContactFirstName">Contact first name</label>
@@ -313,18 +274,95 @@
                     name="HmrcSettings[ContactFax]" 
                     value="{{HmrcSettings.ContactFax}}" 
                     placeholder="Designated HMRC contact person's fax number">
-            </div>                                                       
-        </div>        
+            </div>    
+        </div>       
     </div>
-
+</div>
+        
+<div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
     <div class="row">
         <div class="col-sm-12 col-md-6">
-            {{> addressForm}}
+
+            <div class="form-group">
+                <label for="Revision">Revision</label>
+                <input type="number" 
+                    class="form-control" 
+                    id="Revision" 
+                    name="Revision" 
+                    value="{{defaultRevision Revision}}" 
+                    placeholder="Revision number" 
+                    required 
+                    step="1" 
+                    min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="Territory">Territory</label>
+                {{#select Territory}}
+                <select class="form-control" id="Territory" name="Territory" required>
+                    <option value="UnitedKingdom">United Kingdom</option>
+                </select>
+                {{/select}}
+            </div>
+
+            <div class="form-group">
+                <label for="Region">Region</label>
+
+                {{#select Region}}
+                <select class="form-control" id="Region" name="Region" required>
+                    <option value="England">England</option>
+                    <option value="Scotland">Scotland</option>
+                </select>
+                {{/select}}
+            </div>  
+
+            <div class="form-group">
+                <label for="SAUTR">SAUTR</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="SAUTR" 
+                    name="HmrcSettings[SAUTR]"
+                    value="{{HmrcSettings.SAUTR}}"  
+                    placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">               
+            </div>
+
+            <div class="form-group">
+                <label for="COTAXRef">COTAX Ref</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="COTAXRef" 
+                    name="HmrcSettings[COTAXRef]" 
+                    value="{{HmrcSettings.COTAXRef}}"  
+                    placeholder="Corporation Tax reference; applicable to limited companies.">                
+            </div>   
         </div>
 
         <div class="col-sm-12 col-md-6">
-            <h4>Auto Enrolment</h4>
+            <div class="form-group">
+                <label for="ApprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
 
+                <input type="number" 
+                    class="form-control" 
+                    id="ApprenticeshipLevyAllowance" 
+                    name="ApprenticeshipLevyAllowance" 
+                    value="{{ApprenticeshipLevyAllowance}}" 
+                    placeholder="The employer's annual levy allowance" 
+                    min="0" 
+                    max="15000" />
+
+                <span class="notes">The apprenticeship levy will only apply to employers with annual paybill in excess of £3 million.</span>
+            </div>  
+
+            {{>ruleExclusions}}  
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="ae" role="tabpanel" aria-labelledby="ae-tab">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
             <div class="form-group">
                 <label for="StagingDate">Staging date</label>
                 <input type="date" 
@@ -332,8 +370,7 @@
                     id="StagingDate" 
                     name="AutoEnrolment[StagingDate]" 
                     value="{{AutoEnrolment.StagingDate}}" 
-                    placeholder="Auto enrolment staging date" 
-                    required>
+                    placeholder="Auto enrolment staging date" />
             </div>
 
             <div class="form-group">
@@ -381,7 +418,8 @@
                     Supports positive and negative integers.
                 </span>
             </div>
-
+        </div>
+            <div class="col-sm-12 col-md-6">
             <div class="form-group">
                 <label for="PrimaryFirstName">Primary first name</label>
                 <input type="number"
@@ -485,6 +523,7 @@
             </div>                                                                                                                       
         </div>
     </div>
+</div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -492,3 +531,5 @@
         </div>
     </div>
 </form>
+
+</div>
