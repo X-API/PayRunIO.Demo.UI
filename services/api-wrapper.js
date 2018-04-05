@@ -110,7 +110,16 @@ module.exports = class APIWrapper {
       
         Object.keys(cleanObj).forEach(key => {
             if (cleanObj[key] && typeof cleanObj[key] === "object") {
-                cleanObj[key] = this.cleanObject(cleanObj[key]);
+                let childObj = cleanObj[key];   
+                            
+                childObj = this.cleanObject(cleanObj[key]);
+
+                if (JSON.stringify(childObj) === "{}") {
+                    cleanObj[key] = null;
+                } 
+                else {
+                    cleanObj[key] = childObj;
+                }
             }
             else if (cleanObj[key] === undefined || cleanObj[key] === null || cleanObj[key].toString().trim().length === 0) {
                 delete cleanObj[key];
