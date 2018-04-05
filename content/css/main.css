@@ -12,6 +12,17 @@
   margin-top: 20px;
   margin-bottom: 20px; }
 
+.footer {
+  padding-top: 10px;
+  margin-bottom: 10px;
+  border-top: solid 1px #e9ecef; }
+  .footer p {
+    color: #6c757d;
+    font-style: italic;
+    text-align: right;
+    font-size: 12px;
+    margin: 0px; }
+
 h4:not(.modal-title) {
   margin-top: 10px;
   margin-bottom: 10px;
