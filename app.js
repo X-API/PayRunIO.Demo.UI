@@ -23,32 +23,32 @@ let employerController = new EmployerController();
 let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
 
-router.get("/", rootController.getRootView);
+router.get("/", async ctx => await rootController.getRootView(ctx));
 
 // employer
-router.get("/employer", employerController.getEmployers);
-router.post("/employer", employerController.addNewEmployer);
-router.get("/employer/new", employerController.requestNewEmployer);
-router.get("/employer/:id", employerController.getEmployerDetails);
-router.post("/employer/:id", employerController.saveEmployerDetails);
+router.get("/employer", async ctx => await employerController.getEmployers(ctx));
+router.post("/employer", async ctx => await employerController.addNewEmployer(ctx));
+router.get("/employer/new", async ctx => await employerController.requestNewEmployer(ctx));
+router.get("/employer/:id", async ctx => await employerController.getEmployerDetails(ctx));
+router.post("/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx));
 router.post("/employer/:id/delete", async ctx => { });
 
 // pay schedule
-router.get("/employer/:employerId/paySchedule/new", payScheduleController.requestNewSchedule);
-router.post("/employer/:employerId/paySchedule", payScheduleController.addNewSchedule);
-router.get("/employer/:employerId/paySchedule/:payScheduleId", payScheduleController.getScheduleDetails);
-router.post("/employer/:employerId/paySchedule/:payScheduleId", payScheduleController.saveScheduleDetails);
-router.post("/employer/:employerId/paySchedule/:payScheduleId/delete", payScheduleController.deleteSchedule);
+router.get("/employer/:employerId/paySchedule/new", async ctx => await payScheduleController.requestNewSchedule(ctx));
+router.post("/employer/:employerId/paySchedule", async ctx => await payScheduleController.addNewSchedule(ctx));
+router.get("/employer/:employerId/paySchedule/:payScheduleId", async ctx => await payScheduleController.getScheduleDetails(ctx));
+router.post("/employer/:employerId/paySchedule/:payScheduleId", async ctx => await payScheduleController.saveScheduleDetails(ctx));
+router.post("/employer/:employerId/paySchedule/:payScheduleId/delete", async ctx => await payScheduleController.deleteSchedule(ctx));
 
 // employee
-router.get("/employer/:employerId/employee/new", employeeController.requestNewEmployee);
-router.post("/employer/:employerId/employee", employeeController.addNewEmployee);
-router.get("/employer/:employerId/employee/:employeeId", employeeController.getEmployeeDetails);
-router.post("/employer/:employerId/employee/:employeeId", async ctx => { })
-router.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
-router.get("/employer/:employerId/employee/:employeeId/p45", async ctx => { })
-router.get("/employer/:employerId/employee/:employeeId/p60", employeeController.request60);
-router.post("/employer/:employerId/employee/:employeeId/p60", employeeController.downloadP60);
+router.get("/employer/:employerId/employee/new", async ctx => await employeeController.requestNewEmployee(ctx));
+router.post("/employer/:employerId/employee", async ctx => await employeeController.addNewEmployee(ctx));
+router.get("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx));
+router.post("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx));
+router.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { });
+router.get("/employer/:employerId/employee/:employeeId/p45", async ctx => { });
+router.get("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx));
+router.post("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx));
 router.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { });
 
 // pay instruction

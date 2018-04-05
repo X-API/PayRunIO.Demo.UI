@@ -1,7 +1,7 @@
 const BaseController = require("./base-controller");
 
-module.exports = class RootController {
+module.exports = class RootController extends BaseController {
     async getRootView(ctx) {
-        await ctx.render("index", await BaseController.getExtendedViewModel({ title: "Get started" }));
+        await ctx.render("index", await this.getExtendedViewModel({ title: "Get started" }));
     }
 };

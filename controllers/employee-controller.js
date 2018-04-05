@@ -3,6 +3,7 @@ const ApiWrapper = require("../services/api-wrapper");
 const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
+const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const fs = require("fs");
 
@@ -10,12 +11,12 @@ const apiWrapper = new ApiWrapper();
 const employerService = new EmployerService();
 const validationParser = new ValidationParser();
 
-module.exports = class EmployeeController {
+module.exports = class EmployeeController extends BaseController {
     async requestNewEmployee(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
 
-        await ctx.render("employee", await BaseController.getExtendedViewModel({
+        await ctx.render("employee", await this.getExtendedViewModel({
             title: "Add a new Employee",
             EmployerId: employerId,
             PaySchedules: paySchedules,
@@ -33,7 +34,7 @@ module.exports = class EmployeeController {
         let response = await apiWrapper.post(`Employer/${employerId}/Employees`, { Employee: body });
 
         if (validationParser.containsErrors(response)) {
-            await ctx.render("employee", await BaseController.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("employee", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Employee",
                 EmployerId: employerId,
                 errors: validationParser.extractErrors(response),
@@ -64,10 +65,37 @@ module.exports = class EmployeeController {
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: response.Employee.Code }
-            ]
+            ],
+            Status: StatusUtils.extract(ctx)
         });
 
-        await ctx.render("employee", await BaseController.getExtendedViewModel(body));
+        await ctx.render("employee", await this.getExtendedViewModel(body));
+    }
+
+    async saveEmployeeDetails(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let body = EmployeeUtils.parse(ctx.request.body);
+        let response = await apiWrapper.put(`/Employer/${employerId}/Employee/${employeeId}`, { Employee: body });
+
+        if (validationParser.containsErrors(response)) {
+            let extendedBody = Object.assign(body, {
+                Id: employeeId,
+                title: body.Code,
+                EmployerId: employerId,
+                ShowTabs: true,
+                Breadcrumbs: [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: "Employer", Url: `/employer/${employerId}` },
+                    { Name: body.Code }
+                ]
+            });
+
+            await ctx.render("employee", await this.getExtendedViewModel(body));
+            return;
+        }
+        
+        await ctx.redirect(`/Employer/${employerId}/Employee/${employeeId}?status=Employee details saved&statusType=success`);
     }
     
     async request60(ctx) {
@@ -88,7 +116,7 @@ module.exports = class EmployeeController {
             ]
         };
 
-        await ctx.render("download-p60", await BaseController.getExtendedViewModel(body));
+        await ctx.render("download-p60", await this.getExtendedViewModel(body));
     }
     
     async downloadP60(ctx) {

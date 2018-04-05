@@ -6,11 +6,11 @@ const AppState = require("../app-state");
 const apiWrapper = new ApiWrapper();
 const validationParser = new ValidationParser();
 
-module.exports = class PayScheduleController {
+module.exports = class PayScheduleController extends BaseController {
     async requestNewSchedule(ctx) {
         let employerId = ctx.params.employerId;
 
-        await ctx.render("pay-schedule", await BaseController.getExtendedViewModel({
+        await ctx.render("pay-schedule", await this.getExtendedViewModel({
             title: "Add a new Pay Schedule",
             EmployerId: employerId,
             Breadcrumbs: [
@@ -29,7 +29,7 @@ module.exports = class PayScheduleController {
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
         if (validationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", await BaseController.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: employerId,
                 errors: validationParser.extractErrors(response),
@@ -62,7 +62,7 @@ module.exports = class PayScheduleController {
             title: response.PaySchedule.Name
         });
 
-        await ctx.render("pay-schedule", await BaseController.getExtendedViewModel(body));
+        await ctx.render("pay-schedule", await this.getExtendedViewModel(body));
     }
 
     async saveScheduleDetails(ctx) {
@@ -75,7 +75,7 @@ module.exports = class PayScheduleController {
         let employerRoute = `/employer/${employerId}`;
 
         if (validationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", await BaseController.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: body.Name,
                 EmployerId: employerId,
                 errors: validationParser.extractErrors(response),
