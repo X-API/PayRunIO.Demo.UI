@@ -105,7 +105,7 @@
                         </td>
                     </tr>
                     {{/each}}
-            </tbody>
+                </tbody>
             </table>
             {{/if}}            
         </div>
@@ -113,9 +113,38 @@
         <div class="tab-pane fade" id="runs" role="tabpanel" aria-labelledby="runs-tab">
             <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary" href="/employer/{{Id}}/payRun/new" role="button">Start a new pay run</a>
+                    <a class="btn btn-primary" href="/employer/{{Id}}/payRun" role="button">Start a new pay run</a>
                 </div>
             </div>
+
+            {{#if PayRuns}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Frequency</th>
+                        <th scope="col">Tax Year</th>
+                        <th scope="col">Tax Period</th>
+                        <th scope="col">Payment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each PayRuns}}
+                    <tr>
+                        <th scope="row">
+                            <a href="/employer/{{../Id}}/payRun/{{this.Id}}">
+                                {{this.Id}}
+                            </a>
+                        </th>
+                        <td>{{this.PayFrequency}}</td>
+                        <td>{{this.TaxYear}}</td>
+                        <td>{{this.TaxPeriod}}</td>
+                        <td>{{this.PaymentDate}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
         </div>        
     </div>    
 {{else}}

@@ -53,6 +53,7 @@ module.exports = class EmployerController extends BaseController {
         let response = await apiWrapper.get(`Employer/${id}`);
         let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
         let paySchedules = await employerService.getPaySchedules(id);
+        let payRuns = await employerService.getPayRuns(id, paySchedules);
 
         let body = Object.assign(response.Employer, {
             Id: id,
@@ -63,6 +64,7 @@ module.exports = class EmployerController extends BaseController {
             ],
             Employees: employees,
             PaySchedules: paySchedules,
+            PayRuns: payRuns,
             title: response.Employer.Name,
             Status: StatusUtils.extract(ctx)
         });

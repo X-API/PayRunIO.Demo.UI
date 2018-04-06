@@ -13,6 +13,7 @@ const EmployerController = require("./controllers/employer-controller");
 const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
+const PayRunController = require("./controllers/pay-run-controller");
 const argv = require('minimist')(process.argv.slice(2));
 
 let app = new Koa();
@@ -24,6 +25,7 @@ let employerController = new EmployerController();
 let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
 let payInstructionController = new PayInstructionController();
+let payRunController = new PayRunController();
 
 // root/get started
 router.get("/", async ctx => await rootController.getRootView(ctx));
@@ -60,6 +62,10 @@ router.post("/employer/:employerId/employee/:employeeId/payInstruction", async c
 router.get("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.getInstruction(ctx));
 router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.saveInstruction(ctx));
 router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId/delete", async ctx => payInstructionController.deleteInstruction(ctx));
+
+// pay run
+router.get("/employer/:employerId/payRun", async ctx => await payRunController.requestNewRun(ctx));
+router.post("/employer/:employerId/payRun", async ctx => await payRunController.startNewRun(ctx));
 
 app
     .use(HandlebarsRenderer({

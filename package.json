@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/X-API/PayRunIO.Demo.UI#readme",
   "dependencies": {
+    "array-flatten": "^2.1.1",
     "cheerio": "^1.0.0-rc.2",
     "concurrently": "^3.5.1",
     "crypto": "^1.0.1",
