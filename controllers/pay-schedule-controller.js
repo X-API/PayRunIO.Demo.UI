@@ -1,16 +1,15 @@
-const router = require("koa-router")();
+const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const AppState = require("../app-state");
 
 const apiWrapper = new ApiWrapper();
-const validationParser = new ValidationParser();
 
-router
-    .get("/:employerId/paySchedule/new", async ctx => {
+module.exports = class PayScheduleController extends BaseController {
+    async requestNewSchedule(ctx) {
         let employerId = ctx.params.employerId;
 
-        await ctx.render("pay-schedule", {
+        await ctx.render("pay-schedule", await this.getExtendedViewModel({
             title: "Add a new Pay Schedule",
             EmployerId: employerId,
             Breadcrumbs: [
@@ -18,34 +17,34 @@ router
                 { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: "Add a new Pay Schedule" }
             ]
-        });        
-    })
+        }));        
+    }
 
-    .post("/:employerId/paySchedule", async ctx => {
+    async addNewSchedule(ctx) {
         let body = ctx.request.body;
         let apiRoute = `Employer/${ctx.params.employerId}/paySchedules`;
         let response = await apiWrapper.post(apiRoute, { PaySchedule: body });
 
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
-        if (validationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", Object.assign(body, { 
+        if (ValidationParser.containsErrors(response)) {
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: employerId,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: employerRoute },
                     { Name: "Add a new Pay Schedule" }
                 ]
-            }));
+            })));
             return;
         }
 
         await ctx.redirect(employerRoute + "?status=Pay schedule saved&statusType=success#schedules");
-    })
+    }
 
-    .get("/:employerId/paySchedule/:payScheduleId", async ctx => {
+    async getScheduleDetails(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}`;
@@ -62,10 +61,10 @@ router
             title: response.PaySchedule.Name
         });
 
-        await ctx.render("pay-schedule", body);
-    })
-    
-    .post("/:employerId/paySchedule/:payScheduleId", async ctx => {
+        await ctx.render("pay-schedule", await this.getExtendedViewModel(body));
+    }
+
+    async saveScheduleDetails(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let body = ctx.request.body;
@@ -74,24 +73,24 @@ router
 
         let employerRoute = `/employer/${employerId}`;
 
-        if (validationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", Object.assign(body, { 
+        if (ValidationParser.containsErrors(response)) {
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
                 title: body.Name,
                 EmployerId: employerId,
-                errors: validationParser.extractErrors(response),
+                errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: employerRoute },
                     { Name: body.Name }
                 ]
-            }));
+            })));
             return;
         }
 
-        await ctx.redirect(employerRoute + "?status=Pay schedule saved&statusType=success#schedules");
-    })
-    
-    .post("/:employerId/paySchedule/:payScheduleId/delete", async ctx => {
+        await ctx.redirect(employerRoute + "?status=Pay schedule saved&statusType=success#schedules");        
+    }
+
+    async deleteSchedule(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         
@@ -100,6 +99,5 @@ router
         let response = await apiWrapper.delete(apiRoute);
 
         return true;
-    });
-
-module.exports = router;
+    }
+};
