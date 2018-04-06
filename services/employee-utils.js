@@ -1,6 +1,6 @@
 const FormUtils = require("./form-utils");
 
-module.exports = class EmployerUtils {
+module.exports = class EmployeeUtils {
     static parse(employee) {
         employee.IsAgencyWorker = FormUtils.checkboxToBool(employee.IsAgencyWorker);
         employee.EEACitizen = FormUtils.checkboxToBool(employee.EEACitizen);
