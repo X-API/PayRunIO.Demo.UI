@@ -14,12 +14,22 @@ module.exports = class EmployeeUtils {
 
         }
 
-        if (employee.WorkingWeek && Array.isArray(employee.WorkingWeek)) {
-            employee.WorkingWeek = employee.WorkingWeek.join(" ");
+        if (employee.WorkingWeek) {
+            if (Array.isArray(employee.WorkingWeek)) {
+                employee.WorkingWeek = employee.WorkingWeek.join(" ");
+            }
+        }
+        else {
+            employee.WorkingWeek = "AllWeekDays";
         }
 
-        if (employee.NicLiability && Array.isArray(employee.NicLiability)) {
-            employee.NicLiability = employee.NicLiability.join(" ");
+        if (employee.NicLiability) {
+            if (Array.isArray(employee.NicLiability)) {
+                employee.NicLiability = employee.NicLiability.join(" ");
+            }
+        } 
+        else {
+            employee.NicLiability = "IsFullyLiable"
         }
 
         if (employee.RuleExclusions) {
