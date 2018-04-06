@@ -44,24 +44,32 @@
         placeholder="Fourth line of the address">
 </div>
 
-<div class="form-group">
-    <label for="Postcode">Postcode</label>
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="form-group">
+            <label for="Postcode">Postcode</label>
 
-    <input type="text" 
-        class="form-control" 
-        id="Postcode" 
-        name="Address[Postcode]" 
-        value="{{Address.Postcode}}" 
-        placeholder="Postcode">
+            <input type="text" 
+                class="form-control" 
+                id="Postcode" 
+                name="Address[Postcode]" 
+                value="{{Address.Postcode}}" 
+                placeholder="Postcode">
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <div class="form-group">
+            <label for="Country">Country</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Country" 
+                name="Address[Country]" 
+                value="{{defaultCountry Address.Country}}" 
+                placeholder="Country">
+        </div>
+    </div>
 </div>
 
-<div class="form-group">
-    <label for="Country">Country</label>
 
-    <input type="text" 
-        class="form-control" 
-        id="Country" 
-        name="Address[Country]" 
-        value="{{defaultCountry Address.Country}}" 
-        placeholder="Country">
-</div>
+
