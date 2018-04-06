@@ -1,5 +1,5 @@
 const Handlebars = require("handlebars");
-const moment = require('moment');
+const moment = require("moment");
 
 module.exports = () => {
     let startYear = moment().month() < 3 ? moment().year() - 1: moment().year();

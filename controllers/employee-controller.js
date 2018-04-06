@@ -54,11 +54,15 @@ module.exports = class EmployeeController extends BaseController {
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
         let response = await apiWrapper.get(apiRoute);
+        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
+        let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
 
         let body = Object.assign(response.Employee, {
             Id: employeeId,
             title: response.Employee.Code,
             EmployerId: employerId,
+            PayInstructions: payInstructions,
+            CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },

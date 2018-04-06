@@ -1,0 +1,104 @@
+{{#if Id}}
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction/{{Id}}">
+{{else}}
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction">
+{{/if}}
+
+    {{>breadcrumbs}}
+
+    {{>validationErrors}}
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="StartDate">Start date</label>
+
+                <input type="date" 
+                    class="form-control" 
+                    id="StartDate" 
+                    name="StartDate" 
+                    value="{{StartDate}}" 
+                    placeholder="The date the instruction will come into effect." 
+                    required
+                    {{minStartDate MinStartDate}}>
+
+                <span class="notes">
+                    The date the instruction will come into effect.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="EndDate">End date</label>
+
+                <input type="date" 
+                    class="form-control" 
+                    id="EndDate" 
+                    name="EndDate" 
+                    value="{{EndDate}}" 
+                    placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+                <span class="notes">
+                    The date the instruction will end, open ended instructions will run forever.
+                </span>
+            </div>             
+                        
+            <div class="form-group">
+                <label for="AnnualSalary">Annual salary</label>
+                <input type="number" 
+                    class="form-control" 
+                    id="AnnualSalary" 
+                    name="AnnualSalary" 
+                    value="{{formatSalary AnnualSalary}}" 
+                    placeholder="The employee's gross annual salary" 
+                    required>
+            </div>             
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="ProRataMethod">Pro rata method</label>
+
+                {{#select ProRataMethod}}
+                <select id="ProRataMethod" name="ProRataMethod" class="form-control" required>
+                    <option value="NotSet">Not set</option>
+                    <option value="Annual260Days">Annual 260 days</option>
+                    <option value="Annual365Days">Annual 365 days</option>
+                    <option value="AnnualQualifyingDays">Annual qualifying days</option>
+                    <option value="DaysPerCalenderMonth">Days per calender month</option>
+                    <option value="DaysPerTaxPeriod">Days per tax period</option>
+                </select>
+                {{/select}}
+
+                <span class="notes">
+                    The pro-rata method option to be used; the default is not set. 
+                    See <a href="http://developer.payrun.io/docs/payroll-help/prorata-calculation-methods.html" target="_blank">Pro-rata Calculation Methods</a> for more information.
+                </span>
+            </div>                     
+
+            <div class="form-group">
+                <label for="Description">Description</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="Description" 
+                    name="Description" 
+                    value="{{Description}}" 
+                    placeholder="The pay line descripton override" 
+                    maxlength="200">
+
+                <span class="notes">
+                    This description will override the default description from the pay code. 
+                    See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+                </span>
+            </div>             
+        </div>        
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </div>
+    </div>
+
+    <input type="hidden" value="{{MinStartDate}}" name="MinStartDate">            
+</form>
