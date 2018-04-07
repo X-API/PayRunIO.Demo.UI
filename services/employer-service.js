@@ -12,7 +12,12 @@ module.exports = class EmployerService {
         let items = await Promise.all(schedules.map(async schedule => {
             let runs = await apiWrapper.getAndExtractLinks(`Employer/${employerId}/PaySchedule/${schedule.Id}/PayRuns`);
 
-            return runs;
+            return runs.map(run => {
+                return Object.assign(run, {
+                    ScheduleId: schedule.Id,
+                    ScheduleName: schedule.Name
+                });
+            });
         }));
 
         return Flatten(items);

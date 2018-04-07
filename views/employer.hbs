@@ -83,6 +83,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Frequency</th>
                         <th width="50px"></th>
@@ -93,9 +94,10 @@
                     <tr>
                         <th scope="row">
                             <a href="/employer/{{../Id}}/paySchedule/{{this.Id}}">
-                                {{this.Name}}
+                                {{this.Id}}
                             </a>
                         </th>
+                        <td>{{this.Name}}</td>
                         <td>{{this.PayFrequency}}</td>
                         <td>
                             <button type="button" 
@@ -122,7 +124,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Frequency</th>
+                        <th scope="col">Schedule</th>
                         <th scope="col">Tax Year</th>
                         <th scope="col">Tax Period</th>
                         <th scope="col">Payment Date</th>
@@ -132,11 +134,11 @@
                     {{#each PayRuns}}
                     <tr>
                         <th scope="row">
-                            <a href="/employer/{{../Id}}/payRun/{{this.Id}}">
+                            <a href="/employer/{{../Id}}/paySchedule/{{this.ScheduleId}}/payRun/{{this.Id}}">
                                 {{this.Id}}
                             </a>
                         </th>
-                        <td>{{this.PayFrequency}}</td>
+                        <td>{{this.ScheduleName}}</td>
                         <td>{{this.TaxYear}}</td>
                         <td>{{this.TaxPeriod}}</td>
                         <td>{{this.PaymentDate}}</td>

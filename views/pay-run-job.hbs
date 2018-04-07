@@ -1,0 +1,79 @@
+{{>breadcrumbs}}
+
+<div class="job-info">
+    {{#if Errors}}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-danger" role="alert">
+                    <p><strong>This pay run contains the following errors:</strong></p>
+
+                    <ul>
+                        {{#each Errors.Error}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>            
+            </div>
+        </div>
+    {{/if}}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <strong>Progress</strong>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                    role="progressbar"
+                    style="width: {{progressBarWidth Progress}}"></div>
+            </div>        
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Status</strong>
+                </div>
+
+                <div class="col-sm-12">
+                    {{JobStatus}}
+                </div>            
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Job Id</strong>
+                </div>
+
+                <div class="col-sm-12">
+                    {{JobId}}
+                </div>            
+            </div>        
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Last updated on</strong>
+                </div>
+
+                <div class="col-sm-12">
+                    {{longDateTime LastUpdated}}
+                </div>            
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Created on</strong>
+                </div>
+
+                <div class="col-sm-12">
+                    {{longDateTime Created}}
+                </div>            
+            </div>
+        </div>    
+    </div>
+</div>
