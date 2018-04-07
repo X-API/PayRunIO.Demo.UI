@@ -1,58 +1,62 @@
 const FormUtils = require("./form-utils");
 
 module.exports = class EmployeeUtils {
-    static parse(employee) {
-        employee.IsAgencyWorker = FormUtils.checkboxToBool(employee.IsAgencyWorker);
-        employee.EEACitizen = FormUtils.checkboxToBool(employee.EEACitizen);
-        employee.EPM6 = FormUtils.checkboxToBool(employee.EPM6);
-        employee.PaymentToANonIndividual = FormUtils.checkboxToBool(employee.PaymentToANonIndividual);
-        employee.IrregularEmployment = FormUtils.checkboxToBool(employee.IrregularEmployment);
-        employee.OnStrike = FormUtils.checkboxToBool(employee.OnStrike);
-        employee.Deactivated = FormUtils.checkboxToBool(employee.Deactivated);
+    static parse(employee, employerId) {
+        let copy = JSON.parse(JSON.stringify(employee));
 
-        if (employee.PaySchedule) {
+        copy.IsAgencyWorker = FormUtils.checkboxToBool(copy.IsAgencyWorker);
+        copy.EEACitizen = FormUtils.checkboxToBool(copy.EEACitizen);
+        copy.EPM6 = FormUtils.checkboxToBool(copy.EPM6);
+        copy.PaymentToANonIndividual = FormUtils.checkboxToBool(copy.PaymentToANonIndividual);
+        copy.IrregularEmployment = FormUtils.checkboxToBool(copy.IrregularEmployment);
+        copy.OnStrike = FormUtils.checkboxToBool(copy.OnStrike);
+        copy.Deactivated = FormUtils.checkboxToBool(copy.Deactivated);
 
+        if (copy.PaySchedule) {
+            copy.PaySchedule = {
+                "@href": `/Employer/${employerId}/PaySchedule/${copy.PaySchedule}`
+            };
         }
 
-        if (employee.WorkingWeek) {
-            if (Array.isArray(employee.WorkingWeek)) {
-                employee.WorkingWeek = employee.WorkingWeek.join(" ");
+        if (copy.WorkingWeek) {
+            if (Array.isArray(copy.WorkingWeek)) {
+                copy.WorkingWeek = copy.WorkingWeek.join(" ");
             }
         }
         else {
-            employee.WorkingWeek = "AllWeekDays";
+            copy.WorkingWeek = "AllWeekDays";
         }
 
-        if (employee.NicLiability) {
-            if (Array.isArray(employee.NicLiability)) {
-                employee.NicLiability = employee.NicLiability.join(" ");
+        if (copy.NicLiability) {
+            if (Array.isArray(copy.NicLiability)) {
+                copy.NicLiability = copy.NicLiability.join(" ");
             }
         } 
         else {
-            employee.NicLiability = "IsFullyLiable"
+            copy.NicLiability = "IsFullyLiable"
         }
 
-        if (employee.RuleExclusions) {
-            if (Array.isArray(employee.RuleExclusions)) {
-                employee.RuleExclusions = employee.RuleExclusions.join(" ");
+        if (copy.RuleExclusions) {
+            if (Array.isArray(copy.RuleExclusions)) {
+                copy.RuleExclusions = copy.RuleExclusions.join(" ");
             }
         }
         else {
-            employee.RuleExclusions = "None";
+            copy.RuleExclusions = "None";
         }
 
         let hasPartnerValueSet = false;
 
-        for (let prop in employee.EmployeePartner) {
-            if (employee.EmployeePartner[prop] && employee.EmployeePartner.hasOwnProperty(prop)) {
+        for (let prop in copy.copyPartner) {
+            if (copy.copyPartner[prop] && copy.copyPartner.hasOwnProperty(prop)) {
                 hasPartnerValueSet = true;
             }
         }
 
         if (!hasPartnerValueSet) {
-            employee.EmployeePartner = null;
+            copy.copyPartner = null;
         }
 
-        return employee;
+        return copy;
     }
 };
