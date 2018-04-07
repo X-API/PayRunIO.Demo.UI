@@ -55,4 +55,11 @@ module.exports = class PayRunController extends BaseController {
 
         await ctx.redirect(employerRoute + "?status=Pay run queued&statusType=success#runs");
     }
+
+    async getJobDetails(ctx) {
+        let jobId = ctx.params.jobId;
+        let response = await apiWrapper.get(`/Jobs/PayRuns/${jobId}/Info`);
+
+        await ctx.render("pay-run-job", response.JobInfo);
+    }
 };

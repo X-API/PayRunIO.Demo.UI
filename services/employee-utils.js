@@ -59,4 +59,18 @@ module.exports = class EmployeeUtils {
 
         return copy;
     }
+
+    static parseFromApi(employee) {
+        let copy = JSON.parse(JSON.stringify(employee));
+
+        if (copy.PaySchedule) {
+            let href = copy.PaySchedule["@href"];
+            let hrefParts = href.split("/");
+            let id = hrefParts[hrefParts.length - 1];
+
+            copy.PaySchedule = id;
+        }
+
+        return copy;
+    }
 };

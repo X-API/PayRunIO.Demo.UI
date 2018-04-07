@@ -60,10 +60,11 @@ module.exports = class EmployeeController extends BaseController {
         let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
         let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
+        let employee = EmployeeUtils.parseFromApi(response.Employee);
 
-        let body = Object.assign(response.Employee, {
+        let body = Object.assign(employee, {
             Id: employeeId,
-            title: response.Employee.Code,
+            title: employee.Code,
             EmployerId: employerId,
             PaySchedules: paySchedules,
             PayInstructions: payInstructions,
@@ -72,7 +73,7 @@ module.exports = class EmployeeController extends BaseController {
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: response.Employee.Code }
+                { Name: employee.Code }
             ],
             Status: StatusUtils.extract(ctx)
         });
@@ -83,8 +84,9 @@ module.exports = class EmployeeController extends BaseController {
     async saveEmployeeDetails(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        let body = EmployeeUtils.parse(ctx.request.body, employerId);
-        let response = await apiWrapper.put(`/Employer/${employerId}/Employee/${employeeId}`, { Employee: body });
+        let body = ctx.request.body;
+        let cleanBody = EmployeeUtils.parse(body, employerId);
+        let response = await apiWrapper.put(`/Employer/${employerId}/Employee/${employeeId}`, { Employee: cleanBody });
 
         if (ValidationParser.containsErrors(response)) {
             let paySchedules = await employerService.getPaySchedules(employerId);

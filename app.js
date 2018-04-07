@@ -66,6 +66,7 @@ router.post("/employer/:employerId/employee/:employeeId/payInstruction/:payInstr
 // pay run
 router.get("/employer/:employerId/payRun", async ctx => await payRunController.requestNewRun(ctx));
 router.post("/employer/:employerId/payRun", async ctx => await payRunController.startNewRun(ctx));
+router.get("/employer/:employerId/payRun/job/:jobId", async ctx => await payRunController.getJobDetails(ctx));
 
 app
     .use(HandlebarsRenderer({
