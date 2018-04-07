@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th scope="col">Name</th>
-            <th scope="col">Region</th>
+            <th scope="col">PAYE Ref</th>
             <th scope="col">Address</th>
             <th scope="col">Bank Account</th>
         </tr>
@@ -22,7 +22,7 @@
                     {{this.Name}}
                 </a>
             </th>
-            <td>{{this.Region}}</td>
+            <td>{{this.HmrcSettings.TaxOfficeNumber}}/{{this.HmrcSettings.TaxOfficeReference}}</td>
             <td>{{address this.Address}}</td>
             <td>{{bankAccount this.BankAccount}}</td>
         </tr>
