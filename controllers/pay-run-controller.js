@@ -32,6 +32,8 @@ module.exports = class PayRunController extends BaseController {
             return employee;
         });
 
+        console.log(response.PayRun);
+
         let body = Object.assign(response.PayRun, {
             title: "Pay Run",
             Employees: mappedEmployees,

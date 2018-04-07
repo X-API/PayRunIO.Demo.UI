@@ -15,6 +15,7 @@ const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
 const PayRunController = require("./controllers/pay-run-controller");
 const CommentaryController = require("./controllers/commentary-controller");
+const PaySlipController = require("./controllers/pay-slip-controller");
 const argv = require('minimist')(process.argv.slice(2));
 
 let app = new Koa();
@@ -28,6 +29,7 @@ let payScheduleController = new PayScheduleController();
 let payInstructionController = new PayInstructionController();
 let payRunController = new PayRunController();
 let commentaryController = new CommentaryController();
+let paySlipController = new PaySlipController();
 
 // root/get started
 router.get("/", async ctx => await rootController.getRootView(ctx));
@@ -73,6 +75,9 @@ router.get("/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", 
 
 // comentary
 router.get("/employer/:employerId/employee/:employeeId/commentary/:commentaryId", async ctx => await commentaryController.getCommentary(ctx));
+
+// pay slip
+router.get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx));
 
 app
     .use(HandlebarsRenderer({
