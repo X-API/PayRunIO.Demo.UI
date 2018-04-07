@@ -144,6 +144,6 @@ module.exports = class EmployeeController extends BaseController {
 
         ctx.set("Content-disposition", "attachment; filename=p60.pdf");
         ctx.set("Content-type", "application/pdf");
-        ctx.body = response.body;        
+        ctx.body = response.body;
     }
 };

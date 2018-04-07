@@ -23,7 +23,7 @@ module.exports = class APIWrapper {
         return await rp(options);
     }
 
-    async getAndExtractLinks(relativeUrl) {
+    async getAndExtractLinks(relativeUrl, getIdCallback) {
         let options = this.getOptions(relativeUrl, "GET");
         let response = await rp(options);
         let items = [];
@@ -34,7 +34,7 @@ module.exports = class APIWrapper {
                 let wrapper = await this.get(href);
                 let item = wrapper[Object.keys(wrapper)[0]];
                 let parts = href.split("/");
-                let id = parts[parts.length - 1];
+                let id = getIdCallback ? getIdCallback(href) : parts[parts.length - 1];
 
                 items.push(Object.assign(item, { Id: id }));
             }

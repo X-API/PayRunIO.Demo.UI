@@ -59,12 +59,18 @@ form {
   form input.initials, form input.title {
     width: 80px; }
 
-.btn-link.btn-danger {
-  color: #dc3545 !important;
+a.btn {
+  color: white !important; }
+
+.btn-link {
   border: none; }
-  .btn-link.btn-danger:active {
+  .btn-link:active {
     background: none;
     background-color: white !important; }
+  .btn-link.btn-primary {
+    color: #007bff !important; }
+  .btn-link.btn-danger {
+    color: #dc3545 !important; }
 
 .bootbox-close-button {
   display: none; }
@@ -73,10 +79,13 @@ form {
   padding-top: 20px; }
 
 .navbar img {
-  height: 40px; }
+  height: 60px; }
 
 .progress {
   height: 30px; }
 
 .job-info .row {
+  margin-bottom: 20px; }
+
+.pay-run-info .row {
   margin-bottom: 20px; }

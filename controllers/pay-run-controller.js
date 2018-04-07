@@ -9,6 +9,43 @@ let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class PayRunController extends BaseController {
+    async getPayRunInfo(ctx) {
+        let employerId = ctx.params.employerId;
+        let payScheduleId = ctx.params.payScheduleId;
+        let payRunId = ctx.params.payRunId;
+
+        let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;
+        let response = await apiWrapper.get(apiRoute);
+        let commentaries = await apiWrapper.get(apiRoute + "/Commentaries");
+        let employees = await apiWrapper.getAndExtractLinks(apiRoute + "/Employees", href => {
+            return href.split("/")[4];
+        });
+        let mappedEmployees = employees.map(employee => {
+            if (commentaries && commentaries.LinkCollection.Links) {
+                let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
+                    return commentary["@href"].split("/")[4] === employee.Id;
+                });
+
+                employee.Commentary = commentaryLink;
+            }
+
+            return employee;
+        });
+
+        let body = Object.assign(response.PayRun, {
+            title: "Pay Run",
+            Employees: mappedEmployees,
+            EmployerId: employerId,
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: "Pay Run" }
+            ]            
+        });
+
+        await ctx.render("pay-run", await this.getExtendedViewModel(body));
+    }
+    
     async requestNewRun(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
@@ -23,7 +60,7 @@ module.exports = class PayRunController extends BaseController {
             ]
         });
 
-        await ctx.render("pay-run", body);
+        await ctx.render("pay-run-creation", body);
     }
 
     async startNewRun(ctx) {
@@ -49,7 +86,7 @@ module.exports = class PayRunController extends BaseController {
                 ]
             }));
     
-            await ctx.render("pay-run", extendedBody);
+            await ctx.render("pay-run-creation", extendedBody);
             return;
         }
 

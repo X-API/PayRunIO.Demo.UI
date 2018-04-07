@@ -1,11 +1,20 @@
+a.btn {
+    color: white !important;
+}
+
 .btn-link {
+    border: none;
+
+    &:active {
+        background: none;
+        background-color: white !important;
+    }
+
+    &.btn-primary {
+        color: #007bff !important;
+    }
+
     &.btn-danger {
         color: #dc3545 !important;
-        border: none;
-
-        &:active {
-            background: none;
-            background-color: white !important;
-        }
     }
 }
