@@ -7,6 +7,7 @@ const PayInstructionController = require("./controllers/pay-instruction-controll
 const PayRunController = require("./controllers/pay-run-controller");
 const CommentaryController = require("./controllers/commentary-controller");
 const PaySlipController = require("./controllers/pay-slip-controller");
+const JobController = require("./controllers/job-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
@@ -16,6 +17,7 @@ let payInstructionController = new PayInstructionController();
 let payRunController = new PayRunController();
 let commentaryController = new CommentaryController();
 let paySlipController = new PaySlipController();
+let jobController = new JobController();
 
 router
     // root/get started
@@ -57,7 +59,6 @@ router
     // pay run
     .get("/employer/:employerId/payRun", async ctx => await payRunController.requestNewRun(ctx))
     .post("/employer/:employerId/payRun", async ctx => await payRunController.startNewRun(ctx))
-    .get("/employer/:employerId/payRun/job/:jobId", async ctx => await payRunController.getJobDetails(ctx))
     .get("/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.getPayRunInfo(ctx))
 
     // comentary
@@ -65,6 +66,9 @@ router
 
     // pay slip
     .get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
+
+    // job
+    .get("/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))
 ;
 
 module.exports = router.routes();

@@ -91,25 +91,8 @@ module.exports = class PayRunController extends BaseController {
         }
 
         let jobId = response.Link["@href"].split("/")[3];
-        let route = `/employer/${employerId}/payRun/job/${jobId}`;
+        let route = `/employer/${employerId}/job/${jobId}/payRun`;
 
         await ctx.redirect(route);
-    }
-
-    async getJobDetails(ctx) {
-        let employerId = ctx.params.employerId;
-        let jobId = ctx.params.jobId;
-        let response = await apiWrapper.get(`/Jobs/PayRuns/${jobId}/Info`);
-
-        let body = response.JobInfo;
-
-        body.title = "Pay Run Info";
-        body.Breadcrumbs = [
-            { Name: "Employers", Url: "/employer" },
-            { Name: "Employer", Url: `/employer/${employerId}` },
-            { Name: "Pay run" }
-        ];
-
-        await ctx.render("pay-run-job", body);
     }
 };
