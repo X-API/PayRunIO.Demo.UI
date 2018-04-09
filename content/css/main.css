@@ -62,6 +62,10 @@ form {
 a.btn {
   color: white !important; }
 
+a.btn-default {
+  background-color: #dcdcdc;
+  color: #000000 !important; }
+
 .btn-link {
   border: none; }
   .btn-link:active {
@@ -80,6 +84,14 @@ a.btn {
 
 .navbar img {
   height: 60px; }
+
+th {
+  vertical-align: top !important; }
+
+.th-subheader {
+  color: #6c757d;
+  font-weight: normal;
+  font-size: 12px; }
 
 .progress {
   height: 30px; }
