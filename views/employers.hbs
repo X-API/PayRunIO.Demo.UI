@@ -10,21 +10,57 @@
         <tr>
             <th scope="col">Name</th>
             <th scope="col">PAYE Ref</th>
-            <th scope="col">Address</th>
-            <th scope="col">Bank Account</th>
+            <th scope="col">Pay Schedules
+                <div class="row th-subheader">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                Name
+                            </div>      
+                            <div class="col-sm-4">
+                                Pay Frequency
+                            </div>   
+                            <div class="col-sm-4">
+                                Last Run Date
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>
-        {{#each employers}}
+        {{#each employers.EmployerTable.Employer}}
         <tr>
             <th scope="row">
-                <a href="/employer/{{this.Id}}">
+                <a href="/employer/{{this.Key}}">
                     {{this.Name}}
                 </a>
             </th>
-            <td>{{this.HmrcSettings.TaxOfficeNumber}}/{{this.HmrcSettings.TaxOfficeReference}}</td>
-            <td>{{address this.Address}}</td>
-            <td>{{bankAccount this.BankAccount}}</td>
+            <td>{{this.TaxOfficeNumber}}/{{this.TaxOfficeReference}}</td>
+            <td>
+                {{#if this.PaySchedule}}
+                    {{#each this.PaySchedule}}
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    {{Name}}
+                                </div>      
+                                <div class="col-sm-4">
+                                    {{PayFrequency}}
+                                </div>   
+                                <div class="col-sm-4">
+                                    {{LastPayDay}}
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <a class="btn btn-sm btn-default" href="/employer/{{this.Key}}#schedules" role="button">Add a Pay Schedule</a>
+                {{/if}}
+            </td>
         </tr>
         {{/each}}
   </tbody>

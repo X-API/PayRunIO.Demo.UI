@@ -106,7 +106,8 @@
                             <button type="button" 
                                 class="btn btn-danger btn-sm btn-delete-pay-schedule" 
                                 data-pay-schedule-id="{{this.Id}}" 
-                                data-employer-id="{{../Id}}">Delete</button>
+                                data-employer-id="{{../Id}}">Delete
+                            </button>
                         </td>
                     </tr>
                     {{/each}}
@@ -139,9 +140,9 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Schedule</th>
-                        <th scope="col">Tax Year</th>
                         <th scope="col">Tax Period</th>
                         <th scope="col">Payment Date</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,9 +154,20 @@
                             </a>
                         </th>
                         <td>{{this.ScheduleName}}</td>
-                        <td>{{this.TaxYear}}</td>
-                        <td>{{this.TaxPeriod}}</td>
+                        <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
                         <td>{{this.PaymentDate}}</td>
+                        <td>
+                            <button type="button" 
+                                class="btn btn-sm btn-rerun-pay-run" 
+                                data-pay-run-id="{{this.Id}}" 
+                                data-employer-id="{{../Id}}">Rerun
+                            </button>
+                            <button type="button" 
+                                class="btn btn-danger btn-sm btn-delete-pay-run" 
+                                data-pay-run-id="{{this.Id}}" 
+                                data-employer-id="{{../Id}}">Delete
+                            </button>               
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>
