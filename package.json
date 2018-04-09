@@ -8,8 +8,8 @@
   },
   "engineStrict": true,
   "scripts": {
-    "build-css": "./bin/build-css",
-    "watch-css": "./bin/watch-css",
+    "build-css": "node-sass --include-path scss content/scss/main.scss content/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "watch-hbs": "./bin/watch-hbs",
     "watch": "concurrently --kill-others \"npm run watch-css\" \"npm run watch-hbs\"",
     "test": "./node_modules/.bin/jasmine-node spec"

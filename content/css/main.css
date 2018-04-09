@@ -89,17 +89,3 @@ a.btn {
 
 .pay-run-info .row {
   margin-bottom: 20px; }
-
-th {
-  vertical-align: top!important;
-}
-
-.th-subheader {
-    color: #6c757d;
-    font-weight: normal;
-    font-size: 12px;
-}
-
-a.btn-default {
-  background-color: #dcdcdc;
-  color: #000000 !important; }
