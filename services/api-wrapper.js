@@ -43,6 +43,14 @@ module.exports = class APIWrapper {
         return items;
     }
 
+    async query(queryBody) {
+        let options = this.getOptions("/query", "POST");
+
+        options.body = queryBody;
+
+        return await this.sendRequest(options);
+    }
+
     async post(relativeUrl, body) {
         let options = this.getOptions(relativeUrl, "POST");
 

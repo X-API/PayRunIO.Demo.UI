@@ -2,7 +2,17 @@
 
 <div class="pay-run-info">
     <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Pay Schedule</strong>
+                </div>
+
+                <div class="col-sm-12">
+                    {{PaySchedule}}
+                </div>            
+            </div>
+
             <div class="row">
                 <div class="col-sm-12">
                     <strong>Pay Frequency</strong>
@@ -12,7 +22,9 @@
                     {{PayFrequency}}
                 </div>            
             </div>
+        </div>
 
+        <div class="col-sm-12 col-md-4">
             <div class="row">
                 <div class="col-sm-12">
                     <strong>Payment Date</strong>
@@ -29,12 +41,12 @@
                 </div>
 
                 <div class="col-sm-12">
-                    {{TaxYear}} / {{TaxPeriod}}
+                    {{TaxYear}}/{{TaxPeriod}}
                 </div>            
             </div>                    
         </div>
 
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-4">
             <div class="row">
                 <div class="col-sm-12">
                     <strong>Period start</strong>
@@ -80,7 +92,7 @@
                         <td>
                             <a class="btn btn-link btn-primary"
                                href="/Employer/{{../EmployerId}}/Employee/{{Id}}/PaySlipData/{{Code}}/{{../TaxPeriod}}/{{../TaxYear}}"
-                               target="_blank">Pay slip data</a>
+                               target="_blank">Payslip</a>
                             <br>
                             {{#if Commentary}}
                             <a class="btn btn-link btn-primary" 
