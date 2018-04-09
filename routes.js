@@ -8,6 +8,7 @@ const PayRunController = require("./controllers/pay-run-controller");
 const CommentaryController = require("./controllers/commentary-controller");
 const PaySlipController = require("./controllers/pay-slip-controller");
 const JobController = require("./controllers/job-controller");
+const RTIController = require("./controllers/rti-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
@@ -18,6 +19,7 @@ let payRunController = new PayRunController();
 let commentaryController = new CommentaryController();
 let paySlipController = new PaySlipController();
 let jobController = new JobController();
+let rtiController = new RTIController();
 
 router
     // root/get started
@@ -66,6 +68,11 @@ router
 
     // pay slip
     .get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
+
+    // rti transaction
+    .get("/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
+    .post("/employer/:employerId/rtiTransaction", async ctx => await rtiController.postNewRtiInstruction(ctx))
+    .get("/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.getTransactionResults(ctx))
 
     // job
     .get("/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))

@@ -7,8 +7,8 @@ const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const EmployerQuery = require("../queries/employer-query");
 
-const apiWrapper = new ApiWrapper();
-const employerService = new EmployerService();
+let apiWrapper = new ApiWrapper();
+let employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
 	async getEmployers(ctx) {
@@ -55,6 +55,7 @@ module.exports = class EmployerController extends BaseController {
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
 		let paySchedules = await employerService.getPaySchedules(id);
 		let payRuns = await employerService.getPayRuns(id, paySchedules);
+		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 
 		let body = Object.assign(response.Employer, {
 			Id: id,
@@ -66,10 +67,12 @@ module.exports = class EmployerController extends BaseController {
 			Employees: employees,
 			PaySchedules: paySchedules,
 			PayRuns: payRuns,
+			RTITransactions: rtiTransactions,
 			title: response.Employer.Name,
 			Status: StatusUtils.extract(ctx)
 		});
 
+		// todo: refactor this into session.
 		AppState.currentEmployer = response.Employer;
 
 		await ctx.render("employer", await this.getExtendedViewModel(body));

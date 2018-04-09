@@ -8,8 +8,8 @@
   },
   "engineStrict": true,
   "scripts": {
-    "build-css": "node-sass --include-path scss content/scss/main.scss content/css/main.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch-css",
     "watch-hbs": "./bin/watch-hbs",
     "watch": "concurrently --kill-others \"npm run watch-css\" \"npm run watch-hbs\"",
     "test": "./node_modules/.bin/jasmine-node spec"
@@ -39,6 +39,7 @@
     "koa-hbs-renderer": "^1.2.0",
     "koa-helmet": "^3.3.0",
     "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
     "koa-static": "^4.0.2",
     "minimist": "^1.2.0",
     "moment": "^2.22.0",

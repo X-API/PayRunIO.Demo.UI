@@ -7,17 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "nodemon",
-            "runtimeExecutable": "nodemon",
-            "program": "${workspaceFolder}/app.js",
-            "restart": true,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "args": ["--watch", "*.js, *.hbs"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/app.js"
         }              

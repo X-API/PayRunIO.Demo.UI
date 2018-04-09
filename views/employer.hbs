@@ -180,7 +180,7 @@
                 <div class="col-sm-12">
                     {{#if PayRuns}}
                     <a class="btn btn-primary" 
-                        href="/employer/{{Id}}/submission" 
+                        href="/employer/{{Id}}/rtiTransaction" 
                         role="button">Create a new submission</a>
                     {{else}}
                     <div class="card bg-light">
@@ -191,6 +191,25 @@
                             </p>
                         </div>
                     </div>
+                    {{/if}}
+
+                    {{#if RTITransactions}}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each RTITransactions}}
+                            <tr>
+                                <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}">
+                                    {{this.Id}}
+                                </a>                                
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
                     {{/if}}
                 </div>
             </div>            
