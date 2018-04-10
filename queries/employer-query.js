@@ -55,17 +55,33 @@ module.exports = {
                                 }
                             ],
                             "Group": [
-                                {
-                                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
-                                    "Output": [
-                                        {
-                                            "@xsi:type": "Max",
-                                            "@Name": "LastPayDay",
-                                            "@Property": "PaymentDate",
-                                            "@Format": "yyyy-MM-dd"
-                                        }
-                                    ]
-                                }
+		                    {
+		                        "@Selector": "/Employer/[EmployerKey]/Employees",
+		                        "Filter": [
+		                          {
+		                            "@xsi:type": "EndsWith",
+		                            "@Property": "PaySchedule.Href",
+		                            "@Value": "[PayScheduleKey]"
+		                          }
+		                        ],
+		                        "Output": [
+		                          { 
+									"@xsi:type": "Count", 
+									"@Name": "EmployeeCount"
+								  }
+		                        ]
+		                      },
+	                            {
+	                                "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
+	                                "Output": [
+	                                    {
+	                                        "@xsi:type": "Max",
+	                                        "@Name": "LastPayDay",
+	                                        "@Property": "PaymentDate",
+	                                        "@Format": "yyyy-MM-dd"
+	                                    }
+	                                ]
+	                            }
                             ]
                         }
                     ]
