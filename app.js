@@ -13,7 +13,7 @@ const Routes = require("./routes");
 
 let app = new Koa();
 let router = new Router();
-let port = 3000//process.env.PORT || (argv.p || 3000);
+let port = process.env.PORT || (argv.p || 3000);
 
 router.use(Routes);
 
