@@ -29,7 +29,7 @@ app
         cacheExpires: 0,
         defaultLayout: "main",
         environment: "development",
-        hbs: Handlebars.create(),
+        hbs: Handlebars,
         paths: {
             views: path.join(__dirname, "views"),
             layouts: path.join(__dirname, "views", "layouts"),

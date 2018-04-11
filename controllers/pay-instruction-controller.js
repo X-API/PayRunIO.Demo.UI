@@ -10,21 +10,35 @@ module.exports = class PayInstructionController extends BaseController {
     async requestNewInstruction(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
+        let instructionType = ctx.query.type || ctx.session.body.InstructionType;
+
+        if (!instructionType) {
+            throw new Error("specify the `type` query string param when adding a new pay instruction");
+        }
 
         let body = {
-            title: "Add new salary pay instruction",
+            title: "Pay instruction",
             EmployeeId: employeeId,
             EmployerId: employerId,
-            MinStartDate: await this.getMinStartDateForNewPayInstruction(employerId, employeeId),
+            InstructionType: instructionType,
+            MinStartDate: await this.getMinStartDateForNewInstruction({ 
+                employerId, 
+                employeeId, 
+                type: instructionType 
+            }),
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
-                { Name: "Add new salary pay instruction" }
+                { Name: "Pay instruction" }
             ]
         };
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(body));
+        if (ctx.query && ctx.query.type) {
+            body.InstructionType = ctx.query.type;
+        }
+
+        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
     }
 
     async addNewInstruction(ctx) {
@@ -33,27 +47,20 @@ module.exports = class PayInstructionController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let body = ctx.request.body;
-        let cleanedBody = PayInstructionUtils.parse(body);
+        let instructionType = body.InstructionType;
+        let cleanBody = PayInstructionUtils.parse(body);
 
-        let response = await apiWrapper.post(apiRoute, { SalaryPayInstruction: cleanedBody });
+        let response = await apiWrapper.post(apiRoute, { 
+            instructionType: cleanBody 
+        });
 
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
-            let extendedBody = Object.assign(body, {
-                title: "Add new salary pay instruction",
-                errors: ValidationParser.extractErrors(response),
-                EmployeeId: employeeId,
-                EmployerId: employerId,
-                Breadcrumbs: [
-                    { Name: "Employers", Url: "/employer" },
-                    { Name: "Employer", Url: `/employer/${employerId}` },
-                    { Name: "Employee", Url: employeeRoute },
-                    { Name: "Add new salary pay instruction" }
-                ]
-            });            
-            
-            await ctx.render("pay-instruction", await this.getExtendedViewModel(extendedBody));
+            ctx.session.body = body;
+            ctx.session.errors = ValidationParser.extractErrors(response);
+
+            ctx.redirect(employeeRoute + "/payInstruction/new");
             return;
         }
 
@@ -68,22 +75,29 @@ module.exports = class PayInstructionController extends BaseController {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
         let response = await apiWrapper.get(apiRoute);
+        let instructionType = Object.keys(response)[0];
 
-        let body = Object.assign(response.SalaryPayInstruction, {
-            title: "Salary pay instruction",
+        let body = Object.assign(response[instructionType], {
+            title: "Pay instruction",
             Id: id,
             EmployeeId: employeeId,
             EmployerId: employerId,
-            MinStartDate: await this.getMinStartDateForNewPayInstruction(employerId, employeeId, id),
+            InstructionType: instructionType,
+            MinStartDate: await this.getMinStartDateForNewInstruction({ 
+                employerId: employerId, 
+                employeeId: employeeId, 
+                payInstructionId: id, 
+                type: instructionType
+            }),
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
-                { Name: "Salary pay instruction" }
+                { Name: "Pay instruction" }
             ]
         });
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(body));
+        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
     }
 
     async saveInstruction(ctx) {
@@ -99,21 +113,10 @@ module.exports = class PayInstructionController extends BaseController {
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
-            let extendedBody = Object.assign(body, {
-                title: "Salary pay instruction",
-                errors: ValidationParser.extractErrors(response),
-                Id: id,
-                EmployeeId: employeeId,
-                EmployerId: employerId,
-                Breadcrumbs: [
-                    { Name: "Employers", Url: "/employer" },
-                    { Name: "Employer", Url: `/employer/${employerId}` },
-                    { Name: "Employee", Url: employeeRoute },
-                    { Name: "Salary pay instruction" }
-                ]
-            });            
+            ctx.session.body = body;
+            ctx.session.errors = ValidationParser.extractErrors(response);
             
-            await ctx.render("pay-instruction", await this.getExtendedViewModel(extendedBody));
+            ctx.redirect(apiRoute);
             return;
         }
 
@@ -124,19 +127,15 @@ module.exports = class PayInstructionController extends BaseController {
 
     }
 
-    async getMinStartDateForNewPayInstruction(employerId, employeeId, payInstructionId) {
-        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
-        let payInstructions = await apiWrapper.getAndExtractLinks(apiRoute);
+    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
+        const PayInstruction = require(`../services/payInstructions/${type}`);
+        
+        let payInstruction = new PayInstruction();
 
-        let filteredPayInstructions = payInstructions.filter(pi => pi.EndDate && pi.Id !== payInstructionId);
-
-        if (filteredPayInstructions.length === 0) {
-            return null;
-        }
-
-        let orderedPayInstructions = filteredPayInstructions.sort((a, b) => new Date(b.EndDate) - new Date(a.EndDate));
-        let endDate = moment(orderedPayInstructions[0].EndDate);
-
-        return endDate.add(1, "day").format("YYYY-MM-DD");
+        return payInstruction.getMinStartDateForNewInstruction({
+            employerId: employerId,
+            employeeId: employeeId,
+            payInstructionId: payInstructionId
+        });
     }
 };

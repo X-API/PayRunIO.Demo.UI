@@ -14,14 +14,14 @@ module.exports = class EmployerController extends BaseController {
 	async getEmployers(ctx) {
 		let employers = await apiWrapper.query(EmployerQuery);
 
-		await ctx.render("employers", await this.getExtendedViewModel({
+		await ctx.render("employers", await this.getExtendedViewModel(ctx, {
 			title: "Employers",
 			employers: employers
 		}));
 	}
 
 	async requestNewEmployer(ctx) {
-		await ctx.render("employer", await this.getExtendedViewModel({
+		await ctx.render("employer", await this.getExtendedViewModel(ctx, {
 			title: "Add a new Employer",
 			Breadcrumbs: [
 				{ Name: "Employers", Url: "/employer" },
@@ -35,7 +35,7 @@ module.exports = class EmployerController extends BaseController {
 		let response = await apiWrapper.post("Employers", { Employer: body });
 
 		if (ValidationParser.containsErrors(response)) {
-			await ctx.render("employer", await this.getExtendedViewModel(Object.assign(body, {
+			await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
 				title: "Add a new Employer",
 				errors: ValidationParser.extractErrors(response),
 				Breadcrumbs: [
@@ -75,7 +75,7 @@ module.exports = class EmployerController extends BaseController {
 		// todo: refactor this into session.
 		AppState.currentEmployer = response.Employer;
 
-		await ctx.render("employer", await this.getExtendedViewModel(body));
+		await ctx.render("employer", await this.getExtendedViewModel(ctx, body));
 	}
 
 	async saveEmployerDetails(ctx) {
@@ -84,7 +84,7 @@ module.exports = class EmployerController extends BaseController {
 		let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
 
 		if (ValidationParser.containsErrors(response)) {
-			await ctx.render("employer", await this.getExtendedViewModel(Object.assign(body, {
+			await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
 				Id: id,
 				errors: ValidationParser.extractErrors(response),
 				Breadcrumbs: [

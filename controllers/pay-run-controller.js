@@ -43,13 +43,13 @@ module.exports = class PayRunController extends BaseController {
             ]            
         });
 
-        await ctx.render("pay-run", await this.getExtendedViewModel(body));
+        await ctx.render("pay-run", await this.getExtendedViewModel(ctx, body));
     }
     
     async requestNewRun(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
-        let body = await this.getExtendedViewModel({
+        let body = await this.getExtendedViewModel(ctx, {
             title: "Start a pay run",
             EmployerId: employerId,
             PaySchedules: paySchedules,
@@ -74,7 +74,7 @@ module.exports = class PayRunController extends BaseController {
         if (ValidationParser.containsErrors(response)) {
             let paySchedules = await employerService.getPaySchedules(employerId);
 
-            let extendedBody = await this.getExtendedViewModel(Object.assign(body, {
+            let extendedBody = await this.getExtendedViewModel(ctx, Object.assign(body, {
                 title: "Start a pay run",
                 EmployerId: employerId,
                 PaySchedules: paySchedules,

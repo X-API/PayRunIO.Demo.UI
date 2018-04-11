@@ -9,7 +9,7 @@ module.exports = class PayScheduleController extends BaseController {
     async requestNewSchedule(ctx) {
         let employerId = ctx.params.employerId;
 
-        await ctx.render("pay-schedule", await this.getExtendedViewModel({
+        await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, {
             title: "Add a new Pay Schedule",
             EmployerId: employerId,
             Breadcrumbs: [
@@ -28,7 +28,7 @@ module.exports = class PayScheduleController extends BaseController {
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
         if (ValidationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: employerId,
                 errors: ValidationParser.extractErrors(response),
@@ -61,7 +61,7 @@ module.exports = class PayScheduleController extends BaseController {
             title: response.PaySchedule.Name
         });
 
-        await ctx.render("pay-schedule", await this.getExtendedViewModel(body));
+        await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, body));
     }
 
     async saveScheduleDetails(ctx) {
@@ -74,7 +74,7 @@ module.exports = class PayScheduleController extends BaseController {
         let employerRoute = `/employer/${employerId}`;
 
         if (ValidationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", await this.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: body.Name,
                 EmployerId: employerId,
                 errors: ValidationParser.extractErrors(response),

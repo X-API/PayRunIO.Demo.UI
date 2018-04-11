@@ -15,7 +15,7 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
 
-        await ctx.render("employee", await this.getExtendedViewModel({
+        await ctx.render("employee", await this.getExtendedViewModel(ctx, {
             title: "Add a new Employee",
             EmployerId: employerId,
             PaySchedules: paySchedules,
@@ -35,7 +35,7 @@ module.exports = class EmployeeController extends BaseController {
         if (ValidationParser.containsErrors(response)) {
             let paySchedules = await employerService.getPaySchedules(employerId);
 
-            await ctx.render("employee", await this.getExtendedViewModel(Object.assign(body, { 
+            await ctx.render("employee", await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Employee",
                 EmployerId: employerId,
                 PaySchedules: paySchedules,
@@ -78,7 +78,7 @@ module.exports = class EmployeeController extends BaseController {
             Status: StatusUtils.extract(ctx)
         });
 
-        await ctx.render("employee", await this.getExtendedViewModel(body));
+        await ctx.render("employee", await this.getExtendedViewModel(ctx, body));
     }
 
     async saveEmployeeDetails(ctx) {
@@ -105,7 +105,7 @@ module.exports = class EmployeeController extends BaseController {
                 ]
             });
 
-            await ctx.render("employee", await this.getExtendedViewModel(body));
+            await ctx.render("employee", await this.getExtendedViewModel(ctx, body));
             return;
         }
         
@@ -130,7 +130,7 @@ module.exports = class EmployeeController extends BaseController {
             ]
         };
 
-        await ctx.render("download-p60", await this.getExtendedViewModel(body));
+        await ctx.render("download-p60", await this.getExtendedViewModel(ctx, body));
     }
     
     async downloadP60(ctx) {

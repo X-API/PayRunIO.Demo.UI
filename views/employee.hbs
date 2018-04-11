@@ -18,19 +18,26 @@
         </div>
 
         <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
-            {{#if CanAddANewPayInstruction}}
             <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new" role="button">Add a new salary pay instruction</a>
+                    <div class="dropdown show">
+                        <a class="btn btn-primary dropdown-toggle" 
+                            href="#" 
+                            role="button" 
+                            id="addNewPayInstruction" 
+                            data-toggle="dropdown" 
+                            aria-haspopup="true" 
+                            aria-expanded="false">
+                            Add a new pay instruction
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SalaryPayInstruction">Salary Instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=TaxPayInstruction">Tax Instruction</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {{else}}
-            <div class="row actions">
-                <div class="col-sm-12">
-                    <p>Every existing salary pay instruction must have an End date specified before a new pay salary can be added.</p>
-                </div>
-            </div>
-            {{/if}}
 
             {{#if PayInstructions}}
             <table class="table">

@@ -23,7 +23,7 @@ module.exports = class RtiController extends BaseController {
             ]            
         };
 
-        let extendedBody = await this.getExtendedViewModelFromPreviousPost(ctx, body);        
+        let extendedBody = await this.getExtendedViewModel(ctx, body);        
 
         return ctx.render("rti-instruction", extendedBody);
     }
