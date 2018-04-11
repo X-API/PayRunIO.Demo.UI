@@ -82,26 +82,30 @@
                 </div>
             </div>
 
-            {{#if PaySchedules}}
+            {{#if PaySchedules.PaySchedulesTable.PaySchedule}}
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Frequency</th>
+                        <th scope="col">Employees</th>
+                        <th scope="col">Last Pay Day</th>
                         <th width="50px"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each PaySchedules}}
+                    {{#each PaySchedules.PaySchedulesTable.PaySchedule}}
                     <tr>
                         <th scope="row">
-                            <a href="/employer/{{../Id}}/paySchedule/{{this.Id}}">
-                                {{this.Id}}
+                            <a href="/employer/{{../Id}}/paySchedule/{{this.Key}}">
+                                {{this.Key}}
                             </a>
                         </th>
                         <td>{{this.Name}}</td>
                         <td>{{this.PayFrequency}}</td>
+                        <td>{{this.EmployeeCount}}</td>
+                        <td>{{this.LastPayDay}}</td>
                         <td>
                             <button type="button" 
                                 class="btn btn-danger btn-sm btn-delete-pay-schedule" 
