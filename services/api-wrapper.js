@@ -23,24 +23,39 @@ module.exports = class APIWrapper {
         return await rp(options);
     }
 
-    async getAndExtractLinks(relativeUrl, getIdCallback) {
+    async getLinks(relativeUrl) {
         let options = this.getOptions(relativeUrl, "GET");
         let response = await rp(options);
         let items = [];
-
+        
         if (response.LinkCollection.Links) {
-            for (let link of response.LinkCollection.Links.Link) {
-                let href = link["@href"];
-                let wrapper = await this.get(href);
-                let item = wrapper[Object.keys(wrapper)[0]];
-                let parts = href.split("/");
-                let id = getIdCallback ? getIdCallback(href) : parts[parts.length - 1];
-
-                items.push(Object.assign(item, { Id: id }));
-            }
+            return response.LinkCollection.Links.Link;
         }
 
         return items;
+    }
+
+    async extractLinks(links, getIdCallback) {
+        let items = [];
+
+        for (let link of links) {
+            let href = link["@href"];
+            let wrapper = await this.get(href);
+            let item = wrapper[Object.keys(wrapper)[0]];
+            let parts = href.split("/");
+            let id = getIdCallback ? getIdCallback(href) : parts[parts.length - 1];
+
+            items.push(Object.assign(item, { Id: id }));
+        }
+
+        return items;
+    }
+
+    async getAndExtractLinks(relativeUrl, getIdCallback) {
+        let items = [];
+        let links = this.getLinks(relativeUrl);
+
+        return this.extractLinks(links, getIdCallback);
     }
 
     async query(queryBody) {

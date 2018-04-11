@@ -1,20 +1,50 @@
 const ApiWrapper = require("../api-wrapper");
+const moment = require("moment");
 
 let apiWrapper = new ApiWrapper();
 
 module.exports = class BaseInstruction {
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId }) {
-        // This method has to be implemented for each new instruction. If that instruction allows 
-        // for overlapping then `return null`. Don't call base.getMinStartDateForNewInstruction() 
-        // to prevent the pay instruction from erroring.
+    get canInstructionsOverlap() {
+        // This property has to be implemented for each new instruction.
+    }
 
-        throw new Error("Oh noes! You forgot to implement getMinStartDateForNewInstruction");
+    async canNewInstructionBeAdded(employerId, employeeId) {
+        if (this.canInstructionsOverlap) {
+            return true;
+        }
+
+        let payInstructions = await this.getInstructions(employerId, employeeId);
+
+        return !payInstructions.includes(pi => !pi.EndDate);
+    }
+
+    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId }) {
+        if (this.canInstructionsOverlap) {
+            return null;
+        }
+
+        let payInstructions = await this.getInstructions(employerId, employeeId);
+        let filteredPayInstructions = payInstructions.filter(pi => pi.EndDate && pi.Id !== payInstructionId);
+
+        if (filteredPayInstructions.length === 0) {
+            return null;
+        }
+
+        let orderedPayInstructions = filteredPayInstructions.sort((a, b) => new Date(b.EndDate) - new Date(a.EndDate));
+        let endDate = moment(orderedPayInstructions[0].EndDate);
+
+        return endDate.add(1, "day").format("YYYY-MM-DD");        
     }
 
     async getInstructions(employerId, employeeId) {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
+        let instructionType = this.constructor.name;
+        let links = await apiWrapper.getLinks(apiRoute);
         
-        // todo: going to have to filter out by type at this point using this.constructor.name. 
-        return await apiWrapper.getAndExtractLinks(apiRoute);
+        let filteredLinks = links.filter(link => {
+            return link["@rel"] === instructionType;
+        });
+
+        return await apiWrapper.extractLinks(filteredLinks);
     }
 };

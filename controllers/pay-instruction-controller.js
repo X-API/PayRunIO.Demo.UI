@@ -21,10 +21,15 @@ module.exports = class PayInstructionController extends BaseController {
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
+            EnableForm: await this.canInstructionBeAdded({ 
+                employerId,
+                employeeId, 
+                instructionType
+            }),
             MinStartDate: await this.getMinStartDateForNewInstruction({ 
                 employerId, 
                 employeeId, 
-                type: instructionType 
+                type: instructionType
             }),
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
@@ -80,6 +85,7 @@ module.exports = class PayInstructionController extends BaseController {
         let body = Object.assign(response[instructionType], {
             title: "Pay instruction",
             Id: id,
+            EnableForm: true,
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
@@ -106,7 +112,7 @@ module.exports = class PayInstructionController extends BaseController {
         let id = ctx.params.payInstructionId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
         let body = ctx.request.body;
-        let cleanedBody = PayInstructionUtils.parse(body);
+        let cleanedBody = PayInstructionUtils.parse(body); // todo: move this into the generic instruction class. 
 
         let response = await apiWrapper.put(apiRoute, { SalaryPayInstruction: cleanedBody });
 
@@ -127,15 +133,25 @@ module.exports = class PayInstructionController extends BaseController {
 
     }
 
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
-        const PayInstruction = require(`../services/payInstructions/${type}`);
-        
-        let payInstruction = new PayInstruction();
+    async canInstructionBeAdded({ employerId, employeeId, type }) {
+        let instruction = this.getInstructionInstance(type);
 
-        return payInstruction.getMinStartDateForNewInstruction({
+        return instruction.canNewInstructionBeAdded(employerId, employeeId);
+    }
+
+    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
+        let instruction = this.getInstructionInstance(type);
+
+        return instruction.getMinStartDateForNewInstruction({
             employerId: employerId,
             employeeId: employeeId,
             payInstructionId: payInstructionId
         });
+    }
+
+    getInstructionInstance(type) {
+        const Instruction = require(`../services/payInstructions/${type}`);
+
+        return new Instruction();        
     }
 };

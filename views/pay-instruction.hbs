@@ -8,13 +8,24 @@
 
     {{>validationErrors}}
 
-    {{payInstructionPartial this}}
+    {{#if EnableForm}}
+        {{payInstructionPartial this}}
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+            </div>
         </div>
-    </div>
+    {{else}}
+        <div class="card bg-light">
+            <div class="card-header">Instructions</div>
+            <div class="card-body">
+                <p class="card-text">
+                    Add an End Date against all existing Instructions of this type before adding a new instruction.
+                </p>
+            </div>
+        </div>        
+    {{/if}}
 
     <input type="hidden" value="{{MinStartDate}}" name="MinStartDate">
     <input type="hidden" value="{{InstructionType}}" name="InstructionType">
