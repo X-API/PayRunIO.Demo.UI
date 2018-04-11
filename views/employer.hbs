@@ -176,43 +176,51 @@
         </div>
 
         <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
+            {{#if PayRuns}}
             <div class="row actions">
                 <div class="col-sm-12">
-                    {{#if PayRuns}}
                     <a class="btn btn-primary" 
                         href="/employer/{{Id}}/rtiTransaction" 
                         role="button">Create a new submission</a>
-                    {{else}}
-                    <div class="card bg-light">
-                        <div class="card-header">RTI submissions</div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Start a new <strong>Pay Run</strong> before creating an RTI submission.
-                            </p>
-                        </div>
-                    </div>
-                    {{/if}}
-
-                    {{#if RTITransactions}}
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Id</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each RTITransactions}}
-                            <tr>
-                                <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}">
-                                    {{this.Id}}
-                                </a>                                
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                    {{/if}}
                 </div>
-            </div>            
+            </div>
+            {{else}}
+            <div class="card bg-light">
+                <div class="card-header">RTI submissions</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Start a new <strong>Pay Run</strong> before creating an RTI submission.
+                    </p>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if RTITransactions}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Tax Year</th>
+                        <th scope="col">Transmission Date</th>
+                        <th scope="col">Transaction Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each RTITransactions}}
+                    <tr>
+                        <th scope="row">
+                            <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}" target="_blank">
+                                {{this.Id}}
+                            </a>
+                        </th> 
+                        <td>{{TaxYear}}</td>
+                        <td>{{longDateTime TransmissionDate}}</td>
+                        <td>{{TransactionStatus}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}        
         </div>        
     </div>    
 {{else}}

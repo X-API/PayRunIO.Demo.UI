@@ -1,18 +1,7 @@
-<form method="POST" action="/employer/{{EmployerId}}/rtiTransaction/?payRunId={{PayRunId}}">
+<form method="POST" action="/employer/{{EmployerId}}/rtiTransaction">
     {{>breadcrumbs}}
 
     {{>validationErrors}}
-
-    <div class="form-group">
-        <label for="PayRun">Pay Run</label>
-        <select class="form-control form-control-lg" id="PayRun">
-            <option>Choose to pre-populate some of the below fields</option>
-
-            {{#each PayRuns}}
-            <option value="{{Id}}">{{PaymentDate}} - {{ScheduleName}}</option>
-            {{/each}}
-        </select>
-    </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-6">
