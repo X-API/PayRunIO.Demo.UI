@@ -168,18 +168,20 @@
                                         <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
                                         <td>{{this.IsSupplementary}}</td>
                                         <td class="text-right">
+                                            {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 
                                                 class="btn btn-sm btn-rerun-pay-run" 
-                                                data-pay-run-id="{{this.Id}}" 
-                                                data-pay-schedule-id="{{this.ScheduleId}}" 
+                                                data-pay-run-id="{{Key}}" 
+                                                data-pay-schedule-id="{{../Key}}" 
                                                 data-employer-id="{{../../Id}}">Rerun
                                             </button>
                                             <button type="button" 
                                                 class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                                data-pay-run-id="{{this.Id}}"
-                                                data-pay-schedule-id="{{this.ScheduleId}}"  
+                                                data-pay-run-id="{{Key}}"
+                                                data-pay-schedule-id="{{../Key}}"  
                                                 data-employer-id="{{../../Id}}">Delete
-                                            </button>           
+                                            </button>   
+                                            {{/ifCond}}        
                                         </td>
                                     </tr>
                                     {{/each}}
