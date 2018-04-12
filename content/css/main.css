@@ -30,6 +30,9 @@ body {
     font-size: 12px;
     margin: 0px; }
 
+.card-body {
+  background-color: white !important; }
+
 h4:not(.modal-title) {
   margin-top: 10px;
   margin-bottom: 10px;

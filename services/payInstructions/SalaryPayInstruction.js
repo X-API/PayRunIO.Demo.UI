@@ -6,6 +6,6 @@ module.exports = class SalaryPayInstruction extends BaseInstruction {
     }
 
     parseForApi(body) {
-        return base.parseForApi(body);
+        return super.parseForApi(body);
     }
 };

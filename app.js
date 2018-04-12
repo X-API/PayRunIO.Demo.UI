@@ -12,6 +12,8 @@ const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
 const Raven = require("raven");
 
+Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
+
 let app = new Koa();
 let router = new Router();
 let port = process.env.PORT || (argv.p || 3000);
@@ -47,6 +49,8 @@ app
     .use(router.allowedMethods());
 
 app.on("error", (err) => {
+    console.log(err);
+
     Raven.captureException(err, (err, eventId) => {
         console.log(`Reported error: ${eventId}`);
     });
