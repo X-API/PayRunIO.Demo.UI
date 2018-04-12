@@ -32,10 +32,14 @@ module.exports = class PayRunController extends BaseController {
             return employee;
         });
 
-        let body = Object.assign(response.PayRun, {
+        let payRun = response.PayRun;
+
+        let body = Object.assign(payRun, {
             title: "Pay Run",
             Employees: mappedEmployees,
             EmployerId: employerId,
+            PayScheduleName: payRun.PaySchedule["@title"],
+            PayScheduleLink: payRun.PaySchedule["@href"],
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },

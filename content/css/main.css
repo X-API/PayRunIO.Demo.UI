@@ -10,7 +10,7 @@ body {
 .content-container {
   padding-top: 10px;
   padding-bottom: 10px;
-  min-height: calc(100% - 130px); }
+  min-height: calc(100% - 180px); }
 
 .actions {
   margin-bottom: 20px; }
