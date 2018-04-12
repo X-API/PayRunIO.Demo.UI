@@ -33,7 +33,7 @@ app
             await next()
         
             if (ctx.status === 404) {
-                // do somthing here
+                await ctx.render("errors/404");
             }
         } 
         catch (err) {
