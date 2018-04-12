@@ -52,7 +52,7 @@ module.exports = class PayInstructionController extends BaseController {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let body = ctx.request.body;
         let instructionType = body.InstructionType;
-        let cleanBody = this.getInstructionInstance().parseForApi(body);
+        let cleanBody = this.getInstructionInstance(instructionType).parseForApi(body);
 
         let response = await apiWrapper.post(apiRoute, { 
             instructionType: cleanBody 
@@ -111,7 +111,7 @@ module.exports = class PayInstructionController extends BaseController {
         let id = ctx.params.payInstructionId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
         let body = ctx.request.body;
-        let cleanedBody = this.getInstructionInstance().parseForApi(body);
+        let cleanedBody = this.getInstructionInstance(instructionType).parseForApi(body);
 
         let response = await apiWrapper.put(apiRoute, { SalaryPayInstruction: cleanedBody });
 
