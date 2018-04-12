@@ -2,6 +2,7 @@ const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const EmployerService = require("../services/employer-service");
+const RtiUtils = require("../services/rti-utils");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -9,41 +10,39 @@ let employerService = new EmployerService();
 module.exports = class RtiController extends BaseController {
     async getNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
-        let payRunId = ctx.query.payRunId;
         let paySchedules = await employerService.getPaySchedules(employerId);
-        let payRuns = await employerService.getPayRuns(employerId, paySchedules);
 
         let body = {
             title: "Create a RTI FPS submission",
             EmployerId: employerId,
-            PayRunId: payRunId || "",
             PaySchedules: paySchedules,
-            PayRuns: payRuns,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "RTI FPS submission" }
             ]            
         };
-        let extendedBody = await this.getExtendedViewModel(body);        
+
+        let extendedBody = await this.getExtendedViewModel(ctx, body);        
 
         return ctx.render("rti-instruction", extendedBody);
     }
 
     async postNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
-        let payRunId = ctx.query.payRunId;
         let body = ctx.request.body;
+        let cleanBody = RtiUtils.parse(body, employerId);
 
-        body.RtiType = "FPS";
+        cleanBody.RtiType = "FPS";
 
-        let response = apiWrapper.post("/Jobs/rti", { RtiJobInstruction: body });
+        let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: cleanBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
 
-            await ctx.redirect(`/employer/${employerId}/rtiTransaction?payRunId=${payRunId}`);
+            await ctx.redirect(`/employer/${employerId}/rtiTransaction`);
+            return;
         }
 
         let jobId = response.Link["@href"].split("/")[3];
