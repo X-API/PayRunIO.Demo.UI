@@ -54,7 +54,7 @@ module.exports = class EmployerController extends BaseController {
 		let response = await apiWrapper.get(`Employer/${id}`);
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
 		let paySchedules = await employerService.getPaySchedules(id);
-		let payRuns = await employerService.getPayRuns(id, paySchedules);
+		//let payRuns = await employerService.getPayRuns(id, paySchedules);
 		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 
 		let body = Object.assign(response.Employer, {
@@ -66,7 +66,7 @@ module.exports = class EmployerController extends BaseController {
 			],
 			Employees: employees,
 			PaySchedules: paySchedules,
-			PayRuns: payRuns,
+			//PayRuns: payRuns,
 			RTITransactions: rtiTransactions,
 			title: response.Employer.Name,
 			Status: StatusUtils.extract(ctx)
