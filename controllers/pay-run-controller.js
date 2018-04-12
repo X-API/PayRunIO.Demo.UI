@@ -52,7 +52,7 @@ module.exports = class PayRunController extends BaseController {
         let body = await this.getExtendedViewModel({
             title: "Start a pay run",
             EmployerId: employerId,
-            PaySchedules: paySchedules,
+            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
@@ -77,7 +77,7 @@ module.exports = class PayRunController extends BaseController {
             let extendedBody = await this.getExtendedViewModel(Object.assign(body, {
                 title: "Start a pay run",
                 EmployerId: employerId,
-                PaySchedules: paySchedules,
+                PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
                 errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
@@ -94,5 +94,27 @@ module.exports = class PayRunController extends BaseController {
         let route = `/employer/${employerId}/job/${jobId}/payRun`;
 
         await ctx.redirect(route);
+    }
+
+    async deletePayRun(ctx) {
+        let employerId = ctx.params.employerId;
+        let payScheduleId = ctx.params.payScheduleId;
+        let payRunId = ctx.params.payRunId;
+
+        let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
+        let response = await apiWrapper.delete(apiRoute);
+
+        let route = `/employer/${employerId}#runs`;
+        await ctx.redirect(route);
+    }
+
+    async rerunPayRun(ctx) {
+        let employerId = ctx.params.employerId;
+        let scheduleId = ctx.params.payScheduleId;
+        let payRunId = ctx.params.payRunId;
+
+        // todo: enqueue re-run job
+
+        return true;
     }
 };

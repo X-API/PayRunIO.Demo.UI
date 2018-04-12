@@ -67,7 +67,7 @@ module.exports = class APIWrapper {
         return await this.sendRequest(options);
     }
 
-    async delete(relativeUrl, body) {
+    async delete(relativeUrl) {
         let options = this.getOptions(relativeUrl, "DELETE");
 
         return await this.sendRequest(options);
