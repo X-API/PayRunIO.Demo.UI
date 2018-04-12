@@ -24,7 +24,7 @@ module.exports = class SalaryPayInstruction extends BaseInstruction {
 };
 ```
 
-If instructions need to be sequential ([more information on this can be found here](http://developer.payrun.io/docs/how-to/setting-the-employee-salary.html)), then return `false`, otherwise, if they can overlap return `true`. 
+If instructions need to be sequential ([more information on this can be found here](http://developer.payrun.io/docs/how-to/setting-the-employee-salary.html)), then return `false`, otherwise, if they can overlap, return `true`. 
 
 `parseForApi` can be overridden, if overridding make sure to call into `super.parseForApi` with the passed in `body` to do the default parsing for all instructions. 
 

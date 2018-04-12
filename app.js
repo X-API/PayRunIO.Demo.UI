@@ -28,6 +28,25 @@ app.keys = [
 ];
 
 app
+    .use(async (ctx, next) => {
+        try {
+            await next()
+        
+            if (ctx.status === 404) {
+                // do somthing here
+            }
+        } 
+        catch (err) {
+            Raven.captureException(err, (err, eventId) => {
+                console.log(`Reported error: ${eventId}`);
+            });
+
+            await ctx.render("errors/500", {
+                message: err.message,
+                stack: err.stack.split("\n").join("<br>").trim()
+            });        
+        }
+    })
     .use(HandlebarsRenderer({
         cacheExpires: 0,
         defaultLayout: "main",
@@ -47,14 +66,6 @@ app
     .use(Session(app))
     .use(router.routes())
     .use(router.allowedMethods());
-
-app.on("error", (err) => {
-    console.log(err);
-
-    Raven.captureException(err, (err, eventId) => {
-        console.log(`Reported error: ${eventId}`);
-    });
-});    
 
 app.listen(port, () => {
     console.log(`up and listing on port ${port}`)
