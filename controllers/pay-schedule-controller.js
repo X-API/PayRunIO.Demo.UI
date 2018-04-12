@@ -14,7 +14,7 @@ module.exports = class PayScheduleController extends BaseController {
             EmployerId: employerId,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
-                { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
+                //{ Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: "Add a new Pay Schedule" }
             ]
         }));        
