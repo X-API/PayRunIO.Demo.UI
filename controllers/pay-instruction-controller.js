@@ -1,7 +1,6 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const PayInstructionUtils = require("../services/pay-instruction-utils");
 const moment = require("moment");
 
 const apiWrapper = new ApiWrapper();
@@ -22,13 +21,13 @@ module.exports = class PayInstructionController extends BaseController {
             EmployerId: employerId,
             InstructionType: instructionType,
             EnableForm: await this.canInstructionBeAdded({ 
-                employerId,
-                employeeId, 
-                instructionType
+                employerId: employerId,
+                employeeId: employeeId, 
+                type: instructionType
             }),
             MinStartDate: await this.getMinStartDateForNewInstruction({ 
-                employerId, 
-                employeeId, 
+                employerId: employerId, 
+                employeeId: employeeId, 
                 type: instructionType
             }),
             Breadcrumbs: [
@@ -53,7 +52,7 @@ module.exports = class PayInstructionController extends BaseController {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let body = ctx.request.body;
         let instructionType = body.InstructionType;
-        let cleanBody = PayInstructionUtils.parse(body);
+        let cleanBody = this.getInstructionInstance().parseForApi(body);
 
         let response = await apiWrapper.post(apiRoute, { 
             instructionType: cleanBody 
@@ -112,7 +111,7 @@ module.exports = class PayInstructionController extends BaseController {
         let id = ctx.params.payInstructionId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
         let body = ctx.request.body;
-        let cleanedBody = PayInstructionUtils.parse(body); // todo: move this into the generic instruction class. 
+        let cleanedBody = this.getInstructionInstance().parseForApi(body);
 
         let response = await apiWrapper.put(apiRoute, { SalaryPayInstruction: cleanedBody });
 

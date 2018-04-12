@@ -53,9 +53,9 @@ module.exports = class APIWrapper {
 
     async getAndExtractLinks(relativeUrl, getIdCallback) {
         let items = [];
-        let links = this.getLinks(relativeUrl);
+        let links = await this.getLinks(relativeUrl);
 
-        return this.extractLinks(links, getIdCallback);
+        return await this.extractLinks(links, getIdCallback);
     }
 
     async query(queryBody) {

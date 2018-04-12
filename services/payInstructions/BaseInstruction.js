@@ -8,6 +8,16 @@ module.exports = class BaseInstruction {
         // This property has to be implemented for each new instruction.
     }
 
+    parseForApi(body) {
+        let copy = JSON.parse(JSON.stringify(body));
+
+        // clear out utility properties as otherwise the api will return an error as they are unexpected.
+        copy.MinStartDate = null;
+        copy.InstructionType = null;
+
+        return copy;
+    }
+
     async canNewInstructionBeAdded(employerId, employeeId) {
         if (this.canInstructionsOverlap) {
             return true;
