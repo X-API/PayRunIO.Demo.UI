@@ -104,6 +104,8 @@ module.exports = class PayRunController extends BaseController {
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
         let response = await apiWrapper.delete(apiRoute);
 
+        // todo: handle error from API
+
         let route = `/employer/${employerId}#runs`;
         await ctx.redirect(route);
     }

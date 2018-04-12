@@ -122,11 +122,10 @@
 
         <div class="tab-pane fade" id="runs" role="tabpanel" aria-labelledby="runs-tab">
             {{#canAddPayRun this}}
-            <div class="row actions">
+            {{!-- <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary" href="/employer/{{Id}}/payRun" role="button">Start a new pay run</a>
                 </div>
-            </div>
+            </div> --}}
             {{else}}
             <div class="card bg-light">
                 <div class="card-header">Pay Runs</div>
@@ -138,47 +137,64 @@
             </div>            
             {{/canAddPayRun}}
 
-            {{#if PayRuns}}          
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Schedule</th>
-                        <th scope="col">Tax Period</th>
-                        <th scope="col">Payment Date</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each PayRuns}}
-                    <tr>
-                        <th scope="row">
-                            <a href="/employer/{{../Id}}/paySchedule/{{this.ScheduleId}}/payRun/{{this.Id}}">
-                                {{this.Id}}
-                            </a>
-                        </th>
-                        <td>{{this.ScheduleName}}</td>
-                        <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
-                        <td>{{this.PaymentDate}}</td>
-                        <td>
-                            <button type="button" 
-                                class="btn btn-sm btn-rerun-pay-run" 
-                                data-pay-run-id="{{this.Id}}" 
-                                data-pay-schedule-id="{{this.ScheduleId}}" 
-                                data-employer-id="{{../Id}}">Rerun
-                            </button>
-                            <button type="button" 
-                                class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                data-pay-run-id="{{this.Id}}"
-                                data-pay-schedule-id="{{this.ScheduleId}}"  
-                                data-employer-id="{{../Id}}">Delete
-                            </button>               
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            {{/if}}
+            {{#each PaySchedules.PaySchedulesTable.PaySchedule}}
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h6 class="float-left">{{this.Name}}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{#if this.PayRuns}}      
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Payment Date</th>
+                                        <th scope="col">Tax Period</th>
+                                        <th scope="col">Pay Period</th>
+                                        <th scope="col">Supplementary</th>
+                                        <th scope="col">
+                                            <a class="btn btn-sm btn-primary float-right" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each this.PayRuns}}
+                                    <tr>
+                                        <th scope="row">
+                                            <a href="/employer/{{../../Id}}/paySchedule/{{../Key}}/payRun/{{this.Key}}">
+                                                {{formatDate this.PaymentDate}}
+                                            </a>
+                                        </th>
+                                        <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
+                                        <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
+                                        <td>{{this.IsSupplementary}}</td>
+                                        <td class="text-right">
+                                            <button type="button" 
+                                                class="btn btn-sm btn-rerun-pay-run" 
+                                                data-pay-run-id="{{this.Id}}" 
+                                                data-pay-schedule-id="{{this.ScheduleId}}" 
+                                                data-employer-id="{{../../Id}}">Rerun
+                                            </button>
+                                            <button type="button" 
+                                                class="btn btn-danger btn-sm btn-delete-pay-run" 
+                                                data-pay-run-id="{{this.Id}}"
+                                                data-pay-schedule-id="{{this.ScheduleId}}"  
+                                                data-employer-id="{{../../Id}}">Delete
+                                            </button>           
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        {{else}}
+                        <p class="card-text">
+                            There are currently no payruns for this pay schedule. 
+                            <a class="btn btn-sm btn-primary" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                        </p>
+                        {{/if}}
+                    </div>
+                </div> 
+                <br/>
+            {{/each}}
         </div>
 
         <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
