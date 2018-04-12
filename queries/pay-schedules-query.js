@@ -1,6 +1,6 @@
 module.exports = {
     "Query": {
-        "Variables": { "Variable": [{"@Name": "[EmployerKey]", "@Value": "ER007"}] },
+        "Variables": { "Variable": [{"@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$"}] },
         "RootNodeName": "PaySchedulesTable",
         "Groups": {
             "Group": [
