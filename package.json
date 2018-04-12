@@ -46,6 +46,7 @@
     "node-sass": "^4.7.2",
     "nodemon": "^1.17.2",
     "oauth-1.0a": "^2.2.4",
+    "raven": "^2.5.0",
     "request": "^2.85.0",
     "request-promise": "^4.2.2"
   }

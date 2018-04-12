@@ -8,8 +8,9 @@ const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
 const Session = require("koa-session");
 const path = require("path");
-const argv = require('minimist')(process.argv.slice(2));
+const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
+const Raven = require("raven");
 
 let app = new Koa();
 let router = new Router();
@@ -44,6 +45,12 @@ app
     .use(Session(app))
     .use(router.routes())
     .use(router.allowedMethods());
+
+app.on("error", (err) => {
+    Raven.captureException(err, (err, eventId) => {
+        console.log(`Reported error: ${eventId}`);
+    });
+});    
 
 app.listen(port, () => {
     console.log(`up and listing on port ${port}`)
