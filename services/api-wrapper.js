@@ -6,7 +6,7 @@ const Url = require("url");
 const fs = require("fs");
 const APILogger = require("./api-logger");
 
-require("request-debug")(rp, (type, data) => {
+require("request-debug")(rp, (type, data, rp) => {
     APILogger.log(type, data);
 });
 

@@ -30,17 +30,21 @@
     "colors": "^1.2.1",
     "concurrently": "^3.5.1",
     "crypto": "^1.0.1",
+    "global-request-context": "^0.4.0",
     "jasmine-node": "^1.14.5",
     "jquery": "^3.3.1",
     "jsdom": "^11.6.2",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^2.0.0",
+    "koa-generic-session": "^2.0.1",
     "koa-handlebars": "^1.0.0",
     "koa-hbs-renderer": "^1.2.0",
     "koa-helmet": "^3.3.0",
+    "koa-redis": "^3.1.2",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.1",
+    "koa-session-memory": "^1.0.2",
     "koa-static": "^4.0.2",
     "minimist": "^1.2.0",
     "moment": "^2.22.0",
@@ -50,6 +54,7 @@
     "raven": "^2.5.0",
     "request": "^2.85.0",
     "request-debug": "^0.2.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "zone.js": "^0.8.26"
   }
 }

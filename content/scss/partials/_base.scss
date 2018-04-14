@@ -5,6 +5,12 @@ body {
     min-height: 100%;            
 }
 
+body {
+    &.api-calls-open {
+        margin-bottom: 300px;
+    }
+}
+
 .container {
     margin-top: 10px;
 }

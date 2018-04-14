@@ -1,0 +1,24 @@
+<script id="api-calls-template" name="apiCallsTemplate" type="text/x-handlebars-template">
+    {{#each data}}
+        <div class="row">
+            <div class="col-sm-6">
+                <p><strong>Request:</strong></p>
+
+                <div class="code-container">
+                    <code>
+                        {{request.method}} <strong>{{request.uri}}</strong>
+                        <br>
+                        <pre>{{request.stringifiedHeaders}}</pre>
+                        <br>
+                        <pre>{{request.body}}</pre>
+                    </code>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <p><strong>Response:</strong></p>
+            </div>
+        </div>
+
+        <hr>
+    {{/each}}
+</script>

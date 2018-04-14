@@ -4,6 +4,9 @@ body {
   height: 100%;
   min-height: 100%; }
 
+body.api-calls-open {
+  margin-bottom: 300px; }
+
 .container {
   margin-top: 10px; }
 
@@ -98,6 +101,31 @@ th {
 
 .progress {
   height: 30px; }
+
+.api-calls {
+  display: none;
+  height: 300px;
+  position: fixed;
+  bottom: 0;
+  background: white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  right: 0; }
+  .api-calls .title {
+    background-color: #dcdcdc;
+    height: 28px;
+    padding-top: 3px;
+    font-size: 14px; }
+    .api-calls .title .close-api-calls {
+      cursor: pointer; }
+  .api-calls .api-calls-container {
+    height: 272px;
+    overflow-y: scroll; }
+    .api-calls .api-calls-container .code-container {
+      padding: 10px;
+      background-color: #e9ecef; }
 
 .job-info .row {
   margin-bottom: 20px; }

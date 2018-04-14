@@ -24,6 +24,16 @@
         <a class="navbar-brand" href="/">
           <img src="https://www.payrun.io/images/logo-white-bg.png">
         </a>
+
+        <div class="justify-content-end" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              {{#unless HideAPICallsLink}}
+              <a class="nav-link view-api-calls" href="#">View API calls</a>
+              {{/unless}}
+            </li>
+          </ul>
+        </div>        
       </nav>
     </div>
 
@@ -43,5 +53,25 @@
         </div>
       </div>      
     </div>
+
+    <div class="api-calls">
+      <div class="container-fluid">
+        <div class="row title">
+          <div class="col-sm-11">
+            API calls
+          </div>
+
+          <div class="col-sm-1 text-right close-api-calls">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+
+        {{>apiCalls}}
+      </div>
+    </div>
+
+    <script src="/js/global.js"></script>
+    <script src="/js/handlebars-v4.0.11.js"></script>
+    <script src="/js/templates.js"></script>
   </body>
 </html>

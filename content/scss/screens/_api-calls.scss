@@ -1,0 +1,33 @@
+.api-calls {
+    display: none;
+    height: 300px;
+    position: fixed;
+    bottom: 0;
+    background: white;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+
+    .title {
+        background-color: #dcdcdc;
+        height: 28px;
+        padding-top: 3px;
+        font-size: 14px;
+
+        .close-api-calls {
+            cursor: pointer;
+        }
+    }
+
+    .api-calls-container {
+        height: 272px;
+        overflow-y: scroll;
+
+        .code-container {
+            padding: 10px;
+            background-color: #e9ecef;
+        }
+    }
+}

@@ -1,4 +1,8 @@
 module.exports = class APILogger {
+    static get context() {
+        return this._context;
+    }
+
     static set context(value) {
         this._context = value;
     }

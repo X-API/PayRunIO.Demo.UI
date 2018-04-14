@@ -7,18 +7,21 @@ const HandlebarsRenderer = require("koa-hbs-renderer");
 const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
 const Session = require("koa-session");
+const MemoryStore = require("koa-session-memory");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
 const Raven = require("raven");
 const Colors = require("colors");
 const APILogger = require("./services/api-logger");
+const RedisStore = require("koa-redis");
 
 Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
 
 let app = new Koa();
 let router = new Router();
 let port = process.env.PORT || (argv.p || 3000);
+let store = new MemoryStore();
 
 router.use(Routes);
 
@@ -30,9 +33,15 @@ app.keys = [
 ];
 
 app
-    .use(Session(app))
+    .use(Session({
+        store,
+        key: "koa:sess",
+        maxAge: 86400000      
+    }, app))
     .use(async (ctx, next) => {
-        APILogger.context = ctx;
+        if (ctx.path !== "/favicon.ico") {
+            APILogger.context = ctx;
+        }
 
         await next();
     })
@@ -58,7 +67,6 @@ app
                 });
             }
             catch (e) {
-
             }       
         }
     })
