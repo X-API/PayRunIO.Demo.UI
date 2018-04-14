@@ -4,6 +4,7 @@ const ValidationParser = require("../services/validation-parser");
 const AppState = require("../app-state");
 const EmployerService = require("../services/employer-service");
 const PayRunUtils = require("../services/pay-run-utils");
+const PayRunG2NQuery = require("../queries/payrun-g2n-query");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -14,16 +15,24 @@ module.exports = class PayRunController extends BaseController {
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
 
-        let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;
-        let response = await apiWrapper.get(apiRoute);
-        let commentaries = await apiWrapper.get(apiRoute + "/Commentaries");
-        let employees = await apiWrapper.getAndExtractLinks(apiRoute + "/Employees", href => {
-            return href.split("/")[4];
-        });
+        let payRunRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;
+
+        let queryStr = JSON.stringify(PayRunG2NQuery)
+            .replace("$$EmployerKey$$", employerId)
+            .replace("$$PayScheduleKey$$", payScheduleId)
+            .replace("$$PayRunKey$$", payRunId);
+
+        let query = JSON.parse(queryStr);
+        let queryResult = await apiWrapper.query(query);
+        let employees = queryResult.PayrunG2N.PaySchedule.PayRun.Employees;
+
+        let commentaries = await apiWrapper.get(payRunRoute + "/Commentaries");
+
         let mappedEmployees = employees.map(employee => {
+
             if (commentaries && commentaries.LinkCollection.Links) {
                 let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
-                    return commentary["@href"].split("/")[4] === employee.Id;
+                    return commentary["@href"].split("/")[4] === employee.Key;
                 });
 
                 employee.Commentary = commentaryLink;
@@ -32,14 +41,11 @@ module.exports = class PayRunController extends BaseController {
             return employee;
         });
 
-        let payRun = response.PayRun;
-
-        let body = Object.assign(payRun, {
+        let body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
             title: "Pay Run",
             Employees: mappedEmployees,
             EmployerId: employerId,
-            PayScheduleName: payRun.PaySchedule["@title"],
-            PayScheduleLink: payRun.PaySchedule["@href"],
+            PaySchedule: queryResult.PayrunG2N.PaySchedule,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
