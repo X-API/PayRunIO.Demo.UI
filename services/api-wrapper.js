@@ -4,6 +4,11 @@ const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
 const fs = require("fs");
+const APILogger = require("./api-logger");
+
+require("request-debug")(rp, (type, data) => {
+    APILogger.log(type, data);
+});
 
 module.exports = class APIWrapper {
     async get(relativeUrl) {

@@ -27,6 +27,7 @@
   "dependencies": {
     "array-flatten": "^2.1.1",
     "cheerio": "^1.0.0-rc.2",
+    "colors": "^1.2.1",
     "concurrently": "^3.5.1",
     "crypto": "^1.0.1",
     "jasmine-node": "^1.14.5",
@@ -48,6 +49,7 @@
     "oauth-1.0a": "^2.2.4",
     "raven": "^2.5.0",
     "request": "^2.85.0",
+    "request-debug": "^0.2.0",
     "request-promise": "^4.2.2"
   }
 }
