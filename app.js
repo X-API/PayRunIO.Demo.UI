@@ -11,6 +11,8 @@ const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
 const Raven = require("raven");
+const Colors = require("colors");
+const APILogger = require("./services/api-logger");
 
 Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
 
@@ -28,16 +30,22 @@ app.keys = [
 ];
 
 app
+    .use(Session(app))
+    .use(async (ctx, next) => {
+        APILogger.context = ctx;
+
+        await next();
+    })
     .use(async (ctx, next) => {
         try {
-            await next()
+            await next();
         
             if (ctx.status === 404) {
                 await ctx.render("errors/404");
             }
         } 
         catch (err) {
-            console.log(err);
+            console.error(err);
 
             try {
                 Raven.captureException(err, (err, eventId) => {
@@ -70,7 +78,6 @@ app
     .use(Compress())
     .use(BodyParser())
     .use(Serve("./content"))
-    .use(Session(app))
     .use(router.routes())
     .use(router.allowedMethods());
 
