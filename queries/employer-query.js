@@ -49,9 +49,15 @@ module.exports = {
                                     "@Property": "Name"
                                 },
                                 {
-                                    "@xsi:type": "RenderProperty",
-                                    "@Name": "PayFrequency",
+                                	"@xsi:type": "RenderProperty",
+                                	"@Output": "Variable",
+                                    "@Name": "[PayFrequency]",
                                     "@Property": "PayFrequency"
+                                },
+                                {
+                                    "@xsi:type": "RenderValue",
+                                    "@Name": "PayFrequency",
+                                    "@Value": "[PayFrequency]"
                                 }
                             ],
                             "Group": [
@@ -72,15 +78,40 @@ module.exports = {
 		                        ]
 		                      },
 	                            {
-	                                "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
+                                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
+                                    "Filter": [
+                                        {
+                                            "@xsi:type": "TakeFirst",
+                                            "@Value": "1"
+                                        }
+                                    ],
 	                                "Output": [
-	                                    {
+				                        {
 	                                        "@xsi:type": "Max",
-	                                        "@Name": "LastPayDay",
+	                                        "@Output": "Variable",
+	                                        "@Name": "[LastPayDay]",
 	                                        "@Property": "PaymentDate",
 	                                        "@Format": "yyyy-MM-dd"
-	                                    }
-	                                ]
+                                        },
+                                        {
+			                                "@xsi:type": "RenderValue",
+			                                "@Name": "LastPayDay",
+			                                "@Value": "[LastPayDay]"
+			                            },
+			                            {
+			                                "@xsi:type": "RenderNextDate",
+			                                "@Name": "NextPayDay",
+			                                "@Date": "[LastPayDay]",
+			                                "@PayFrequency": "[PayFrequency]",
+			                                "@Format": "yyyy-MM-dd"
+			                            }
+	                                ],
+                                    "Order": [
+                                        {
+                                            "@xsi:type": "Descending",
+                                            "@Property": "PaymentDate"
+                                        }
+                                    ]
 	                            }
                             ]
                         }
