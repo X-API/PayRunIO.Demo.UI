@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <a href="{{PayScheduleLink}}">{{PayScheduleName}}</a>
+                    {{PaySchedule.Name}}
                 </div>            
             </div>
 
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    {{PayFrequency}}
+                    {{PaySchedule.PayFrequency}}
                 </div>            
             </div>
         </div>
@@ -78,25 +78,33 @@
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Bank Account</th>
-                        <th width="50px"></th>
+                        <th scope="col">Payments</th>
+                        <th scope="col">Tax</th>
+                        <th scope="col">EE NI</th>
+                        <th scope="col">ER NI</th>
+                        <th scope="col">Other Deducs</th>
+                        <th scope="col">Net Pay</th>
+                        <th width="210px"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each Employees}}
                     <tr>
-                        <td>{{employeeName this}}</td>
-                        <td>{{address this.Address}}</td>
-                        <td>{{bankAccount this.BankAccount}}</td>
                         <td>
-                            <a class="btn btn-link btn-primary"
-                               href="/Employer/{{../EmployerId}}/Employee/{{Id}}/PaySlipData/{{Code}}/{{../TaxPeriod}}/{{../TaxYear}}"
+                            <a href="/Employer/{{../EmployerId}}/Employee/{{Key}}">{{Name}}</a>          
+                        </td>
+                        <td>{{PAYMENTS}}</td>
+                        <td>{{TAX}}</td>
+                        <td>{{EE_NI}}</td>
+                        <td>{{ER_NI}}</td>
+                        <td>{{OTHERDEDNS}}</td>
+                        <td>{{NETPAY}}</td>
+                        <td class="text-right">
+                            <a href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipData/{{Code}}/{{../TaxPeriod}}/{{../TaxYear}}"
                                target="_blank">Payslip</a>
-                            <br>
+                            &nbsp;|&nbsp;
                             {{#if Commentary}}
-                            <a class="btn btn-link btn-primary" 
-                               href="{{extractHref Commentary}}"
+                            <a href="{{extractHref Commentary}}"
                                target="_blank">Commentary</a>
                             {{/if}}
                         </td>
