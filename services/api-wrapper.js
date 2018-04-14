@@ -3,7 +3,6 @@ const Constants = require("../constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
-const fs = require("fs");
 
 module.exports = class APIWrapper {
     async get(relativeUrl) {
