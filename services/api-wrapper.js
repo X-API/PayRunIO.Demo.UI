@@ -28,7 +28,7 @@ module.exports = class APIWrapper {
         let response = await rp(options);
         let items = [];
         
-        if (response.LinkCollection.Links) {
+        if (response && response.LinkCollection && response.LinkCollection.Links) {
             return response.LinkCollection.Links.Link;
         }
 

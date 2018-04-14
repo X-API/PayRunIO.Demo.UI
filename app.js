@@ -37,14 +37,21 @@ app
             }
         } 
         catch (err) {
-            Raven.captureException(err, (err, eventId) => {
-                console.log(`Reported error: ${eventId}`);
-            });
+            console.log(err);
 
-            await ctx.render("errors/500", {
-                message: err.message,
-                stack: err.stack.split("\n").join("<br>").trim()
-            });        
+            try {
+                Raven.captureException(err, (err, eventId) => {
+                    console.log(`Reported error: ${eventId}`);
+                });
+    
+                await ctx.render("errors/500", {
+                    message: err.message,
+                    stack: err.stack.split("\n").join("<br>").trim()
+                });
+            }
+            catch (e) {
+
+            }       
         }
     })
     .use(HandlebarsRenderer({
