@@ -9,15 +9,21 @@ module.exports = class APILoggerController extends BaseController {
     }
 
     async getData(ctx) {
-        let data = ctx.session.apiCalls
-            .filter(x => !x.request.uri.trim().toLowerCase().endsWith("/healthcheck"));
+        let data = ctx.session.apiCalls;
+
+        if (!data) {
+            ctx.body = data;
+            return;
+        }
+
+        let filteredData = data.filter(x => !x.request.uri.trim().toLowerCase().endsWith("/healthcheck"));
 
         let reversed = data.reverse().map(x => {
-            x.request.stringifiedHeaders = JSON.stringify(x.request.headers, null, 4);
+            //x.request.stringifiedHeaders = x.request.headers;
 
             return x;
         });
 
-        ctx.body = reversed;        
+        ctx.body = reversed;
     }
 };

@@ -28,18 +28,21 @@ module.exports = class PayRunController extends BaseController {
 
         let commentaries = await apiWrapper.get(payRunRoute + "/Commentaries");
 
-        let mappedEmployees = employees.map(employee => {
+        let mappedEmployees = [];
 
-            if (commentaries && commentaries.LinkCollection.Links) {
-                let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
-                    return commentary["@href"].split("/")[4] === employee.Key;
-                });
-
-                employee.Commentary = commentaryLink;
-            }
-
-            return employee;
-        });
+        if (employees) {
+            mappedEmployees = employees.map(employee => {
+                if (commentaries && commentaries.LinkCollection.Links) {
+                    let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
+                        return commentary["@href"].split("/")[4] === employee.Key;
+                    });
+    
+                    employee.Commentary = commentaryLink;
+                }
+    
+                return employee;
+            });
+        }
 
         let body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
             title: "Pay Run",

@@ -21,11 +21,11 @@ module.exports = class APILogger {
             });
         }
         else {
-            let callToAttachTo = calls.find(x => x.id === call.debugId);
+            /*let callToAttachTo = calls.find(x => x.id === call.debugId);
 
             if (callToAttachTo) {
                 callToAttachTo.response = call;
-            }
+            }*/
         }
         
         this._context.session.apiCalls = calls;

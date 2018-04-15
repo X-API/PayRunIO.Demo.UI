@@ -16,7 +16,7 @@ const Colors = require("colors");
 const APILogger = require("./services/api-logger");
 const RedisStore = require("koa-redis");
 
-Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
+//Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
 
 let app = new Koa();
 let router = new Router();
