@@ -16,12 +16,11 @@ const Colors = require("colors");
 const APILogger = require("./services/api-logger");
 const RedisStore = require("koa-redis");
 
-//Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
-
 let app = new Koa();
 let router = new Router();
 let port = process.env.PORT || (argv.p || 3000);
 let store = new MemoryStore();
+let env = process.env.NODE_ENV || "dev";
 
 router.use(Routes);
 
@@ -31,6 +30,10 @@ app.keys = [
     "D26844674494D37AF7C2D88543796",
     "3B5B972B49C1D8EA84BD4FF74F3CD"
 ];
+
+if (env !== "dev") {
+    Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
+}
 
 app
     .use(Session({
