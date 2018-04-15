@@ -130,7 +130,15 @@ th {
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
       max-height: 250px;
-      overflow-y: scroll; }
+      overflow-y: scroll;
+      position: relative; }
+      .api-calls .api-calls-container .code-container .btn-copy {
+        display: none;
+        position: absolute;
+        right: 0;
+        margin-right: 5px; }
+      .api-calls .api-calls-container .code-container:hover .btn-copy {
+        display: block; }
       .api-calls .api-calls-container .code-container span.section-title {
         display: block;
         margin-bottom: 10px;

@@ -30,6 +30,7 @@ router
     // api calls
     .get("/api-calls", async ctx => await apiLoggerController.getView(ctx))
     .get("/api-calls/data", async ctx => await apiLoggerController.getData(ctx))
+    .post("/api-calls/is-open", async ctx => await apiLoggerController.postAPICallsOpenStatus(ctx))
 
     // employer
     .get("/employer", async ctx => await employerController.getEmployers(ctx))

@@ -13,7 +13,8 @@ module.exports = class BaseController {
         return Object.assign(body, vm, {
             errors: errors,
             version: PackageJson.version,
-            apiVersion: healthCheckResponse.HealthCheck.Version
+            apiVersion: healthCheckResponse.HealthCheck.Version,
+            openAPICalls: ctx.session.openAPICalls
         });
     }   
 };

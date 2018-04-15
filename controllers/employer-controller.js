@@ -55,14 +55,16 @@ module.exports = class EmployerController extends BaseController {
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
 		let paySchedules = await employerService.getPaySchedules(id);
 		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
-
 		let payRunCount = 0;
-		paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
-			if (ps.PayRuns)
-			{
-				payRunCount = payRunCount + ps.PayRuns.length;
-			}
-		});
+
+		if (paySchedules.PaySchedulesTable.PaySchedule) {
+			paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
+				if (ps.PayRuns)
+				{
+					payRunCount = payRunCount + ps.PayRuns.length;
+				}
+			});
+		}
 
 		let body = Object.assign(response.Employer, {
 			Id: id,

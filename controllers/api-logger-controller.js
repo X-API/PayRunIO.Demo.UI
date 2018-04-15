@@ -22,4 +22,10 @@ module.exports = class APILoggerController extends BaseController {
 
         ctx.body = reversed;
     }
+
+    async postAPICallsOpenStatus(ctx) {
+        let body = ctx.request.body;
+
+        ctx.session.openAPICalls = body.open === "true";
+    }
 };
