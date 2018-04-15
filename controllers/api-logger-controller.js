@@ -16,13 +16,9 @@ module.exports = class APILoggerController extends BaseController {
             return;
         }
 
-        let filteredData = data.filter(x => !x.request.uri.trim().toLowerCase().endsWith("/healthcheck"));
+        let filteredData = data.filter(x => !x.uri.trim().toLowerCase().endsWith("/healthcheck"));
 
-        let reversed = data.reverse().map(x => {
-            //x.request.stringifiedHeaders = x.request.headers;
-
-            return x;
-        });
+        let reversed = filteredData.reverse();
 
         ctx.body = reversed;
     }

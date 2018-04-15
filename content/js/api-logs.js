@@ -15,6 +15,6 @@ function getLogs() {
 
         $(".api-calls-container").html(Templates["apiCallsTemplate"](context));                
 
-        setTimeout(getLogs, 1000);
+        setTimeout(getLogs, 1500);
     });
 }

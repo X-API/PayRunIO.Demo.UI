@@ -158,5 +158,5 @@ module.exports = class APIWrapper {
         });
       
         return cleanObj;
-      };    
+    };
 }

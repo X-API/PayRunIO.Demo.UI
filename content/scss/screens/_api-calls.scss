@@ -15,6 +15,7 @@
         height: 28px;
         padding-top: 3px;
         font-size: 14px;
+        margin-bottom: 10px;
 
         .close-api-calls {
             cursor: pointer;
@@ -22,12 +23,33 @@
     }
 
     .api-calls-container {
-        height: 272px;
+        height: 262px;
         overflow-y: scroll;
 
         .code-container {
-            padding: 10px;
+            padding: 5px;
             background-color: #e9ecef;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            max-height: 250px;
+            overflow-y: scroll;
+
+            span.section-title {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            code {
+                color: black;
+
+                span {
+                    display: block;
+                    white-space: nowrap;
+                    overflow-x: scroll;
+                    margin-left: 25px;
+                }
+            }
         }
     }
 }

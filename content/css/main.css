@@ -117,15 +117,31 @@ th {
     background-color: #dcdcdc;
     height: 28px;
     padding-top: 3px;
-    font-size: 14px; }
+    font-size: 14px;
+    margin-bottom: 10px; }
     .api-calls .title .close-api-calls {
       cursor: pointer; }
   .api-calls .api-calls-container {
-    height: 272px;
+    height: 262px;
     overflow-y: scroll; }
     .api-calls .api-calls-container .code-container {
-      padding: 10px;
-      background-color: #e9ecef; }
+      padding: 5px;
+      background-color: #e9ecef;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      max-height: 250px;
+      overflow-y: scroll; }
+      .api-calls .api-calls-container .code-container span.section-title {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold; }
+      .api-calls .api-calls-container .code-container code {
+        color: black; }
+        .api-calls .api-calls-container .code-container code span {
+          display: block;
+          white-space: nowrap;
+          overflow-x: scroll;
+          margin-left: 25px; }
 
 .job-info .row {
   margin-bottom: 20px; }

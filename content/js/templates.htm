@@ -2,20 +2,32 @@
     {{#each data}}
         <div class="row">
             <div class="col-sm-6">
-                <p><strong>Request:</strong></p>
-
                 <div class="code-container">
+                    <span class="section-title">Request:</span>
+
                     <code>
-                        {{request.method}} <strong>{{request.uri}}</strong>
-                        <br>
-                        <pre>{{request.stringifiedHeaders}}</pre>
-                        <br>
-                        <pre>{{request.body}}</pre>
+                        curl -X {{method}} \
+                            <span>{{uri}} \</span>
+                            <span>-H 'Accept: {{headers.Accept}}' \</span>
+                            <span>-H 'Api-Version: default' \</span>
+                            <span>-H 'Authorization: {{headers.Authorization}}' \</span>
+                            <span>-H 'Cache-Control: no-cache' \</span>
+                            <span>-H 'Content-type: {{headers.Accept}}' \</span>
+
+                            {{#if hasRequestBody}}
+                            <span>-d '{{{requestBody}}}'</span>
+                            {{/if}}
                     </code>
                 </div>
             </div>
             <div class="col-sm-6">
-                <p><strong>Response:</strong></p>
+                <div class="code-container">
+                    <span class="section-title">Response:</span>
+
+                    <code>
+                        {{{response}}}
+                    </code>
+                </div>                
             </div>
         </div>
 
