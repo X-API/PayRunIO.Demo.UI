@@ -155,8 +155,10 @@
                                         <th scope="col">Supplementary</th>
                                         <th scope="col">
                                             <a class="btn btn-sm btn-primary launch-modal float-right" 
-                                               href="/employer/{{../Id}}/payRun" 
-                                               role="button">Add Pay Run</a>
+                                               data-modal-title="Create PayRun"
+                                               data-pay-schedule-id="{{Key}}" 
+                                               href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                                               role="button">Add PayRun</a>
                                         </th>
                                     </tr>
                                 </thead>
