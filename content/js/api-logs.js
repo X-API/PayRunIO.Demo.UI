@@ -1,3 +1,5 @@
+var previousCallData = [];
+
 $(function() {
     if (!Templates.loaded) {
         Templates.onLoaded = getLogs();
@@ -21,7 +23,11 @@ function getLogs() {
             data: data
         };
 
-        $(".api-calls-container").html(Templates["apiCallsTemplate"](context));                
+        if (previousCallData.length !== data.length) {
+            $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
+        }
+
+        previousCallData = data;
 
         setTimeout(getLogs, 1500);
     });

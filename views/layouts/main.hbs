@@ -1,74 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>{{title}}</title>
+    <head>
+        <title>{{title}}</title>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/main.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/main.css">
 
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" crossorigin="anonymous"></script>
-  </head>
-  <body>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
 
-    <div class="container">
-      <nav class="navbar">
-        <a class="navbar-brand" href="/">
-          <img src="https://www.payrun.io/images/logo-white-bg.png">
-        </a>
+        <div class="container">
+            <nav class="navbar">
+                <a class="navbar-brand" href="/">
+                    <img src="https://www.payrun.io/images/logo-white-bg.png">
+                </a>
 
-        <div class="justify-content-end" id="navbarCollapse">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              {{#unless HideAPICallsLink}}
-              <a class="nav-link view-api-calls hidden-sm-down" href="#">View API calls</a>
-              {{/unless}}
-            </li>
-          </ul>
-        </div>        
-      </nav>
-    </div>
-
-    <div class="container content-container">
-      <div class="row">
-        <div class="col-sm-12">
-          {{{content}}}
-        </div>
-      </div>      
-    </div>
-
-    <div class="container footer">
-      <div class="row">
-        <div class="col-sm-12">
-          <p>Demo Version: {{version}}</p>
-          <p>API Version: {{apiVersion}}</p>
-        </div>
-      </div>      
-    </div>
-
-    <div class="api-calls">
-      <div class="container-fluid">
-        <div class="row title">
-          <div class="col-sm-11">
-            API calls
-          </div>
-
-          <div class="col-sm-1 text-right close-api-calls">
-            <i class="fas fa-times"></i>
-          </div>
+                <div class="justify-content-end" id="navbarCollapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-none d-md-block">
+                            {{#unless HideAPICallsLink}}
+                            <a class="nav-link view-api-calls" href="#">View API calls</a>
+                            {{/unless}}
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
 
-        {{>apiCalls}}
-      </div>
-    </div>
+        <div class="container content-container">
+            <div class="row">
+                <div class="col-sm-12">
+                    {{{content}}}
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>Demo Version: {{version}}</p>
+                    <p>API Version: {{apiVersion}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-calls">
+            <div class="container-fluid">
+                <div class="row title">
+                    <div class="col-sm-11">
+                        API calls
+                    </div>
+
+                    <div class="col-sm-1 text-right close-api-calls">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{>apiCalls}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" value="{{openAPICalls}}" id="open-api-calls">
 
     <input type="hidden" value="{{openAPICalls}}" id="open-api-calls">
 
