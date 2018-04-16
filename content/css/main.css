@@ -4,13 +4,16 @@ body {
   height: 100%;
   min-height: 100%; }
 
+body.api-calls-open {
+  margin-bottom: 300px; }
+
 .container {
   margin-top: 10px; }
 
 .content-container {
   padding-top: 10px;
   padding-bottom: 10px;
-  min-height: calc(100% - 130px); }
+  min-height: calc(100% - 180px); }
 
 .actions {
   margin-bottom: 20px; }
@@ -29,6 +32,9 @@ body {
     text-align: right;
     font-size: 12px;
     margin: 0px; }
+
+.card-body {
+  background-color: white !important; }
 
 h4:not(.modal-title) {
   margin-top: 10px;
@@ -95,6 +101,55 @@ th {
 
 .progress {
   height: 30px; }
+
+.api-calls {
+  display: none;
+  height: 300px;
+  position: fixed;
+  bottom: 0;
+  background: white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  right: 0; }
+  .api-calls .title {
+    background-color: #dcdcdc;
+    height: 28px;
+    padding-top: 3px;
+    font-size: 14px;
+    margin-bottom: 10px; }
+    .api-calls .title .close-api-calls {
+      cursor: pointer; }
+  .api-calls .api-calls-container {
+    height: 262px;
+    overflow-y: scroll; }
+    .api-calls .api-calls-container .code-container {
+      padding: 5px;
+      background-color: #e9ecef;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      max-height: 250px;
+      overflow-y: scroll;
+      position: relative; }
+      .api-calls .api-calls-container .code-container .btn-copy {
+        display: none;
+        position: absolute;
+        right: 0;
+        margin-right: 5px; }
+      .api-calls .api-calls-container .code-container:hover .btn-copy {
+        display: block; }
+      .api-calls .api-calls-container .code-container span.section-title {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold; }
+      .api-calls .api-calls-container .code-container code {
+        color: black; }
+        .api-calls .api-calls-container .code-container code span {
+          display: block;
+          white-space: nowrap;
+          overflow-x: scroll;
+          margin-left: 25px; }
 
 .job-info .row {
   margin-bottom: 20px; }

@@ -7,13 +7,20 @@ const HandlebarsRenderer = require("koa-hbs-renderer");
 const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
 const Session = require("koa-session");
+const MemoryStore = require("koa-session-memory");
 const path = require("path");
-const argv = require('minimist')(process.argv.slice(2));
+const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
+const Raven = require("raven");
+const Colors = require("colors");
+const APILogger = require("./services/api-logger");
+const RedisStore = require("koa-redis");
 
 let app = new Koa();
 let router = new Router();
 let port = process.env.PORT || (argv.p || 3000);
+let store = new MemoryStore();
+let env = process.env.NODE_ENV || "dev";
 
 router.use(Routes);
 
@@ -24,7 +31,48 @@ app.keys = [
     "3B5B972B49C1D8EA84BD4FF74F3CD"
 ];
 
+if (env !== "dev") {
+    Raven.config("https://7059d23c62044480981159a1d386f7d0@sentry.io/1187976").install();
+}
+
 app
+    .use(Session({
+        store,
+        key: "koa:sess",
+        maxAge: 86400000      
+    }, app))
+    .use(async (ctx, next) => {
+        if (ctx.path !== "/favicon.ico") {
+            APILogger.context = ctx;
+        }
+
+        await next();
+    })
+    .use(async (ctx, next) => {
+        try {
+            await next();
+        
+            if (ctx.status === 404) {
+                await ctx.render("errors/404");
+            }
+        } 
+        catch (err) {
+            console.error(err);
+
+            try {
+                Raven.captureException(err, (err, eventId) => {
+                    console.log(`Reported error: ${eventId}`);
+                });
+    
+                await ctx.render("errors/500", {
+                    message: err.message,
+                    stack: err.stack.split("\n").join("<br>").trim()
+                });
+            }
+            catch (e) {
+            }       
+        }
+    })
     .use(HandlebarsRenderer({
         cacheExpires: 0,
         defaultLayout: "main",
@@ -41,7 +89,6 @@ app
     .use(Compress())
     .use(BodyParser())
     .use(Serve("./content"))
-    .use(Session(app))
     .use(router.routes())
     .use(router.allowedMethods());
 

@@ -4,6 +4,11 @@ const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
 const fs = require("fs");
+const APILogger = require("./api-logger");
+
+require("request-debug")(rp, (type, data, rp) => {
+    APILogger.log(type, data);
+});
 
 module.exports = class APIWrapper {
     async get(relativeUrl) {
@@ -28,7 +33,7 @@ module.exports = class APIWrapper {
         let response = await rp(options);
         let items = [];
         
-        if (response.LinkCollection.Links) {
+        if (response && response.LinkCollection && response.LinkCollection.Links) {
             return response.LinkCollection.Links.Link;
         }
 
@@ -153,5 +158,5 @@ module.exports = class APIWrapper {
         });
       
         return cleanObj;
-      };    
+    };
 }

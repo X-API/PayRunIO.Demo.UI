@@ -4,6 +4,7 @@ const ValidationParser = require("../services/validation-parser");
 const AppState = require("../app-state");
 const EmployerService = require("../services/employer-service");
 const PayRunUtils = require("../services/pay-run-utils");
+const PayRunG2NQuery = require("../queries/payrun-g2n-query");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -14,28 +15,40 @@ module.exports = class PayRunController extends BaseController {
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
 
-        let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;
-        let response = await apiWrapper.get(apiRoute);
-        let commentaries = await apiWrapper.get(apiRoute + "/Commentaries");
-        let employees = await apiWrapper.getAndExtractLinks(apiRoute + "/Employees", href => {
-            return href.split("/")[4];
-        });
-        let mappedEmployees = employees.map(employee => {
-            if (commentaries && commentaries.LinkCollection.Links) {
-                let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
-                    return commentary["@href"].split("/")[4] === employee.Id;
-                });
+        let payRunRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;
 
-                employee.Commentary = commentaryLink;
-            }
+        let queryStr = JSON.stringify(PayRunG2NQuery)
+            .replace("$$EmployerKey$$", employerId)
+            .replace("$$PayScheduleKey$$", payScheduleId)
+            .replace("$$PayRunKey$$", payRunId);
 
-            return employee;
-        });
+        let query = JSON.parse(queryStr);
+        let queryResult = await apiWrapper.query(query);
+        let employees = queryResult.PayrunG2N.PaySchedule.PayRun.Employees;
 
-        let body = Object.assign(response.PayRun, {
+        let commentaries = await apiWrapper.get(payRunRoute + "/Commentaries");
+
+        let mappedEmployees = [];
+
+        if (employees) {
+            mappedEmployees = employees.map(employee => {
+                if (commentaries && commentaries.LinkCollection.Links) {
+                    let commentaryLink = commentaries.LinkCollection.Links.Link.find(commentary => {
+                        return commentary["@href"].split("/")[4] === employee.Key;
+                    });
+    
+                    employee.Commentary = commentaryLink;
+                }
+    
+                return employee;
+            });
+        }
+
+        let body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
             title: "Pay Run",
             Employees: mappedEmployees,
             EmployerId: employerId,
+            PaySchedule: queryResult.PayrunG2N.PaySchedule,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },

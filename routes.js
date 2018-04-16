@@ -9,6 +9,7 @@ const CommentaryController = require("./controllers/commentary-controller");
 const PaySlipController = require("./controllers/pay-slip-controller");
 const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
+const APILoggerController = require("./controllers/api-logger-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
@@ -20,10 +21,16 @@ let commentaryController = new CommentaryController();
 let paySlipController = new PaySlipController();
 let jobController = new JobController();
 let rtiController = new RTIController();
+let apiLoggerController = new APILoggerController();
 
 router
     // root/get started
     .get("/", async ctx => await rootController.getRootView(ctx))
+
+    // api calls
+    .get("/api-calls", async ctx => await apiLoggerController.getView(ctx))
+    .get("/api-calls/data", async ctx => await apiLoggerController.getData(ctx))
+    .post("/api-calls/is-open", async ctx => await apiLoggerController.postAPICallsOpenStatus(ctx))
 
     // employer
     .get("/employer", async ctx => await employerController.getEmployers(ctx))

@@ -48,16 +48,15 @@ module.exports = class PayInstructionController extends BaseController {
     async addNewInstruction(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let body = ctx.request.body;
         let instructionType = body.InstructionType;
         let cleanBody = this.getInstructionInstance(instructionType).parseForApi(body);
+        let request = {};
 
-        let response = await apiWrapper.post(apiRoute, { 
-            instructionType: cleanBody 
-        });
+        request[instructionType] = cleanBody;
 
+        let response = await apiWrapper.post(apiRoute, request);
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
@@ -88,12 +87,7 @@ module.exports = class PayInstructionController extends BaseController {
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
-            MinStartDate: await this.getMinStartDateForNewInstruction({ 
-                employerId: employerId, 
-                employeeId: employeeId, 
-                payInstructionId: id, 
-                type: instructionType
-            }),
+            MinStartDate: null,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
@@ -111,10 +105,13 @@ module.exports = class PayInstructionController extends BaseController {
         let id = ctx.params.payInstructionId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
         let body = ctx.request.body;
-        let cleanedBody = this.getInstructionInstance(instructionType).parseForApi(body);
+        let instructionType = body.InstructionType;
+        let cleanBody = this.getInstructionInstance(instructionType).parseForApi(body);
+        let request = {};
 
-        let response = await apiWrapper.put(apiRoute, { SalaryPayInstruction: cleanedBody });
+        request[instructionType] = cleanBody;
 
+        let response = await apiWrapper.put(apiRoute, request);
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
