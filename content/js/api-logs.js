@@ -25,6 +25,8 @@ function getLogs() {
 
         if (previousCallData.length !== data.length) {
             $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
+
+            tippy(".btn");
         }
 
         previousCallData = data;
@@ -42,8 +44,6 @@ function copyTextToClipboard(text) {
   
     var successful = document.execCommand('copy');
     var msg = successful ? 'successful' : 'unsuccessful';
-
-    console.log('Fallback: Copying text command was ' + msg);
   
     document.body.removeChild(textArea);
 }  
