@@ -177,9 +177,8 @@
                                             {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 
                                                 class="btn btn-sm btn-rerun-pay-run launch-modal" 
-                                                data-pay-run-id="{{Key}}" 
-                                                data-pay-schedule-id="{{../Key}}" 
-                                                data-employer-id="{{../../Id}}">Rerun
+                                                data-modal-title="Rerun PayRun"
+                                                href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
                                             </button>
                                             <button type="button" 
                                                 class="btn btn-danger btn-sm btn-delete-pay-run" 
@@ -196,7 +195,10 @@
                         {{else}}
                         <p class="card-text">
                             There are currently no payruns for this pay schedule. 
-                            <a class="btn btn-sm btn-primary" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                            <a class="btn btn-sm btn-primary launch-modal" 
+                               href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                               data-modal-title="Create PayRun"
+                               role="button">Add PayRun</a>
                         </p>
                         {{/if}}
                     </div>

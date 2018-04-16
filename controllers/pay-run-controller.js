@@ -99,6 +99,37 @@ module.exports = class PayRunController extends BaseController {
         await ctx.render("pay-run-creation", model);
     }
 
+    async requestReRun(ctx) {
+        let employerId = ctx.params.employerId;
+        let payScheduleId = ctx.query.paySchedule;
+        let payRunId = ctx.query.payRunId;
+
+        let nextPaymentDate;
+        let nextPeriodStart;
+        let nextPeriodEnd;
+
+        // query next rerun dates
+        if (payRunId) {
+            let result = await apiWrapper.get(`Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
+
+            nextPaymentDate = result.PayRun.PaymentDate;
+            nextPeriodStart = result.PayRun.PeriodStart;
+            nextPeriodEnd = result.PayRun.PeriodEnd;
+        }
+
+        let body = await this.getExtendedViewModel(ctx, {
+            Status: "Re-running will delete the previous run.",
+            EmployerId: employerId,
+            PayScheduleId: payScheduleId,
+            PaymentDate: nextPaymentDate,
+            StartDate: nextPeriodStart,
+            EndDate: nextPeriodEnd
+        });
+
+        let model = Object.assign(body, { layout: "modal" })
+        await ctx.render("pay-run-creation", model);
+    }
+
     async startNewRun(ctx) {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;

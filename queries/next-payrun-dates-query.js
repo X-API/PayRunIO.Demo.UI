@@ -3,8 +3,8 @@ module.exports = {
         "RootNodeName": "NextPayRunDates",
         "Variables": { "Variable": [
             {
-                "@Name": "[EmployerKey]", "@Value": "ER007"},
-                 {"@Name": "[PayScheduleKey]", "@Value": "SCH001"}]
+                "@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$"},
+                 {"@Name": "[PayScheduleKey]", "@Value": "$$PayScheduleKey$$"}]
             },
         "Groups": {
             "Group": [

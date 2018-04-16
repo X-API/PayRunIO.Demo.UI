@@ -67,6 +67,7 @@ router
 
     // pay run
     .get("/employer/:employerId/payRun", async ctx => await payRunController.requestNewRun(ctx))
+    .get("/employer/:employerId/reRun", async ctx => await payRunController.requestReRun(ctx))
     .post("/employer/:employerId/payRun", async ctx => await payRunController.startNewRun(ctx))
     .get("/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.getPayRunInfo(ctx))
     .post("/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/delete", async ctx => await payRunController.deletePayRun(ctx))
