@@ -123,13 +123,14 @@ th {
       cursor: pointer; }
   .api-calls .api-calls-container {
     height: 262px;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    overflow-x: hidden; }
     .api-calls .api-calls-container .code-container {
       padding: 5px;
       background-color: #e9ecef;
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
-      max-height: 250px;
+      height: 250px;
       overflow-y: scroll;
       position: relative; }
       .api-calls .api-calls-container .code-container .btn-copy {
@@ -148,7 +149,6 @@ th {
         .api-calls .api-calls-container .code-container code span {
           display: block;
           white-space: nowrap;
-          overflow-x: scroll;
           margin-left: 25px; }
 
 .job-info .row {
