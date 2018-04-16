@@ -152,7 +152,9 @@
                                         <th scope="col">Pay Period</th>
                                         <th scope="col">Supplementary</th>
                                         <th scope="col">
-                                            <a class="btn btn-sm btn-primary float-right" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                                            <a class="btn btn-sm btn-primary launch-modal float-right" 
+                                               href="/employer/{{../Id}}/payRun" 
+                                               role="button">Add Pay Run</a>
                                         </th>
                                     </tr>
                                 </thead>
@@ -170,7 +172,7 @@
                                         <td class="text-right">
                                             {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 
-                                                class="btn btn-sm btn-rerun-pay-run" 
+                                                class="btn btn-sm btn-rerun-pay-run launch-modal" 
                                                 data-pay-run-id="{{Key}}" 
                                                 data-pay-schedule-id="{{../Key}}" 
                                                 data-employer-id="{{../../Id}}">Rerun
