@@ -1,10 +1,8 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}" data-parsley-validate>
+<form method="PUT" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}" data-parsley-validate>
 {{else}}
 <form method="POST" action="/Employer/{{EmployerId}}/PaySchedule" data-parsley-validate>
 {{/if}}
-
-    {{>breadcrumbs}}
 
     {{>validationErrors}}
 
@@ -30,15 +28,8 @@
             <option value="Monthly">Monthly</option>
             <option value="TwoWeekly">Two weekly</option>
             <option value="FourWeekly">Four weekly</option>
-            <option value="Yearly">Yearly</option>
         </select>
         {{/select}}
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-        </div>
     </div>
 
 </form>

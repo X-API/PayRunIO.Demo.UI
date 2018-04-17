@@ -22,4 +22,23 @@ $(function() {
         $("body").addClass("api-calls-open");
         $(".api-calls").show();
     }
+
+    $('.launch-modal').on('click', function(e){
+        e.preventDefault();
+
+        if (this.hasAttribute("data-modal-title")) {
+            var title = this.getAttribute("data-modal-title");
+            $('#myModal').find('h4.modal-title').text(title);
+        }
+
+        $('#myModal').modal('show').find('.modal-body').load($(this).attr('href'));
+    });
+
+    $('#myModal button[type=submit]').on('click', function(e) {
+        var form = $('#myModal form');
+        if (form.valid()) {
+            form.submit();
+        }
+    });
+
 });

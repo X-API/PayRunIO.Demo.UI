@@ -78,7 +78,9 @@
         <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
             <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary" href="/employer/{{Id}}/paySchedule/new" role="button">Add a new pay schedule</a>
+                    <a class="btn btn-primary launch-modal"
+                       data-modal-title="Add Pay Schedule"
+                       href="/employer/{{Id}}/paySchedule/new" role="button">Add a Pay Schedule</a>
                 </div>
             </div>
 
@@ -106,8 +108,20 @@
                         <td>{{this.Name}}</td>
                         <td>{{this.PayFrequency}}</td>
                         <td>{{this.EmployeeCount}}</td>
-                        <td>{{this.LastPayDay}}</td>
-                        <td>{{this.NextPayDay}}</td>
+                        <td>
+                            {{#if this.LastPayDay}}
+                                {{this.LastPayDay}}
+                            {{else}}
+                                <em>Never</em>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if this.NextPayDay}}
+                                {{this.NextPayDay}}
+                            {{else}}
+                                -
+                            {{/if}}
+                        </td>
                         <td>
                             <button type="button" 
                                 class="btn btn-danger btn-sm btn-delete-pay-schedule" 
@@ -154,7 +168,11 @@
                                         <th scope="col">Pay Period</th>
                                         <th scope="col">Supplementary</th>
                                         <th scope="col">
-                                            <a class="btn btn-sm btn-primary float-right" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                                            <a class="btn btn-sm btn-primary launch-modal float-right" 
+                                               data-modal-title="Create PayRun"
+                                               data-pay-schedule-id="{{Key}}" 
+                                               href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                                               role="button">Add PayRun</a>
                                         </th>
                                     </tr>
                                 </thead>
@@ -172,10 +190,9 @@
                                         <td class="text-right">
                                             {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 
-                                                class="btn btn-sm btn-rerun-pay-run" 
-                                                data-pay-run-id="{{Key}}" 
-                                                data-pay-schedule-id="{{../Key}}" 
-                                                data-employer-id="{{../../Id}}">Rerun
+                                                class="btn btn-sm btn-rerun-pay-run launch-modal" 
+                                                data-modal-title="Rerun PayRun"
+                                                href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
                                             </button>
                                             <button type="button" 
                                                 class="btn btn-danger btn-sm btn-delete-pay-run" 
@@ -192,7 +209,10 @@
                         {{else}}
                         <p class="card-text">
                             There are currently no payruns for this pay schedule. 
-                            <a class="btn btn-sm btn-primary" href="/employer/{{../Id}}/payRun" role="button">Add Pay Run</a>
+                            <a class="btn btn-sm btn-primary launch-modal" 
+                               href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                               data-modal-title="Create PayRun"
+                               role="button">Add PayRun</a>
                         </p>
                         {{/if}}
                     </div>
