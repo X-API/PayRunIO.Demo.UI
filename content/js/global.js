@@ -35,10 +35,10 @@ $(function() {
     });
 
     $('#myModal button[type=submit]').on('click', function(e) {
-        e.preventDefault();
-           
         var form = $('#myModal form');
-        form.submit();
+        if (form.valid()) {
+            form.submit();
+        }
     });
 
 });

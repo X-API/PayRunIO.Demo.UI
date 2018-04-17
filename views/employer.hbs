@@ -78,7 +78,9 @@
         <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
             <div class="row actions">
                 <div class="col-sm-12">
-                    <a class="btn btn-primary" href="/employer/{{Id}}/paySchedule/new" role="button">Add a new pay schedule</a>
+                    <a class="btn btn-primary launch-modal"
+                       data-modal-title="Add Pay Schedule"
+                       href="/employer/{{Id}}/paySchedule/new" role="button">Add a Pay Schedule</a>
                 </div>
             </div>
 
@@ -106,8 +108,20 @@
                         <td>{{this.Name}}</td>
                         <td>{{this.PayFrequency}}</td>
                         <td>{{this.EmployeeCount}}</td>
-                        <td>{{this.LastPayDay}}</td>
-                        <td>{{this.NextPayDay}}</td>
+                        <td>
+                            {{#if this.LastPayDay}}
+                                {{this.LastPayDay}}
+                            {{else}}
+                                <em>Never</em>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if this.NextPayDay}}
+                                {{this.NextPayDay}}
+                            {{else}}
+                                -
+                            {{/if}}
+                        </td>
                         <td>
                             <button type="button" 
                                 class="btn btn-danger btn-sm btn-delete-pay-schedule" 

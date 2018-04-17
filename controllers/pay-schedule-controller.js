@@ -9,15 +9,13 @@ module.exports = class PayScheduleController extends BaseController {
     async requestNewSchedule(ctx) {
         let employerId = ctx.params.employerId;
 
-        await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, {
+        let body = await this.getExtendedViewModel(ctx, {
             title: "Add a new Pay Schedule",
-            EmployerId: employerId,
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                //{ Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
-                { Name: "Add a new Pay Schedule" }
-            ]
-        }));        
+            EmployerId: employerId
+        });     
+        
+        let model = Object.assign(body, { layout: "modal" })
+        await ctx.render("pay-schedule", model);
     }
 
     async addNewSchedule(ctx) {
@@ -28,16 +26,14 @@ module.exports = class PayScheduleController extends BaseController {
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
         if (ValidationParser.containsErrors(response)) {
-            await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, Object.assign(body, { 
+            model = await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: employerId,
-                errors: ValidationParser.extractErrors(response),
-                Breadcrumbs: [
-                    { Name: "Employers", Url: "/employer" },
-                    { Name: AppState.currentEmployer.Name, Url: employerRoute },
-                    { Name: "Add a new Pay Schedule" }
-                ]
-            })));
+                errors: ValidationParser.extractErrors(response)
+            }));
+
+            await ctx.render("pay-schedule", model);
+
             return;
         }
 

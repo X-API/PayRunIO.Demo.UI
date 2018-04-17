@@ -60,17 +60,27 @@
                                     {{EmployeeCount}}
                                 </div> 
                                 <div class="col-sm-2">
-                                    {{LastPayDay}}
+                                    {{#if this.LastPayDay}}
+                                        {{this.LastPayDay}}
+                                    {{else}}
+                                        <em>Never</em>
+                                    {{/if}}
                                 </div>
                                 <div class="col-sm-2">
-                                    {{NextPayDay}}
+                                    {{#if this.NextPayDay}}
+                                        {{this.NextPayDay}}
+                                    {{else}}
+                                        -
+                                    {{/if}}
                                 </div>     
                             </div>
                         </div>
                     </div>
                     {{/each}}
                 {{else}}
-                    <a class="btn btn-sm btn-default" href="/employer/{{this.Key}}#schedules" role="button">Add a Pay Schedule</a>
+                    <a class="btn btn-sm btn-default launch-modal" 
+                       data-modal-title="Add Pay Schedule"
+                       href="/employer/{{Key}}/paySchedule/new" role="button">Add a Pay Schedule</a>
                 {{/if}}
             </td>
         </tr>
