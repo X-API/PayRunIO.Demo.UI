@@ -1,7 +1,7 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{Id}}">
+<form method="POST" action="/Employer/{{Id}}" data-parsley-validate>
 {{else}}
-<form method="POST" action="/Employer">
+<form method="POST" action="/Employer" data-parsley-validate>
 {{/if}}
 
     {{>validationErrors}}
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control form-control-lg" id="Name" name="Name" value="{{Name}}" placeholder="Legal name of the employer"
-                            required maxlength="35" />
+                            required maxlength="35" data-required-message="Details > Name is required" />
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4">

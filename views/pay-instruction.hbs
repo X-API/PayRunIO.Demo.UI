@@ -1,7 +1,7 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction/{{Id}}">
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction/{{Id}}" data-parsley-validate>
 {{else}}
-<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction">
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction" data-parsley-validate>
 {{/if}}
 
     {{>breadcrumbs}}
