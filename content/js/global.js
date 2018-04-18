@@ -36,9 +36,9 @@ $(function() {
 
     $('#myModal button[type=submit]').on('click', function(e) {
         var form = $('#myModal form');
-        if (form.valid()) {
+        //if (form.valid()) {
             form.submit();
-        }
+        //}
     });
 
 });
