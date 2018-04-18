@@ -1,8 +1,8 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}">
-    {{else}}
-    <form method="POST" action="/Employer/{{EmployerId}}/Employee">
-        {{/if}}
+<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}" data-parsley-validate>
+{{else}}
+<form method="POST" action="/Employer/{{EmployerId}}/Employee" data-parsley-validate>
+{{/if}}
 
         <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
             <li class="nav-item">
