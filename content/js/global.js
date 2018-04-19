@@ -57,5 +57,9 @@ $(function() {
 
         $validationErrors.find("ul").html(errorMessages);
         $validationErrors.show();
+
+        $("html, body").animate({
+            scrollTop: $validationErrors.offset().top
+        }, 500);            
     });          
 });
