@@ -15,14 +15,15 @@
             value="{{Name}}" 
             placeholder="Name of the pay schedule that unique identifies it" 
             required 
-            maxlength="35">
+            maxlength="35" 
+            data-required-message="Name is required">
     </div>
 
     <div class="form-group">
         <label for="PayFrequency">Pay Frequency</label>
 
         {{#select PayFrequency}}
-        <select id="PayFrequency" name="PayFrequency" class="form-control form-control-lg" required>
+        <select id="PayFrequency" name="PayFrequency" class="form-control form-control-lg" required data-required-message="Pay Frequency is required">
             <option>Please Choose...</option>
             <option value="Weekly">Weekly</option>
             <option value="Monthly">Monthly</option>
