@@ -41,4 +41,21 @@ $(function() {
         //}
     });
 
+    window.Parsley.on("form:success", function(e) {
+        $("#validation-errors").hide();
+    }); 
+
+    window.Parsley.on("form:error", function() {
+        // hide any successful status messages that are currently being shown
+        $(".alert-success").hide();
+
+        var errorMessages = this.$element.find(".parsley-error").map(function() { 
+            return "<li>" + $(this).attr("data-required-message") + "</li>"; 
+        }).toArray();
+
+        var $validationErrors = $("#validation-errors");
+
+        $validationErrors.find("ul").html(errorMessages);
+        $validationErrors.show();
+    });          
 });

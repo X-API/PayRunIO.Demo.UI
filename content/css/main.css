@@ -102,6 +102,12 @@ th {
 .progress {
   height: 30px; }
 
+.display-block {
+  display: block; }
+
+.display-none {
+  display: none; }
+
 .api-calls {
   display: none;
   height: 300px;

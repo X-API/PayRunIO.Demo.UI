@@ -1,5 +1,4 @@
-{{#if errors.length}}
-<div class="alert alert-danger" role="alert">
+<div id="validation-errors" class="alert alert-danger {{visibleIf errors.length}}" role="alert">
     <p>
         <strong>
             Please fix the below errors:
@@ -12,4 +11,3 @@
         {{/each}}
     </ul>
 </div>
-{{/if}}
