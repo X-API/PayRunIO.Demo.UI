@@ -10,6 +10,15 @@
     left: 0;
     right: 0;
 
+    .resize-handle {
+        background-color: #dcdcdc;
+        background-image: url('../images/resizeable.png');
+        background-repeat: no-repeat;
+        background-position: center -26px;
+        height: 8px;
+        cursor: row-resize;        
+    }
+
     .title {
         background-color: #dcdcdc;
         height: 28px;

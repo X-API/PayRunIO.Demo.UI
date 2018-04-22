@@ -1,5 +1,12 @@
 $(function() {
     var openAPICallsOnLoad = $("input[type=hidden]#open-api-calls").val().toLowerCase() === "true";
+    
+    var resizeable = $(".api-calls").resizable({
+        handleSelector: ".row.resize-handle",
+        resizeWidth: false,
+        resizeHeight: true,
+        resizeHeightFrom: "top"       
+    });
 
     if (openAPICallsOnLoad) {
         openAPICalls();
