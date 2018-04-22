@@ -135,7 +135,7 @@ th {
     .api-calls .title .close-api-calls {
       cursor: pointer; }
   .api-calls .api-calls-container {
-    height: 262px;
+    height: 264px;
     overflow-y: scroll;
     overflow-x: hidden; }
     .api-calls .api-calls-container .code-container {

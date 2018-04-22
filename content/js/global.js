@@ -7,13 +7,15 @@ $(function() {
         resizeHeight: true,
         resizeHeightFrom: "top",
         onDrag: function (e, $el, newWidth, newHeight, opt) {
-            // limit box size
             if (newHeight < 50) {
                 newHeight = 50;
             }
         
             $el.height(newHeight);
             $("body.api-calls-open").css("margin-bottom", newHeight + "px");
+            $(".api-calls-container").css("height", newHeight - 36 + "px");
+
+            $.post("/api-calls/size", { size: newHeight });
        
             return false;
        }                      

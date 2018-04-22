@@ -28,4 +28,10 @@ module.exports = class APILoggerController extends BaseController {
 
         ctx.session.openAPICalls = body.open === "true";
     }
+
+    async postAPICallsPanelSize(ctx) {
+        let body = ctx.request.body;
+
+        ctx.session.apiCallsSize = body.size;
+    }    
 };

@@ -31,6 +31,7 @@ router
     .get("/api-calls", async ctx => await apiLoggerController.getView(ctx))
     .get("/api-calls/data", async ctx => await apiLoggerController.getData(ctx))
     .post("/api-calls/is-open", async ctx => await apiLoggerController.postAPICallsOpenStatus(ctx))
+    .post("/api-calls/size", async ctx => await apiLoggerController.postAPICallsPanelSize(ctx))
 
     // employer
     .get("/employer", async ctx => await employerController.getEmployers(ctx))
