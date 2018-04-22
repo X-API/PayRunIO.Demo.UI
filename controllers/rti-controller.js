@@ -8,6 +8,7 @@ let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class RtiController extends BaseController {
+
     async getNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(employerId);
@@ -16,11 +17,7 @@ module.exports = class RtiController extends BaseController {
             title: "Create a RTI FPS submission",
             EmployerId: employerId,
             PaySchedules: paySchedules,
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: "RTI FPS submission" }
-            ]            
+            layout: "modal"
         };
 
         let extendedBody = await this.getExtendedViewModel(ctx, body);        
