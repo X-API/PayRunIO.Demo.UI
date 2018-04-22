@@ -5,7 +5,18 @@ $(function() {
         handleSelector: ".row.resize-handle",
         resizeWidth: false,
         resizeHeight: true,
-        resizeHeightFrom: "top"       
+        resizeHeightFrom: "top",
+        onDrag: function (e, $el, newWidth, newHeight, opt) {
+            // limit box size
+            if (newHeight < 50) {
+                newHeight = 50;
+            }
+        
+            $el.height(newHeight);
+            $("body.api-calls-open").css("margin-bottom", newHeight + "px");
+       
+            return false;
+       }                      
     });
 
     if (openAPICallsOnLoad) {
@@ -20,6 +31,7 @@ $(function() {
 
     $(".close-api-calls").on("click", function() {
         $("body").removeClass("api-calls-open");
+        $("body").removeAttr("style");
         $(".api-calls").hide();
 
         $.post("/api-calls/is-open", { open: false });
