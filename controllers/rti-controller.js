@@ -2,7 +2,8 @@ const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const EmployerService = require("../services/employer-service");
-const RtiUtils = require("../services/rti-utils");
+const PayRunsQuery = require("../queries/payruns-query");
+const moment = require("moment");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -11,12 +12,18 @@ module.exports = class RtiController extends BaseController {
 
     async getNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
-        let paySchedules = await employerService.getPaySchedules(employerId);
+
+        let queryStr = JSON.stringify(PayRunsQuery)
+                .replace("$$EmployerKey$$", employerId);
+
+        let query = JSON.parse(queryStr);
+
+        let paymentDates = await apiWrapper.query(query);
 
         let body = {
-            title: "Create a RTI FPS submission",
+            Status: "",
             EmployerId: employerId,
-            PaySchedules: paySchedules,
+            PayRuns: paymentDates.PayRunsQuery.PayRuns,
             layout: "modal"
         };
 
@@ -27,15 +34,30 @@ module.exports = class RtiController extends BaseController {
 
     async postNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
-        let body = ctx.request.body;
-        let cleanBody = RtiUtils.parse(body, employerId);
+        let formValues = ctx.request.body;
 
-        cleanBody.RtiType = "FPS";
+        let apiRoute = `/Employer/${employerId}/${formValues.PayRun}`;
+        let payRun = await apiWrapper.get(apiRoute);
 
-        let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: cleanBody });
+        let fpsBody = {
+            RtiType: "FPS",
+            Generate: true,
+            Transmit: true,
+            Employer: {
+                "@href": `/Employer/${employerId}`
+            },
+            PaySchedule: payRun.PayRun.PaySchedule,
+            TaxYear: payRun.PayRun.TaxYear,
+            TaxMonth: payRun.PayRun.TaxPeriod,
+            Timestamp: moment().format("YYYY-MM-DDTHH:mm:ss"),
+            HoldingDate: null,
+            LateReason: null
+        }
+
+        let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: fpsBody });
 
         if (ValidationParser.containsErrors(response)) {
-            ctx.session.body = body;
+            ctx.session.body = formValues;
             ctx.session.errors = ValidationParser.extractErrors(response);
 
             await ctx.redirect(`/employer/${employerId}/rtiTransaction`);

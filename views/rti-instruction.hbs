@@ -1,34 +1,22 @@
 <form method="POST" action="/employer/{{EmployerId}}/rtiTransaction" data-parsley-validate>
-    {{>breadcrumbs}}
 
     {{>validationErrors}}
 
+    <input type="hidden" id="Generate" name="Generate" value="true" />
+    <input type="hidden" id="Transmit" name="Transmit" value="true" />
+
     <div class="row">
-        <div class="col-sm-12 col-md-6">
-            {{>payScheduleDropdown}}
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="Generate" name="Generate" {{checkedIf Generate}}>
+        <div class="col-sm-12 col-md-12">
 
-                <label class="form-check-label" for="Generate">
-                    Generate?
-                </label>
+            <div class="form-group">
+                <label for="PaySchedule">Submission For:</label>
 
-                <span class="notes">
-                    Flag to indicate if the job should generate the message.
-                </span>
-            </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="Transmit" name="Transmit" {{checkedIf Transmit}}>
-
-                <label class="form-check-label" for="Transmit">
-                    Transmit?
-                </label>
-
-                <span class="notes">
-                    Flag to indicate if the message should be transmitted to HMRC via the RTI gateway.
-                </span>
+                <select class="form-control" id="PayRun" name="PayRun">
+                    {{#each PayRuns}}
+                        <option value="PaySchedule/{{this.PayScheduleKey}}/PayRun/{{this.PayRunKey}}">{{this.PaySchedule}} > {{PaymentDate}}</option>
+                    {{/each}}
+                </select>
             </div>
 
             <div class="form-group">
@@ -37,51 +25,12 @@
 
                 <span class="notes">Optional date, used to defer execution of the job until a future point in time.</span>
             </div>
-        </div>
-
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label for="TaxYear">Tax year</label>
-                <input type="number" 
-                    class="form-control" 
-                    id="TaxYear" 
-                    name="TaxYear" 
-                    value="{{TaxYear}}" 
-                    placeholder="The tax year the message relates to" 
-                    required 
-                    data-required-message="Tax year is required" 
-                    min="2015" 
-                    max="2018" 
-                    step="1">
-            </div>
-
-            <div class="form-group">
-                <label for="TaxMonth">Tax month</label>
-                <input type="number" 
-                    class="form-control" 
-                    id="TaxMonth" 
-                    name="TaxMonth" 
-                    value="{{TaxMonth}}" 
-                    placeholder="The reporting tax month" 
-                    min="1" 
-                    max="12" 
-                    step="1">
-            </div>            
-
-            <div class="form-group">
-                <label for="PaymentDate">Payment date</label>
-                <input type="date" 
-                    class="form-control" 
-                    id="PaymentDate" 
-                    name="PaymentDate" 
-                    value="{{PaymentDate}}">
-            </div>
 
             <div class="form-group">
                 <label for="LateReason">Late reason</label>
                 
                 <select class="form-control" id="LateReason" name="LateReason">
-                    <option>N/A</option>
+                    <option>N/A - Not Late</option>
                     <option value="A">Notional payment: Payment to Expat by third party or overseas employer</option>
                     <option value="B">Notional payment: Employment related security</option>
                     <option value="C">Notional payment: Other</option>
@@ -96,9 +45,4 @@
         </div>        
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Queue up</button>
-        </div>
-    </div>    
 </form>

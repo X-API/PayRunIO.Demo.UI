@@ -1,6 +1,6 @@
 module.exports = {
     "Query": {
-        "Variables": { "Variable": [{"@Name": "[EmployerKey]", "@Value": "ER007"}] },
+        "Variables": { "Variable": [{"@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$"}] },
         "RootNodeName": "PayRunsQuery",
         "Groups": {
             "Group": [
@@ -34,6 +34,11 @@ module.exports = {
 		                            "@xsi:type": "RenderValue",
 		                            "@Name": "PayRunKey",
 		                            "@Value": "[PayRunKey]"
+                                },
+                                {
+		                            "@xsi:type": "RenderValue",
+		                            "@Name": "PayScheduleKey",
+		                            "@Value": "[PayScheduleKey]"
 		                        },
                                 {
                                     "@xsi:type": "RenderProperty",
