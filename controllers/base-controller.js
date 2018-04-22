@@ -8,13 +8,15 @@ module.exports = class BaseController {
         let healthCheckResponse = await apiWrapper.get("/Healthcheck");
 
         let body = ctx.session.body || {};
-        let errors = ctx.session.errors || [];
 
-        return Object.assign(body, vm, {
-            errors: errors,
-            version: PackageJson.version,
-            apiVersion: healthCheckResponse.HealthCheck.Version,
-            openAPICalls: ctx.session.openAPICalls
-        });
+        if (!vm.errors) {
+            vm.errors = ctx.session.errors || [];
+        }
+
+        vm.version = PackageJson.version;
+        vm.apiVersion = healthCheckResponse.HealthCheck.Version;
+        vm.openAPICalls = ctx.session.openAPICalls;    
+
+        return Object.assign(body, vm);
     }   
 };

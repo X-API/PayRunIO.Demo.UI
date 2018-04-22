@@ -64,11 +64,15 @@ module.exports = {
 		                    {
 		                        "@Selector": "/Employer/[EmployerKey]/Employees",
 		                        "Filter": [
-		                          {
-		                            "@xsi:type": "EndsWith",
-		                            "@Property": "PaySchedule.Href",
-		                            "@Value": "[PayScheduleKey]"
-		                          }
+                                    {
+                                        "@xsi:type": "IsNotNull",
+                                        "@Property": "PaySchedule"
+                                    },
+                                    {
+                                        "@xsi:type": "EndsWith",
+                                        "@Property": "PaySchedule.Href",
+                                        "@Value": "[PayScheduleKey]"
+                                    }
 		                        ],
 		                        "Output": [
 		                          { 

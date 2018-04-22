@@ -1,10 +1,8 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}">
+<form method="PUT" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}" data-parsley-validate>
 {{else}}
-<form method="POST" action="/Employer/{{EmployerId}}/PaySchedule">
+<form method="POST" action="/Employer/{{EmployerId}}/PaySchedule" data-parsley-validate>
 {{/if}}
-
-    {{>breadcrumbs}}
 
     {{>validationErrors}}
 
@@ -17,28 +15,22 @@
             value="{{Name}}" 
             placeholder="Name of the pay schedule that unique identifies it" 
             required 
-            maxlength="35">
+            maxlength="35" 
+            data-required-message="Name is required">
     </div>
 
     <div class="form-group">
         <label for="PayFrequency">Pay Frequency</label>
 
         {{#select PayFrequency}}
-        <select id="PayFrequency" name="PayFrequency" class="form-control form-control-lg" required>
+        <select id="PayFrequency" name="PayFrequency" class="form-control form-control-lg" required data-required-message="Pay Frequency is required">
             <option>Please Choose...</option>
             <option value="Weekly">Weekly</option>
             <option value="Monthly">Monthly</option>
             <option value="TwoWeekly">Two weekly</option>
             <option value="FourWeekly">Four weekly</option>
-            <option value="Yearly">Yearly</option>
         </select>
         {{/select}}
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-        </div>
     </div>
 
 </form>

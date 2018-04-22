@@ -18,7 +18,7 @@ module.exports = class EmployeeController extends BaseController {
         await ctx.render("employee", await this.getExtendedViewModel(ctx, {
             title: "Add a new Employee",
             EmployerId: employerId,
-            PaySchedules: paySchedules,
+            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
@@ -38,7 +38,7 @@ module.exports = class EmployeeController extends BaseController {
             await ctx.render("employee", await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Employee",
                 EmployerId: employerId,
-                PaySchedules: paySchedules,
+                PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
                 errors: ValidationParser.extractErrors(response),
                 Breadcrumbs: [
                     { Name: "Employers", Url: "/employer" },
@@ -66,7 +66,7 @@ module.exports = class EmployeeController extends BaseController {
             Id: employeeId,
             title: employee.Code,
             EmployerId: employerId,
-            PaySchedules: paySchedules,
+            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayInstructions: payInstructions,
             CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
             ShowTabs: true,
@@ -95,7 +95,7 @@ module.exports = class EmployeeController extends BaseController {
                 Id: employeeId,
                 title: body.Code,
                 EmployerId: employerId,
-                PaySchedules: paySchedules,
+                PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
                 errors: ValidationParser.extractErrors(response),
                 ShowTabs: true,
                 Breadcrumbs: [

@@ -35,10 +35,31 @@ $(function() {
     });
 
     $('#myModal button[type=submit]').on('click', function(e) {
-        e.preventDefault();
-           
         var form = $('#myModal form');
-        form.submit();
+        //if (form.valid()) {
+            form.submit();
+        //}
     });
 
+    window.Parsley.on("form:success", function(e) {
+        $("#validation-errors").hide();
+    }); 
+
+    window.Parsley.on("form:error", function() {
+        // hide any successful status messages that are currently being shown
+        $(".alert-success").hide();
+
+        var errorMessages = this.$element.find(".parsley-error").map(function() { 
+            return "<li>" + $(this).attr("data-required-message") + "</li>"; 
+        }).toArray();
+
+        var $validationErrors = $("#validation-errors");
+
+        $validationErrors.find("ul").html(errorMessages);
+        $validationErrors.show();
+
+        $("html, body").animate({
+            scrollTop: $validationErrors.offset().top
+        }, 500);            
+    });          
 });

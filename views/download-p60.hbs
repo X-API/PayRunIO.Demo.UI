@@ -1,4 +1,4 @@
-<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{EmployeeId}}/p60">
+<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{EmployeeId}}/p60" data-parsley-validate>
     {{>breadcrumbs}}
 
     {{>validationErrors}}
@@ -6,7 +6,7 @@
     <div class="form-group">
         <label for="Year">Year</label>
 
-        <select id="Year" name="Year" class="form-control form-control-lg" required>
+        <select id="Year" name="Year" class="form-control form-control-lg" required data-required-message="Year is required">
             {{taxYears}}
         </select>
     </div>

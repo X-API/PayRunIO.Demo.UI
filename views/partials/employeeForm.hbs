@@ -1,8 +1,8 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}">
-    {{else}}
-    <form method="POST" action="/Employer/{{EmployerId}}/Employee">
-        {{/if}}
+<form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}" data-parsley-validate>
+{{else}}
+<form method="POST" action="/Employer/{{EmployerId}}/Employee" data-parsley-validate>
+{{/if}}
 
         <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
             <li class="nav-item">
@@ -33,14 +33,14 @@
                         <div class="form-group">
                             <label for="LastName">Last name</label>
                             <input type="text" class="form-control form-control-lg" id="LastName" name="LastName" value="{{LastName}}" placeholder="Last name"
-                                required maxlength="35">
+                                required maxlength="35" data-required-message="Last name is required">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-2">
                         <div class="form-group">
                             <label for="Code">Code</label>
                             <input type="text" class="form-control form-control-lg" id="Code" name="Code" value="{{Code}}" placeholder="Unique code also known as the Payroll Id"
-                                required maxlength="35">
+                                required maxlength="35" data-required-message="Code is required">
 
                             <span class="notes" The code must be unique to Employer and never reused.></span>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label for="EffectiveDate">Effective date</label>
                             <input type="date" class="form-control form-control-lg" id="EffectiveDate" name="EffectiveDate" value="{{EffectiveDate}}"
-                                placeholder="Date the revision will come into effect" required>
+                                placeholder="Date the revision will come into effect" required data-required-message="Effective date is required">
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                                 <div class="form-group">
                                     <label for="DateOfBirth">Date of birth</label>
                                     <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" value="{{DateOfBirth}}" placeholder="Date of birth"
-                                        required>
+                                        required data-required-message="Date of birth is required">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -105,7 +105,7 @@
                                     <label for="Gender">Gender</label>
 
                                     {{#select Gender}}
-                                    <select class="form-control" id="Gender" name="Gender" required>
+                                    <select class="form-control" id="Gender" name="Gender" required data-required-message="Gender is required">
                                         <option value="Unknown">Unknown</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -133,7 +133,7 @@
                     <label for="StarterDeclaration">Starter declaration</label>
 
                     {{#select StarterDeclaration}}
-                    <select class="form-control" id="StarterDeclaration" name="StarterDeclaration" required>
+                    <select class="form-control" id="StarterDeclaration" name="StarterDeclaration" required data-required-message="Starter declaration is required">
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>

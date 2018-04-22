@@ -9,7 +9,8 @@
                 name="StartDate" 
                 value="{{StartDate}}" 
                 placeholder="The date the instruction will come into effect." 
-                required
+                required 
+                data-required-message="Start date is required"
                 {{minStartDate MinStartDate}}>
 
             <span class="notes">
@@ -40,7 +41,8 @@
                 name="AnnualSalary" 
                 value="{{formatSalary AnnualSalary}}" 
                 placeholder="The employee's gross annual salary" 
-                required>
+                required 
+                data-required-message="Annual salary is required">
         </div>             
     </div>
 
