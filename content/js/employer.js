@@ -22,7 +22,7 @@ $(function() {
             callback: function (result) {
                 if (result) {
                     $.post("/employer/" + employerId + "/paySchedule/" + id + "/delete")
-                        .always(function() {
+                        .done(function(data) {
                             var $tr = $self.closest("tr");
 
                             $tr.find("td").fadeOut("fast", function() { 
