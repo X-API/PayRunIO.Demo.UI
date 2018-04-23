@@ -54,21 +54,11 @@ $(function() {
     }); 
 
     window.Parsley.on("form:error", function() {
-        // hide any successful status messages that are currently being shown
-        $(".alert-success").hide();
-
         var errorMessages = this.$element.find(".parsley-error").map(function() { 
-            return "<li>" + $(this).attr("data-required-message") + "</li>"; 
+            return $(this).attr("data-required-message");
         }).toArray();
 
-        var $validationErrors = $("#validation-errors");
-
-        $validationErrors.find("ul").html(errorMessages);
-        $validationErrors.show();
-
-        $("html, body").animate({
-            scrollTop: $validationErrors.offset().top
-        }, 500);            
+        showValidationErrors(errorMessages);
     });          
 });
 
@@ -89,4 +79,21 @@ function setAPICallsHeight(height) {
     $.post("/api-calls/size", { size: height });
 
     return false;
+}
+
+function showValidationErrors(errors) {
+    // hide any successful status messages that are currently being shown
+    $(".alert-success").hide();
+    
+    var errorMessages = errors.map(function(error) { 
+        return "<li>" + error + "</li>";
+    });
+    var $validationErrors = $("#validation-errors");
+
+    $validationErrors.find("ul").html(errorMessages);
+    $validationErrors.show();
+
+    $("html, body").animate({
+        scrollTop: $validationErrors.offset().top
+    }, 500);    
 }
