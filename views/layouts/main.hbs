@@ -56,26 +56,32 @@
         </div>
 
         <div class="api-calls">
-            <div class="container-fluid">
-                <div class="row title">
-                    <div class="col-sm-11">
-                        API calls
+            <div class="rui-resizable-content">
+                <div class="container-fluid">
+                    <div class="row resize-handle">
+                        <div class="col-sm-12"></div>
+                    </div>                    
+                    <div class="row title">
+                        <div class="col-sm-11">
+                            API calls
+                        </div>
+
+                        <div class="col-sm-1 text-right close-api-calls">
+                            <i class="fas fa-times"></i>
+                        </div>
                     </div>
 
-                    <div class="col-sm-1 text-right close-api-calls">
-                        <i class="fas fa-times"></i>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{>apiCalls}}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{>apiCalls}}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <input type="hidden" value="{{openAPICalls}}" id="open-api-calls">
+        <input type="hidden" value="{{apiCallsHeight}}" id="api-calls-height">
 
         <div id="myModal" class="modal fade">
             <div class="modal-dialog">
@@ -95,6 +101,7 @@
             </div>
         </div>      
 
+        <script src="/js/jquery-resizeable.js"></script>
         <script src="/js/global.js"></script>
         <script src="/js/handlebars-v4.0.11.js"></script>
         <script src="/js/templates.js"></script>

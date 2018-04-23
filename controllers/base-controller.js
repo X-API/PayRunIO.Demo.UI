@@ -16,6 +16,7 @@ module.exports = class BaseController {
         vm.version = PackageJson.version;
         vm.apiVersion = healthCheckResponse.HealthCheck.Version;
         vm.openAPICalls = ctx.session.openAPICalls;    
+        vm.apiCallsHeight = ctx.session.apiCallsHeight || 300;  
 
         return Object.assign(body, vm);
     }   

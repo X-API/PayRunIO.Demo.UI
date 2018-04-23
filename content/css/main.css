@@ -119,6 +119,13 @@ th {
   width: 100%;
   left: 0;
   right: 0; }
+  .api-calls .resize-handle {
+    background-color: #dcdcdc;
+    background-image: url("../images/resizeable.png");
+    background-repeat: no-repeat;
+    background-position: center -26px;
+    height: 8px;
+    cursor: row-resize; }
   .api-calls .title {
     background-color: #dcdcdc;
     height: 28px;
@@ -128,7 +135,7 @@ th {
     .api-calls .title .close-api-calls {
       cursor: pointer; }
   .api-calls .api-calls-container {
-    height: 262px;
+    height: 264px;
     overflow-y: scroll;
     overflow-x: hidden; }
     .api-calls .api-calls-container .code-container {
