@@ -1,13 +1,13 @@
 module.exports = class Constants {
     static get apiUrl() {
-        return "https://api.test.payrun.io/";
+        return "http://localhost:3578";
     }
 
     static get consumerKey() {
-        return "kXrXIxDAJ0SzjCjgYyvhNg";
+        return "key";
     }
 
     static get consumerSecret() {
-        return "k55ebIyfF0ehiO4VY6SibA1Q90Nf3n0q6ylYGusp1lg";
+        return "secret";
     }    
 }

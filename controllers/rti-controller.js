@@ -49,6 +49,7 @@ module.exports = class RtiController extends BaseController {
             PaySchedule: payRun.PayRun.PaySchedule,
             TaxYear: payRun.PayRun.TaxYear,
             TaxMonth: payRun.PayRun.TaxPeriod,
+            PaymentDate: payRun.PayRun.PaymentDate,
             Timestamp: moment().format("YYYY-MM-DDTHH:mm:ss"),
             HoldingDate: null,
             LateReason: null
