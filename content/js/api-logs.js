@@ -15,6 +15,14 @@ $(function() {
 
         copyTextToClipboard(text);
     });
+
+    $(document).on("click", ".summary", function () {
+        $(".request-and-response").hide();
+        
+        var $self = $(this);
+        
+        $self.parent().find(".request-and-response").toggle();
+    });    
 });
 
 function getLogs() {
