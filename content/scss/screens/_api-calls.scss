@@ -52,8 +52,8 @@
         }
 
         .nav-tabs {
-            height: 38px;
-            font-size: 14px;
+            height: 36px;
+            font-size: 13px;
         }
 
         .code-container {
@@ -87,6 +87,10 @@
                     margin-left: 25px;
                 }
             }
+        }
+
+        hr:last-child {
+            visibility: collapse;
         }
     }
 }

@@ -1,7 +1,7 @@
 <script id="api-calls-template" name="apiCallsTemplate" type="text/x-handlebars-template">
     {{#each data}}
         <div class="row">
-            <div class="col-sm-3 summary">
+            <div class="col-sm-3 summary" data-id="{{id}}">
                 <span>
                     {{method}} 
                     <strong>/{{relativeUri}}</strong>
@@ -11,15 +11,15 @@
                     <i class="fas fa-chevron-right"></i>
                 </em>
             </div>
-            <div class="col-sm-9 request-and-response">
+            <div class="col-sm-9 request-and-response" data-id="{{id}}">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-response">Response</a>
+                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request-{{id}}">Request</a>
+                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-response-{{id}}">Response</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-request">
+                    <div class="tab-pane fade show active" id="nav-request-{{id}}">
                         <div class="code-container">
                             <button type="button" 
                                 class="btn btn-secondary btn-sm btn-copy" 
@@ -44,7 +44,7 @@
                             </code>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-response">
+                    <div class="tab-pane fade" id="nav-response-{{id}}">
                         <div class="code-container">
                             <code>
                                 {{{response}}}

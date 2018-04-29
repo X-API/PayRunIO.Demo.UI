@@ -148,8 +148,8 @@ th {
     .api-calls .api-calls-container .request-and-response {
       display: none; }
     .api-calls .api-calls-container .nav-tabs {
-      height: 38px;
-      font-size: 14px; }
+      height: 36px;
+      font-size: 13px; }
     .api-calls .api-calls-container .code-container {
       padding: 5px;
       font-family: 'Courier New', Courier, monospace;
@@ -170,6 +170,8 @@ th {
           display: block;
           white-space: nowrap;
           margin-left: 25px; }
+    .api-calls .api-calls-container hr:last-child {
+      visibility: collapse; }
 
 .job-info .row {
   margin-bottom: 20px; }

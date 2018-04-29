@@ -17,9 +17,10 @@ $(function() {
     });
 
     $(document).on("click", ".summary", function () {
-        $(".request-and-response").hide();
-        
         var $self = $(this);
+        var id = $self.attr("data-id");
+
+        $(".request-and-response[data-id!=" + id + "]").hide();
         
         $self.parent().find(".request-and-response").toggle();
     });    
@@ -33,6 +34,8 @@ function getLogs() {
 
         if (previousCallData.length !== data.length) {
             $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
+
+            console.log(data);
 
             tippy(".btn");
         }
