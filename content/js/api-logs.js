@@ -21,8 +21,18 @@ $(function() {
         var id = $self.attr("data-id");
 
         $(".request-and-response[data-id!=" + id + "]").hide();
+        $(".summary[data-id!=" + id + "]").removeClass("col-sm-3").addClass("col-sm-12");
         
-        $self.parent().find(".request-and-response").toggle();
+        var $requestAndResponse = $self.parent().find(".request-and-response");
+
+        $requestAndResponse.toggle();
+
+        if ($requestAndResponse.is(":visible")) {
+            $self.removeClass("col-sm-12").addClass("col-sm-3");
+        }
+        else {
+            $self.removeClass("col-sm-3").addClass("col-sm-12");
+        }
     });    
 });
 
