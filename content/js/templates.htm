@@ -1,81 +1,48 @@
 <script id="jobInfoTemplate" name="jobInfoTemplate" type="text/x-handlebars-template">
-    <div class="job-info">
-        {{#if Errors}}
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="alert alert-danger" role="alert">
-                        <p><strong>This job contains the following errors:</strong></p>
-    
-                        <ul>
-                            {{#each Errors.Error}}
-                            <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    </div>            
-                </div>
-            </div>
-        {{/if}}
-    
-        <div class="row">
-            <div class="col-sm-12">
-                <strong>Progress</strong>
-            </div>
-    
-            <div class="col-sm-12">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                        role="progressbar"
-                        style="width: {{Progress}}"></div>
-                </div>        
-            </div>
+    <div class="card bg-dark">
+        <div class="card-header">
+            <h5>
+                Pay run info
+
+                <span class="close">
+                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                </span>
+            </h5>
         </div>
-    
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
+        <div class="card-body">
+            <div class="job-info">
                 <div class="row">
                     <div class="col-sm-12">
-                        <strong>Status</strong>
+                        <strong>Progress</strong>
                     </div>
-    
+            
                     <div class="col-sm-12">
-                        {{JobStatus}}
-                    </div>            
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                role="progressbar"
+                                style="width: {{Progress}}"></div>
+                        </div>        
+                    </div>
                 </div>
-    
-                <div class="row">
-                    <div class="col-sm-12">
-                        <strong>Job Id</strong>
+                                    
+                {{#if Errors}}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger" role="alert">
+                                <p><strong>This job contains the following errors:</strong></p>
+            
+                                <ul>
+                                    {{#each Errors.Error}}
+                                        <li>{{this}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>            
+                        </div>
                     </div>
-    
-                    <div class="col-sm-12">
-                        {{JobId}}
-                    </div>            
-                </div>        
-            </div>
-    
-            <div class="col-sm-12 col-md-6">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <strong>Last updated on</strong>
-                    </div>
-    
-                    <div class="col-sm-12">
-                        {{LastUpdated}}
-                    </div>            
-                </div>
-    
-                <div class="row">
-                    <div class="col-sm-12">
-                        <strong>Created on</strong>
-                    </div>
-    
-                    <div class="col-sm-12">
-                        {{Created}}
-                    </div>            
-                </div>
-            </div>    
+                {{/if}}
+            </div> 
         </div>
-    </div>    
+    </div>   
 </script>
 
 <script id="apiCallsTemplate" name="apiCallsTemplate" type="text/x-handlebars-template">

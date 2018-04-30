@@ -68,6 +68,13 @@ $(function() {
             }
         });        
     });
+
+    $(document).on("click", ".job-info-container .close", function () {
+        var $jobInfoContainer = $(this).parents(".job-info-container");
+
+        $jobInfoContainer.hide();
+        window.hideJobInfo = true;
+    });    
 });
 
 function bindJobInfo() {
@@ -77,6 +84,10 @@ function bindJobInfo() {
     var url = "/employer/" + employerId + "/job/" + jobId + "/payrun";
 
     $.getJSON(url, function(data) {
-        $(".job-info-container").html(Templates["jobInfoTemplate"](data));
+        if (!window.hideJobInfo) {
+            $(".job-info-container").html(Templates["jobInfoTemplate"](data));
+
+            setTimeout(bindJobInfo, 1000);    
+        }
     });
 }
