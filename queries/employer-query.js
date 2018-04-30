@@ -9,6 +9,9 @@ module.exports = {
                     "@UniqueKeyVariable": "[EmployerKey]",
                     "Output": [
                         {
+                            "@xsi:type": "RenderArrayHint"
+                        },
+                        {
                             "@xsi:type": "RenderValue",
                             "@Name": "Key",
                             "@Value": "[EmployerKey]"

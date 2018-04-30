@@ -59,9 +59,25 @@ module.exports = class RtiController extends BaseController {
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = formValues;
-            ctx.session.errors = ValidationParser.extractErrors(response);
+            //ctx.session.errors = ValidationParser.extractErrors(response);
 
-            await ctx.redirect(`/employer/${employerId}/rtiTransaction`);
+            let queryStr = JSON.stringify(PayRunsQuery)
+                .replace("$$EmployerKey$$", employerId);
+
+            let query = JSON.parse(queryStr);
+            let paymentDates = await apiWrapper.query(query);
+
+            let body = {
+                Status: "",
+                EmployerId: employerId,
+                PayRuns: paymentDates.PayRunsQuery.PayRuns,
+                //layout: "modal"
+            };
+
+            await ctx.render("rti-instruction", await this.getExtendedViewModel(ctx, Object.assign(body, { 
+                errors: ValidationParser.extractErrors(response)
+            })));
+
             return;
         }
 
