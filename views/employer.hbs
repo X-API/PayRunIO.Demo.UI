@@ -2,6 +2,8 @@
 
 {{>status}}
 
+{{>validationErrors}}
+
 {{#if ShowTabs}}
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
@@ -125,7 +127,7 @@
                         <td>
                             <button type="button" 
                                 class="btn btn-danger btn-sm btn-delete-pay-schedule" 
-                                data-pay-schedule-id="{{this.Id}}" 
+                                data-pay-schedule-id="{{this.Key}}" 
                                 data-employer-id="{{../Id}}">Delete
                             </button>
                         </td>

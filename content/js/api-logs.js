@@ -15,6 +15,25 @@ $(function() {
 
         copyTextToClipboard(text);
     });
+
+    $(document).on("click", ".summary", function () {
+        var $self = $(this);
+        var id = $self.attr("data-id");
+
+        $(".request-and-response[data-id!=" + id + "]").hide();
+        $(".summary[data-id!=" + id + "]").removeClass("col-sm-3").addClass("col-sm-12");
+        
+        var $requestAndResponse = $self.parent().find(".request-and-response");
+
+        $requestAndResponse.toggle();
+
+        if ($requestAndResponse.is(":visible")) {
+            $self.removeClass("col-sm-12").addClass("col-sm-3");
+        }
+        else {
+            $self.removeClass("col-sm-3").addClass("col-sm-12");
+        }
+    });    
 });
 
 function getLogs() {
@@ -25,6 +44,8 @@ function getLogs() {
 
         if (previousCallData.length !== data.length) {
             $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
+
+            console.log(data);
 
             tippy(".btn");
         }

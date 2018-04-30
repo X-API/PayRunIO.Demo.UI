@@ -94,6 +94,13 @@ module.exports = class PayScheduleController extends BaseController {
 
         let response = await apiWrapper.delete(apiRoute);
 
-        return true;
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {};
+        }
     }
 };

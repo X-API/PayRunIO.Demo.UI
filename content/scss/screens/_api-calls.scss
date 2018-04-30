@@ -36,12 +36,31 @@
         overflow-y: scroll;
         overflow-x: hidden;
 
+        .summary {
+            font-family: monospace;
+            font-size: 14px;
+            cursor: pointer;
+
+            em {
+                float: right;
+                margin-top: 1px;
+            }
+        }
+
+        .request-and-response {
+            display: none;
+        }
+
+        .nav-tabs {
+            height: 36px;
+            font-size: 13px;
+        }
+
         .code-container {
             padding: 5px;
-            background-color: #e9ecef;
             font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
-            height: 250px;
+            max-height: 250px;
             overflow-y: scroll;
             position: relative;
 
@@ -58,12 +77,6 @@
                 }                
             }
 
-            span.section-title {
-                display: block;
-                margin-bottom: 10px;
-                font-weight: bold;
-            }
-
             code {
                 color: black;
 
@@ -74,6 +87,10 @@
                     margin-left: 25px;
                 }
             }
+        }
+
+        hr:last-child {
+            visibility: collapse;
         }
     }
 }

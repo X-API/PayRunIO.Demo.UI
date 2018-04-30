@@ -138,12 +138,23 @@ th {
     height: 264px;
     overflow-y: scroll;
     overflow-x: hidden; }
+    .api-calls .api-calls-container .summary {
+      font-family: monospace;
+      font-size: 14px;
+      cursor: pointer; }
+      .api-calls .api-calls-container .summary em {
+        float: right;
+        margin-top: 1px; }
+    .api-calls .api-calls-container .request-and-response {
+      display: none; }
+    .api-calls .api-calls-container .nav-tabs {
+      height: 36px;
+      font-size: 13px; }
     .api-calls .api-calls-container .code-container {
       padding: 5px;
-      background-color: #e9ecef;
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
-      height: 250px;
+      max-height: 250px;
       overflow-y: scroll;
       position: relative; }
       .api-calls .api-calls-container .code-container .btn-copy {
@@ -153,16 +164,14 @@ th {
         margin-right: 5px; }
       .api-calls .api-calls-container .code-container:hover .btn-copy {
         display: block; }
-      .api-calls .api-calls-container .code-container span.section-title {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: bold; }
       .api-calls .api-calls-container .code-container code {
         color: black; }
         .api-calls .api-calls-container .code-container code span {
           display: block;
           white-space: nowrap;
           margin-left: 25px; }
+    .api-calls .api-calls-container hr:last-child {
+      visibility: collapse; }
 
 .job-info .row {
   margin-bottom: 20px; }

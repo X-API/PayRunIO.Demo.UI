@@ -19,10 +19,15 @@ $(function() {
         bootbox.confirm({
             title: "Are you sure?",
             message: "Are you sure you want to delete this pay schedule?",
-            callback: function (result) {
+            callback: function(result) {
                 if (result) {
                     $.post("/employer/" + employerId + "/paySchedule/" + id + "/delete")
-                        .always(function() {
+                        .done(function(data) {
+                            if (data.errors) {
+                                showValidationErrors(data.errors);
+                                return;
+                            }
+
                             var $tr = $self.closest("tr");
 
                             $tr.find("td").fadeOut("fast", function() { 
