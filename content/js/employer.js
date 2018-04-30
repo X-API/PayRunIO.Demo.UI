@@ -5,6 +5,10 @@ $(function() {
         $('ul.nav a[href="' + hash + '"]').tab("show");
     }
 
+    if (getUrlVars().jobId) {
+        bindJobInfo();
+    }
+
     $(".nav-tabs a").on("click", function (e) {
         $(this).tab("show");
             
@@ -65,3 +69,14 @@ $(function() {
         });        
     });
 });
+
+function bindJobInfo() {
+    var jobId = getUrlVars().jobId;
+    var employerId = $("input[type=hidden]#employer-id").val();
+
+    var url = "/employer/" + employerId + "/job/" + jobId + "/payrun";
+
+    $.getJSON(url, function(data) {
+        console.log(data);
+    });
+}

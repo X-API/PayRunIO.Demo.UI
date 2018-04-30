@@ -158,7 +158,7 @@ module.exports = class PayRunController extends BaseController {
         }
 
         let jobId = response.Link["@href"].split("/")[3];
-        let route = `/employer/${employerId}/job/${jobId}/payRun`;
+        let route = `/employer/${employerId}?jobId=${jobId}#runs`;
 
         await ctx.redirect(route);
     }
