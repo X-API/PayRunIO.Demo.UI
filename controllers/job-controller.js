@@ -16,14 +16,19 @@ module.exports = class JobController extends BaseController {
         if (response.JobInfo) {
             let body = response.JobInfo;
 
-            body.title = type === "payrun" ? "Pay Run Info" : "RTI Full Payment Submission";
-            body.Breadcrumbs = [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: body.title }
-            ];
-
-            await ctx.render("job-details", await this.getExtendedViewModel(ctx, body));
+            if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+                ctx.body = body;
+            }
+            else {
+                body.title = type === "payrun" ? "Pay Run Info" : "RTI Full Payment Submission";
+                body.Breadcrumbs = [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: "Employer", Url: `/employer/${employerId}` },
+                    { Name: body.title }
+                ];
+    
+                await ctx.render("job-details", await this.getExtendedViewModel(ctx, body));    
+            }
         }
         else {
             await ctx.render("job-details", await this.getExtendedViewModel(ctx, {}));

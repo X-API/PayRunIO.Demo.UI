@@ -77,6 +77,6 @@ function bindJobInfo() {
     var url = "/employer/" + employerId + "/job/" + jobId + "/payrun";
 
     $.getJSON(url, function(data) {
-        console.log(data);
+        $(".job-info-container").html(Templates["jobInfoTemplate"](data));
     });
 }
