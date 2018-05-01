@@ -97,3 +97,17 @@ function showValidationErrors(errors) {
         scrollTop: $validationErrors.offset().top
     }, 500);    
 }
+
+function getUrlVars() {
+    var output = [];
+    var parts = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+    for (var i = 0; i < parts.length; i++) {
+        var name = parts[i].split('=')[0];
+        var value = parts[i].split('=')[1].split('#')[0];
+
+        output[name] = value;
+    }
+
+    return output;
+}

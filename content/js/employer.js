@@ -5,6 +5,10 @@ $(function() {
         $('ul.nav a[href="' + hash + '"]').tab("show");
     }
 
+    if (getUrlVars().jobId) {
+        bindJobInfo();
+    }
+
     $(".nav-tabs a").on("click", function (e) {
         $(this).tab("show");
             
@@ -64,4 +68,26 @@ $(function() {
             }
         });        
     });
+
+    $(document).on("click", ".job-info-container .close", function () {
+        var $jobInfoContainer = $(this).parents(".job-info-container");
+
+        $jobInfoContainer.hide();
+        window.hideJobInfo = true;
+    });    
 });
+
+function bindJobInfo() {
+    var jobId = getUrlVars().jobId;
+    var employerId = $("input[type=hidden]#employer-id").val();
+
+    var url = "/employer/" + employerId + "/job/" + jobId + "/payrun";
+
+    $.getJSON(url, function(data) {
+        if (!window.hideJobInfo) {
+            $(".job-info-container").html(Templates["jobInfoTemplate"](data));
+
+            setTimeout(bindJobInfo, 1000);    
+        }
+    });
+}

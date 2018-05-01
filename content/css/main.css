@@ -174,7 +174,16 @@ th {
       visibility: collapse; }
 
 .job-info .row {
-  margin-bottom: 20px; }
+  margin-bottom: 10px; }
+
+.job-info-container {
+  margin-bottom: 30px; }
+  .job-info-container .card-header {
+    padding-bottom: 5px; }
+  .job-info-container h5 {
+    color: white; }
+    .job-info-container h5 .close {
+      color: white; }
 
 .pay-run-info .row {
   margin-bottom: 20px; }
