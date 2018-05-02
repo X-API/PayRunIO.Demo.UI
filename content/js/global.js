@@ -103,8 +103,19 @@ function getUrlVars() {
     var parts = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 
     for (var i = 0; i < parts.length; i++) {
-        var name = parts[i].split('=')[0];
-        var value = parts[i].split('=')[1].split('#')[0];
+        var qsParts = parts[i].split('=');
+
+        if (qsParts.length === 1) {
+            continue;
+        }
+
+        var name = qsParts[0];
+        var value = qsParts[1].split('#')[0];
+
+        if (value) {
+            // get the query string value without the hash value
+            value = value.split('#')[0];
+        }
 
         output[name] = value;
     }
