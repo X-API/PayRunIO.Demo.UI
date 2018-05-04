@@ -70,10 +70,7 @@ $(function() {
     });
 
     $(document).on("click", ".job-info-container .close", function () {
-        var $jobInfoContainer = $(this).parents(".job-info-container");
-
-        $jobInfoContainer.hide();
-        window.hideJobInfo = true;
+        closeJobInfo();
     });    
 });
 
@@ -85,9 +82,33 @@ function bindJobInfo() {
 
     $.getJSON(url, function(data) {
         if (!window.hideJobInfo) {
+            // if the job has completed and there are no errors to display then start increasing the 
+            // completed job count. Once the completed job count has reached 5 (5 seconds based on the setTimeout further down) 
+            // then close the job info panel. This is so that users can see that a job has been run (esp. where the job is v. small)
+            if (data.Progress === 100 && (data.Errors === null || data.Errors.length === 0)) {
+                if (window.completedJobCount === undefined) {
+                    window.completedJobCount = 0;
+                }
+                else {
+                    window.completedJobCount++;
+                }
+
+                if (window.completedJobCount === 5) {
+                    closeJobInfo();
+                    // todo: refresh the list of pay runs. 
+                }
+            }
+
             $(".job-info-container").html(Templates["jobInfoTemplate"](data));
 
             setTimeout(bindJobInfo, 1000);    
         }
     });
+}
+
+function closeJobInfo() {
+    var $jobInfoContainer = $(".job-info-container");
+
+    $jobInfoContainer.slideUp(); // todo: may be good to change this animation. 
+    window.hideJobInfo = true;    
 }
