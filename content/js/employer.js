@@ -83,17 +83,16 @@ function bindJobInfo() {
     $.getJSON(url, function(data) {
         if (!window.hideJobInfo) {
             // if the job has completed and there are no errors to display then start increasing the 
-            // completed job count. Once the completed job count has reached 5 (5 seconds based on the setTimeout further down) 
+            // completed job count. Once the completed job count has reached 3 (3 seconds based on the setTimeout further down) 
             // then close the job info panel. This is so that users can see that a job has been run (esp. where the job is v. small)
             if (data.Progress === 100 && (data.Errors === null || data.Errors.length === 0)) {
                 if (window.completedJobCount === undefined) {
                     window.completedJobCount = 0;
                 }
-                else {
-                    window.completedJobCount++;
-                }
 
-                if (window.completedJobCount === 5) {
+                window.completedJobCount++;
+
+                if (window.completedJobCount === 3) {
                     closeJobInfo();
                     // todo: refresh the list of pay runs. 
                 }
