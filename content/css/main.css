@@ -136,7 +136,6 @@ th {
       cursor: pointer; }
   .api-calls .api-calls-container {
     height: 264px;
-    overflow-y: scroll;
     overflow-x: hidden; }
     .api-calls .api-calls-container .summary {
       font-family: monospace;
@@ -146,7 +145,7 @@ th {
         float: right;
         margin-top: 1px; }
     .api-calls .api-calls-container .request-and-response {
-      display: none; }
+      padding-bottom: 30px; }
     .api-calls .api-calls-container .nav-tabs {
       height: 36px;
       font-size: 13px; }
@@ -154,8 +153,8 @@ th {
       padding: 5px;
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
-      max-height: 250px;
       overflow-y: scroll;
+      overflow-x: hidden;
       position: relative; }
       .api-calls .api-calls-container .code-container .btn-copy {
         display: none;

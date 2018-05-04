@@ -33,7 +33,6 @@
 
     .api-calls-container {
         height: 264px;
-        overflow-y: scroll;
         overflow-x: hidden;
 
         .summary {
@@ -48,7 +47,7 @@
         }
 
         .request-and-response {
-            display: none;
+            padding-bottom: 30px;
         }
 
         .nav-tabs {
@@ -60,8 +59,8 @@
             padding: 5px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
-            max-height: 250px;
             overflow-y: scroll;
+            overflow-x: hidden;
             position: relative;
 
             .btn-copy {
