@@ -146,6 +146,10 @@ th {
         margin-top: 1px; }
     .api-calls .api-calls-container .request-and-response {
       padding-bottom: 30px; }
+      .api-calls .api-calls-container .request-and-response .initial-request-and-response-explanation {
+        text-align: center;
+        padding-top: 20px;
+        font-weight: bold; }
     .api-calls .api-calls-container .nav-tabs {
       height: 36px;
       font-size: 13px; }
