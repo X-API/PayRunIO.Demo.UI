@@ -94,7 +94,12 @@ function bindJobInfo() {
 
                 if (window.completedJobCount === 3) {
                     closeJobInfo();
-                    // todo: refresh the list of pay runs. 
+
+                    var url = window.location.href;
+                    var urlWithoutQs = $.trim(url.split('?')[0]);
+                    var urlWithStatus = urlWithoutQs + "?status=Pay run ran successfully&statusType=success#runs";
+
+                    window.location.href = urlWithStatus;
                 }
             }
 

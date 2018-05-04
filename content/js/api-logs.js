@@ -45,8 +45,6 @@ function getLogs() {
         if (previousCallData.length !== data.length) {
             $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
 
-            console.log(data);
-
             tippy(".btn");
         }
 
