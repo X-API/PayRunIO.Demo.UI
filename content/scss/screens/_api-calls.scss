@@ -49,6 +49,12 @@
         .request-and-response {
             padding-bottom: 30px;
 
+            h4 {
+                font-family: 'Courier New', Courier, monospace;
+                margin-top: 0px;
+                margin-bottom: 20px;
+            }
+
             .initial-request-and-response-explanation {
                 text-align: center;
                 padding-top: 20px;
@@ -65,7 +71,6 @@
             padding: 5px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
-            overflow-y: scroll;
             overflow-x: hidden;
             position: relative;
 

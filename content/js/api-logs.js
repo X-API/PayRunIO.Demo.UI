@@ -23,8 +23,11 @@ $(function() {
 
         if (apiCall) {
             var content = Templates["apiCallDetailsTemplate"](apiCall);
+            var $apiCallsContainer = $(".api-calls-container");
 
-            $(".api-calls-container").find(".request-and-response").html(content);
+            $apiCallsContainer.find(".request-and-response").html(content);
+
+            $apiCallsContainer.animate({ scrollTop: 0 }, 500);                
         }
     });    
 });

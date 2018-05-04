@@ -146,6 +146,10 @@ th {
         margin-top: 1px; }
     .api-calls .api-calls-container .request-and-response {
       padding-bottom: 30px; }
+      .api-calls .api-calls-container .request-and-response h4 {
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 0px;
+        margin-bottom: 20px; }
       .api-calls .api-calls-container .request-and-response .initial-request-and-response-explanation {
         text-align: center;
         padding-top: 20px;
@@ -157,7 +161,6 @@ th {
       padding: 5px;
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
-      overflow-y: scroll;
       overflow-x: hidden;
       position: relative; }
       .api-calls .api-calls-container .code-container .btn-copy {

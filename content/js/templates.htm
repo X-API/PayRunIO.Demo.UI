@@ -75,6 +75,11 @@
 </script>
 
 <script id="apiCallDetailsTemplate" name="apiCallDetailsTemplate" type="text/x-handlebars-template">
+    <h4>
+        {{method}} 
+        <strong>/{{relativeUri}}</strong>        
+    </h4>
+
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
