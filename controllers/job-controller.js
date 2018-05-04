@@ -19,7 +19,7 @@ module.exports = class JobController extends BaseController {
             if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
                 ctx.body = {
                     Progress: parseFloat(body.Progress) * 100,
-                    Errors: body.Errors && body.Errors.length > 0 ? body.Errors : null
+                    Errors: body.Errors && body.Errors.Error.length > 0 ? body.Errors.Error : null
                 };
             }
             else {
