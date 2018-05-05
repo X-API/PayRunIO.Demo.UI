@@ -83,7 +83,7 @@ module.exports = class PayScheduleController extends BaseController {
             return;
         }
 
-        await ctx.redirect(employerRoute + "?status=Pay schedule saved&statusType=success#schedules");        
+        await ctx.redirect(employerRoute + "?status=Pay schedule saved&statusType=success#schedules");
     }
 
     async deleteSchedule(ctx) {

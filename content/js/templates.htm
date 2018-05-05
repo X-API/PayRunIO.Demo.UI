@@ -10,17 +10,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <div class="job-info">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                role="progressbar"
-                                style="width: {{Progress}}%"></div>
-                        </div>        
-                    </div>
-                </div>
-                                    
+            <div class="job-info">                                    
                 {{#if Errors}}
                     <div class="row">
                         <div class="col-sm-12">
@@ -28,13 +18,23 @@
                                 <p><strong>This job contains the following errors:</strong></p>
             
                                 <ul>
-                                    {{#each Errors.Error}}
+                                    {{#each Errors}}
                                         <li>{{this}}</li>
                                     {{/each}}
                                 </ul>
                             </div>            
                         </div>
                     </div>
+                {{else}}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                    role="progressbar"
+                                    style="width: {{Progress}}%"></div>
+                            </div>        
+                        </div>
+                    </div>                
                 {{/if}}
             </div> 
         </div>
