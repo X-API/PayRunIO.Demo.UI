@@ -1,0 +1,34 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Salary</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each Instructions}}
+        <tr>
+            <th scope="row">
+                <a href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                    {{this.Id}}
+                </a>
+            </th>
+            <td>
+                {{formatSalary this.AnnualSalary}}
+            </td>
+            <td>
+                {{this.StartDate}}
+            </td>
+            <td>
+                {{this.EndDate}}
+            </td>
+            <td>
+                {{this.Description}}
+            </td>                                              
+        </tr>
+        {{/each}}                    
+    </tbody>
+</table>

@@ -1,10 +1,10 @@
 const typesAndFriendlyNames = {
-    "RatePayInstruction": "Rate pay instruction",
-    "PrimitivePayInstruction": "Primitive pay instruction",
-    "TaxPayInstruction": "Tax pay instruction",
-    "NiPayInstruction": "NI pay instruction",
-    "StudentLoanPayInstruction": "Student loan pay instruction",
-    "SalaryPayInstruction": "Salary pay instruction"
+    "RatePayInstruction": "Rate pay instructions",
+    "PrimitivePayInstruction": "Primitive pay instructions",
+    "TaxPayInstruction": "Tax pay instructions",
+    "NiPayInstruction": "NI pay instructions",
+    "StudentLoanPayInstruction": "Student loan pay instructions",
+    "SalaryPayInstruction": "Salary pay instructions"
 };
 
 module.exports = (payInstructionType, options) => {

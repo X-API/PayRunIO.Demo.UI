@@ -48,40 +48,7 @@
                         <h6>{{payInstructionFriendlyName InstructionType}}</h6>
                     </div>
                     <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Salary</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each PayInstructions}}
-                                <tr>
-                                    <th scope="row">
-                                        <a href="/employer/{{../EmployerId}}/employee/{{../Id}}/payInstruction/{{this.Id}}">
-                                            {{this.Id}}
-                                        </a>
-                                    </th>
-                                    <td>
-                                        {{formatSalary this.AnnualSalary}}
-                                    </td>
-                                    <td>
-                                        {{this.StartDate}}
-                                    </td>
-                                    <td>
-                                        {{this.EndDate}}
-                                    </td>
-                                    <td>
-                                        {{this.Description}}
-                                    </td>                                              
-                                </tr>
-                                {{/each}}                    
-                            </tbody>
-                        </table>
+                        {{payInstructionCardPartial this ../this}}
                     </div>
                 </div> 
             {{/each}}                                  
