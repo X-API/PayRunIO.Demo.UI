@@ -19,19 +19,15 @@ $(function() {
     $(document).on("click", ".summary", function () {
         var $self = $(this);
         var id = $self.attr("data-id");
+        var apiCall = previousCallData.find(x => x.id.toString() === id.toString());
 
-        $(".request-and-response[data-id!=" + id + "]").hide();
-        $(".summary[data-id!=" + id + "]").removeClass("col-sm-3").addClass("col-sm-12");
-        
-        var $requestAndResponse = $self.parent().find(".request-and-response");
+        if (apiCall) {
+            var content = Templates["apiCallDetailsTemplate"](apiCall);
+            var $apiCallsContainer = $(".api-calls-container");
 
-        $requestAndResponse.toggle();
+            $apiCallsContainer.find(".request-and-response").html(content);
 
-        if ($requestAndResponse.is(":visible")) {
-            $self.removeClass("col-sm-12").addClass("col-sm-3");
-        }
-        else {
-            $self.removeClass("col-sm-3").addClass("col-sm-12");
+            $apiCallsContainer.animate({ scrollTop: 0 }, 500);                
         }
     });    
 });
@@ -44,8 +40,6 @@ function getLogs() {
 
         if (previousCallData.length !== data.length) {
             $(".api-calls-container").html(Templates["apiCallsTemplate"](context));
-
-            console.log(data);
 
             tippy(".btn");
         }
