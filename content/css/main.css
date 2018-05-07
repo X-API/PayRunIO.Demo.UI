@@ -36,6 +36,13 @@ body.api-calls-open {
 .card-body {
   background-color: white !important; }
 
+.card.bg-light {
+  margin-bottom: 40px; }
+  .card.bg-light .card-header {
+    padding-top: 20px; }
+    .card.bg-light .card-header h6 {
+      font-size: 18px; }
+
 h4:not(.modal-title) {
   margin-top: 10px;
   margin-bottom: 10px;
