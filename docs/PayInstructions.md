@@ -28,10 +28,12 @@ If instructions need to be sequential ([more information on this can be found he
 
 `parseForApi` can be overridden, if overridding make sure to call into `super.parseForApi` with the passed in `body` to do the default parsing for all instructions. 
 
-3. Implement the custom view, containing the properties required for the instruction. This should go in `views/partials/payInstructions` and should be the name of the type, again it's case sensitive. For instructions that need to be sequential you can use the Handlebars helper:
+3. Implement the custom form view, containing the properties required for the instruction. This should go in `views/partials/payInstructions/forms` and should be the name of the type, again it's case sensitive. For instructions that need to be sequential you can use the Handlebars helper:
 
 ```
 {{minStartDate MinStartDate}}
 ```
 
 Which can go on the Start date date field. 
+
+4. Implement the custom list view to list out pay instructions of that specific type. This should go in `views/partials/payInstructions/lists` and should be the name of the type, again it's case sensitive.
