@@ -1,10 +1,8 @@
 <form method="POST" action="/Employer/{{EmployerId}}/payRun" data-parsley-validate>
-    {{>breadcrumbs}}
-
     {{>validationErrors}}
 
     {{#if this.Status}}
-    <p>{{this.Status}}</p>
+        <p>{{this.Status}}</p>
     {{/if}}
 
     <div class="row">

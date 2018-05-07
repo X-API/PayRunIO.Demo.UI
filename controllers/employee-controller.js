@@ -6,9 +6,10 @@ const EmployeeUtils = require("../services/employee-utils");
 const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const fs = require("fs");
+const _ = require("lodash");
 
-const apiWrapper = new ApiWrapper();
-const employerService = new EmployerService();
+let apiWrapper = new ApiWrapper();
+let employerService = new EmployerService();
 
 module.exports = class EmployeeController extends BaseController {
     async requestNewEmployee(ctx) {
@@ -58,6 +59,17 @@ module.exports = class EmployeeController extends BaseController {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
         let response = await apiWrapper.get(apiRoute);
         let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
+        let groupedPayInstructions = _.groupBy(payInstructions, (pi) => {
+            return pi.ObjectType;
+        });
+        let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
+            let instructions = groupedPayInstructions[key];
+    
+            return {
+                InstructionType: key,
+                Instructions: instructions
+            };
+        });        
         let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
@@ -68,6 +80,7 @@ module.exports = class EmployeeController extends BaseController {
             EmployerId: employerId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayInstructions: payInstructions,
+            GroupedPayInstructions: projectedPayInstructions,
             CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
             ShowTabs: true,
             Breadcrumbs: [

@@ -21,7 +21,7 @@
             <div class="row actions">
                 <div class="col-sm-12">
                     <div class="dropdown show">
-                        <a class="btn btn-primary dropdown-toggle" 
+                        <a class="btn btn-primary btn-lg dropdown-toggle" 
                             href="#" 
                             role="button" 
                             id="addNewPayInstruction" 
@@ -42,42 +42,20 @@
                 </div>
             </div>
 
-            {{#if PayInstructions}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Salary</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each PayInstructions}}
-                    <tr>
-                        <th scope="row">
-                            <a href="/employer/{{../EmployerId}}/employee/{{../Id}}/payInstruction/{{this.Id}}">
-                                {{this.Id}}
-                            </a>
-                        </th>
-                        <td>
-                            {{formatSalary this.AnnualSalary}}
-                        </td>
-                        <td>
-                            {{this.StartDate}}
-                        </td>
-                        <td>
-                            {{this.EndDate}}
-                        </td>
-                        <td>
-                            {{this.Description}}
-                        </td>                                              
-                    </tr>
-                    {{/each}}                    
-                </tbody>
-            </table>
-            {{/if}}                                    
+            {{#each GroupedPayInstructions}}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>{{payInstructionFriendlyName InstructionType}}</h6>
+                            </div>
+                            <div class="card-body">
+                                {{payInstructionListPartial this ../this}}
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            {{/each}}                                  
         </div>        
     </div>        
 {{else}}
