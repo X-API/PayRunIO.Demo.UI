@@ -9,10 +9,11 @@ module.exports = class PayInstructionController extends BaseController {
     async requestNewInstruction(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        let instructionType = ctx.query.type || ctx.session.body.InstructionType;
+        let instructionType = ctx.query.type || (ctx.session.body ? ctx.session.body.InstructionType : undefined);
 
         if (!instructionType) {
-            throw new Error("specify the `type` query string param when adding a new pay instruction");
+            await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#instructions`);
+            return;
         }
 
         let body = {

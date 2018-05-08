@@ -18,6 +18,9 @@ module.exports = class BaseController {
         vm.openAPICalls = ctx.session.openAPICalls;    
         vm.apiCallsHeight = ctx.session.apiCallsHeight || 300;  
 
+        ctx.session.body = null;
+        ctx.session.errors = null;
+
         return Object.assign(body, vm);
     }   
 };

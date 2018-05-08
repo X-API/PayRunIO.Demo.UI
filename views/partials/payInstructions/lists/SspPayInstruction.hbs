@@ -1,0 +1,30 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Absence Start</th>
+            <th>Absence End</th>
+            <th>Statutory Offset?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each Instructions}}
+        <tr>
+            <th scope="row">
+                <a href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                    {{this.Id}}
+                </a>
+            </th>
+            <td>
+                {{this.AbsenceStart}}
+            </td>
+            <td>
+                {{this.AbsenceEnd}}
+            </td>
+            <td>
+                {{this.StatutoryOffset}}
+            </td>                                              
+        </tr>
+        {{/each}}                    
+    </tbody>
+</table>
