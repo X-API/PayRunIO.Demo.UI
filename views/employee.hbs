@@ -19,7 +19,7 @@
 
         <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
             <div class="row actions">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="dropdown show">
                         <a class="btn btn-primary btn-lg dropdown-toggle" 
                             href="#" 
@@ -40,8 +40,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-sm-6">
+                    <p class="text-right">
+                        <a href="http://developer.payrun.io/docs/key-concepts/understanding-pay-instructions.html" target="_blank">
+                            Understanding Pay Instructions
+                        </a>
+                    </p>
+                </div>
+            </div>
+            
             {{#each GroupedPayInstructions}}
                 <div class="row">
                     <div class="col-sm-12">
