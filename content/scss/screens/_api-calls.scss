@@ -33,7 +33,6 @@
 
     .api-calls-container {
         height: 264px;
-        overflow-y: scroll;
         overflow-x: hidden;
 
         .summary {
@@ -48,7 +47,19 @@
         }
 
         .request-and-response {
-            display: none;
+            padding-bottom: 30px;
+
+            h4 {
+                font-family: 'Courier New', Courier, monospace;
+                margin-top: 0px;
+                margin-bottom: 20px;
+            }
+
+            .initial-request-and-response-explanation {
+                text-align: center;
+                padding-top: 20px;
+                font-weight: bold;
+            }
         }
 
         .nav-tabs {
@@ -60,8 +71,7 @@
             padding: 5px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
-            max-height: 250px;
-            overflow-y: scroll;
+            overflow-x: hidden;
             position: relative;
 
             .btn-copy {

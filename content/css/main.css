@@ -36,6 +36,13 @@ body.api-calls-open {
 .card-body {
   background-color: white !important; }
 
+.card.bg-light {
+  margin-bottom: 40px; }
+  .card.bg-light .card-header {
+    padding-top: 20px; }
+    .card.bg-light .card-header h6 {
+      font-size: 18px; }
+
 h4:not(.modal-title) {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -136,7 +143,6 @@ th {
       cursor: pointer; }
   .api-calls .api-calls-container {
     height: 264px;
-    overflow-y: scroll;
     overflow-x: hidden; }
     .api-calls .api-calls-container .summary {
       font-family: monospace;
@@ -146,7 +152,15 @@ th {
         float: right;
         margin-top: 1px; }
     .api-calls .api-calls-container .request-and-response {
-      display: none; }
+      padding-bottom: 30px; }
+      .api-calls .api-calls-container .request-and-response h4 {
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 0px;
+        margin-bottom: 20px; }
+      .api-calls .api-calls-container .request-and-response .initial-request-and-response-explanation {
+        text-align: center;
+        padding-top: 20px;
+        font-weight: bold; }
     .api-calls .api-calls-container .nav-tabs {
       height: 36px;
       font-size: 13px; }
@@ -154,8 +168,7 @@ th {
       padding: 5px;
       font-family: 'Courier New', Courier, monospace;
       font-size: 13px;
-      max-height: 250px;
-      overflow-y: scroll;
+      overflow-x: hidden;
       position: relative; }
       .api-calls .api-calls-container .code-container .btn-copy {
         display: none;

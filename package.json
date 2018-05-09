@@ -41,6 +41,7 @@
     "koa-session": "^5.8.1",
     "koa-session-memory": "^1.0.2",
     "koa-static": "^4.0.2",
+    "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "moment": "^2.22.0",
     "node-sass": "^4.7.2",

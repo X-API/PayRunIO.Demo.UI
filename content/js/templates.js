@@ -18,7 +18,10 @@ $(function() {
 });
 
 function templatesLoaded() {
-    $('script[type="text/x-handlebars-template"]').each(function(){
+    var $items = $('script[type="text/x-handlebars-template"]');
+    var index = 0;
+
+    $items.each(function(){
         var $self = $(this);
         var name = $self.attr("name");
     	var src = $self.html();
@@ -28,8 +31,13 @@ function templatesLoaded() {
     		Handlebars.registerPartial(partialName, src);
         }
     	
-    	Templates[name] = Handlebars.compile(src);
-        Templates.loaded = true;
-        Templates.onLoaded();
+        Templates[name] = Handlebars.compile(src);
+        
+        index++;
+
+        if (index === $items.length) {
+            Templates.loaded = true;
+            Templates.onLoaded();
+        }
     });
 }

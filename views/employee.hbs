@@ -19,9 +19,9 @@
 
         <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
             <div class="row actions">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="dropdown show">
-                        <a class="btn btn-primary dropdown-toggle" 
+                        <a class="btn btn-primary btn-lg dropdown-toggle" 
                             href="#" 
                             role="button" 
                             id="addNewPayInstruction" 
@@ -32,49 +32,39 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SalaryPayInstruction">Salary Instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=TaxPayInstruction">Tax Instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=PrimitivePayInstruction">Primitive instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SalaryPayInstruction">Salary instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=TaxPayInstruction">Tax instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=RatePayInstruction">Rate Pay instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=StudentLoanPayInstruction">Student loan pay instruction</a>
+                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SspPayInstruction">Statutory Sick Pay</a>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <p class="text-right">
+                        <a href="http://developer.payrun.io/docs/key-concepts/understanding-pay-instructions.html" target="_blank">
+                            Understanding Pay Instructions
+                        </a>
+                    </p>
+                </div>
             </div>
 
-            {{#if PayInstructions}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Salary</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each PayInstructions}}
-                    <tr>
-                        <th scope="row">
-                            <a href="/employer/{{../EmployerId}}/employee/{{../Id}}/payInstruction/{{this.Id}}">
-                                {{this.Id}}
-                            </a>
-                        </th>
-                        <td>
-                            {{formatSalary this.AnnualSalary}}
-                        </td>
-                        <td>
-                            {{this.StartDate}}
-                        </td>
-                        <td>
-                            {{this.EndDate}}
-                        </td>
-                        <td>
-                            {{this.Description}}
-                        </td>                                              
-                    </tr>
-                    {{/each}}                    
-                </tbody>
-            </table>
-            {{/if}}                                    
+            {{#each GroupedPayInstructions}}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>{{payInstructionFriendlyName InstructionType}}</h6>
+                            </div>
+                            <div class="card-body">
+                                {{payInstructionListPartial this ../this}}
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            {{/each}}                                  
         </div>        
     </div>        
 {{else}}

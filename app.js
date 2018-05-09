@@ -86,7 +86,7 @@ app
         }
     }))
     .use(Helmet())
-    .use(Compress())
+    //.use(Compress())
     .use(BodyParser())
     .use(Serve("./content"))
     .use(router.routes())

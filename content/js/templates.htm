@@ -2,7 +2,7 @@
     <div class="card bg-dark">
         <div class="card-header">
             <h5>
-                Pay run info
+                Job info
 
                 <span class="close">
                     <i class="fa fa-window-close" aria-hidden="true"></i>
@@ -10,21 +10,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <div class="job-info">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <strong>Progress</strong>
-                    </div>
-            
-                    <div class="col-sm-12">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                role="progressbar"
-                                style="width: {{Progress}}"></div>
-                        </div>        
-                    </div>
-                </div>
-                                    
+            <div class="job-info">                                    
                 {{#if Errors}}
                     <div class="row">
                         <div class="col-sm-12">
@@ -32,13 +18,23 @@
                                 <p><strong>This job contains the following errors:</strong></p>
             
                                 <ul>
-                                    {{#each Errors.Error}}
+                                    {{#each Errors}}
                                         <li>{{this}}</li>
                                     {{/each}}
                                 </ul>
                             </div>            
                         </div>
                     </div>
+                {{else}}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                    role="progressbar"
+                                    style="width: {{Progress}}%"></div>
+                            </div>        
+                        </div>
+                    </div>                
                 {{/if}}
             </div> 
         </div>
@@ -46,62 +42,82 @@
 </script>
 
 <script id="apiCallsTemplate" name="apiCallsTemplate" type="text/x-handlebars-template">
-    {{#each data}}
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 summary" data-id="{{id}}">
-                <span>
-                    {{method}} 
-                    <strong>/{{relativeUri}}</strong>
-                </span>
-
-                <em>
-                    <i class="fas fa-chevron-right"></i>
-                </em>
-            </div>
-            <div class="col-sm-9 request-and-response" data-id="{{id}}">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request-{{id}}">Request</a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-response-{{id}}">Response</a>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-request-{{id}}">
-                        <div class="code-container">
-                            <button type="button" 
-                                class="btn btn-secondary btn-sm btn-copy" 
-                                title="Copied!"                  
-                                data-tippy-trigger="click" 
-                                data-original-title="" 
-                                data-tippy-arrow="true" 
-                                data-tippy-placement="top">Copy</button>
-        
-                            <code>
-                                curl -X {{method}} \
-                                    <span>{{uri}} \</span>
-                                    <span>-H 'Accept: {{headers.Accept}}' \</span>
-                                    <span>-H 'Api-Version: default' \</span>
-                                    <span>-H 'Authorization: {{headers.Authorization}}' \</span>
-                                    <span>-H 'Cache-Control: no-cache' \</span>
-                                    <span>-H 'Content-type: {{headers.Accept}}' \</span>
-        
-                                    {{#if hasRequestBody}}
-                                    <span>-d '{{{requestBody}}}'</span>
-                                    {{/if}}
-                            </code>
+            <div class="col-sm-4">
+                {{#each data}}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="summary" data-id="{{id}}">
+                            <span>
+                                {{method}} 
+                                <strong>/{{relativeUri}}</strong>
+                            </span>
+            
+                            <em>
+                                <i class="fas fa-chevron-right"></i>
+                            </em>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-response-{{id}}">
-                        <div class="code-container">
-                            <code>
-                                {{{response}}}
-                            </code>
-                        </div> 
-                    </div>
-                </div>                                                         
+                </div>
+        
+                <hr>
+                {{/each}}
+            </div>
+
+            <div class="col-sm-8 request-and-response">
+                <div class="initial-request-and-response-explanation">
+                    <p>Click on a request to view the request and response details here</p>
+                </div>
             </div>
         </div>
+    </div>
+</script>
 
-        <hr>
-    {{/each}}
+<script id="apiCallDetailsTemplate" name="apiCallDetailsTemplate" type="text/x-handlebars-template">
+    <h4>
+        {{method}} 
+        <strong>/{{relativeUri}}</strong>        
+    </h4>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-response">Response</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-request">
+            <div class="code-container">
+                <button type="button" 
+                    class="btn btn-secondary btn-sm btn-copy" 
+                    title="Copied!"                  
+                    data-tippy-trigger="click" 
+                    data-original-title="" 
+                    data-tippy-arrow="true" 
+                    data-tippy-placement="top">Copy</button>
+
+                <code>
+                    curl -X {{method}} \
+                        <span>{{uri}} \</span>
+                        <span>-H 'Accept: {{headers.Accept}}' \</span>
+                        <span>-H 'Api-Version: default' \</span>
+                        <span>-H 'Authorization: {{headers.Authorization}}' \</span>
+                        <span>-H 'Cache-Control: no-cache' \</span>
+                        <span>-H 'Content-type: {{headers.Accept}}' \</span>
+
+                        {{#if hasRequestBody}}
+                        <span>-d '{{{requestBody}}}'</span>
+                        {{/if}}
+                </code>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-response">
+            <div class="code-container">
+                <code>
+                    {{{response}}}
+                </code>
+            </div> 
+        </div>
+    </div>                                                         
 </script>

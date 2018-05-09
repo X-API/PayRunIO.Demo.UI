@@ -17,7 +17,10 @@ module.exports = class JobController extends BaseController {
             let body = response.JobInfo;
 
             if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
-                ctx.body = body;
+                ctx.body = {
+                    Progress: parseFloat(body.Progress) * 100,
+                    Errors: body.Errors && body.Errors.Error.length > 0 ? body.Errors.Error : null
+                };
             }
             else {
                 body.title = type === "payrun" ? "Pay Run Info" : "RTI Full Payment Submission";

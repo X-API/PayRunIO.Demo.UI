@@ -46,11 +46,15 @@ module.exports = class APIWrapper {
         for (let link of links) {
             let href = link["@href"];
             let wrapper = await this.get(href);
-            let item = wrapper[Object.keys(wrapper)[0]];
+            let objType = Object.keys(wrapper)[0];
+            let item = wrapper[objType];
             let parts = href.split("/");
             let id = getIdCallback ? getIdCallback(href) : parts[parts.length - 1];
 
-            items.push(Object.assign(item, { Id: id }));
+            items.push(Object.assign(item, {
+                Id: id,
+                ObjectType: objType
+            }));
         }
 
         return items;
@@ -138,7 +142,7 @@ module.exports = class APIWrapper {
       
         Object.keys(cleanObj).forEach(key => {
             if (cleanObj[key] && typeof cleanObj[key] === "object") {
-                let childObj = cleanObj[key];   
+                let childObj = cleanObj[key];
                             
                 childObj = this.cleanObject(cleanObj[key]);
 
