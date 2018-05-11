@@ -1,6 +1,6 @@
 const BaseInstruction = require("./BaseInstruction");
 
-module.exports = class AbsencePayInstruction extends BaseInstruction {
+module.exports = class AoePayInstruction extends BaseInstruction {
     get canInstructionsOverlap() {
         return true;
     }
@@ -8,11 +8,11 @@ module.exports = class AbsencePayInstruction extends BaseInstruction {
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
-        if (cleanBody.StatutoryOffset && cleanBody.StatutoryOffset.toLowerCase() === "on") {
-            cleanBody.StatutoryOffset = true;
+        if (cleanBody.ClaimAdminFee && cleanBody.ClaimAdminFee.toLowerCase() === "on") {
+            cleanBody.ClaimAdminFee = true;
         }
         else {
-            cleanBody.StatutoryOffset = false;
+            cleanBody.ClaimAdminFee = false;
         }
 
         return cleanBody;

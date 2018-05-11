@@ -6,7 +6,8 @@ const typesAndFriendlyNames = {
     "NiAdjustmentPayInstruction": "NI adjustment pay instructions",
     "StudentLoanPayInstruction": "Student loan pay instructions",
     "SalaryPayInstruction": "Salary pay instructions",
-    "SspPayInstruction": "Statutory Sick Pay"
+    "SspPayInstruction": "Statutory Sick Pay",
+    "AoePayInstruction": "Attachment of Earnings"
 };
 
 module.exports = (payInstructionType, options) => {
