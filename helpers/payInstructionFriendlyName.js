@@ -3,6 +3,7 @@ const typesAndFriendlyNames = {
     "PrimitivePayInstruction": "Primitive pay instructions",
     "TaxPayInstruction": "Tax pay instructions",
     "NiPayInstruction": "NI pay instructions",
+    "NiAdjustmentPayInstruction": "NI adjustment pay instructions",
     "StudentLoanPayInstruction": "Student loan pay instructions",
     "SalaryPayInstruction": "Salary pay instructions",
     "SspPayInstruction": "Statutory Sick Pay"
