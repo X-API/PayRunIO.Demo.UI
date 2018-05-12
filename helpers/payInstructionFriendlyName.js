@@ -1,14 +1,15 @@
 const typesAndFriendlyNames = {
-    "RatePayInstruction": "Rate pay instructions",
-    "PrimitivePayInstruction": "Primitive pay instructions",
-    "TaxPayInstruction": "Tax pay instructions",
-    "NiPayInstruction": "NI pay instructions",
-    "NiAdjustmentPayInstruction": "NI adjustment pay instructions",
-    "StudentLoanPayInstruction": "Student loan pay instructions",
-    "SalaryPayInstruction": "Salary pay instructions",
+    "RatePayInstruction": "Rate pay",
+    "PrimitivePayInstruction": "Primitive pay",
+    "TaxPayInstruction": "Tax",
+    "NiPayInstruction": "NI",
+    "NiAdjustmentPayInstruction": "NI adjustment",
+    "StudentLoanPayInstruction": "Student loan",
+    "SalaryPayInstruction": "Salary",
     "SspPayInstruction": "Statutory Sick Pay",
     "AoePayInstruction": "Attachment of Earnings",
-    "ShppPayInstruction": "Shared Parental Leave and Pay"
+    "ShppPayInstruction": "Shared Parental Leave and Pay",
+    "SmpPayInstruction": "Statutory Maternity Pay"
 };
 
 module.exports = (payInstructionType, options) => {
