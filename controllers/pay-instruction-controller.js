@@ -36,7 +36,8 @@ module.exports = class PayInstructionController extends BaseController {
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
                 { Name: "Pay instruction" }
-            ]
+            ],
+            layout: "modal"
         };
 
         if (ctx.query && ctx.query.type) {
@@ -94,7 +95,8 @@ module.exports = class PayInstructionController extends BaseController {
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
                 { Name: "Pay instruction" }
-            ]
+            ],
+            layout: "modal"
         });
 
         await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));

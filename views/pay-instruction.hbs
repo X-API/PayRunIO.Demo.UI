@@ -4,18 +4,10 @@
 <form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction" data-parsley-validate>
 {{/if}}
 
-    {{>breadcrumbs}}
-
     {{>validationErrors}}
 
     {{#if EnableForm}}
         {{payInstructionPartial this}}
-
-        <div class="row">
-            <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-            </div>
-        </div>
     {{else}}
         <div class="card bg-light">
             <div class="card-header">Instructions</div>
