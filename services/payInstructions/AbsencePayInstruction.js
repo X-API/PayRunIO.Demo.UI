@@ -1,6 +1,10 @@
 const BaseInstruction = require("./BaseInstruction");
 
 module.exports = class AbsencePayInstruction extends BaseInstruction {
+    get name() {
+        return "Absence";
+    }
+
     get canInstructionsOverlap() {
         return true;
     }

@@ -1,6 +1,10 @@
 const AbsencePayInstruction = require("./AbsencePayInstruction");
 
 module.exports = class SmpPayInstruction extends AbsencePayInstruction {
+    get name() {
+        return "Statutory Maternity Pay";
+    }
+
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
