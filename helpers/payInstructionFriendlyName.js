@@ -1,17 +1,9 @@
-const typesAndFriendlyNames = {
-    "RatePayInstruction": "Rate pay",
-    "PrimitivePayInstruction": "Primitive pay",
-    "TaxPayInstruction": "Tax",
-    "NiPayInstruction": "NI",
-    "NiAdjustmentPayInstruction": "NI adjustment",
-    "StudentLoanPayInstruction": "Student loan",
-    "SalaryPayInstruction": "Salary",
-    "SspPayInstruction": "Statutory Sick Pay",
-    "AoePayInstruction": "Attachment of Earnings",
-    "ShppPayInstruction": "Shared Parental Leave and Pay",
-    "SmpPayInstruction": "Statutory Maternity Pay"
-};
+const path = require("path");
 
 module.exports = (payInstructionType, options) => {
-    return typesAndFriendlyNames[payInstructionType];
+    let piFile = path.join(__dirname, "..", "services", "payInstructions", payInstructionType);
+    let pi = require(piFile);
+    let instance = new pi();
+
+    return instance.name;
 };
