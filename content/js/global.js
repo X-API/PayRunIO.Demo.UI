@@ -95,14 +95,19 @@ function setAPICallsHeight(height) {
     return false;
 }
 
-function showValidationErrors(errors) {
+function showValidationErrors(errors, modal) {
     // hide any successful status messages that are currently being shown
     $(".alert-success").hide();
     
     var errorMessages = errors.map(function(error) { 
         return "<li>" + error + "</li>";
     });
+
     var $validationErrors = $("#validation-errors");
+
+    if (modal) {
+        $validationErrors = $("#myModal").find("#validation-errors");
+    }
 
     $validationErrors.find("ul").html(errorMessages);
     $validationErrors.show();

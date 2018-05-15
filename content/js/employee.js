@@ -15,20 +15,23 @@ $(function() {
         e.preventDefault();
 
         var action = this.action;
-
-        var data = [];
+        var data = {};
 
         $(this).serializeArray().forEach(function(x) {
             data[x.name] = x.value;
         });
 
         $.post(action, data).done(function(data) {
-            if (data.errors) {
-                showValidationErrors(data.errors);
+            if (data.Errors.length > 0) {
+                showValidationErrors(data.Errors, true);
                 return;
             }
 
-            // todo: redirect to self with pay instruction saved query string. 
+            var baseUrl = window.location.href.split('?')[0];
+            var rand = Math.random();
+            var urlToRedirectTo = baseUrl + "?status=Pay instructions saved&statusType=success&rand=" + rand + "#instructions";
+
+            window.location.replace(urlToRedirectTo);
         });
     });    
 
