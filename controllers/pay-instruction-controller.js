@@ -59,6 +59,14 @@ module.exports = class PayInstructionController extends BaseController {
         request[instructionType] = cleanBody;
 
         let response = await apiWrapper.post(apiRoute, request);
+
+        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+            ctx.body = {
+                Errors: ValidationParser.extractErrors(response)
+            };
+            return;
+        }
+
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
@@ -115,6 +123,14 @@ module.exports = class PayInstructionController extends BaseController {
         request[instructionType] = cleanBody;
 
         let response = await apiWrapper.put(apiRoute, request);
+
+        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+            ctx.body = {
+                Errors: ValidationParser.extractErrors(response)
+            };
+            return;
+        }
+
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {

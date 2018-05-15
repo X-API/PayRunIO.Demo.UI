@@ -1,7 +1,7 @@
 {{#if Id}}
-<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction/{{Id}}" data-parsley-validate>
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction/{{Id}}" class="pay-instruction" data-parsley-validate>
 {{else}}
-<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction" data-parsley-validate>
+<form method="POST" action="/Employer/{{EmployerId}}/employee/{{EmployeeId}}/payInstruction" class="pay-instruction" data-parsley-validate>
 {{/if}}
 
     {{>validationErrors}}
@@ -22,3 +22,5 @@
     <input type="hidden" value="{{MinStartDate}}" name="MinStartDate">
     <input type="hidden" value="{{InstructionType}}" name="InstructionType">
 </form>
+
+<script src="/js/pay-instruction.js"></script>

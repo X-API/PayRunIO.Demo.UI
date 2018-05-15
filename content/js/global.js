@@ -34,19 +34,33 @@ $(function() {
     $('.launch-modal').on('click', function(e){
         e.preventDefault();
 
+        var $modal = $('#myModal');
+
         if (this.hasAttribute("data-modal-title")) {
             var title = this.getAttribute("data-modal-title");
-            $('#myModal').find('h4.modal-title').text(title);
+
+            $modal.find('h4.modal-title').text(title);
         }
 
-        $('#myModal').modal('show').find('.modal-body').load($(this).attr('href'));
+        $modal.find('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm");
+
+        if (this.hasAttribute("data-modal-size")) {
+            var size = this.getAttribute("data-modal-size");
+
+            $modal.find('.modal-dialog').addClass(size);
+        }
+
+        $modal.modal('show').find('.modal-body').load($(this).attr('href'));
     });
 
     $('#myModal button[type=submit]').on('click', function(e) {
         var form = $('#myModal form');
-        //if (form.valid()) {
+
+        form.parsley().validate();
+
+        if (form.parsley().isValid()) {
             form.submit();
-        //}
+        }
     });
 
     window.Parsley.on("form:success", function(e) {
