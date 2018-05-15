@@ -127,7 +127,22 @@ module.exports = class PayInstructionController extends BaseController {
     }
 
     async deleteInstruction(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let payInstructionId = ctx.params.payInstructionId;
+        
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {};
+        }
     }
 
     async canInstructionBeAdded({ employerId, employeeId, type }) {

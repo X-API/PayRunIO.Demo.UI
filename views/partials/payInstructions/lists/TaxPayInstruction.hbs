@@ -6,6 +6,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Description</th>
+            <th width="50px"></th>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +28,16 @@
             </td>
             <td>
                 {{this.Description}}
-            </td>                                              
+            </td>
+            <td>
+                <button type="button" 
+                    class="btn btn-danger btn-sm btn-delete-instruction" 
+                    data-employer-id="{{../ParentContext.EmployerId}}" 
+                    data-employee-id="{{../ParentContext.Id}}" 
+                    data-id="{{this.Id}}">
+                    Delete
+                </button>                
+            </td>                                         
         </tr>
         {{/each}}                    
     </tbody>
