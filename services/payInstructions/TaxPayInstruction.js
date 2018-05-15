@@ -1,11 +1,11 @@
 const BaseInstruction = require("./BaseInstruction");
 
 module.exports = class TaxPayInstruction extends BaseInstruction {
-    get canInstructionsOverlap() {
-        return false;
+    get name() {
+        return "Tax";
     }
 
-    parseForApi(body) {
-        return super.parseForApi(body);
+    get canInstructionsOverlap() {
+        return false;
     }
 };
