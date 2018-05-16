@@ -36,7 +36,8 @@ module.exports = class PayInstructionController extends BaseController {
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
                 { Name: "Pay instruction" }
-            ]
+            ],
+            layout: "modal"
         };
 
         if (ctx.query && ctx.query.type) {
@@ -58,6 +59,14 @@ module.exports = class PayInstructionController extends BaseController {
         request[instructionType] = cleanBody;
 
         let response = await apiWrapper.post(apiRoute, request);
+
+        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+            ctx.body = {
+                Errors: ValidationParser.extractErrors(response)
+            };
+            return;
+        }
+
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
@@ -94,7 +103,8 @@ module.exports = class PayInstructionController extends BaseController {
                 { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
                 { Name: "Pay instruction" }
-            ]
+            ],
+            layout: "modal"
         });
 
         await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
@@ -113,6 +123,14 @@ module.exports = class PayInstructionController extends BaseController {
         request[instructionType] = cleanBody;
 
         let response = await apiWrapper.put(apiRoute, request);
+
+        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+            ctx.body = {
+                Errors: ValidationParser.extractErrors(response)
+            };
+            return;
+        }
+
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
 
         if (ValidationParser.containsErrors(response)) {
@@ -127,7 +145,22 @@ module.exports = class PayInstructionController extends BaseController {
     }
 
     async deleteInstruction(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let payInstructionId = ctx.params.payInstructionId;
+        
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {};
+        }
     }
 
     async canInstructionBeAdded({ employerId, employeeId, type }) {

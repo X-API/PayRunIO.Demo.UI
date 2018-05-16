@@ -2,9 +2,10 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Absence Start</th>
-            <th>Absence End</th>
-            <th>Statutory Offset?</th>
+            <th>CaseNumber</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Description</th>
             <th width="50px"></th>
         </tr>
     </thead>
@@ -17,13 +18,16 @@
                 </a>
             </th>
             <td>
-                {{this.AbsenceStart}}
+                {{this.CaseNumber}}
+            </td>           
+            <td>
+                {{this.StartDate}}
             </td>
             <td>
-                {{this.AbsenceEnd}}
+                {{this.EndDate}}
             </td>
             <td>
-                {{this.StatutoryOffset}}
+                {{this.Description}}
             </td>
             <td>
                 <button type="button" 

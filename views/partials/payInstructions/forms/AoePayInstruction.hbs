@@ -1,0 +1,258 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="StartDate">Start date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StartDate" 
+                name="StartDate" 
+                value="{{StartDate}}" 
+                placeholder="The date the instruction will come into effect." 
+                required 
+                data-required-message="Start date is required"
+                {{minStartDate MinStartDate}}>
+
+            <span class="notes">
+                The date the instruction will come into effect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="EndDate" 
+                name="EndDate" 
+                value="{{EndDate}}" 
+                placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+            <span class="notes">
+                The date the instruction will end, open ended instructions will run forever.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="CaseNumber">Case number</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="CaseNumber" 
+                name="CaseNumber" 
+                value="{{CaseNumber}}" 
+                placeholder="Attachment of earnings case number" 
+                required 
+                data-required-message="Case number is required">
+
+            <span class="notes">
+                The attachment of earnings case number. Used to uniquely identify the attachment order.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="AoeType">Type</label>
+
+            {{#select AoeType}}
+            <select id="AoeType" name="AoeType" class="form-control">
+                <option value="AEO">AEO</option>
+                <option value="AEOP">AEOP</option>
+                <option value="AEONP">AEONP</option>
+                <option value="CSA">CSA</option>
+                <option value="CSA2012">CSA2012</option>
+                <option value="DEO">DEO</option>
+                <option value="CCPRE92">CCPRE92</option>
+                <option value="CCPOST92">CCPOST92</option>
+                <option value="CTAEO">CTAEO</option>
+                <option value="MCAEO">MCAEO</option>
+                <option value="EA">EA</option>
+                <option value="CMA">CMA</option>
+                <option value="CAO">CAO</option>
+                <option value="ISD">ISD</option>
+                <option value="EA2006">EA2006</option>
+                <option value="CAPS">CAPS</option>
+                <option value="DEA">DEA</option>
+                <option value="DEAHIGHER">DEAHIGHER</option>
+                <option value="DEAFIXED">DEAFIXED</option>
+            </select>
+            {{/select}}
+        </div>
+
+        <div class="form-group">
+            <label for="IssueDate">Issue date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="IssueDate" 
+                name="IssueDate" 
+                value="{{IssueDate}}" 
+                required 
+                data-required-message="Issue date is required">
+
+            <span class="notes">
+                The issue date. The date when the attachment comes into affect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="StopDate">Stop date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StopDate" 
+                name="StopDate" 
+                value="{{StopDate}}">
+
+            <span class="notes">
+                The stop date. The optional date when the attachment ends.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="TotalToPay">Total amount to be paid</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="TotalToPay" 
+                name="TotalToPay" 
+                value="{{formatSalary TotalToPay}}" 
+                step="0.01" 
+                placeholder="Amount to be paid">
+        </div>   
+
+        <div class="form-group">
+            <label for="PreviousPayments">Previous payments</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="PreviousPayments" 
+                name="PreviousPayments" 
+                value="{{formatSalary PreviousPayments}}" 
+                step="0.01" 
+                placeholder="Previous payments">
+
+            <span class="notes">
+                The starting amount already paid. Used when the instruction 
+                started partway through the attachment. For example: when an employee 
+                starts a new job part way through the attachment period and 
+                has already made historic payments.
+            </span>                
+        </div>                                         
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="PreviousArrears">Previous arrears</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="PreviousArrears" 
+                name="PreviousArrears" 
+                value="{{formatSalary PreviousArrears}}" 
+                step="0.01" 
+                placeholder="Previous arrears">
+
+            <span class="notes">
+                The starting amount owed in arrears. Used when the 
+                instruction started partway through the attachment. For example: 
+                when an employee starts a new job part way through the attachment 
+                period and has arrears to be settled.
+            </span>
+        </div> 
+
+        <div class="form-check">
+            <input class="form-check-input" 
+                type="checkbox" 
+                id="ClaimAdminFee" 
+                name="ClaimAdminFee" 
+                {{checkedIf ClaimAdminFee}}>
+
+            <label class="form-check-label" for="ClaimAdminFee">
+                Should the admin fee be collected?
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="ProtectedEarningsAmount">Protected earnings amount</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="ProtectedEarningsAmount" 
+                name="ProtectedEarningsAmount" 
+                value="{{formatSalary ProtectedEarningsAmount}}" 
+                step="0.01" 
+                placeholder="Protected earnings amount">
+
+            <span class="notes">
+                The protected earnings amount. Indicates the amount of earnings 
+                that cannot be collected in repayment of the attachment.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="DeductionAmount">Deduction amount</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="DeductionAmount" 
+                name="DeductionAmount" 
+                value="{{formatSalary DeductionAmount}}" 
+                step="0.01" 
+                placeholder="Deduction amount">
+
+            <span class="notes">
+                The deduction amount. Indicates the fixed amount to be collected in repayment of attachment.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="ProtectedEarningsPercentage">Protected earnings %</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="ProtectedEarningsPercentage" 
+                name="ProtectedEarningsPercentage" 
+                value="{{formatSalary ProtectedEarningsPercentage}}" 
+                step="0.01" 
+                placeholder="Protected earnings %">
+
+            <span class="notes">
+                The protected earnings percentage. Indicates the percentage of 
+                earnings that cannot be collected in repayment of attachment.
+            </span>
+        </div>                                                                
+
+        <div class="form-group">
+            <label for="DeductionPercentage">Deduction %</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="DeductionPercentage" 
+                name="DeductionPercentage" 
+                value="{{formatSalary DeductionPercentage}}" 
+                step="0.01" 
+                placeholder="Deduction %">
+
+            <span class="notes">
+                The deduction percentage. Indicates the percentage amount to be collected in repayment of the attachment.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="Description">Description</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Description" 
+                name="Description" 
+                value="{{Description}}" 
+                placeholder="The pay line descripton override" 
+                maxlength="200">
+
+            <span class="notes">
+                This description will override the default description from the pay code. 
+                See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+            </span>
+        </div>             
+    </div>
+</div>

@@ -1,11 +1,11 @@
 const BaseInstruction = require("./BaseInstruction");
 
 module.exports = class RatePayInstruction extends BaseInstruction {
-    get canInstructionsOverlap() {
-        return true;
+    get name() {
+        return "Rate";
     }
 
-    parseForApi(body) {
-        return super.parseForApi(body);
+    get canInstructionsOverlap() {
+        return true;
     }
 };
