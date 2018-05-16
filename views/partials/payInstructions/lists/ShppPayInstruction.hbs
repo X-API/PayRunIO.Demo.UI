@@ -2,6 +2,8 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Due Date</th>
+            <th>Born Date</th>
             <th>Absence Start</th>
             <th>Absence End</th>
             <th>Statutory Offset?</th>
@@ -16,6 +18,12 @@
                     {{this.Id}}
                 </a>
             </th>
+            <td>
+                {{this.BabyDueDate}}
+            </td>
+            <td>
+                {{this.BabyBornDate}}
+            </td>                        
             <td>
                 {{this.AbsenceStart}}
             </td>

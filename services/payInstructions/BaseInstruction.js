@@ -4,6 +4,10 @@ const moment = require("moment");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class BaseInstruction {
+    get name() {
+        throw Error("get name() needs implementing against each instruction");
+    }
+
     get canInstructionsOverlap() {
         // This property has to be implemented for each new instruction.
     }

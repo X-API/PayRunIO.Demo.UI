@@ -201,6 +201,14 @@ th {
 .pay-run-info .row {
   margin-bottom: 20px; }
 
+.coming-soon {
+  width: 75%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e9ecef;
+  border-radius: 20px;
+  margin-top: 30px; }
+
 input.parsley-error,
 select.parsley-error,
 textarea.parsley-error {

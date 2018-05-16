@@ -1,8 +1,8 @@
 const BaseInstruction = require("./BaseInstruction");
 
-module.exports = class StudentLoanPayInstruction extends BaseInstruction {
+module.exports = class NiPayInstruction extends BaseInstruction {
     get name() {
-        return "Student loan";
+        return "NI";
     }
 
     get canInstructionsOverlap() {

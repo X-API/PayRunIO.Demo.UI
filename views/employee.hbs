@@ -2,14 +2,46 @@
 
 {{>status}}
 
+{{>validationErrors}}
+
 {{#if ShowTabs}}
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Employee</a>
+            <a class="nav-link active" 
+                id="home-tab" 
+                data-toggle="tab" 
+                href="#home" 
+                role="tab" 
+                aria-controls="home" 
+                aria-selected="true">Employee</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab" aria-controls="instructions" aria-selected="false">Instructions</a>
-        </li>        
+            <a class="nav-link" 
+                id="instructions-tab" 
+                data-toggle="tab" 
+                href="#instructions" 
+                role="tab" 
+                aria-controls="instructions" 
+                aria-selected="false">Instructions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" 
+                id="year-to-date-instructions-tab" 
+                data-toggle="tab" 
+                href="#year-to-date-instructions" 
+                role="tab" 
+                aria-controls="year-to-date-instructions" 
+                aria-selected="false">Year To Date Pay Instructions</a>
+        </li>         
+        <li class="nav-item">
+            <a class="nav-link" 
+                id="p45-instruction-tab" 
+                data-toggle="tab" 
+                href="#p45-instruction" 
+                role="tab" 
+                aria-controls="p45-instruction" 
+                aria-selected="false">P45 instruction</a>
+        </li>                
     </ul>
 
     <div class="tab-content" id="myTabContent">
@@ -32,12 +64,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=PrimitivePayInstruction">Primitive instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SalaryPayInstruction">Salary instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=TaxPayInstruction">Tax instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=RatePayInstruction">Rate Pay instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=StudentLoanPayInstruction">Student loan pay instruction</a>
-                            <a class="dropdown-item" href="/employer/{{EmployerId}}/employee/{{Id}}/payInstruction/new?type=SspPayInstruction">Statutory Sick Pay</a>
+                            {{listOfPayInstructionsToAdd this}}                           
                         </div>
                     </div>
                 </div>
@@ -65,7 +92,23 @@
                     </div>
                 </div>
             {{/each}}                                  
-        </div>        
+        </div>
+
+        <div class="tab-pane fade" id="year-to-date-instructions">
+            <div class="coming-soon">
+                <h4>Coming soon!</h4>
+
+                <p>Check soon to see this functionality wired up with the API</p>
+            </div>
+        </div> 
+
+        <div class="tab-pane fade" id="p45-instruction">
+            <div class="coming-soon">
+                <h4>Coming soon!</h4>
+
+                <p>Check soon to see this functionality wired up with the API</p>
+            </div>
+        </div>               
     </div>        
 {{else}}
     {{>employeeForm}}
