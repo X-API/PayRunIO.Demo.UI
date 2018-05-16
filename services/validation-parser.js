@@ -1,6 +1,6 @@
 module.exports = class ValidationParser {
     static containsErrors(response) {
-        return response.ErrorModel;
+        return response && response.ErrorModel;
     }
 
     static extractErrors(response) {

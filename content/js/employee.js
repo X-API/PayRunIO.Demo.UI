@@ -57,7 +57,8 @@ $(function() {
                         var $tr = $self.closest("tr");
 
                         $tr.find("td").fadeOut("fast", function() { 
-                            $tr.remove();                    
+                            $tr.remove();
+                            showStatus("Instruction successfully deleted", "success");
                         });
                     });
                 }

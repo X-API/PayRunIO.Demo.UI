@@ -117,6 +117,23 @@ function showValidationErrors(errors, modal) {
     }, 500);    
 }
 
+function showStatus(message, type) {
+    var $alert = $(".status.alert");
+
+    $alert
+        .removeClass("alert-")
+        .removeClass("alert-primary")
+        .removeClass("alert-secondary")
+        .removeClass("alert-success")
+        .removeClass("alert-danger")
+        .removeClass("alert-warning")
+        .removeClass("alert-info")
+        .addClass(`alert-${type}`);
+
+    $alert.find("span").eq(0).html(message);
+    $alert.fadeIn();
+}
+
 function getUrlVars() {
     var output = [];
     var parts = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
