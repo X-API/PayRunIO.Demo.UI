@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-sm">
     <thead>
         <tr>
             <th>Id</th>
@@ -12,7 +12,7 @@
         {{#each Instructions}}
         <tr>
             <th scope="row">
-                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="Update instruction" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="SSP Instruction" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
                     {{this.Id}}
                 </a>
             </th>
