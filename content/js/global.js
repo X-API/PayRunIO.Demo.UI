@@ -72,7 +72,9 @@ $(function() {
             return $(this).attr("data-required-message");
         }).toArray();
 
-        showValidationErrors(errorMessages);
+        var modal = this.$element.closest("#myModal").length > 0;
+
+        showValidationErrors(errorMessages, modal);
     });          
 });
 
