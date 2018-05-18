@@ -2,7 +2,7 @@ const BaseInstruction = require("./BaseInstruction");
 
 module.exports = class AoePayInstruction extends BaseInstruction {
     get name() {
-        return "Attachment of Earning";
+        return "Attachment of Earnings";
     }
 
     get canInstructionsOverlap() {

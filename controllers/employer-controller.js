@@ -6,6 +6,7 @@ const EmployerUtils = require("../services/employer-utils");
 const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const EmployerQuery = require("../queries/employer-query");
+const EmployerRevisionsQuery = require("../queries/employer-revisions-query");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -55,6 +56,11 @@ module.exports = class EmployerController extends BaseController {
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
 		let paySchedules = await employerService.getPaySchedules(id);
 		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
+		
+		let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
+		let query = JSON.parse(queryStr);
+		let revisions = await apiWrapper.query(query);
+
 		let payRunCount = 0;
 
 		if (paySchedules.PaySchedulesTable.PaySchedule) {
@@ -77,6 +83,7 @@ module.exports = class EmployerController extends BaseController {
 			PaySchedules: paySchedules,
 			PayRuns: payRunCount > 0,
 			RTITransactions: rtiTransactions,
+			Revisions: revisions,
 			title: response.Employer.Name,
 			Status: StatusUtils.extract(ctx)
 		});

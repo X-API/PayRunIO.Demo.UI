@@ -33,6 +33,29 @@ module.exports = {
                         }
                     ],
                     "Group": [
+                    	{
+	                    	"@ItemName": "Revisions",
+	                        "@Selector": "/Employer/[EmployerKey]/Revisions",
+	                        "Output": [
+	                          { 
+								"@xsi:type": "RenderProperty",
+                                "@Name": "Revision",
+                                "@Property": "Revision"
+							  },
+							  { 
+								"@xsi:type": "RenderProperty",
+                                "@Name": "EffectiveDate",
+                                "@Property": "EffectiveDate",
+                                "@Format": "yyyy-MM-dd"
+							  }
+	                        ],
+                            "Order": [
+                                {
+                                    "@xsi:type": "Descending",
+                                    "@Property": "Revision"
+                                }
+                            ]
+                    	},
                         {
                             "@ItemName": "PaySchedule",
                             "@Selector": "/Employer/[EmployerKey]/PaySchedules",
@@ -83,7 +106,7 @@ module.exports = {
 									"@Name": "EmployeeCount"
 								  }
 		                        ]
-		                      },
+		                    },
 	                            {
                                     "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
                                     "Filter": [

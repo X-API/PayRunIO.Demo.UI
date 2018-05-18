@@ -2,7 +2,7 @@ const BaseInstruction = require("./BaseInstruction");
 
 module.exports = class NiPayInstruction extends BaseInstruction {
     get name() {
-        return "NI";
+        return "National Insurance";
     }
 
     get canInstructionsOverlap() {
