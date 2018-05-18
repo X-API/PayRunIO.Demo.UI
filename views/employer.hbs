@@ -231,7 +231,47 @@
         </div>
 
         <div class="tab-pane fade" id="pensions" role="tabpanel" aria-labelledby="pensions-tab">
-            {{>comingSoon}}
+            <div class="row actions">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary" href="/Employer/{{Id}}/Pension/New" role="button">Add a Pension</a>
+                </div>
+            </div>
+
+            {{#if Pensions}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Scheme</th>
+                        <th scope="col">Provider</th>
+                        <th scope="col">Provider Employer Ref</th>
+                        <th width="50px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each Pensions}}
+                    <tr>
+                        <td>
+                            <a href="/employer/{{../Id}}/Pension/{{this.Id}}">
+                                {{this.Id}}
+                            </a>                            
+                        </td>
+                        <td>{{this.SchemeName}}</td>
+                        <td>{{this.ProviderName}}</td>
+                        <td>{{this.ProviderEmployerRef}}</td>
+                        <td>
+                            <button type="button" 
+                                class="btn btn-danger btn-sm btn-delete-pension" 
+                                data-employer-id="{{../Id}}" 
+                                data-id="{{this.Id}}">
+                                Delete
+                            </button>                             
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
         </div>
 
         <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">

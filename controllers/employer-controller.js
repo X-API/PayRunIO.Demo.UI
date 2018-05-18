@@ -54,6 +54,7 @@ module.exports = class EmployerController extends BaseController {
 		let id = ctx.params.id;
 		let response = await apiWrapper.get(`Employer/${id}`);
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
+		let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
 		let paySchedules = await employerService.getPaySchedules(id);
 		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 		
@@ -65,8 +66,7 @@ module.exports = class EmployerController extends BaseController {
 
 		if (paySchedules.PaySchedulesTable.PaySchedule) {
 			paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
-				if (ps.PayRuns)
-				{
+				if (ps.PayRuns) {
 					payRunCount = payRunCount + ps.PayRuns.length;
 				}
 			});
@@ -80,6 +80,7 @@ module.exports = class EmployerController extends BaseController {
 				{ Name: response.Employer.Name }
 			],
 			Employees: employees,
+			Pensions: pensions,
 			PaySchedules: paySchedules,
 			PayRuns: payRunCount > 0,
 			RTITransactions: rtiTransactions,
