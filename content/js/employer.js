@@ -43,6 +43,34 @@ $(function() {
         });        
     });
 
+    $(".btn-delete-revision").on("click", function(result) {
+        var $self = $(this);
+        var employerId = $self.attr("data-employer-id");
+        var effectiveDate = $self.attr("data-effective-date");
+
+        bootbox.confirm({
+            title: "Are you sure?",
+            message: "Are you sure you want to delete this revision?",
+            callback: function(result) {
+                if (result) {
+                    $.post("/employer/" + employerId + "/" + effectiveDate + "/delete")
+                        .done(function(data) {
+                            if (data.errors) {
+                                showValidationErrors(data.errors);
+                                return;
+                            }
+
+                            var $tr = $self.closest("tr");
+
+                            $tr.find("td").fadeOut("fast", function() { 
+                                $tr.remove();                    
+                            });
+                        });
+                }
+            }
+        });        
+    });
+
     $(".btn-delete-pay-run").on("click", function(result) {
         var $self = $(this);
         var id = $self.attr("data-pay-run-id");

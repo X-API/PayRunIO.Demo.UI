@@ -61,6 +61,8 @@ module.exports = class EmployerController extends BaseController {
 		let query = JSON.parse(queryStr);
 		let revisions = await apiWrapper.query(query);
 
+		let lastPaydate = await apiWrapper.get(`Report/LASTPAYDATE/run/?EmployerKey=${id}`);
+
 		let payRunCount = 0;
 
 		if (paySchedules.PaySchedulesTable.PaySchedule) {
@@ -84,6 +86,7 @@ module.exports = class EmployerController extends BaseController {
 			PayRuns: payRunCount > 0,
 			RTITransactions: rtiTransactions,
 			Revisions: revisions,
+			HeadPaymentDate: lastPaydate.LastPayDateReport.LastPayRun.PaymentDate,
 			title: response.Employer.Name,
 			Status: StatusUtils.extract(ctx)
 		});
@@ -113,4 +116,23 @@ module.exports = class EmployerController extends BaseController {
 
 		await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`);
 	}
+
+	async deleteRevision(ctx) {
+        let employerId = ctx.params.employerId;
+        let revDate = ctx.params.revisionDate;
+        
+        let apiRoute = `/Employer/${employerId}/${revDate}`;
+
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {};
+        }
+    }
+
 };

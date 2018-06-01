@@ -385,7 +385,8 @@
                     </div>
 
                     <h5>Revision History</h5>
-                    <span class="notes">Employer revisions must be deleted in order, validation rules will prevent revisions being deleted if they invalidate an existing payrun.</span>
+                    <p><span class="notes">Employer revisions must be deleted in order, validation rules will prevent revisions being deleted if they invalidate an existing payrun.</span></p>
+                    <p><span class="notes">The most recent payrun with a payment date of <strong>{{HeadPaymentDate}}</strong>, you therefore cannot delete or make changes to the employer before this date without first deleting the payrun.</span></p>
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -400,9 +401,13 @@
                                 <td>{{Revision}}</td>
                                 <td>{{EffectiveDate}}</td>
                                 <td class="text-right">
-                                <a class="btn btn-sm btn-danger" 
-                                    href="#" 
-                                    role="button">Delete</a>
+                                    {{#canDeleteRevision EffectiveDate HeadPaymentDate this }}
+                                    <button type="button" 
+                                        class="btn btn-danger btn-sm btn-delete-revision" 
+                                        data-employer-id="{{../Id}}"
+                                        data-effective-date="{{EffectiveDate}}">Delete
+                                    </button>  
+                                    {{/canDeleteRevision}}
                                 </td>
                             </tr>
                             {{/each}}
