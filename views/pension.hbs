@@ -227,6 +227,49 @@
                             </span>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="ProRataMethod">Pro-Rata method</label>
+
+                            {{#select ProRataMethod}}
+                            <select class="form-control" id="ProRataMethod" name="ProRataMethod" required>
+                                <option value="NotSet">Not set</option>
+                                <option value="Annual260Days">Annual 260 days</option>
+                                <option value="Annual365Days">Annual 365 days</option>
+                                <option value="AnnualQualifyingDays">Annual qualifying days</option>
+                                <option value="DaysPerCalenderMonth">Days per calender month</option>
+                                <option value="DaysPerTaxPeriod">Days per tax period</option>
+                            </select>
+                            {{/select}}
+
+                            <span class="notes">
+                                The pro-rata method option to be used; the default is not set. 
+                                See <a href="http://developer.payrun.io/docs/payroll-help/prorata-calculation-methods.html" target="_blank">Pro-rata Calculation Methods</a> for more information.
+                            </span>
+                        </div> 
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="AECompatible" name="AECompatible" {{checkedIf AECompatible}}>
+
+                            <label class="form-check-label" for="AECompatible">
+                                AE compatible?
+                            </label>
+
+                            <span class="notes">
+                                The Auto Enrolment compatibility indicator. Used to indicate if this pension scheme is compatible with auto enrolment requirements.
+                            </span>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="UseAEThresholds" name="UseAEThresholds" {{checkedIf UseAEThresholds}}>
+
+                            <label class="form-check-label" for="UseAEThresholds">
+                                Use AE thresholds?
+                            </label>
+
+                            <span class="notes">
+                                The Use Auto Enrolment Thresholds indicator. Used to indicate if this pension scheme uses the auto enrolment thresholds.
+                            </span>
+                        </div>                                                                      
                     </div>
                 </div>
 
