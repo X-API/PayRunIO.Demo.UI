@@ -1,6 +1,7 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
+const AppState = require("../app-state");
 
 let apiWrapper = new ApiWrapper();
 
@@ -13,7 +14,7 @@ module.exports = class PensionController extends BaseController {
             EmployerId: employerId,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
-                { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
+                { Name: "Employer", Url: `/employer/${employerId}` },
                 { Name: "Add a new Pension" }
             ]
         }));
