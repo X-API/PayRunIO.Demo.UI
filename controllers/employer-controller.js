@@ -53,8 +53,19 @@ module.exports = class EmployerController extends BaseController {
 	async getEmployerDetails(ctx) {
 		let id = ctx.params.id;
 		let response = await apiWrapper.get(`Employer/${id}`);
+		let employer = response.Employer;
 		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
 		let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
+		let extendedPensions = pensions.map(pension => {
+			if (employer.AutoEnrolment.Pension) {
+				pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
+			}
+			else {
+				pension.UseForAutoEnrolment = false;
+			}
+
+			return pension;
+		});
 		let paySchedules = await employerService.getPaySchedules(id);
 		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 		
@@ -72,25 +83,25 @@ module.exports = class EmployerController extends BaseController {
 			});
 		}
 
-		let body = Object.assign(response.Employer, {
+		let body = Object.assign(employer, {
 			Id: id,
 			ShowTabs: true,
 			Breadcrumbs: [
 				{ Name: "Employers", Url: "/employer" },
-				{ Name: response.Employer.Name }
+				{ Name: employer.Name }
 			],
 			Employees: employees,
-			Pensions: pensions,
+			Pensions: extendedPensions,
 			PaySchedules: paySchedules,
 			PayRuns: payRunCount > 0,
 			RTITransactions: rtiTransactions,
 			Revisions: revisions,
-			title: response.Employer.Name,
+			title: employer.Name,
 			Status: StatusUtils.extract(ctx)
 		});
 
 		// todo: refactor this into session.
-		AppState.currentEmployer = response.Employer;
+		AppState.currentEmployer = employer;
 
 		await ctx.render("employer", await this.getExtendedViewModel(ctx, body));
 	}
