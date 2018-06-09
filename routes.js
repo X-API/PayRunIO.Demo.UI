@@ -10,6 +10,7 @@ const PaySlipController = require("./controllers/pay-slip-controller");
 const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
+const PensionController = require("./controllers/pension-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
@@ -22,6 +23,7 @@ let paySlipController = new PaySlipController();
 let jobController = new JobController();
 let rtiController = new RTIController();
 let apiLoggerController = new APILoggerController();
+let pensionController = new PensionController();
 
 router
     // root/get started
@@ -87,6 +89,13 @@ router
 
     // job
     .get("/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))
+
+    // pension
+    .get("/employer/:employerId/pension", async ctx => await pensionController.getNewPension(ctx))
+    .post("/employer/:employerId/pension", async ctx => await pensionController.postNewPension(ctx))
+    .get("/employer/:employerId/pension/:id", async ctx => await pensionController.getExistingPension(ctx))
+    .post("/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
+    .post("/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))   
 ;
 
 module.exports = router.routes();

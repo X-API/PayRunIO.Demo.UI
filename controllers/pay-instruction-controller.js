@@ -141,7 +141,7 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");        
+        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");
     }
 
     async deleteInstruction(ctx) {
