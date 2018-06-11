@@ -88,6 +88,9 @@ a.btn-default {
     color: #007bff !important; }
   .btn-link.btn-danger {
     color: #dc3545 !important; }
+  .btn-link.btn-default-for-ae {
+    display: block;
+    margin-bottom: 10px; }
 
 .bootbox-close-button {
   display: none; }

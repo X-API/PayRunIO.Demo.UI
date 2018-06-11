@@ -91,6 +91,14 @@ module.exports = class APIWrapper {
         return await this.sendRequest(options);
     }
 
+    async patch(relativeUrl, body) {
+        let options = this.getOptions(relativeUrl, "PATCH");
+
+        options.body = this.cleanObject(body);
+
+        return await this.sendRequest(options);
+    }
+
     async delete(relativeUrl) {
         let options = this.getOptions(relativeUrl, "DELETE");
 

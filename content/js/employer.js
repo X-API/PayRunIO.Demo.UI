@@ -15,6 +15,18 @@ $(function() {
         window.location.hash = this.hash;
     });
 
+    $(".btn-default-for-ae").on("click", function() {
+        var $self = $(this);
+        var id = $self.attr("data-id");
+        var employerId = $self.attr("data-employer-id");
+
+        $.post(`/employer/${employerId}/pension/${id}/ae-default`).done(function() {
+            showStatus("Pension defaulted for auto enrolment", "success");
+
+            $self.fadeOut();
+        });
+    });
+
     $(".btn-delete-pay-schedule").on("click", function(result) {
         var $self = $(this);
         var id = $self.attr("data-pay-schedule-id");

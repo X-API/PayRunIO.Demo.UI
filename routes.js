@@ -95,7 +95,8 @@ router
     .post("/employer/:employerId/pension", async ctx => await pensionController.postNewPension(ctx))
     .get("/employer/:employerId/pension/:id", async ctx => await pensionController.getExistingPension(ctx))
     .post("/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
-    .post("/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))   
+    .post("/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))
+    .post("/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))
 ;
 
 module.exports = router.routes();

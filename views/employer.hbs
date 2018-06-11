@@ -245,7 +245,6 @@
                         <th scope="col">Scheme</th>
                         <th scope="col">Provider</th>
                         <th scope="col">Provider Employer Ref</th>
-                        <th scope="col">Use for Auto Enrolment?</th>
                         <th width="50px"></th>
                     </tr>
                 </thead>
@@ -260,17 +259,18 @@
                         <td>{{this.SchemeName}}</td>
                         <td>{{this.ProviderName}}</td>
                         <td>{{this.ProviderEmployerRef}}</td>
-                        <td class="text-center">
-                            <input class="form-check-input" 
-                                type="checkbox" 
-                                id="UseForAutoEnrolment" 
-                                data-employer-id="{{../Id}}" 
-                                data-id="{{this.Id}}"                                 
-                                {{checkedIf this.UseForAutoEnrolment}}>
-                        </td>
                         <td>
+                            {{#unless this.UseForAutoEnrolment}}
                             <button type="button" 
-                                class="btn btn-danger btn-sm btn-delete-pension" 
+                                class="btn btn-link btn-primary btn-sm btn-default-for-ae" 
+                                data-employer-id="{{../Id}}" 
+                                data-id="{{this.Id}}">
+                                Default for AE
+                            </button>
+                            {{/unless}}
+
+                            <button type="button" 
+                                class="btn btn-link btn-danger btn-sm btn-delete-pension" 
                                 data-employer-id="{{../Id}}" 
                                 data-id="{{this.Id}}">
                                 Delete

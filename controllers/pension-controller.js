@@ -80,4 +80,21 @@ module.exports = class PensionController extends BaseController {
     async postDeletePension(ctx) {
 
     }
+
+    async postAEDefault(ctx) {
+        let id = ctx.params.id;
+        let employerId = ctx.params.employerId;
+
+        let response = await apiWrapper.patch(`/Employer/${employerId}`, {
+            Employer: {
+                AutoEnrolment: {
+                    Pension: {
+                        "@href": `/Employer/${employerId}/Pension/${id}`
+                    }
+                }
+            }
+        });
+
+        return true;
+    }
 };
