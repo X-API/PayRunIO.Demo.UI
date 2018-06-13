@@ -25,4 +25,15 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
 
         return extendedViewModel;
     }
+
+    parseForApi(body) {
+        let employerId = body.EmployerId;
+        let cleanBody = super.parseForApi(body);
+
+        cleanBody.Pension = {
+            "@href": `/Employer/${employerId}/Pension/${body.Pension}`
+        };
+
+        return cleanBody;
+    }
 };
