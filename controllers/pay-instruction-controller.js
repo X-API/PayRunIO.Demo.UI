@@ -3,7 +3,7 @@ const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const moment = require("moment");
 
-const apiWrapper = new ApiWrapper();
+let apiWrapper = new ApiWrapper();
 
 module.exports = class PayInstructionController extends BaseController {
     async requestNewInstruction(ctx) {
@@ -44,7 +44,11 @@ module.exports = class PayInstructionController extends BaseController {
             body.InstructionType = ctx.query.type;
         }
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
+        let instructionTypeInstance = this.getInstructionInstance(instructionType);
+        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);
+
+        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
 
     async addNewInstruction(ctx) {
@@ -107,7 +111,11 @@ module.exports = class PayInstructionController extends BaseController {
             layout: "modal"
         });
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
+        let instructionTypeInstance = this.getInstructionInstance(instructionType);
+        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);        
+
+        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
 
     async saveInstruction(ctx) {

@@ -12,6 +12,11 @@ module.exports = class BaseInstruction {
         // This property has to be implemented for each new instruction.
     }
 
+    async extendViewModel(vm) {
+        // override this to extend the passed in view model with instruction type specific properties. 
+        return vm;
+    }
+
     parseForApi(body) {
         let copy = JSON.parse(JSON.stringify(body));
 
