@@ -31,23 +31,6 @@
             <span class="notes">
                 The date the instruction will end, open ended instructions will run forever.
             </span>
-        </div>             
-
-        <div class="form-group">
-            <label for="DirCalculationMethod">Director calculation method</label>
-
-           {{#select DirCalculationMethod}}
-            <select id="DirCalculationMethod" name="DirCalculationMethod" class="form-control">
-                <option value="Off">Off</option>
-                <option value="AnnualBasis">Annual Basis</option>
-                <option value="AlternativeBasis">Alternative Basis</option>
-            </select>
-            {{/select}}
-
-            <span class="notes">
-                The calculation method to be used when treating and employee as a director. 
-                See <a href="https://developer.payrun.io/docs/payroll-help/employees-as-directors.html" target="_blank">employees as directors</a> for more information.
-            </span>                
         </div>  
         
         <div class="form-group">
@@ -64,7 +47,27 @@
             <span class="notes">
                 The payment code override. If omitted; use value defined in pension scheme.
             </span>
-        </div>  
+        </div> 
+
+        <div class="form-group">
+            <label for="Pension">Pension</label>
+
+            <select class="form-control" 
+                id="Pension" 
+                name="Pension" 
+                required 
+                data-required-message="Pension is required">
+                <option value="">Please Choose...</option>
+
+                {{#each Pensions}}
+                <option value="{{this.Id}}" {{selectedIf Checked}}>{{this.Name}}</option>
+                {{/each}}
+            </select>
+
+            <span class="notes">
+                A link to the related pension scheme.
+            </span>
+        </div>         
 
         <div class="form-group">
             <label for="EmployeeContributionCash">Employee contribution cash</label>
@@ -129,7 +132,9 @@
                 The employer contribution percentage override. If omitted; use value defined in pension scheme.
             </span>
         </div> 
+    </div>
 
+    <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label for="AdditionalVoluntaryContributionCash">Employee additional voluntary cash contribution</label>
 
@@ -210,10 +215,44 @@
             <span class="notes">
                 Determines if the contributions are calculated using the salary sacrifice method. If omitted; use value defined in pension scheme.
             </span>
-        </div>                                                                             
-    </div>
+        </div>
 
-    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="TaxationMethod">Taxation method</label>
+
+            {{#select TaxationMethod}}
+            <select class="form-control" id="TaxationMethod" name="TaxationMethod">
+                <option value="NotSet">Not set</option>
+                <option value="NetBased">Net based</option>
+                <option value="ReliefAtSource">Relief at source</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                The pension calculation taxation method override. If omitted; use value defined in pension scheme.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="ProRataMethod">Pro-Rata method</label>
+
+            {{#select ProRataMethod}}
+            <select class="form-control" id="ProRataMethod" name="ProRataMethod" required>
+                <option value="NotSet">Not set</option>
+                <option value="Annual260Days">Annual 260 days</option>
+                <option value="Annual365Days">Annual 365 days</option>
+                <option value="AnnualQualifyingDays">Annual qualifying days</option>
+                <option value="DaysPerCalenderMonth">Days per calender month</option>
+                <option value="DaysPerTaxPeriod">Days per tax period</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                The pro-rata method option to be used. If omitted; use the value defined in the pension scheme. 
+                See <a href="http://developer.payrun.io/docs/payroll-help/prorata-calculation-methods.html" target="_blank">Pro-rata Calculation Methods</a> for more information.
+            </span>
+        </div>                                                                                              
+
         <div class="form-group">
             <label for="Description">Description</label>
 
