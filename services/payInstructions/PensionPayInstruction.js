@@ -30,6 +30,7 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
         let employerId = body.EmployerId;
         let cleanBody = super.parseForApi(body);
 
+        cleanBody.SalarySacrifice = (cleanBody.SalarySacrifice !== undefined && cleanBody.SalarySacrifice !== null && cleanBody.SalarySacrifice.toLowerCase() === "on");
         cleanBody.Pension = {
             "@href": `/Employer/${employerId}/Pension/${body.Pension}`
         };

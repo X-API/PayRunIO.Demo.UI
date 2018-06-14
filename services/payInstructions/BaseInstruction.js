@@ -1,9 +1,14 @@
 const ApiWrapper = require("../api-wrapper");
 const moment = require("moment");
+const PayInstructionType = require("../../models/PayInstructionType");
 
 let apiWrapper = new ApiWrapper();
 
 module.exports = class BaseInstruction {
+    get type() {
+        return PayInstructionType.normal;
+    }
+
     get name() {
         throw Error("get name() needs implementing against each instruction");
     }
@@ -23,6 +28,7 @@ module.exports = class BaseInstruction {
         // clear out utility properties as otherwise the api will return an error as they are unexpected.
         copy.MinStartDate = null;
         copy.InstructionType = null;
+        copy.EmployerId = null;
 
         return copy;
     }
