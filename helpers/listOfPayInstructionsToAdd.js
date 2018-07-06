@@ -3,7 +3,7 @@ const fs = require("fs");
 const Handlebars = require("handlebars");
 
 module.exports = (ctx, options) => {
-    const excludedFiles = ["AbsencePayInstruction.js", "BaseInstruction.js"];
+    const excludedFiles = ["AbsencePayInstruction.js", "BaseInstruction.js", "yearToDate"];
     let folder = path.join(__dirname, "..", "services", "payInstructions");
     let cssClass = "dropdown-item launch-modal";
 

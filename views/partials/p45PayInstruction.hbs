@@ -1,0 +1,194 @@
+<div class="row actions">
+    <div class="col-sm-12">
+        <button id="add-p45-pay-instruction" type="button" class="btn btn-primary btn-lg btn-block">Add a P45 pay instruction</button>
+    </div>
+</div>
+
+<div id="p45-pay-instruction-container" class="{{visibleIf P45PayInstruction}}">
+    <form method="POST" action="" data-parsley-validate>
+        <h4>P45 pay instruction</h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="StartDate">Start date</label>
+
+                    <input type="date" 
+                        class="form-control" 
+                        id="StartDate" 
+                        name="StartDate" 
+                        value="{{StartDate}}" 
+                        required 
+                        data-required-message="Start date is required">
+
+                    <span class="notes">
+                        The date the instruction will come into effect.
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="EndDate">End date</label>
+
+                    <input type="date" 
+                        class="form-control" 
+                        id="EndDate" 
+                        name="EndDate" 
+                        value="{{EndDate}}">
+
+                    <span class="notes">
+                        The date the instruction will end, open ended instructions will run forever.
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Description">Description</label>
+
+                    <input type="text" 
+                        class="form-control" 
+                        id="Description" 
+                        name="Description" 
+                        value="{{Description}}" 
+                        maxlength="200">
+
+                    <span class="notes">
+                        This description will override the default description from the pay code. 
+                        See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+                    </span>
+                </div> 
+
+                <div class="form-group">
+                    <label for="TaxablePay">Taxable pay</label>
+
+                    <input type="number" 
+                        class="form-control" 
+                        id="TaxablePay" 
+                        name="TaxablePay" 
+                        value="{{formatSalary TaxablePay}}" 
+                        step="0.01"
+                        required 
+                        data-required-message="Taxable pay is required">
+
+                    <span class="notes">
+                        The year to date taxable pay from the previous employment.
+                    </span>
+                </div> 
+
+                <div class="form-group">
+                    <label for="TaxPaid">Tax paid</label>
+
+                    <input type="number" 
+                        class="form-control" 
+                        id="TaxPaid" 
+                        name="TaxPaid" 
+                        value="{{formatSalary TaxPaid}}" 
+                        step="0.01"
+                        required 
+                        data-required-message="Tax paid is required">
+
+                    <span class="notes">
+                        The year to date tax paid from the previous employment.
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="TaxCode">Tax code</label>
+
+                    <input type="text" 
+                        class="form-control" 
+                        id="TaxCode" 
+                        name="TaxCode" 
+                        pattern="^(SD1|SD2|D1|BR|SBR|SD0|D0|NT)$|^[S]?((K{1}[0-9]{1,6})|([0-9]{1,6}[LMNPTYV]{1})$)" 
+                        minlength="2" 
+                        maxlength="7"
+                        required 
+                        data-required-message="Tax code is required">
+
+                    <span class="notes">
+                        The tax code from the previous employment.
+                    </span>
+                </div> 
+
+                <div class="form-group">
+                    <label for="TaxBasis">Tax basis</label>
+
+                    {{#select TaxBasis}}
+                    <select id="TaxBasis" name="TaxBasis" class="form-control" required data-required-message="Tax basis is required">
+                        <option value="Cumulative">Cumulative</option>
+                        <option value="Week1Month1">Week1Month1</option>
+                    </select>
+                    {{/select}}
+                </div>
+
+                <div class="form-group">
+                    <label for="StudentLoan">Student loan</label>
+
+                    {{#select StudentLoan}}
+                    <select id="StudentLoan" name="StudentLoan" class="form-control" required data-required-message="Student loan is required">
+                        <option value="Off">Off</option>
+                        <option value="Plan1">Plan 1</option>
+                        <option value="Plan2">Plan 2</option>
+                    </select>
+                    {{/select}}
+                </div>
+
+                <div class="form-group">
+                    <label for="PayFrequency">Pay frequency</label>
+
+                    {{#select PayFrequency}}
+                    <select id="PayFrequency" name="PayFrequency" class="form-control">
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="TwoWeekly">Two weekly</option>
+                        <option value="FourWeekly">Four weekly</option>
+                        <option value="Yearly">Yearly</option>
+                    </select>
+                    {{/select}}
+                </div>
+
+                <div class="form-group">
+                    <label for="LeavingDate">Leaving date</label>
+
+                    <input type="date" 
+                        class="form-control" 
+                        id="LeavingDate" 
+                        name="LeavingDate" 
+                        value="{{LeavingDate}}" 
+                        required 
+                        data-required-message="Leaving date is required">
+
+                    <span class="notes">
+                        The leaving date from the previous employment.
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="PreviousEmployerPayeRef">Previous employer Paye ref</label>
+
+                    <input type="date" 
+                        class="form-control" 
+                        id="PreviousEmployerPayeRef" 
+                        name="PreviousEmployerPayeRef" 
+                        value="{{PreviousEmployerPayeRef}}" 
+                        maxlength="14" 
+                        pattern="([0-9]{3})/([A-Za-z0-9]{1,10})">
+
+                    <span class="notes">
+                        The previous employer's PAYE scheme reference if known.
+                    </span>
+                </div>                                   
+            </div>
+
+            <div class="col-sm-6">
+                
+            </div>            
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>        
+    </form>
+</div>
+
+<script src="/js/p45-pay-instruction.js"></script>
