@@ -58,10 +58,20 @@ module.exports = class EmployeeController extends BaseController {
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
         let response = await apiWrapper.get(apiRoute);
-        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
-        let groupedPayInstructions = _.groupBy(payInstructions, (pi) => {
+        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`)
+
+        let p45Instruction = payInstructions.find(pi => {
+            return pi.ObjectType === "P45PayInstruction";
+        });
+
+        let filteredPayInstructions = payInstructions.filter(pi => {
+            return pi.ObjectType !== "P45PayInstruction";
+        });
+
+        let groupedPayInstructions = _.groupBy(filteredPayInstructions, (pi) => {
             return pi.ObjectType;
         });
+
         let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
             let instructions = groupedPayInstructions[key];
     
@@ -69,8 +79,9 @@ module.exports = class EmployeeController extends BaseController {
                 InstructionType: key,
                 Instructions: instructions
             };
-        });        
-        let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
+        });
+
+        let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
 
@@ -79,9 +90,10 @@ module.exports = class EmployeeController extends BaseController {
             title: employee.Code,
             EmployerId: employerId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
-            PayInstructions: payInstructions,
+            PayInstructions: filteredPayInstructions,
             GroupedPayInstructions: projectedPayInstructions,
-            CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
+            CanAddANewPayInstruction: filteredPayInstructions.length === 0 || canAddANewPayInstruction,
+            P45PayInstruction: p45Instruction,
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },

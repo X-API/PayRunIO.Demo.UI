@@ -4,5 +4,36 @@ const ValidationParser = require("../services/validation-parser");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class P45InstructionController extends BaseController {
+    async postNewInstruction(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let body = ctx.request.body;
+        let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
 
+        let response = await apiWrapper.post(apiRoute, { P45PayInstruction: body });
+
+        if (ValidationParser.containsErrors(response)) {
+            console.log(ValidationParser.extractErrors(response));
+            return;
+        }
+
+        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#p45-instruction?status=P45 instruction saved&statusType=success`);
+    }
+
+    async postExistingInstruction(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let id = ctx.params.id;
+        let body = ctx.request.body;
+        let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstructions/${id}`;
+
+        let response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
+
+        if (ValidationParser.containsErrors(response)) {
+            console.log(ValidationParser.extractErrors(response));
+            return;
+        }
+
+        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#p45-instruction?status=P45 instruction saved&statusType=success`);
+    }
 };
