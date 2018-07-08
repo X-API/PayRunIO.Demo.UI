@@ -81,6 +81,8 @@ module.exports = class EmployeeController extends BaseController {
             };
         });
 
+        console.log(p45Instruction);
+
         let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);

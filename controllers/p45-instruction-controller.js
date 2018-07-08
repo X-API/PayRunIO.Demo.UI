@@ -13,11 +13,10 @@ module.exports = class P45InstructionController extends BaseController {
         let response = await apiWrapper.post(apiRoute, { P45PayInstruction: body });
 
         if (ValidationParser.containsErrors(response)) {
-            console.log(ValidationParser.extractErrors(response));
             return;
         }
 
-        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#p45-instruction?status=P45 instruction saved&statusType=success`);
+        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}?status=P45 instruction saved&statusType=success#p45-instruction`);
     }
 
     async postExistingInstruction(ctx) {
@@ -25,7 +24,7 @@ module.exports = class P45InstructionController extends BaseController {
         let employeeId = ctx.params.employeeId;
         let id = ctx.params.id;
         let body = ctx.request.body;
-        let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstructions/${id}`;
+        let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
         let response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
 
@@ -34,6 +33,6 @@ module.exports = class P45InstructionController extends BaseController {
             return;
         }
 
-        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#p45-instruction?status=P45 instruction saved&statusType=success`);
+        await ctx.redirect(`/employer/${employerId}/employee/${employeeId}?status=P45 instruction saved&statusType=success#p45-instruction`);
     }
 };

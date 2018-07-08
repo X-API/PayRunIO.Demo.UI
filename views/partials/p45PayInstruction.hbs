@@ -1,4 +1,4 @@
-<div class="row actions">
+<div id="add-p45-pay-instruction-container" class="row actions {{invertedVisibleIf P45PayInstruction}}">
     <div class="col-sm-12">
         <button id="add-p45-pay-instruction" type="button" class="btn btn-primary btn-lg btn-block">Add a P45 pay instruction</button>
     </div>
@@ -6,8 +6,6 @@
 
 <div id="p45-pay-instruction-container" class="{{visibleIf P45PayInstruction}}">
     <form method="POST" action="/Employer/{{EmployerId}}/Employee/{{Id}}/P45Instruction/{{P45PayInstruction.Id}}" data-parsley-validate>
-        <h4>P45 pay instruction</h4>
-
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
@@ -183,7 +181,16 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 text-right">
+            <div class="col-sm-6">
+                <button id="delete-p45-pay-instruction" 
+                    type="button" 
+                    class="btn btn-danger {{visibleIf P45PayInstruction}}" 
+                    data-employee-id="{{Id}}" 
+                    data-employer-id="{{EmployerId}}" 
+                    data-id="{{P45PayInstruction.Id}}">Delete</button>
+            </div>
+
+            <div class="col-sm-6 text-right">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>        

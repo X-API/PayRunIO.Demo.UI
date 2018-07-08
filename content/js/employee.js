@@ -46,7 +46,7 @@ $(function() {
             message: "Are you sure you want to delete this pay instruction?",
             callback: function(result) {
                 if (result) {
-                    var postUrl = "/employer/" + employerId + "/employee/" + employeeId + "/payInstruction/" + id + "/delete";
+                    var postUrl = `/employer/${employerId}/employee/${employeeId}/payInstruction/${id}/delete`;
 
                     $.post(postUrl).done(function(data) {
                         if (data.errors) {
@@ -63,6 +63,6 @@ $(function() {
                     });
                 }
             }
-        });        
+        });
     });    
 });
