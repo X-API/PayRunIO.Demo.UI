@@ -64,7 +64,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
-                            {{listOfPayInstructionsToAdd this}}                           
+                            {{listOfPayInstructionsToAdd this false}}                           
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,48 @@
         </div>               
 
         <div class="tab-pane fade" id="year-to-date-instructions">
-            {{>comingSoon}}
+            <div class="row actions">
+                <div class="col-sm-6">
+                    <div class="dropdown show">
+                        <a class="btn btn-primary dropdown-toggle" 
+                            href="#" 
+                            role="button" 
+                            id="addNewYTDPayInstruction" 
+                            data-toggle="dropdown" 
+                            aria-haspopup="true" 
+                            aria-expanded="false">
+                            Add New YTD Pay Instruction
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="addNewYTDPayInstruction">
+                            {{listOfPayInstructionsToAdd this true}}                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <p class="text-right">
+                        <a href="http://developer.payrun.io/docs/key-concepts/understanding-pay-instructions.html" target="_blank">
+                            Understanding Pay Instructions
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            {{#each GroupedYTDPayInstructions}}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>{{payInstructionFriendlyName InstructionType}}</h6>
+                            </div>
+                            <div class="card-body">
+                                {{payInstructionListPartial this ../this}}
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            {{/each}}            
         </div> 
     </div>        
 {{else}}
