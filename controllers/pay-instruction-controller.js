@@ -188,7 +188,14 @@ module.exports = class PayInstructionController extends BaseController {
     }
 
     getInstructionInstance(type) {
-        const Instruction = require(`../services/payInstructions/${type}`);
+        let Instruction;
+
+        if (type.toLowerCase().indexOf("ytd") !== -1) {
+            Instruction = require(`../services/payInstructions/yearToDate/${type}`);
+        }
+        else {
+            Instruction = require(`../services/payInstructions/${type}`);
+        }
 
         return new Instruction();        
     }

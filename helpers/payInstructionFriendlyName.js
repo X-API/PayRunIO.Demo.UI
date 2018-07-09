@@ -1,7 +1,13 @@
 const path = require("path");
 
 module.exports = (payInstructionType, options) => {
-    let piFile = path.join(__dirname, "..", "services", "payInstructions", payInstructionType);
+    let folder = path.join(__dirname, "../services/payInstructions");
+
+    if (payInstructionType.toLowerCase().indexOf("ytd") !== -1) {
+        folder = path.join(folder, "yearToDate");
+    }
+
+    let piFile = path.join(folder, payInstructionType);
     let pi = require(piFile);
     let instance = new pi();
 
