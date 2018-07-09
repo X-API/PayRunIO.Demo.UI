@@ -60,28 +60,9 @@ module.exports = class EmployeeController extends BaseController {
         let response = await apiWrapper.get(apiRoute);
         let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`)
 
-        let p45Instruction = payInstructions.find(pi => {
-            return pi.ObjectType === "P45PayInstruction";
-        });
-
         let filteredPayInstructions = payInstructions.filter(pi => {
             return pi.ObjectType !== "P45PayInstruction";
         });
-
-        let groupedPayInstructions = _.groupBy(filteredPayInstructions, (pi) => {
-            return pi.ObjectType;
-        });
-
-        let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
-            let instructions = groupedPayInstructions[key];
-    
-            return {
-                InstructionType: key,
-                Instructions: instructions
-            };
-        });
-
-        console.log(p45Instruction);
 
         let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
@@ -93,9 +74,10 @@ module.exports = class EmployeeController extends BaseController {
             EmployerId: employerId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayInstructions: filteredPayInstructions,
-            GroupedPayInstructions: projectedPayInstructions,
+            GroupedPayInstructions: this.getNormalGroupedPayInstructions(filteredPayInstructions),
+            GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(filteredPayInstructions),
             CanAddANewPayInstruction: filteredPayInstructions.length === 0 || canAddANewPayInstruction,
-            P45PayInstruction: p45Instruction,
+            P45PayInstruction: this.getP45PayInstruction(payInstructions),
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
@@ -172,5 +154,48 @@ module.exports = class EmployeeController extends BaseController {
         ctx.set("Content-disposition", "attachment; filename=p60.pdf");
         ctx.set("Content-type", "application/pdf");
         ctx.body = response.body;
+    }
+
+    getP45PayInstruction(instructions) {
+        let p45Instruction = instructions.find(pi => {
+            return pi.ObjectType === "P45PayInstruction";
+        });
+
+        return p45Instruction;
+    }
+
+    getNormalGroupedPayInstructions(instructions) {
+        let filtered = instructions.filter(i => i.ObjectType.toLowerCase().indexOf("ytd") === -1);
+        let grouped = this.getGroupedPayInstructions(filtered);
+
+        return this.getProjectedPayInstructions(grouped);
+    }
+
+    getYTDGroupedPayInstructions(instructions) {
+        let filtered = instructions.filter(i => i.ObjectType.toLowerCase().indexOf("ytd") !== -1);
+        let grouped = this.getGroupedPayInstructions(filtered);
+
+        return this.getProjectedPayInstructions(grouped);
+    }
+
+    getGroupedPayInstructions(instructions) {
+        let groupedPayInstructions = _.groupBy(instructions, (pi) => {
+            return pi.ObjectType;
+        });
+
+        return groupedPayInstructions;
+    }
+
+    getProjectedPayInstructions(groupedPayInstructions) {
+        let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
+            let instructions = groupedPayInstructions[key];
+    
+            return {
+                InstructionType: key,
+                Instructions: instructions
+            };
+        });
+        
+        return projectedPayInstructions;
     }
 };
