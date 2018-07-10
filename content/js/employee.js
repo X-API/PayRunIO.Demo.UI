@@ -21,6 +21,8 @@ $(function() {
             data[x.name] = x.value;
         });
 
+        var it = data.InstructionType.toLowerCase();
+
         $.post(action, data).done(function(data) {
             if (data.Errors.length > 0) {
                 showValidationErrors(data.Errors, true);
@@ -29,7 +31,8 @@ $(function() {
 
             var baseUrl = window.location.href.split('?')[0];
             var rand = Math.random();
-            var urlToRedirectTo = baseUrl + "?status=Pay instructions saved&statusType=success&rand=" + rand + "#instructions";
+            var hash = it.indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
+            var urlToRedirectTo = baseUrl + "?status=Pay instruction saved&statusType=success&rand=" + rand + hash;
 
             window.location.replace(urlToRedirectTo);
         });

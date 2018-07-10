@@ -71,8 +71,6 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
-
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
@@ -81,7 +79,7 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");
+        await this.redirectWithStatus(employerId, employeeId, instructionType);
     }
 
     async getInstruction(ctx) {
@@ -139,8 +137,6 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
-
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
@@ -149,7 +145,7 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");
+        await this.redirectWithStatus(employerId, employeeId, instructionType);
     }
 
     async deleteInstruction(ctx) {
@@ -169,6 +165,13 @@ module.exports = class PayInstructionController extends BaseController {
         else {
             ctx.body = {};
         }
+    }
+
+    async redirectWithStatus(employerId, employeeId, instructionType) {
+        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
+        let hash = instructionType.toLowerCase().indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
+        
+        await ctx.redirect(`${employeeRoute}?status=Pay instruction saved&statusType=success${hash}`);        
     }
 
     async canInstructionBeAdded({ employerId, employeeId, type }) {
