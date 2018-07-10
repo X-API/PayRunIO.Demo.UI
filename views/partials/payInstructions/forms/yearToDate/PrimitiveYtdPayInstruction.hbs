@@ -34,6 +34,24 @@
         </div>
 
         <div class="form-group">
+            <label for="Code">Code</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Code" 
+                name="Code" 
+                value="{{Code}}" 
+                placeholder="Code" 
+                pattern="[A-Za-z0-9]*" 
+                minlength="2" 
+                maxlength="35"
+                required 
+                data-required-message="Code is required">
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
             <label for="Value">Value</label>
 
             <input type="number" 
@@ -47,24 +65,6 @@
                 data-required-message="Value is required">
         </div>
 
-        <div class="form-group">
-            <label for="StudentLoanCalculationMethod">Student loan calculation method</label>
-
-            {{#select StudentLoanCalculationMethod}}
-            <select id="StudentLoanCalculationMethod" 
-                name="StudentLoanCalculationMethod" 
-                class="form-control" 
-                required 
-                data-required-message="Student loan calculation method is required">
-                <option value="Off">Off</option>
-                <option value="Plan1">Plan1</option>
-                <option value="Plan2">Plan2</option>
-            </select>
-            {{/select}}
-        </div> 
-    </div>
-
-    <div class="col-sm-12 col-md-6">
         <div class="form-check">
             <input class="form-check-input" 
                 type="checkbox" 
