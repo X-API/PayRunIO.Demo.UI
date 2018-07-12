@@ -29,10 +29,11 @@ $(function() {
                 return;
             }
 
-            var baseUrl = window.location.href.split('?')[0];
+            var baseUrlWithoutQueryString = window.location.href.split('?')[0];
+            var baseUrlWithoutHash = baseUrlWithoutQueryString.split('#')[0];
             var rand = Math.random();
             var hash = it.indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
-            var urlToRedirectTo = baseUrl + "?status=Pay instruction saved&statusType=success&rand=" + rand + hash;
+            var urlToRedirectTo = baseUrlWithoutHash + "?status=Pay instruction saved&statusType=success&rand=" + rand + hash;
 
             window.location.replace(urlToRedirectTo);
         });
