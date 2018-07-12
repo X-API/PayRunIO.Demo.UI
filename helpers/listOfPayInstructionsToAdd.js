@@ -3,7 +3,12 @@ const fs = require("fs");
 const Handlebars = require("handlebars");
 
 module.exports = (ctx, ytd) => {
-    const excludedFiles = ["AbsencePayInstruction.js", "BaseInstruction.js", "yearToDate"];
+    const excludedFiles = [
+        "AbsencePayInstruction.js",
+        "BaseInstruction.js",
+        "BaseYtdPayInstruction.js",
+        "yearToDate"
+    ];
     
     let folder = path.join(__dirname, "..", "services", "payInstructions");
 
