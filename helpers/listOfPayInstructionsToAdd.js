@@ -7,6 +7,7 @@ module.exports = (ctx, ytd) => {
         "AbsencePayInstruction.js",
         "BaseInstruction.js",
         "BaseYtdPayInstruction.js",
+        "BaseAbsenceYtdPayInstruction.js",
         "yearToDate"
     ];
     
