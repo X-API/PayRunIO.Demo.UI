@@ -9,27 +9,46 @@ module.exports = class PensionYtdPayInstruction extends BaseYtdPayInstruction {
     }
 
     async extendViewModel(vm) {
-        let extendedViewModel = await super.extendViewModel(vm);
+        let evm = await super.extendViewModel(vm);
         let pensions = await apiWrapper.getAndExtractLinks(`Employer/${vm.EmployerId}/Pensions`);
+        let selectedPensionId = "";
 
-        extendedViewModel.Pensions = pensions.map(pension => {
+        if (evm.Pension) {
+            let idParts = evm.Pension["@href"].split('/');
+
+            selectedPensionId = idParts[idParts.length - 1];
+        }
+
+        evm.Pensions = pensions.map(pension => {
             return {
                 Id: pension.Id,
-                Name: `${pension.ProviderName} - ${pension.SchemeName}`
+                Name: `${pension.ProviderName} - ${pension.SchemeName}`,
+                Selected: pension.Id === selectedPensionId
             };
         });
 
-        return extendedViewModel;
+        return evm;
     }
 
     parseForApi(body) {
         let employerId = body.EmployerId;
         let cleanBody = super.parseForApi(body);
 
-        cleanBody.Pension = {
-            "@href": `/Employer/${employerId}/Pension/${body.Pension}`
+        return { 
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            PensionablePay: cleanBody.PensionablePay,
+            Value: cleanBody.Value,
+            EmployerContribution: cleanBody.EmployerContribution,
+            Code: cleanBody.Code,
+            Description: cleanBody.Description,
+            MinStartDate: cleanBody.MinStartDate,
+            InstructionType: cleanBody.InstructionType,
+            EmployerId: cleanBody.EmployerId,
+            IsAdjustment: cleanBody.IsAdjustment,
+            Pension: {
+                "@href": `/Employer/${employerId}/Pension/${body.Pension}`
+            }            
         };
-
-        return cleanBody;
     }    
 };
