@@ -14,7 +14,7 @@
         {{#each Instructions}}
         <tr>
             <th scope="row">
-                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="Student Loan" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="Pension YTD" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
                     {{this.Id}}
                 </a>
             </th>
@@ -25,7 +25,7 @@
                 {{formatSalary this.EmployerContribution}}
             </td>
             <td>
-                {{formatSalary this.Code}}
+                {{this.Code}}
             </td>
             <td>
                 {{this.StartDate}}
