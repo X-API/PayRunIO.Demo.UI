@@ -140,14 +140,24 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label for="KeepInTouchDays">Keep in touch days</label>
+<div class="row keep-in-touch-days">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Keep in touch days</label>
+            </div>
+        </div>
 
-            <div class="add-keep-in-touch-day-container">
-                <button class="btn btn-secondary btn-sm" type="button">Add a keep in touch day</button>
+        <div id="keep-in-touch-days-container"></div>
+
+        <div class="row">
+            <div class="col-sm-12 add-keep-in-touch-day-container">
+                <button id="add-keep-in-touch-day" class="btn btn-secondary btn-sm" type="button">Add a keep in touch day</button>
             </div>
         </div>
     </div>
 </div>
+
+<input id="KeepInTouchDays" type="hidden" name="KeepInTouchDays" value="">
+
+<script src="/js/keep-in-touch-days.js"></script>

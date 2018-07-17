@@ -212,6 +212,9 @@ th {
   border-radius: 20px;
   margin-top: 30px; }
 
+.keep-in-touch-days .keep-in-touch-day {
+  margin-bottom: 5px; }
+
 input.parsley-error,
 select.parsley-error,
 textarea.parsley-error {
