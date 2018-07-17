@@ -1,8 +1,10 @@
 $(function() {
+    bindListOfKeepInTouchDays();
+
     $("#add-keep-in-touch-day").on("click", function() {
         var $container = $("#keep-in-touch-days-container");
-
-        var content = Templates["keepInTouchDayTemplate"]();
+        var obj = { Date: "" };
+        var content = Templates["keepInTouchDayTemplate"](obj);
 
         $container.append(content);
     });
@@ -19,6 +21,20 @@ $(function() {
         updateKeepInTouchDaysHiddenField();
     });
 });
+
+function bindListOfKeepInTouchDays() {
+    var $hiddenField = $("input[type=hidden]#KeepInTouchDays");
+    var values = $hiddenField.val().split("|");
+    var $container = $("#keep-in-touch-days-container");
+
+    for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        var obj = { Date: value };
+        var content = Templates["keepInTouchDayTemplate"](obj);
+
+        $container.append(content);        
+    }
+}
 
 function updateKeepInTouchDaysHiddenField() {
     var $hiddenField = $("input[type=hidden]#KeepInTouchDays");

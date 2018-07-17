@@ -5,6 +5,19 @@ module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction
         return "Statutory Maternity Pay YTD";
     }
 
+    async extendViewModel(vm) {
+        let evm = await super.extendViewModel(vm);
+
+        if (vm.KeepInTouchDays) {
+            evm.CoalescedKeepInTouchDays = vm.KeepInTouchDays.join("|");
+        }
+        else {
+            evm.CoalescedKeepInTouchDays = "";
+        }
+
+        return evm;
+    }    
+
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
