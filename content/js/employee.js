@@ -61,7 +61,14 @@ $(function() {
                         var $tr = $self.closest("tr");
 
                         $tr.find("td").fadeOut("fast", function() { 
+                            var $table = $tr.closest("table");
+
+                            if ($table.find("tbody tr").length < 2) {
+                                $table.closest("div.card").remove();
+                            }                            
+
                             $tr.remove();
+
                             showStatus("Instruction successfully deleted", "success");
                         });
                     });

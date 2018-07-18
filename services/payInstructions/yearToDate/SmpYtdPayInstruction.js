@@ -9,7 +9,7 @@ module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction
         let evm = await super.extendViewModel(vm);
 
         if (vm.KeepInTouchDays) {
-            evm.CoalescedKeepInTouchDays = vm.KeepInTouchDays.join("|");
+            evm.CoalescedKeepInTouchDays = vm.KeepInTouchDays.Date.join("|");
         }
         else {
             evm.CoalescedKeepInTouchDays = "";
@@ -31,7 +31,9 @@ module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction
             WeeksUsed: cleanBody.WeeksUsed,
             Description: cleanBody.Description,
             IsAdjustment: cleanBody.IsAdjustment,
-            //KeepInTouchDays: cleanBody.KeepInTouchDays.split("|"),
+            KeepInTouchDays: {
+                Date: cleanBody.KeepInTouchDays.split("|")
+            },
             MinStartDate: cleanBody.MinStartDate,
             InstructionType: cleanBody.InstructionType,
             EmployerId: cleanBody.EmployerId
