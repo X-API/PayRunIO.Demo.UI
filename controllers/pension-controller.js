@@ -2,12 +2,11 @@ const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const PensionUtils = require("../services/pension-utils");
-const AppState = require("../app-state");
 
 let apiWrapper = new ApiWrapper();
 
 module.exports = class PensionController extends BaseController {
-	async getNewPension(ctx) {
+    async getNewPension(ctx) {
         let employerId = ctx.params.employerId;
 
         await ctx.render("pension", await this.getExtendedViewModel(ctx, {
@@ -77,15 +76,14 @@ module.exports = class PensionController extends BaseController {
         await ctx.redirect(`/employer/${employerId}?status=Pension updated&statusType=success#pensions`);
     }
 
-    async postDeletePension(ctx) {
-
-    }
+    //async postDeletePension(ctx) {
+    //}
 
     async postAEDefault(ctx) {
         let id = ctx.params.id;
         let employerId = ctx.params.employerId;
 
-        let response = await apiWrapper.patch(`/Employer/${employerId}`, {
+        await apiWrapper.patch(`/Employer/${employerId}`, {
             Employer: {
                 AutoEnrolment: {
                     Pension: {

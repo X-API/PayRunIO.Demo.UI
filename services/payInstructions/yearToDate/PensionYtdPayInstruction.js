@@ -14,7 +14,7 @@ module.exports = class PensionYtdPayInstruction extends BaseYtdPayInstruction {
         let selectedPensionId = "";
 
         if (evm.Pension) {
-            let idParts = evm.Pension["@href"].split('/');
+            let idParts = evm.Pension["@href"].split("/");
 
             selectedPensionId = idParts[idParts.length - 1];
         }

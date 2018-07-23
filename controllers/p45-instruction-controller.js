@@ -29,7 +29,6 @@ module.exports = class P45InstructionController extends BaseController {
         let response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
 
         if (ValidationParser.containsErrors(response)) {
-            console.log(ValidationParser.extractErrors(response));
             return;
         }
 

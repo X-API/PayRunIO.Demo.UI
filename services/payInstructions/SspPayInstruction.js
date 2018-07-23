@@ -8,8 +8,6 @@ module.exports = class SspPayInstruction extends AbsencePayInstruction {
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
-        console.log(cleanBody);
-
         return {
             StartDate: cleanBody.StartDate,
             EndDate: cleanBody.EndDate,
@@ -21,6 +19,6 @@ module.exports = class SspPayInstruction extends AbsencePayInstruction {
             MinStartDate: cleanBody.MinStartDate,
             InstructionType: cleanBody.InstructionType,
             EmployerId: cleanBody.EmployerId
-        }
+        };
     }    
 };

@@ -33,7 +33,7 @@ module.exports = class EmployeeUtils {
             }
         } 
         else {
-            copy.NicLiability = "IsFullyLiable"
+            copy.NicLiability = "IsFullyLiable";
         }
 
         if (copy.RuleExclusions) {

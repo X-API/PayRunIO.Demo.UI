@@ -1,7 +1,6 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const moment = require("moment");
 
 let apiWrapper = new ApiWrapper();
 
@@ -75,11 +74,11 @@ module.exports = class PayInstructionController extends BaseController {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
 
-            ctx.redirect(employeeRoute + "/payInstruction/new");
+            ctx.redirect("/payInstruction/new");
             return;
         }
 
-        await this.redirectWithStatus(employerId, employeeId, instructionType);
+        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
     }
 
     async getInstruction(ctx) {
@@ -145,7 +144,7 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        await this.redirectWithStatus(employerId, employeeId, instructionType);
+        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
     }
 
     async deleteInstruction(ctx) {
@@ -167,7 +166,7 @@ module.exports = class PayInstructionController extends BaseController {
         }
     }
 
-    async redirectWithStatus(employerId, employeeId, instructionType) {
+    async redirectWithStatus(ctx, employerId, employeeId, instructionType) {
         let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
         let hash = instructionType.toLowerCase().indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
         

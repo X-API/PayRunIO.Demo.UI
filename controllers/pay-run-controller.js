@@ -1,7 +1,6 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const AppState = require("../app-state");
 const EmployerService = require("../services/employer-service");
 const PayRunUtils = require("../services/pay-run-utils");
 const PayRunG2NQuery = require("../queries/payrun-g2n-query");
@@ -95,7 +94,7 @@ module.exports = class PayRunController extends BaseController {
             EndDate: nextPeriodEnd
         });
 
-        let model = Object.assign(body, { layout: "modal" })
+        let model = Object.assign(body, { layout: "modal" });
         await ctx.render("pay-run-creation", model);
     }
 
@@ -126,7 +125,7 @@ module.exports = class PayRunController extends BaseController {
             EndDate: nextPeriodEnd
         });
 
-        let model = Object.assign(body, { layout: "modal" })
+        let model = Object.assign(body, { layout: "modal" });
         await ctx.render("pay-run-creation", model);
     }
 
@@ -136,7 +135,6 @@ module.exports = class PayRunController extends BaseController {
         let cleanBody = PayRunUtils.parse(body, employerId);
 
         let response = await apiWrapper.post("jobs/payruns", { PayRunJobInstruction: cleanBody });
-        let employerRoute = `/employer/${employerId}`;
 
         if (ValidationParser.containsErrors(response)) {
             let paySchedules = await employerService.getPaySchedules(employerId);
@@ -169,7 +167,8 @@ module.exports = class PayRunController extends BaseController {
         let payRunId = ctx.params.payRunId;
 
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
-        let response = await apiWrapper.delete(apiRoute);
+        
+        await apiWrapper.delete(apiRoute);
 
         // todo: handle error from API
 
@@ -177,7 +176,7 @@ module.exports = class PayRunController extends BaseController {
         await ctx.redirect(route);
     }
 
-    async rerunPayRun(ctx) {
+    /*async rerunPayRun(ctx) {
         let employerId = ctx.params.employerId;
         let scheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
@@ -185,5 +184,5 @@ module.exports = class PayRunController extends BaseController {
         // todo: enqueue re-run job
 
         return true;
-    }
+    }*/
 };

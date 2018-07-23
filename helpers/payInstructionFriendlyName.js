@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.exports = (payInstructionType, options) => {
+module.exports = (payInstructionType) => {
     let folder = path.join(__dirname, "../services/payInstructions");
 
     if (payInstructionType.toLowerCase().indexOf("ytd") !== -1) {

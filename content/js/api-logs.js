@@ -52,13 +52,13 @@ function getLogs() {
 
 function copyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
+    
     textArea.value = text;
+    
     document.body.appendChild(textArea);
+
     textArea.focus();
     textArea.select();
-  
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
   
     document.body.removeChild(textArea);
 }  

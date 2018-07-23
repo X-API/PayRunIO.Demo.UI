@@ -38,8 +38,6 @@ module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction
             InstructionType: cleanBody.InstructionType,
             EmployerId: cleanBody.EmployerId
         };
-
-        console.log(output);
         
         return output;
     }

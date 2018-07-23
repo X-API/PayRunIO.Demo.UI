@@ -10,11 +10,11 @@ module.exports = {
             ]
         },
         "Groups": {
-        	"Group": [
+            "Group": [
                 {
-                	"@GroupName": "Revisions",
-                	"@ItemName": "Revision",
-                	"@Selector": "/Employer/[EmployerKey]/Revisions",
+                    "@GroupName": "Revisions",
+                    "@ItemName": "Revision",
+                    "@Selector": "/Employer/[EmployerKey]/Revisions",
                     "Output": [
                         {
                             "@xsi:type": "RenderProperty",

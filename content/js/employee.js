@@ -2,10 +2,10 @@ $(function() {
     var hash = window.location.hash;
     
     if (hash) {
-        $('ul.nav a[href="' + hash + '"]').tab("show");
+        $(`ul.nav a[href="${hash}"]`).tab("show");
     }
 
-    $(".nav-tabs a").on("click", function (e) {
+    $(".nav-tabs a").on("click", function() {
         $(this).tab("show");
             
         window.location.hash = this.hash;
@@ -29,8 +29,8 @@ $(function() {
                 return;
             }
 
-            var baseUrlWithoutQueryString = window.location.href.split('?')[0];
-            var baseUrlWithoutHash = baseUrlWithoutQueryString.split('#')[0];
+            var baseUrlWithoutQueryString = window.location.href.split("?")[0];
+            var baseUrlWithoutHash = baseUrlWithoutQueryString.split("#")[0];
             var rand = Math.random();
             var hash = it.indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
             var urlToRedirectTo = baseUrlWithoutHash + "?status=Pay instruction saved&statusType=success&rand=" + rand + hash;
@@ -39,7 +39,7 @@ $(function() {
         });
     });    
 
-    $(".btn-delete-instruction").on("click", function(result) {
+    $(".btn-delete-instruction").on("click", function() {
         var $self = $(this);
         var id = $self.attr("data-id");
         var employeeId = $self.attr("data-employee-id");

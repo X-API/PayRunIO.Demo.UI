@@ -17,7 +17,7 @@ module.exports = () => {
     let html = "";
 
     for (let year of years) {
-        html += `<option value="${year.value}">${year.text}</option>`
+        html += `<option value="${year.value}">${year.text}</option>`;
     }
 
     return new Handlebars.SafeString(html);

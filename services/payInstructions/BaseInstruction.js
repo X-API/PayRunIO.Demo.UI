@@ -15,6 +15,7 @@ module.exports = class BaseInstruction {
 
     get canInstructionsOverlap() {
         // This property has to be implemented for each new instruction.
+        return true;
     }
 
     async extendViewModel(vm) {

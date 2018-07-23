@@ -5,7 +5,6 @@ const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
 const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
-const fs = require("fs");
 const _ = require("lodash");
 
 let apiWrapper = new ApiWrapper();
@@ -58,7 +57,7 @@ module.exports = class EmployeeController extends BaseController {
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
         let response = await apiWrapper.get(apiRoute);
-        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`)
+        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
 
         let filteredPayInstructions = payInstructions.filter(pi => {
             return pi.ObjectType !== "P45PayInstruction";
@@ -114,7 +113,7 @@ module.exports = class EmployeeController extends BaseController {
                 ]
             });
 
-            await ctx.render("employee", await this.getExtendedViewModel(ctx, body));
+            await ctx.render("employee", await this.getExtendedViewModel(ctx, extendedBody));
             return;
         }
         

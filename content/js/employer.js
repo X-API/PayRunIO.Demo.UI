@@ -2,14 +2,14 @@ $(function() {
     var hash = window.location.hash;
     
     if (hash) {
-        $('ul.nav a[href="' + hash + '"]').tab("show");
+        $(`ul.nav a[href="${hash}"]`).tab("show");
     }
 
     if (getUrlVars().jobId) {
         bindJobInfo();
     }
 
-    $(".nav-tabs a").on("click", function (e) {
+    $(".nav-tabs a").on("click", function() {
         $(this).tab("show");
             
         window.location.hash = this.hash;
@@ -27,7 +27,7 @@ $(function() {
         });
     });
 
-    $(".btn-delete-pay-schedule").on("click", function(result) {
+    $(".btn-delete-pay-schedule").on("click", function() {
         var $self = $(this);
         var id = $self.attr("data-pay-schedule-id");
         var employerId = $self.attr("data-employer-id");
@@ -55,7 +55,7 @@ $(function() {
         });        
     });
 
-    $(".btn-delete-pay-run").on("click", function(result) {
+    $(".btn-delete-pay-run").on("click", function() {
         var $self = $(this);
         var id = $self.attr("data-pay-run-id");
         var scheduleId = $self.attr("data-pay-schedule-id");
@@ -69,9 +69,10 @@ $(function() {
                     $.post("/employer/" + employerId + "/paySchedule/" + scheduleId + "/PayRun/" + id + "/delete")
                         .done(function() {
                             var $tr = $self.closest("tr");
-                             $tr.find("td").fadeOut("fast", function() { 
-                                 $tr.remove();                    
-                             });
+                            
+                            $tr.find("td").fadeOut("fast", function() { 
+                                $tr.remove();                    
+                            });
                         })
                         .fail(function(xhr, status, error) {
                             alert(error);
@@ -108,7 +109,7 @@ function bindJobInfo() {
                     closeJobInfo();
 
                     var url = window.location.href;
-                    var urlWithoutQs = $.trim(url.split('?')[0]);
+                    var urlWithoutQs = $.trim(url.split("?")[0]);
                     var urlWithStatus = urlWithoutQs + "?status=Pay run ran successfully&statusType=success#runs";
 
                     window.location.href = urlWithStatus;

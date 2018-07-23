@@ -6,7 +6,6 @@ let apiWrapper = new ApiWrapper();
 module.exports = class PaySlipController extends BaseController {
     async getPaySlipData(ctx) {
         let employerId = ctx.params.employerId;
-        let employeeId = ctx.params.employeeId;
         let code = ctx.params.code;
         let taxPeriod = ctx.params.taxPeriod;
         let taxYear = ctx.params.taxYear;

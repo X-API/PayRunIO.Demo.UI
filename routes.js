@@ -43,7 +43,7 @@ router
     .get("/employer/new", async ctx => await employerController.requestNewEmployer(ctx))
     .get("/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
     .post("/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
-    .post("/employer/:id/delete", async ctx => { })
+    //.post("/employer/:id/delete", async ctx => { })
 
     // pay schedule
     .get("/employer/:employerId/paySchedule/new", async ctx => await payScheduleController.requestNewSchedule(ctx))
@@ -57,11 +57,11 @@ router
     .post("/employer/:employerId/employee", async ctx => await employeeController.addNewEmployee(ctx))
     .get("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx))
     .post("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx))
-    .get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
-    .get("/employer/:employerId/employee/:employeeId/p45", async ctx => { })
+    //.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
+    //.get("/employer/:employerId/employee/:employeeId/p45", async ctx => { })
     .get("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
     .post("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
-    .post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
+    //.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
 
     // pay instruction
     .get("/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))

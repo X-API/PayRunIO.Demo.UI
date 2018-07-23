@@ -10,4 +10,4 @@ module.exports = class Constants {
     static get consumerSecret() {
         return "k55ebIyfF0ehiO4VY6SibA1Q90Nf3n0q6ylYGusp1lg";
     }  
-}
+};

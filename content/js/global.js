@@ -2,14 +2,14 @@ $(function() {
     var openAPICallsOnLoad = $("input[type=hidden]#open-api-calls").val().toLowerCase() === "true";
     var apiCallsHeight = $("input[type=hidden]#api-calls-height").val();
 
-    var resizeable = $(".api-calls").resizable({
+    $(".api-calls").resizable({
         handleSelector: ".row.resize-handle",
         resizeWidth: false,
         resizeHeight: true,
         resizeHeightFrom: "top",
-        onDrag: function (e, $el, newWidth, newHeight, opt) {
+        onDrag: function (e, $el, newWidth, newHeight) {
             setAPICallsHeight(newHeight);
-       }                      
+        }
     });
 
     if (openAPICallsOnLoad) {
@@ -31,30 +31,30 @@ $(function() {
         $.post("/api-calls/is-open", { open: false });
     });
 
-    $('.launch-modal').on('click', function(e){
+    $(".launch-modal").on("click", function(e){
         e.preventDefault();
 
-        var $modal = $('#myModal');
+        var $modal = $("#myModal");
 
         if (this.hasAttribute("data-modal-title")) {
             var title = this.getAttribute("data-modal-title");
 
-            $modal.find('h4.modal-title').text(title);
+            $modal.find("h4.modal-title").text(title);
         }
 
-        $modal.find('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm");
+        $modal.find(".modal-dialog").removeClass("modal-lg").removeClass("modal-sm");
 
         if (this.hasAttribute("data-modal-size")) {
             var size = this.getAttribute("data-modal-size");
 
-            $modal.find('.modal-dialog').addClass(size);
+            $modal.find(".modal-dialog").addClass(size);
         }
 
-        $modal.modal('show').find('.modal-body').load($(this).attr('href'));
+        $modal.modal("show").find(".modal-body").load($(this).attr("href"));
     });
 
-    $('#myModal button[type=submit]').on('click', function(e) {
-        var form = $('#myModal form');
+    $("#myModal button[type=submit]").on("click", function() {
+        var form = $("#myModal form");
 
         form.parsley().validate();
 
@@ -63,7 +63,7 @@ $(function() {
         }
     });
 
-    window.Parsley.on("form:success", function(e) {
+    window.Parsley.on("form:success", function() {
         $("#validation-errors").hide();
     }); 
 
@@ -119,6 +119,7 @@ function showValidationErrors(errors, modal) {
     }, 500);    
 }
 
+// eslint-disable-next-line no-unused-vars
 function showStatus(message, type) {
     var $alert = $(".status.alert");
 
@@ -136,23 +137,24 @@ function showStatus(message, type) {
     $alert.fadeIn();
 }
 
+// eslint-disable-next-line no-unused-vars
 function getUrlVars() {
     var output = [];
-    var parts = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var parts = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&");
 
     for (var i = 0; i < parts.length; i++) {
-        var qsParts = parts[i].split('=');
+        var qsParts = parts[i].split("=");
 
         if (qsParts.length === 1) {
             continue;
         }
 
         var name = qsParts[0];
-        var value = qsParts[1].split('#')[0];
+        var value = qsParts[1].split("#")[0];
 
         if (value) {
             // get the query string value without the hash value
-            value = value.split('#')[0];
+            value = value.split("#")[0];
         }
 
         output[name] = value;

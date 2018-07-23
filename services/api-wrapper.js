@@ -3,10 +3,9 @@ const Constants = require("../constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
-const fs = require("fs");
 const APILogger = require("./api-logger");
 
-require("request-debug")(rp, (type, data, rp) => {
+require("request-debug")(rp, (type, data) => {
     APILogger.log(type, data);
 });
 
@@ -61,7 +60,6 @@ module.exports = class APIWrapper {
     }
 
     async getAndExtractLinks(relativeUrl, getIdCallback) {
-        let items = [];
         let links = await this.getLinks(relativeUrl);
 
         return await this.extractLinks(links, getIdCallback);
@@ -165,10 +163,10 @@ module.exports = class APIWrapper {
                 delete cleanObj[key];
             }
             else {
-                cleanObj[key] = cleanObj[key];
+                cleanObj[key] = cleanObj[key]; // eslint-disable-line no-self-assign
             }
         });
       
         return cleanObj;
-    };
-}
+    }
+};
