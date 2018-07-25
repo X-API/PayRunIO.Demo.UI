@@ -32,6 +32,14 @@ Will run the up the node server, listen on port 3000 and watch the following fil
 
 Will run all spec unit tests in jasmine.
 
+### `npm run lint`
+
+Runs `eslint` in `./`. Note the three `.eslintrc.json` configs in:
+
+- ./
+- ./content/js
+- ./spec
+
 ## FAQs
 
 ### How do I run the server up in IIS?
