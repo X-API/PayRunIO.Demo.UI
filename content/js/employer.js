@@ -82,6 +82,32 @@ $(function() {
         });        
     });
 
+    $(".btn-delete-pension").on("click", function() {
+        var $self = $(this);
+        var employerId = $self.attr("data-employer-id");        
+        var id = $self.attr("data-id");
+
+        bootbox.confirm({
+            title: "Are you sure?",
+            message: "Are you sure you want to delete this pension record?",
+            callback: function(result) {
+                if (result) {
+                    $.post(`/employer/${employerId}/pension/${id}/delete`)
+                        .done(function() {
+                            var $tr = $self.closest("tr");
+                            
+                            $tr.find("td").fadeOut("fast", function() { 
+                                $tr.remove();                    
+                            });
+                        })
+                        .fail(function(xhr, status, error) {
+                            alert(error);
+                        });
+                }
+            }
+        });        
+    });
+
     $(document).on("click", ".job-info-container .close", function () {
         closeJobInfo();
     });    

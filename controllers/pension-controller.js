@@ -76,8 +76,23 @@ module.exports = class PensionController extends BaseController {
         await ctx.redirect(`/employer/${employerId}?status=Pension updated&statusType=success#pensions`);
     }
 
-    //async postDeletePension(ctx) {
-    //}
+    async postDeletePension(ctx) {
+        let employerId = ctx.params.employerId;
+        let id = ctx.params.id;
+        
+        let apiRoute = `/Employer/${employerId}/Pension/${id}`;
+
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {};
+        }        
+    }
 
     async postAEDefault(ctx) {
         let id = ctx.params.id;

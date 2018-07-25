@@ -37,7 +37,7 @@ $(function() {
 
             window.location.replace(urlToRedirectTo);
         });
-    });    
+    });
 
     $(".btn-delete-instruction").on("click", function() {
         var $self = $(this);
