@@ -12,6 +12,7 @@ const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
 const P45InstructionController = require("./controllers/p45-instruction-controller");
+const SetupController = require("./controllers/setup-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
@@ -26,6 +27,7 @@ let rtiController = new RTIController();
 let apiLoggerController = new APILoggerController();
 let pensionController = new PensionController();
 let p45InstructionController = new P45InstructionController();
+let setupController = new SetupController();
 
 router
     // root/get started
@@ -101,9 +103,11 @@ router
     .post("/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))
 
     // p45 pay instruction
-    ///
     .post("/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
     .post("/employer/:employerId/Employee/:employeeId/P45Instruction/:id", async ctx => await p45InstructionController.postExistingInstruction(ctx))
+
+    // setup
+    .get("/setup", async ctx => await setupController.get(ctx))
 ;
 
 module.exports = router.routes();
