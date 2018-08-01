@@ -108,6 +108,7 @@ router
 
     // setup
     .get("/setup", async ctx => await setupController.get(ctx))
+    .post("/setup", async ctx => await setupController.post(ctx))
 ;
 
 module.exports = router.routes();
