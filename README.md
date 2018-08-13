@@ -8,14 +8,6 @@ To get started/setup:
 2. Run `npm install --dev` to install all the npm package dependencies. When installing in production omit the `--dev` flag. 
 3. Run `node app.js` this will startup the server, which will default to run on port 3000. This can be set to an explicit port by running `node app.js -p 80` which will run the app up on port 80.
 
-## API Settings
-
-In `constants.js` there are three settings that should be overwritten when running locally:
-
-- `apiUrl` - Should be `https://api.test.payrun.io` or `https://api.payrun.io`. More information on the available environments can be found [here](http://developer.payrun.io/docs/getting-started/environments.html).
-- `consumerKey` - This will be your own account's consumerKey which will be generated when [signing up for an account here](https://developer.payrun.io/Account/Register). 
-- `consumerSecret` - This will be your own account's consumerSecret which will be generated when [signing up for an account here](https://developer.payrun.io/Account/Register). 
-
 ## Scripts
 
 All scripts rely on local npm modules therefore run `npm install` before running the below scripts:

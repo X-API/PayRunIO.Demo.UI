@@ -12,6 +12,8 @@ const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
 const Raven = require("raven");
 const APILogger = require("./services/api-logger");
+const SetupController = require("./controllers/setup-controller");
+const Constants = require("./Constants");
 
 let app = new Koa();
 let router = new Router();
@@ -41,6 +43,15 @@ app
     .use(async (ctx, next) => {
         if (ctx.path !== "/favicon.ico") {
             APILogger.context = ctx;
+        }
+
+        await next();
+    })
+    .use(async (ctx, next) => {
+        let setupCookie = ctx.cookies.get(SetupController.cookieKey);
+
+        if (setupCookie && Constants.setup) {
+            Constants.setup(JSON.parse(setupCookie));
         }
 
         await next();
