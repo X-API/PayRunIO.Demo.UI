@@ -1,5 +1,5 @@
 const rp = require("request-promise");
-const Constants = require("../constants");
+const Constants = require("../Constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");

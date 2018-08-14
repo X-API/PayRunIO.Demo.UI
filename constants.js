@@ -1,13 +1,21 @@
-module.exports = class Constants {
+module.exports = class Globals {
+    static setup(setup) {
+        this._setup = setup;    
+    }
+
     static get apiUrl() {
-        return "https://api.test.payrun.io/";
+        if (this._setup.Environment.toLowerCase() === "test") {
+            return "https://api.test.payrun.io/";
+        }
+
+        return "https://api.payrun.io/";
     }
 
     static get consumerKey() {
-        return "kXrXIxDAJ0SzjCjgYyvhNg";
+        return this._setup.ConsumerKey;
     }
 
     static get consumerSecret() {
-        return "k55ebIyfF0ehiO4VY6SibA1Q90Nf3n0q6ylYGusp1lg";
+        return this._setup.ConsumerSecret;
     }  
 };
