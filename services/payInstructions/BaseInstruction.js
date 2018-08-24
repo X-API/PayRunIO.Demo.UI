@@ -31,7 +31,13 @@ module.exports = class BaseInstruction {
         copy.InstructionType = null;
         copy.EmployerId = null;
 
-        return copy;
+        // reorder properties so we always have the StartDate, EndDate and Description at the beginning of the 
+        // list, as required by the api. 
+        return Object.assign({
+            StartDate: copy.StartDate,
+            EndDate: copy.EndDate,
+            Description: copy.Description
+        }, copy);
     }
 
     async canNewInstructionBeAdded(employerId, employeeId) {
