@@ -51,14 +51,32 @@ function getLogs() {
 }
 
 function copyTextToClipboard(text) {
-    var textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+
+    navigator.clipboard.writeText(text).then(() => { }, () => {
+        fallbackCopyTextToClipboard(text);
+    });
+}
+
+function fallbackCopyTextToClipboard(text) {
+    var textarea = document.createElement("textarea");
+    
+    textarea.textContent = text;
+    document.body.appendChild(textarea);
   
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
+    var selection = document.getSelection();
+    var range = document.createRange();
+
+    range.selectNode(textarea);
+    selection.removeAllRanges();
+    selection.addRange(range);
   
-    document.body.removeChild(textArea);
+    console.log("copy success", document.execCommand("copy"));
+    
+    selection.removeAllRanges();
+  
+    document.body.removeChild(textarea);
 }  

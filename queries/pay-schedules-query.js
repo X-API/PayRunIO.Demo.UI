@@ -1,6 +1,6 @@
 module.exports = {
     "Query": {
-        "Variables": { "Variable": [{"@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$"}] },
+        "Variables": { "Variable": [{ "@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$" }] },
         "RootNodeName": "PaySchedulesTable",
         "Groups": {
             "Group": [
@@ -23,8 +23,8 @@ module.exports = {
                             "@Property": "Name"
                         },
                         {
-                        	"@xsi:type": "RenderProperty",
-                        	"@Output": "Variable",
+                            "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
                             "@Name": "[PayFrequency]",
                             "@Property": "PayFrequency"
                         },
@@ -35,25 +35,25 @@ module.exports = {
                         }
                     ],
                     "Group": [
-                    	{
-	                        "@Selector": "/Employer/[EmployerKey]/Employees",
-	                        "Filter": [
+                        {
+                            "@Selector": "/Employer/[EmployerKey]/Employees",
+                            "Filter": [
                                 {
-	                        		"@xsi:type": "IsNotNull",
-	                            	"@Property": "PaySchedule"
-	                        	},
-	                            {
+                                    "@xsi:type": "IsNotNull",
+                                    "@Property": "PaySchedule"
+                                },
+                                {
                                     "@xsi:type": "EndsWith",
                                     "@Property": "PaySchedule.Href",
                                     "@Value": "[PayScheduleKey]"
-	                            }
-	                        ],
-	                        "Output": [
-	                            { 
-	                            "@xsi:type": "Count", 
-	                            "@Name": "EmployeeCount"
-	                            }
-	                        ]
+                                }
+                            ],
+                            "Output": [
+                                {
+                                    "@xsi:type": "Count",
+                                    "@Name": "EmployeeCount"
+                                }
+                            ]
                         },
                         {
                             "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
@@ -79,8 +79,8 @@ module.exports = {
                                 },
                                 {
                                     "@xsi:type": "RenderValue",
-			                        "@Name": "LastPayDay",
-			                        "@Value": "[LastPayDay]"
+                                    "@Name": "LastPayDay",
+                                    "@Value": "[LastPayDay]"
                                 },
                                 {
                                     "@xsi:type": "RenderNextDate",
@@ -91,8 +91,8 @@ module.exports = {
                                 },
                                 {
                                     "@xsi:type": "RenderValue",
-			                        "@Name": "HeadSequence",
-			                        "@Value": "[HeadSequence]"
+                                    "@Name": "HeadSequence",
+                                    "@Value": "[HeadSequence]"
                                 }
                             ],
                             "Order": [
@@ -103,18 +103,18 @@ module.exports = {
                             ]
                         },
                         {
-                        	"@ItemName": "PayRuns",
+                            "@ItemName": "PayRuns",
                             "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRuns",
                             "@UniqueKeyVariable": "[PayRunKey]",
                             "Output": [
-                            	{
-		                            "@xsi:type": "RenderArrayHint"
-		                        },
-                            	{
-		                            "@xsi:type": "RenderValue",
-		                            "@Name": "Key",
-		                            "@Value": "[PayRunKey]"
-		                        },
+                                {
+                                    "@xsi:type": "RenderArrayHint"
+                                },
+                                {
+                                    "@xsi:type": "RenderValue",
+                                    "@Name": "Key",
+                                    "@Value": "[PayRunKey]"
+                                },
                                 {
                                     "@xsi:type": "RenderProperty",
                                     "@Name": "PaymentDate",

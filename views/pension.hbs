@@ -1,0 +1,314 @@
+{{#if Id}}
+<form method="POST" action="/Employer/{{EmployerId}}/Pension/{{Id}}" data-parsley-validate>
+{{else}}
+<form method="POST" action="/Employer/{{EmployerId}}/Pension" data-parsley-validate>
+{{/if}}
+
+    {{>breadcrumbs}}
+
+    {{>status}}
+
+    {{>validationErrors}}
+
+        <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="mySubTabContent">
+
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="Code">Code</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="Code" 
+                                name="Code" 
+                                value="{{Code}}" 
+                                placeholder="Code"
+                                maxlength="35">
+
+                            <span class="notes">Allows an override of the default pay code used by the pension scheme.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SchemeName">Scheme Name</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="SchemeName" 
+                                name="SchemeName" 
+                                value="{{SchemeName}}" 
+                                placeholder="Scheme name"
+                                maxlength="250" 
+                                required  
+                                data-required-message="Scheme name is required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ProviderName">Provider name</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="ProviderName" 
+                                name="ProviderName" 
+                                value="{{ProviderName}}" 
+                                placeholder="Provider name"
+                                maxlength="250" 
+                                required  
+                                data-required-message="Provider name is required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ProviderEmployerRef">Provider employer ref</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="ProviderEmployerRef" 
+                                name="ProviderEmployerRef" 
+                                value="{{ProviderEmployerRef}}" 
+                                placeholder="Reference issued by the pension provider"
+                                maxlength="100" 
+                                required  
+                                data-required-message="Provider employer ref is required">
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="Group">Group</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="Group" 
+                                name="Group" 
+                                value="{{Group}}" 
+                                placeholder="Group name within the pension scheme"
+                                maxlength="100">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SubGroup">Sub group</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="SubGroup" 
+                                name="SubGroup" 
+                                value="{{SubGroup}}" 
+                                placeholder="Sub-group name within the pension scheme"
+                                maxlength="100">
+                        </div>   
+
+                        <div class="form-group">
+                            <label for="EmployeeContributionCash">Employee contribution cash</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="EmployeeContributionCash" 
+                                name="EmployeeContributionCash" 
+                                value="{{EmployeeContributionCash}}" 
+                                placeholder="Employee's gross cash contribution"
+                                step="0.01">
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="EmployeeContributionCash">Employer contribution cash</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="EmployerContributionCash" 
+                                name="EmployerContributionCash" 
+                                value="{{EmployerContributionCash}}" 
+                                placeholder="Employer's gross cash contribution"
+                                step="0.01">
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="EmployeeContributionPercent">Employee contribution %</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="EmployeeContributionPercent" 
+                                name="EmployeeContributionPercent" 
+                                value="{{EmployeeContributionPercent}}" 
+                                placeholder="Employee's percentage contribution from their pensionable pay"
+                                step="0.01" 
+                                min="0" 
+                                max="1">
+
+                            <span class="notes">A decimal fraction between 0 and 1. Represents a percentage as a fraction of the number 1.</span>
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="EmployerContributionPercent">Employer contribution %</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="EmployerContributionPercent" 
+                                name="EmployerContributionPercent" 
+                                value="{{EmployerContributionPercent}}" 
+                                placeholder="Employer's percentage contribution from their pensionable pay"
+                                step="0.01" 
+                                min="0" 
+                                max="1">
+
+                            <span class="notes">A decimal fraction between 0 and 1. Represents a percentage as a fraction of the number 1.</span>
+                        </div>                                                                                                                                                                                       
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="LowerThreshold">Lower threshold</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="LowerThreshold" 
+                                name="LowerThreshold" 
+                                value="{{LowerThreshold}}" 
+                                placeholder="Lower threshold"
+                                step="0.01">
+
+                            <span class="notes">
+                                The lower earning threshold; only pensionable pay above this value will be included for calculating contributions. 
+                                Thresholds are predominantly used for triggering Auto Enrolment contributions; see <a href="http://developer.payrun.io/docs/payroll-help/auto-enrolment.html" target="_blank">Auto Enrolment</a> for more information.
+                            </span>
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="UpperThreshold">Upper threshold</label>
+                            <input type="number" 
+                                class="form-control" 
+                                id="UpperThreshold" 
+                                name="UpperThreshold" 
+                                value="{{UpperThreshold}}" 
+                                placeholder="Upper threshold"
+                                step="0.01">
+
+                            <span class="notes">
+                                The upper earning threshold; only pensionable pay above this value will be included for calculating contributions. 
+                                Thresholds are predominantly used for triggering Auto Enrolment contributions; see <a href="http://developer.payrun.io/docs/payroll-help/auto-enrolment.html" target="_blank">Auto Enrolment</a> for more information.
+                            </span>
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="TaxationMethod">Taxation method</label>
+
+                            {{#select TaxationMethod}}
+                            <select class="form-control" id="TaxationMethod" name="TaxationMethod" required>
+                                <option value="NotSet">Not set</option>
+                                <option value="NetBased">Net based</option>
+                                <option value="ReliefAtSource">Relief at source</option>
+                            </select>
+                            {{/select}}
+
+                            <span class="notes">
+                                The taxation method to use when calculating pension contributions; this should be mandated by your pension provider.
+                            </span>
+                        </div>  
+    
+                        <div class="form-group">
+                            <label for="ContributionDeductionDay">Contribution deduction day</label>
+
+                            <input type="number" 
+                                class="form-control" 
+                                id="ContributionDeductionDay" 
+                                name="ContributionDeductionDay" 
+                                value="{{ContributionDeductionDay}}" 
+                                placeholder="The normal day of the month when contributions will be deducted" 
+                                min="1" 
+                                max="31">
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="SalarySacrifice" name="SalarySacrifice" {{checkedIf SalarySacrifice}}>
+
+                            <label class="form-check-label" for="SalarySacrifice">
+                                Salary sacrifice?
+                            </label>
+
+                            <span class="notes">
+                                The salary sacrifice option. Used to indicate if the pension scheme employee contributions should make use of salary sacrifice.
+                            </span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ProRataMethod">Pro-Rata method</label>
+
+                            {{#select ProRataMethod}}
+                            <select class="form-control" id="ProRataMethod" name="ProRataMethod" required>
+                                <option value="NotSet">Not set</option>
+                                <option value="Annual260Days">Annual 260 days</option>
+                                <option value="Annual365Days">Annual 365 days</option>
+                                <option value="AnnualQualifyingDays">Annual qualifying days</option>
+                                <option value="DaysPerCalenderMonth">Days per calender month</option>
+                                <option value="DaysPerTaxPeriod">Days per tax period</option>
+                            </select>
+                            {{/select}}
+
+                            <span class="notes">
+                                The pro-rata method option to be used; the default is not set. 
+                                See <a href="http://developer.payrun.io/docs/payroll-help/prorata-calculation-methods.html" target="_blank">Pro-rata Calculation Methods</a> for more information.
+                            </span>
+                        </div> 
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="AECompatible" name="AECompatible" {{checkedIf AECompatible}}>
+
+                            <label class="form-check-label" for="AECompatible">
+                                AE compatible?
+                            </label>
+
+                            <span class="notes">
+                                The Auto Enrolment compatibility indicator. Used to indicate if this pension scheme is compatible with auto enrolment requirements.
+                            </span>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="UseAEThresholds" name="UseAEThresholds" {{checkedIf UseAEThresholds}}>
+
+                            <label class="form-check-label" for="UseAEThresholds">
+                                Use AE thresholds?
+                            </label>
+
+                            <span class="notes">
+                                The Use Auto Enrolment Thresholds indicator. Used to indicate if this pension scheme uses the auto enrolment thresholds.
+                            </span>
+                        </div>                                                                      
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            <label for="Revision">Revision</label>
+                            <input type="number" class="form-control" id="Revision" name="Revision" value="{{Revision}}" placeholder="Revision number"
+                               readonly step="1" min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            <label for="EffectiveDate">Effective date</label>
+                            <input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" value="{{EffectiveDate}}"
+                                placeholder="Date the revision will come into effect" required data-required-message="Effective date is required">
+                        </div>
+
+                    </div>                        
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="EmployerId" name="EmployerId" value="{{EmployerId}}">
+</form>

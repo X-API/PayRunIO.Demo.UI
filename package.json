@@ -9,10 +9,11 @@
   "engineStrict": true,
   "scripts": {
     "build-css": "./bin/build-css",
-    "watch-css": "./bin/watch-css",
-    "watch-hbs": "./bin/watch-hbs",
+    "lint": "./node_modules/.bin/eslint ./",
+    "test": "./node_modules/.bin/jasmine-node spec",
     "watch": "concurrently --kill-others \"npm run watch-css\" \"npm run watch-hbs\"",
-    "test": "./node_modules/.bin/jasmine-node spec"
+    "watch-css": "./bin/watch-css",
+    "watch-hbs": "./bin/watch-hbs"
   },
   "repository": {
     "type": "git",
@@ -51,5 +52,8 @@
     "request": "^2.85.0",
     "request-debug": "^0.2.0",
     "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0"
   }
 }

@@ -2,7 +2,6 @@ const Koa = require("koa");
 const Router = require("koa-router");
 const Helmet = require("koa-helmet");
 const Serve = require("koa-static");
-const Compress = require("koa-compress");
 const HandlebarsRenderer = require("koa-hbs-renderer");
 const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
@@ -12,9 +11,9 @@ const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./routes");
 const Raven = require("raven");
-const Colors = require("colors");
 const APILogger = require("./services/api-logger");
-const RedisStore = require("koa-redis");
+const SetupController = require("./controllers/setup-controller");
+const Constants = require("./Constants");
 
 let app = new Koa();
 let router = new Router();
@@ -49,6 +48,15 @@ app
         await next();
     })
     .use(async (ctx, next) => {
+        let setupCookie = ctx.cookies.get(SetupController.cookieKey);
+
+        if (setupCookie && Constants.setup) {
+            Constants.setup(JSON.parse(setupCookie));
+        }
+
+        await next();
+    })
+    .use(async (ctx, next) => {
         try {
             await next();
         
@@ -57,20 +65,14 @@ app
             }
         } 
         catch (err) {
-            console.error(err);
+            console.error(err); // eslint-disable-line no-console
 
-            try {
-                Raven.captureException(err, (err, eventId) => {
-                    console.log(`Reported error: ${eventId}`);
-                });
-    
-                await ctx.render("errors/500", {
-                    message: err.message,
-                    stack: err.stack.split("\n").join("<br>").trim()
-                });
-            }
-            catch (e) {
-            }       
+            Raven.captureException(err);
+
+            await ctx.render("errors/500", {
+                message: err.message,
+                stack: err.stack.split("\n").join("<br>").trim()
+            });      
         }
     })
     .use(HandlebarsRenderer({
@@ -86,12 +88,11 @@ app
         }
     }))
     .use(Helmet())
-    //.use(Compress())
     .use(BodyParser())
     .use(Serve("./content"))
     .use(router.routes())
     .use(router.allowedMethods());
 
 app.listen(port, () => {
-    console.log(`up and listing on port ${port}`)
+    console.log(`up and listing on port ${port}`); // eslint-disable-line no-console
 });

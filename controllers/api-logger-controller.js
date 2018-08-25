@@ -1,7 +1,4 @@
 const BaseController = require("./base-controller");
-const ApiWrapper = require("../services/api-wrapper");
-
-let apiWrapper = new ApiWrapper();
 
 module.exports = class APILoggerController extends BaseController {
     async getView(ctx) {

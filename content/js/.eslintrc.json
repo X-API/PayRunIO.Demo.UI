@@ -1,0 +1,16 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "$": true,
+        "window": true,
+        "Templates": true,
+        "tippy": true,
+        "Handlebars": true,
+        "bootbox": true,
+        "showValidationErrors": true,
+        "showStatus": true,
+        "getUrlVars": true
+    }
+}

@@ -1,5 +1,3 @@
-const FormUtils = require("./form-utils");
-
 module.exports = class PayRunUtils {
     static parse(run, employerId) {
         let copy = JSON.parse(JSON.stringify(run));
@@ -10,4 +8,4 @@ module.exports = class PayRunUtils {
 
         return copy;
     }
-}
+};

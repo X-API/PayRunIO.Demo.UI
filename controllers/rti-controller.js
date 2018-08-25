@@ -1,20 +1,17 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const EmployerService = require("../services/employer-service");
 const PayRunsQuery = require("../queries/payruns-query");
 const moment = require("moment");
 
 let apiWrapper = new ApiWrapper();
-let employerService = new EmployerService();
 
 module.exports = class RtiController extends BaseController {
 
     async getNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
 
-        let queryStr = JSON.stringify(PayRunsQuery)
-                .replace("$$EmployerKey$$", employerId);
+        let queryStr = JSON.stringify(PayRunsQuery).replace("$$EmployerKey$$", employerId);
 
         let query = JSON.parse(queryStr);
 
@@ -53,13 +50,12 @@ module.exports = class RtiController extends BaseController {
             Timestamp: moment().format("YYYY-MM-DDTHH:mm:ss"),
             HoldingDate: null,
             LateReason: null
-        }
+        };
 
         let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: fpsBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = formValues;
-            //ctx.session.errors = ValidationParser.extractErrors(response);
 
             let queryStr = JSON.stringify(PayRunsQuery)
                 .replace("$$EmployerKey$$", employerId);

@@ -12,105 +12,117 @@ let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
-	async getEmployers(ctx) {
-		let employers = await apiWrapper.query(EmployerQuery);
+    async getEmployers(ctx) {
+        let employers = await apiWrapper.query(EmployerQuery);
 
-		await ctx.render("employers", await this.getExtendedViewModel(ctx, {
-			title: "Employers",
-			employers: employers
-		}));
-	}
+        await ctx.render("employers", await this.getExtendedViewModel(ctx, {
+            title: "Employers",
+            employers: employers
+        }));
+    }
 
-	async requestNewEmployer(ctx) {
-		await ctx.render("employer", await this.getExtendedViewModel(ctx, {
-			title: "Add a new Employer",
-			Breadcrumbs: [
-				{ Name: "Employers", Url: "/employer" },
-				{ Name: "Add a new Employer" }
-			]
-		}));
-	}
+    async requestNewEmployer(ctx) {
+        await ctx.render("employer", await this.getExtendedViewModel(ctx, {
+            title: "Add a new Employer",
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: "Add a new Employer" }
+            ]
+        }));
+    }
 
-	async addNewEmployer(ctx) {
-		let body = EmployerUtils.parse(ctx.request.body);
-		let response = await apiWrapper.post("Employers", { Employer: body });
+    async addNewEmployer(ctx) {
+        let body = EmployerUtils.parse(ctx.request.body);
+        let response = await apiWrapper.post("Employers", { Employer: body });
 
-		if (ValidationParser.containsErrors(response)) {
-			await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
-				title: "Add a new Employer",
-				errors: ValidationParser.extractErrors(response),
-				Breadcrumbs: [
-					{ Name: "Employers", Url: "/employer" },
-					{ Name: "Add a new Employer" }
-				]
-			})));
-			return;
-		}
+        if (ValidationParser.containsErrors(response)) {
+            await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
+                title: "Add a new Employer",
+                errors: ValidationParser.extractErrors(response),
+                Breadcrumbs: [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: "Add a new Employer" }
+                ]
+            })));
+            return;
+        }
 
-		await ctx.redirect(response.Link["@href"] + "?status=Employer details saved&statusType=success");
-	}
+        await ctx.redirect(response.Link["@href"] + "?status=Employer details saved&statusType=success");
+    }
 
-	async getEmployerDetails(ctx) {
-		let id = ctx.params.id;
-		let response = await apiWrapper.get(`Employer/${id}`);
-		let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
-		let paySchedules = await employerService.getPaySchedules(id);
-		let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
-		
-		let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
-		let query = JSON.parse(queryStr);
-		let revisions = await apiWrapper.query(query);
+    async getEmployerDetails(ctx) {
+        let id = ctx.params.id;
+        let response = await apiWrapper.get(`Employer/${id}`);
+        let employer = response.Employer;
+        let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
+        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
+        let extendedPensions = pensions.map(pension => {
+            if (employer.AutoEnrolment.Pension) {
+                pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
+            }
+            else {
+                pension.UseForAutoEnrolment = false;
+            }
 
-		let payRunCount = 0;
+            return pension;
+        });
+        let paySchedules = await employerService.getPaySchedules(id);
+        let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 
-		if (paySchedules.PaySchedulesTable.PaySchedule) {
-			paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
-				if (ps.PayRuns)
-				{
-					payRunCount = payRunCount + ps.PayRuns.length;
-				}
-			});
-		}
+        let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
+        let query = JSON.parse(queryStr);
+        let revisions = await apiWrapper.query(query);
 
-		let body = Object.assign(response.Employer, {
-			Id: id,
-			ShowTabs: true,
-			Breadcrumbs: [
-				{ Name: "Employers", Url: "/employer" },
-				{ Name: response.Employer.Name }
-			],
-			Employees: employees,
-			PaySchedules: paySchedules,
-			PayRuns: payRunCount > 0,
-			RTITransactions: rtiTransactions,
-			Revisions: revisions,
-			title: response.Employer.Name,
-			Status: StatusUtils.extract(ctx)
-		});
+        let payRunCount = 0;
 
-		// todo: refactor this into session.
-		AppState.currentEmployer = response.Employer;
+        if (paySchedules.PaySchedulesTable.PaySchedule) {
+            paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
+                if (ps.PayRuns) {
+                    payRunCount = payRunCount + ps.PayRuns.length;
+                }
+            });
+        }
 
-		await ctx.render("employer", await this.getExtendedViewModel(ctx, body));
-	}
+        let body = Object.assign(employer, {
+            Id: id,
+            ShowTabs: true,
+            Breadcrumbs: [
+                { Name: "Employers", Url: "/employer" },
+                { Name: employer.Name }
+            ],
+            Employees: employees,
+            Pensions: extendedPensions,
+            PaySchedules: paySchedules,
+            PayRuns: payRunCount > 0,
+            RTITransactions: rtiTransactions,
+            Revisions: revisions,
+            title: employer.Name,
+            Status: StatusUtils.extract(ctx)
+        });
 
-	async saveEmployerDetails(ctx) {
-		let id = ctx.params.id;
-		let body = EmployerUtils.parse(ctx.request.body);
-		let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
+        // todo: refactor this into session.
+        AppState.currentEmployer = employer;
 
-		if (ValidationParser.containsErrors(response)) {
-			await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
-				Id: id,
-				errors: ValidationParser.extractErrors(response),
-				Breadcrumbs: [
-					{ Name: "Employers", Url: "/employer" },
-					{ Name: body.Name }
-				]
-			})));
-			return;
-		}
+        await ctx.render("employer", await this.getExtendedViewModel(ctx, body));
+    }
 
-		await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`);
-	}
+    async saveEmployerDetails(ctx) {
+        let id = ctx.params.id;
+        let body = EmployerUtils.parse(ctx.request.body);
+        let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
+
+        if (ValidationParser.containsErrors(response)) {
+            await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
+                Id: id,
+                errors: ValidationParser.extractErrors(response),
+                Breadcrumbs: [
+                    { Name: "Employers", Url: "/employer" },
+                    { Name: body.Name }
+                ]
+            })));
+            return;
+        }
+
+        await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`);
+    }
 };

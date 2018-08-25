@@ -2,9 +2,21 @@ const path = require("path");
 const fs = require("fs");
 const Handlebars = require("handlebars");
 
-module.exports = (ctx, options) => {
-    const excludedFiles = ["AbsencePayInstruction.js", "BaseInstruction.js"];
+module.exports = (ctx, ytd) => {
+    const excludedFiles = [
+        "AbsencePayInstruction.js",
+        "BaseInstruction.js",
+        "BaseYtdPayInstruction.js",
+        "BaseAbsenceYtdPayInstruction.js",
+        "yearToDate"
+    ];
+    
     let folder = path.join(__dirname, "..", "services", "payInstructions");
+
+    if (ytd) {
+        folder = path.join(folder, "yearToDate");
+    }
+
     let cssClass = "dropdown-item launch-modal";
 
     let html = fs.readdirSync(folder).map(file => {

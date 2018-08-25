@@ -1,9 +1,8 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const moment = require("moment");
 
-const apiWrapper = new ApiWrapper();
+let apiWrapper = new ApiWrapper();
 
 module.exports = class PayInstructionController extends BaseController {
     async requestNewInstruction(ctx) {
@@ -44,7 +43,11 @@ module.exports = class PayInstructionController extends BaseController {
             body.InstructionType = ctx.query.type;
         }
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
+        let instructionTypeInstance = this.getInstructionInstance(instructionType);
+        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);
+
+        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
 
     async addNewInstruction(ctx) {
@@ -58,6 +61,8 @@ module.exports = class PayInstructionController extends BaseController {
 
         request[instructionType] = cleanBody;
 
+        console.log(cleanBody);
+
         let response = await apiWrapper.post(apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
@@ -67,17 +72,15 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
-
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
 
-            ctx.redirect(employeeRoute + "/payInstruction/new");
+            ctx.redirect("/payInstruction/new");
             return;
         }
 
-        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");
+        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
     }
 
     async getInstruction(ctx) {
@@ -107,7 +110,11 @@ module.exports = class PayInstructionController extends BaseController {
             layout: "modal"
         });
 
-        await ctx.render("pay-instruction", await this.getExtendedViewModel(ctx, body));
+        let instructionTypeInstance = this.getInstructionInstance(instructionType);
+        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);        
+
+        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
 
     async saveInstruction(ctx) {
@@ -131,8 +138,6 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
-
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
             ctx.session.errors = ValidationParser.extractErrors(response);
@@ -141,7 +146,7 @@ module.exports = class PayInstructionController extends BaseController {
             return;
         }
 
-        await ctx.redirect(employeeRoute + "?status=Pay instruction saved&statusType=success#instructions");        
+        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
     }
 
     async deleteInstruction(ctx) {
@@ -163,6 +168,13 @@ module.exports = class PayInstructionController extends BaseController {
         }
     }
 
+    async redirectWithStatus(ctx, employerId, employeeId, instructionType) {
+        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
+        let hash = instructionType.toLowerCase().indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
+        
+        await ctx.redirect(`${employeeRoute}?status=Pay instruction saved&statusType=success${hash}`);        
+    }
+
     async canInstructionBeAdded({ employerId, employeeId, type }) {
         let instruction = this.getInstructionInstance(type);
 
@@ -180,7 +192,14 @@ module.exports = class PayInstructionController extends BaseController {
     }
 
     getInstructionInstance(type) {
-        const Instruction = require(`../services/payInstructions/${type}`);
+        let Instruction;
+
+        if (type.toLowerCase().indexOf("ytd") !== -1) {
+            Instruction = require(`../services/payInstructions/yearToDate/${type}`);
+        }
+        else {
+            Instruction = require(`../services/payInstructions/${type}`);
+        }
 
         return new Instruction();        
     }

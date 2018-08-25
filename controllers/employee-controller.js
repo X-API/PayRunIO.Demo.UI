@@ -5,7 +5,6 @@ const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
 const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
-const fs = require("fs");
 const _ = require("lodash");
 
 let apiWrapper = new ApiWrapper();
@@ -59,18 +58,12 @@ module.exports = class EmployeeController extends BaseController {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
         let response = await apiWrapper.get(apiRoute);
         let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
-        let groupedPayInstructions = _.groupBy(payInstructions, (pi) => {
-            return pi.ObjectType;
+
+        let filteredPayInstructions = payInstructions.filter(pi => {
+            return pi.ObjectType !== "P45PayInstruction";
         });
-        let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
-            let instructions = groupedPayInstructions[key];
-    
-            return {
-                InstructionType: key,
-                Instructions: instructions
-            };
-        });        
-        let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
+
+        let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
         let paySchedules = await employerService.getPaySchedules(employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
 
@@ -79,9 +72,11 @@ module.exports = class EmployeeController extends BaseController {
             title: employee.Code,
             EmployerId: employerId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
-            PayInstructions: payInstructions,
-            GroupedPayInstructions: projectedPayInstructions,
-            CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
+            PayInstructions: filteredPayInstructions,
+            GroupedPayInstructions: this.getNormalGroupedPayInstructions(filteredPayInstructions),
+            GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(filteredPayInstructions),
+            CanAddANewPayInstruction: filteredPayInstructions.length === 0 || canAddANewPayInstruction,
+            P45PayInstruction: this.getP45PayInstruction(payInstructions),
             ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
@@ -118,7 +113,7 @@ module.exports = class EmployeeController extends BaseController {
                 ]
             });
 
-            await ctx.render("employee", await this.getExtendedViewModel(ctx, body));
+            await ctx.render("employee", await this.getExtendedViewModel(ctx, extendedBody));
             return;
         }
         
@@ -158,5 +153,48 @@ module.exports = class EmployeeController extends BaseController {
         ctx.set("Content-disposition", "attachment; filename=p60.pdf");
         ctx.set("Content-type", "application/pdf");
         ctx.body = response.body;
+    }
+
+    getP45PayInstruction(instructions) {
+        let p45Instruction = instructions.find(pi => {
+            return pi.ObjectType === "P45PayInstruction";
+        });
+
+        return p45Instruction;
+    }
+
+    getNormalGroupedPayInstructions(instructions) {
+        let filtered = instructions.filter(i => i.ObjectType.toLowerCase().indexOf("ytd") === -1);
+        let grouped = this.getGroupedPayInstructions(filtered);
+
+        return this.getProjectedPayInstructions(grouped);
+    }
+
+    getYTDGroupedPayInstructions(instructions) {
+        let filtered = instructions.filter(i => i.ObjectType.toLowerCase().indexOf("ytd") !== -1);
+        let grouped = this.getGroupedPayInstructions(filtered);
+
+        return this.getProjectedPayInstructions(grouped);
+    }
+
+    getGroupedPayInstructions(instructions) {
+        let groupedPayInstructions = _.groupBy(instructions, (pi) => {
+            return pi.ObjectType;
+        });
+
+        return groupedPayInstructions;
+    }
+
+    getProjectedPayInstructions(groupedPayInstructions) {
+        let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
+            let instructions = groupedPayInstructions[key];
+    
+            return {
+                InstructionType: key,
+                Instructions: instructions
+            };
+        });
+        
+        return projectedPayInstructions;
     }
 };

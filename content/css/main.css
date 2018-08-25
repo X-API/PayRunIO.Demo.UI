@@ -88,6 +88,9 @@ a.btn-default {
     color: #007bff !important; }
   .btn-link.btn-danger {
     color: #dc3545 !important; }
+  .btn-link.btn-default-for-ae {
+    display: block;
+    margin-bottom: 10px; }
 
 .bootbox-close-button {
   display: none; }
@@ -208,6 +211,14 @@ th {
   background-color: #e9ecef;
   border-radius: 20px;
   margin-top: 30px; }
+
+.keep-in-touch-days .keep-in-touch-day {
+  margin-bottom: 5px; }
+
+.setup .jumbotron {
+  padding: 30px; }
+  .setup .jumbotron .lead {
+    margin-bottom: 0px; }
 
 input.parsley-error,
 select.parsley-error,

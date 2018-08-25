@@ -1,38 +1,38 @@
 module.exports = {
     "Query": {
-            "RootNodeName": "PayrunG2N",
-            "Variables": {
-                "Variable": [
+        "RootNodeName": "PayrunG2N",
+        "Variables": {
+            "Variable": [
+                {
+                    "@Name": "[EmployerKey]",
+                    "@Value": "$$EmployerKey$$"
+                },
+                {
+                    "@Name": "[PayScheduleKey]",
+                    "@Value": "$$PayScheduleKey$$"
+                },
+                {
+                    "@Name": "[PayRunKey]",
+                    "@Value": "$$PayRunKey$$"
+                }
+            ]
+        },
+        "Groups": {
+            "Group": {
+                "@GroupName": "PaySchedule",
+                "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]",
+                "Output": [
                     {
-                        "@Name": "[EmployerKey]",
-                        "@Value": "$$EmployerKey$$"
+                        "@xsi:type": "RenderProperty",
+                        "@Name": "Name",
+                        "@Property": "Name"
                     },
                     {
-                        "@Name": "[PayScheduleKey]",
-                        "@Value": "$$PayScheduleKey$$"
-                    },
-                    {
-                        "@Name": "[PayRunKey]",
-                        "@Value": "$$PayRunKey$$"
+                        "@xsi:type": "RenderProperty",
+                        "@Name": "PayFrequency",
+                        "@Property": "PayFrequency"
                     }
-                ]
-            },
-            "Groups": {
-            	"Group": {
-                    "@GroupName": "PaySchedule",
-                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]",
-                    "Output": [
-                        {
-                            "@xsi:type": "RenderProperty",
-                            "@Name": "Name",
-                            "@Property": "Name"
-                        },
-                        {
-                            "@xsi:type": "RenderProperty",
-                            "@Name": "PayFrequency",
-                            "@Property": "PayFrequency"
-                        }
-                    ],
+                ],
                 "Group": {
                     "@GroupName": "PayRun",
                     "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/PayRun/[PayRunKey]",

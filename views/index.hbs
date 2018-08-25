@@ -17,6 +17,10 @@
     </p>
 
     <p class="lead">
+        {{#if hasBeenSetup}}
         <a class="btn btn-primary btn-lg" href="/employer" role="button">Get started</a>
+        {{else}}
+        <a class="btn btn-primary btn-lg" href="/setup" role="button">Get started</a>
+        {{/if}}
     </p>
 </div>

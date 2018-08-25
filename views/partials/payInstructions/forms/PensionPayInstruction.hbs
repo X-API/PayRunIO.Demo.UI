@@ -1,0 +1,273 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="StartDate">Start date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StartDate" 
+                name="StartDate" 
+                value="{{StartDate}}" 
+                placeholder="The date the instruction will come into effect." 
+                required 
+                data-required-message="Start date is required"
+                {{minStartDate MinStartDate}}>
+
+            <span class="notes">
+                The date the instruction will come into effect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="EndDate" 
+                name="EndDate" 
+                value="{{EndDate}}" 
+                placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+            <span class="notes">
+                The date the instruction will end, open ended instructions will run forever.
+            </span>
+        </div>  
+        
+        <div class="form-group">
+            <label for="Code">Code</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Code" 
+                name="Code" 
+                value="{{Code}}" 
+                maxlength="35" 
+                pattern="[A-Za-z0-9]*">
+
+            <span class="notes">
+                The payment code override. If omitted; use value defined in pension scheme.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="Pension">Pension</label>
+
+            <select class="form-control" 
+                id="Pension" 
+                name="Pension" 
+                required 
+                data-required-message="Pension is required">
+                <option value="">Please Choose...</option>
+
+                {{#each Pensions}}
+                <option value="{{this.Id}}" {{selectedIf Checked}}>{{this.Name}}</option>
+                {{/each}}
+            </select>
+
+            <span class="notes">
+                A link to the related pension scheme.
+            </span>
+        </div>         
+
+        <div class="form-group">
+            <label for="EmployeeContributionCash">Employee contribution cash</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="EmployeeContributionCash" 
+                name="EmployeeContributionCash" 
+                value="{{EmployeeContributionCash}}" 
+                step="0.01">
+
+            <span class="notes">
+                The employee cash contribution amount override. If omitted; use value defined in pension scheme.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="EmployerContributionCash">Employer contribution cash</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="EmployerContributionCash" 
+                name="EmployerContributionCash" 
+                value="{{EmployerContributionCash}}" 
+                step="0.01">
+
+            <span class="notes">
+                The employer cash contribution amount override. If omitted; use value defined in pension scheme.
+            </span>
+        </div>  
+
+        <div class="form-group">
+            <label for="EmployeeContributionPercent">Employee contribution %</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="EmployeeContributionPercent" 
+                name="EmployeeContributionPercent" 
+                value="{{EmployeeContributionPercent}}" 
+                step="0.01" 
+                max="1" 
+                min="0">
+
+            <span class="notes">
+                The employee contribution percentage override. If omitted; use value defined in pension scheme.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="EmployerContributionPercent">Employer contribution %</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="EmployerContributionPercent" 
+                name="EmployerContributionPercent" 
+                value="{{EmployerContributionPercent}}" 
+                step="0.01" 
+                max="1" 
+                min="0">
+
+            <span class="notes">
+                The employer contribution percentage override. If omitted; use value defined in pension scheme.
+            </span>
+        </div> 
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="AdditionalVoluntaryContributionCash">Employee additional voluntary cash contribution</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="AdditionalVoluntaryContributionCash" 
+                name="AdditionalVoluntaryContributionCash" 
+                value="{{AdditionalVoluntaryContributionCash}}" 
+                step="0.01">
+
+            <span class="notes">
+                The employee additional voluntary cash contribution amount.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="AdditionalVoluntaryContributionPercent">Employee additional voluntary % contribution</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="AdditionalVoluntaryContributionPercent" 
+                name="AdditionalVoluntaryContributionPercent" 
+                value="{{AdditionalVoluntaryContributionPercent}}" 
+                step="0.01" 
+                max="1" 
+                min="0">
+
+            <span class="notes">
+                The employee additional voluntary contribution percentage amount.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="LowerThreshold">Lower threshold</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="LowerThreshold" 
+                name="LowerThreshold" 
+                value="{{LowerThreshold}}" 
+                step="0.01">
+
+            <span class="notes">
+                The lower contribution cut off threshold. If specified; contributions will 
+                only be calculated on pensionable pay exceeding the thresh hold. If omitted; 
+                use value defined in pension scheme.
+            </span>
+        </div>  
+
+        <div class="form-group">
+            <label for="UpperThreshold">Upper threshold</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="UpperThreshold" 
+                name="UpperThreshold" 
+                value="{{UpperThreshold}}" 
+                step="0.01">
+
+            <span class="notes">
+                The upper contribution cut off threshold. If specified; contributions will only 
+                be calculated on pensionable pay below the thresh hold. If omitted; use value 
+                defined in pension scheme.
+            </span>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" 
+                type="checkbox" 
+                id="SalarySacrifice" 
+                name="SalarySacrifice" 
+                {{checkedIf SalarySacrifice}}>
+
+            <label class="form-check-label" for="SalarySacrifice">
+                Salary sacrifice?
+            </label>
+
+            <span class="notes">
+                Determines if the contributions are calculated using the salary sacrifice method. If omitted; use value defined in pension scheme.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="TaxationMethod">Taxation method</label>
+
+            {{#select TaxationMethod}}
+            <select class="form-control" id="TaxationMethod" name="TaxationMethod">
+                <option value="NotSet">Not set</option>
+                <option value="NetBased">Net based</option>
+                <option value="ReliefAtSource">Relief at source</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                The pension calculation taxation method override. If omitted; use value defined in pension scheme.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="ProRataMethod">Pro-Rata method</label>
+
+            {{#select ProRataMethod}}
+            <select class="form-control" id="ProRataMethod" name="ProRataMethod" required>
+                <option value="NotSet">Not set</option>
+                <option value="Annual260Days">Annual 260 days</option>
+                <option value="Annual365Days">Annual 365 days</option>
+                <option value="AnnualQualifyingDays">Annual qualifying days</option>
+                <option value="DaysPerCalenderMonth">Days per calender month</option>
+                <option value="DaysPerTaxPeriod">Days per tax period</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                The pro-rata method option to be used. If omitted; use the value defined in the pension scheme. 
+                See <a href="http://developer.payrun.io/docs/payroll-help/prorata-calculation-methods.html" target="_blank">Pro-rata Calculation Methods</a> for more information.
+            </span>
+        </div>                                                                                              
+
+        <div class="form-group">
+            <label for="Description">Description</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Description" 
+                name="Description" 
+                value="{{Description}}" 
+                placeholder="The pay line descripton override" 
+                maxlength="200">
+
+            <span class="notes">
+                This description will override the default description from the pay code. 
+                See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+            </span>
+        </div>             
+    </div>
+</div>

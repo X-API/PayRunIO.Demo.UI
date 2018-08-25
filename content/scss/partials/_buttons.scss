@@ -22,4 +22,9 @@ a.btn-default {
     &.btn-danger {
         color: #dc3545 !important;
     }
+
+    &.btn-default-for-ae {
+        display: block;
+        margin-bottom: 10px;
+    }
 }
