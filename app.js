@@ -2,6 +2,7 @@ const Koa = require("koa");
 const Router = require("koa-router");
 const Helmet = require("koa-helmet");
 const Serve = require("koa-static");
+const Mount = require("koa-mount");
 const HandlebarsRenderer = require("koa-hbs-renderer");
 const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
@@ -82,14 +83,15 @@ app
         hbs: Handlebars,
         paths: {
             views: path.join(__dirname, "views"),
-            layouts: path.join(__dirname, "views", "layouts"),
-            helpers: path.join(__dirname, "helpers"),
-            partials: path.join(__dirname, "views", "partials")
+            //layouts: path.join(__dirname, "views", "layouts"),
+            //helpers: path.join(__dirname, "helpers"),
+            //partials: path.join(__dirname, "views", "partials")
         }
     }))
     .use(Helmet())
     .use(BodyParser())
-    .use(Serve("./content"))
+    .use(Mount("/content", Serve("./content")))
+    //.use(Serve("./content"))
     .use(router.routes())
     .use(router.allowedMethods());
 
