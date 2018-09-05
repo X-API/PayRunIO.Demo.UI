@@ -119,7 +119,6 @@ th {
   display: none; }
 
 .api-calls {
-  display: none;
   height: 300px;
   position: fixed;
   bottom: 0;

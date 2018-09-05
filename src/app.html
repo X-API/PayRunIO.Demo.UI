@@ -1,7 +1,19 @@
 <template>
-	<div class="container">
+	<require from="./header/header"></require>	
+	<require from="./footer/footer"></require>
+	<require from="./api-calls/api-calls"></require>
+
+	<header></header>
+
+	<div class="container content-container">
 		<div class="row">
-			<router-view class="col-md-8"></router-view>
+			<div class="col-sm-12">
+				<router-view></router-view>
+			</div>
 		</div>
 	</div>
+
+	<footer></footer>
+
+	<api-calls></api-calls>
 </template>

@@ -1,0 +1,26 @@
+<template>
+    <div class="api-calls" if.bind="visible">
+        <div class="rui-resizable-content">
+            <div class="container-fluid">
+                <div class="row resize-handle">
+                    <div class="col-sm-12"></div>
+                </div>                    
+                <div class="row title">
+                    <div class="col-sm-11">
+                        API calls
+                    </div>
+
+                    <div class="col-sm-1 text-right close-api-calls" click.delegate="close()">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{>apiCalls}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</template>

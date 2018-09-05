@@ -13,6 +13,7 @@ const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
 const P45InstructionController = require("./controllers/p45-instruction-controller");
 const SetupController = require("./controllers/setup-controller");
+const VersionController = require("./controllers/version-controller");
 const fs = require("fs");
 
 let rootController = new RootController();
@@ -29,6 +30,7 @@ let apiLoggerController = new APILoggerController();
 let pensionController = new PensionController();
 let p45InstructionController = new P45InstructionController();
 let setupController = new SetupController();
+let versionController = new VersionController();
 
 router
     // root/get started
@@ -36,6 +38,9 @@ router
     .get("/", async ctx => {
         await ctx.render("aurelia");
     })
+
+    // version
+    .get("/api/version", async ctx => await versionController.get(ctx))
 
     // api calls
     .get("api/api-calls", async ctx => await apiLoggerController.getView(ctx))
