@@ -1,0 +1,351 @@
+<template>
+    {{>status}}
+    
+    {{#if ShowTabs}}
+    <div>
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Employer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="schedules-tab" data-toggle="tab" href="#schedules" role="tab" aria-controls="schedules" aria-selected="false">Pay Schedules</a>
+            </li>        
+            <li class="nav-item">
+                <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">Employees</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pensions-tab" data-toggle="tab" href="#pensions" role="tab" aria-controls="pensions" aria-selected="false">Pensions</a>
+            </li>        
+            <li class="nav-item">
+                <a class="nav-link" id="runs-tab" data-toggle="tab" href="#runs" role="tab" aria-controls="runs" aria-selected="false">Pay Runs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="rti-submissions-tab" data-toggle="tab" href="#rti-submissions" role="tab" aria-controls="rti-submissions" aria-selected="false">RTI Submissions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="reports-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="reports" aria-selected="false">Reports</a>
+            </li>       
+        </ul>
+    
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                {{>employerForm}}
+            </div>
+            
+            <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary" href="/employer/{{Id}}/employee/new" role="button">Add a new employee</a>
+                    </div>
+                </div>
+    
+                {{#if Employees}}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Bank Account</th>
+                            <th width="50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each Employees}}
+                        <tr>
+                            <th scope="row">
+                                <a href="/employer/{{../Id}}/employee/{{this.Id}}">
+                                    {{this.Code}}
+                                </a>
+                            </th>
+                            <td>{{employeeName this}}</td>
+                            <td>{{address this.Address}}</td>
+                            <td>{{bankAccount this.BankAccount}}</td>
+                            <td>
+                                <a class="btn btn-link" 
+                                    data-pay-schedule-id="{{this.Id}}" 
+                                    data-employer-id="{{../Id}}">Add leaver details</a>
+                                <br>                            
+                                <a class="btn btn-link" 
+                                    data-pay-schedule-id="{{this.Id}}" 
+                                    data-employer-id="{{../Id}}">Download P45</a>
+                                <br>
+                                <a class="btn btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">Download P60</a>
+                                <br>
+                                <a class="btn btn-link btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                </tbody>
+                </table>
+                {{/if}}                                    
+            </div>
+            
+            <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary launch-modal"
+                            data-modal-title="Add Pay Schedule"
+                            href="/employer/{{Id}}/paySchedule/new" role="button">Add a Pay Schedule</a>
+                    </div>
+                </div>
+    
+                {{#if PaySchedules.PaySchedulesTable.PaySchedule}}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Employees</th>
+                            <th scope="col">Last Pay Day</th>
+                            <th scope="col">Next Pay Day</th>
+                            <th width="50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each PaySchedules.PaySchedulesTable.PaySchedule}}
+                        <tr>
+                            <th scope="row">
+                                <a href="/employer/{{../Id}}/paySchedule/{{this.Key}}">
+                                    {{this.Key}}
+                                </a>
+                            </th>
+                            <td>{{this.Name}}</td>
+                            <td>{{this.PayFrequency}}</td>
+                            <td>{{this.EmployeeCount}}</td>
+                            <td>
+                                {{#if this.LastPayDay}}
+                                    {{this.LastPayDay}}
+                                {{else}}
+                                    <em>Never</em>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if this.NextPayDay}}
+                                    {{this.NextPayDay}}
+                                {{else}}
+                                    -
+                                {{/if}}
+                            </td>
+                            <td>
+                                <button type="button" 
+                                    class="btn btn-danger btn-sm btn-delete-pay-schedule" 
+                                    data-pay-schedule-id="{{this.Key}}" 
+                                    data-employer-id="{{../Id}}">Delete
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{/if}}            
+            </div>
+    
+            <div class="tab-pane fade" id="runs" role="tabpanel" aria-labelledby="runs-tab">
+                {{#canAddPayRun this}}
+                {{!-- <div class="row actions">
+                    <div class="col-sm-12">
+                    </div>
+                </div> --}}
+                {{else}}
+                <div class="card bg-light">
+                    <div class="card-header">Pay Runs</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Add a <strong>Pay Schedule</strong> and an <strong>Employee</strong> before starting a pay run.
+                        </p>
+                    </div>
+                </div>            
+                {{/canAddPayRun}}
+    
+                <div class="job-info-container"></div>
+    
+                {{#each PaySchedules.PaySchedulesTable.PaySchedule}}
+                    <div class="card bg-light">
+                        <div class="card-header">
+                            <h6 class="float-left">{{this.Name}}</h6>
+                        </div>
+                        <div class="card-body">
+                            {{#if this.PayRuns}}      
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Payment Date</th>
+                                            <th scope="col">Tax Period</th>
+                                            <th scope="col">Pay Period</th>
+                                            <th scope="col">Supplementary</th>
+                                            <th scope="col">
+                                                <a class="btn btn-sm btn-primary launch-modal float-right" 
+                                                    data-modal-title="Create PayRun"
+                                                    data-pay-schedule-id="{{Key}}" 
+                                                    href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                                                    role="button">Add PayRun</a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each this.PayRuns}}
+                                        <tr>
+                                            <th scope="row">
+                                                <a href="/employer/{{../../Id}}/paySchedule/{{../Key}}/payRun/{{this.Key}}">
+                                                    {{formatDate this.PaymentDate}}
+                                                </a>
+                                            </th>
+                                            <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
+                                            <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
+                                            <td>{{this.IsSupplementary}}</td>
+                                            <td class="text-right">
+                                                {{#ifCond ../HeadSequence this.Sequence this}}
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-rerun-pay-run launch-modal" 
+                                                    data-modal-title="Rerun PayRun"
+                                                    href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
+                                                </button>
+                                                <button type="button" 
+                                                    class="btn btn-danger btn-sm btn-delete-pay-run" 
+                                                    data-pay-run-id="{{Key}}"
+                                                    data-pay-schedule-id="{{../Key}}"  
+                                                    data-employer-id="{{../../Id}}">Delete
+                                                </button>   
+                                                {{/ifCond}}        
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            {{else}}
+                            <p class="card-text">
+                                There are currently no payruns for this pay schedule. 
+                                <a class="btn btn-sm btn-primary launch-modal" 
+                                    href="/employer/{{../Id}}/payRun?paySchedule={{Key}}" 
+                                    data-modal-title="Create PayRun"
+                                    role="button">Add PayRun</a>
+                            </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+    
+            <div class="tab-pane fade" id="pensions" role="tabpanel" aria-labelledby="pensions-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary" href="/Employer/{{Id}}/Pension" role="button">Add a Pension</a>
+                    </div>
+                </div>
+    
+                {{#if Pensions}}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Scheme</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Provider Employer Ref</th>
+                            <th width="50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each Pensions}}
+                        <tr>
+                            <td>
+                                <a href="/employer/{{../Id}}/Pension/{{this.Id}}">
+                                    {{this.Id}}
+                                </a>                            
+                            </td>
+                            <td>{{this.SchemeName}}</td>
+                            <td>{{this.ProviderName}}</td>
+                            <td>{{this.ProviderEmployerRef}}</td>
+                            <td>
+                                {{#unless this.UseForAutoEnrolment}}
+                                <button type="button" 
+                                    class="btn btn-link btn-primary btn-sm btn-default-for-ae" 
+                                    data-employer-id="{{../Id}}" 
+                                    data-id="{{this.Id}}">
+                                    Default for AE
+                                </button>
+                                {{/unless}}
+    
+                                <button type="button" 
+                                    class="btn btn-link btn-danger btn-sm btn-delete-pension" 
+                                    data-employer-id="{{../Id}}" 
+                                    data-id="{{this.Id}}">
+                                    Delete
+                                </button>                             
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{/if}}
+            </div>
+    
+            <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
+                {{#if PayRuns}}
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        {{!-- <a class="btn btn-primary" 
+                            href="/employer/{{Id}}/rtiTransaction" 
+                            role="button">Create a new submission</a>
+                        <br /> --}}
+                        <a class="btn btn-primary launch-modal" 
+                            href="/employer/{{Id}}/rtiTransaction" 
+                            role="button">Make FPS Submission</a>
+                    </div>
+                </div>
+                {{else}}
+                <div class="card bg-light">
+                    <div class="card-header">RTI submissions</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Start a new <strong>Pay Run</strong> before creating an RTI submission.
+                        </p>
+                    </div>
+                </div>
+                {{/if}}
+    
+                {{#if RTITransactions}}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Tax Year</th>
+                            <th scope="col">Transmission Date</th>
+                            <th scope="col">Transaction Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each RTITransactions}}
+                        <tr>
+                            <th scope="row">
+                                <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}" target="_blank">
+                                    {{this.Id}}
+                                </a>
+                            </th> 
+                            <td>{{TaxYear}}</td>
+                            <td>{{longDateTime TransmissionDate}}</td>
+                            <td>{{TransactionStatus}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{/if}}        
+            </div>    
+    
+            <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
+                <div class="coming-soon">
+                    <h4>Coming soon!</h4>
+                    <p>Check soon to see this functionality wired up with the API</p>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div>
+        {{>employerForm}}
+    </div>
+    
+    <input id="employer-id" type="hidden" value="${employer.Id}">  
+</template>

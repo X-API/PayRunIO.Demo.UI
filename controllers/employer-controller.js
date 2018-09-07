@@ -13,12 +13,10 @@ let employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
     async getEmployers(ctx) {
-        let employers = await apiWrapper.query(EmployerQuery);
+        let queryResponse = await apiWrapper.query(EmployerQuery);
+        let employers = queryResponse.EmployerTable.Employer;
 
-        await ctx.render("employers", await this.getExtendedViewModel(ctx, {
-            title: "Employers",
-            employers: employers
-        }));
+        ctx.body = employers;
     }
 
     async requestNewEmployer(ctx) {
@@ -83,9 +81,8 @@ module.exports = class EmployerController extends BaseController {
             });
         }
 
-        let body = Object.assign(employer, {
+        ctx.body = Object.assign(employer, {
             Id: id,
-            ShowTabs: true,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: employer.Name }
@@ -96,14 +93,7 @@ module.exports = class EmployerController extends BaseController {
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
             Revisions: revisions,
-            title: employer.Name,
-            Status: StatusUtils.extract(ctx)
         });
-
-        // todo: refactor this into session.
-        AppState.currentEmployer = employer;
-
-        await ctx.render("employer", await this.getExtendedViewModel(ctx, body));
     }
 
     async saveEmployerDetails(ctx) {

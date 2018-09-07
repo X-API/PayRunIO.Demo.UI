@@ -13,12 +13,14 @@ module.exports = class SetupController extends BaseController {
             body = JSON.parse(body);
         }
         else {
-            body = {};
+            body = {
+                Environment: "",
+                ConsumerKey: "",
+                ConsumerSecret: ""
+            };
         }
 
-        body.title = "Setup";
-
-        await ctx.render("setup", await this.getExtendedViewModel(ctx, body));
+        ctx.body = body;
     }
 
     async post(ctx) {
@@ -34,6 +36,8 @@ module.exports = class SetupController extends BaseController {
 
         Globals.setup(body);
 
-        await ctx.redirect("/employer");
+        ctx.body = {
+            valid: true
+        };
     }
 };

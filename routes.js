@@ -42,6 +42,11 @@ router
     // version
     .get("/api/version", async ctx => await versionController.get(ctx))
 
+    // setup
+    .get("/api/has-been-setup", async ctx => await rootController.hasBeenSetup(ctx))    
+    .get("/api/setup", async ctx => await setupController.get(ctx))
+    .post("/api/setup", async ctx => await setupController.post(ctx))    
+
     // api calls
     .get("api/api-calls", async ctx => await apiLoggerController.getView(ctx))
     .get("api/api-calls/data", async ctx => await apiLoggerController.getData(ctx))
@@ -49,11 +54,10 @@ router
     .post("api/api-calls/size", async ctx => await apiLoggerController.postAPICallsPanelSize(ctx))
 
     // employer
-    .get("api/employer", async ctx => await employerController.getEmployers(ctx))
-    .post("api/employer", async ctx => await employerController.addNewEmployer(ctx))
-    .get("api/employer/new", async ctx => await employerController.requestNewEmployer(ctx))
-    .get("api/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
-    .post("api/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
+    .get("/api/employers", async ctx => await employerController.getEmployers(ctx))
+    .get("/api/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
+    .post("/api/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
+    .post("/api/employer", async ctx => await employerController.addNewEmployer(ctx))
     //.post("/employer/:id/delete", async ctx => { })
 
     // pay schedule
@@ -114,10 +118,6 @@ router
     // p45 pay instruction
     .post("api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
     .post("api/employer/:employerId/Employee/:employeeId/P45Instruction/:id", async ctx => await p45InstructionController.postExistingInstruction(ctx))
-
-    // setup
-    .get("api/setup", async ctx => await setupController.get(ctx))
-    .post("api/setup", async ctx => await setupController.post(ctx))
 ;
 
 module.exports = router.routes();

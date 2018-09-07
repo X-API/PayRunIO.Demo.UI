@@ -1,4 +1,4 @@
-import { HttpClient } from 'aurelia-http-client';
+import { HttpClient } from "aurelia-http-client";
 
 export class Footer {
     attached() {
