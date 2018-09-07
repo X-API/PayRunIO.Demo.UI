@@ -68,7 +68,9 @@ module.exports = class EmployerController extends BaseController {
         let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
 
         let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
+
         let query = JSON.parse(queryStr);
+        
         let revisions = await apiWrapper.query(query);
 
         let payRunCount = 0;
@@ -83,10 +85,10 @@ module.exports = class EmployerController extends BaseController {
 
         ctx.body = Object.assign(employer, {
             Id: id,
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: employer.Name }
-            ],
+            //Breadcrumbs: [
+            //    { Name: "Employers", Url: "/employer" },
+            //    { Name: employer.Name }
+            //],
             Employees: employees,
             Pensions: extendedPensions,
             PaySchedules: paySchedules,

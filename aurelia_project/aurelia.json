@@ -24,7 +24,8 @@
         "name": "app-bundle.js",
         "source": [
           "[**/*.js]",
-          "**/*.{css,html}"
+          "**/*.{css,html}",
+          "moment"
         ]
       },
       {
