@@ -1,8 +1,12 @@
-import * as moment from "moment";
+const moment = require("moment");
 
 export class LongDateTimeValueConverter {
 	toView(value) {
-        return moment(value).format("YYYY-MM-DD HH:mm:ss");
+		if (value) {
+			return moment(value).format("YYYY-MM-DD HH:mm:ss");
+		}
+		
+		return "";
   	}
 }
 

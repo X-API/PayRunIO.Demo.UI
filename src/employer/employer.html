@@ -1,7 +1,8 @@
 <template>
     <require from="./employer-form"></require>
+    <require from="../resources/elements/status/status"></require>
 
-    {{>status}}
+    <status></status>
     
     <div if.bind="employer">
         <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -102,7 +103,7 @@
                     <tbody>
                         <tr repeat.for="schedule of employer.PaySchedules.PaySchedulesTable.PaySchedule">
                             <th scope="row">
-                                <a href="/employer/${employer.Id}/paySchedule/${schedule.Key}">
+                                <a href="#employer/${employer.Id}/paySchedule/${schedule.Key}">
                                     ${schedule.Key}
                                 </a>
                             </th>
@@ -110,18 +111,16 @@
                             <td>${schedule.PayFrequency}</td>
                             <td>${schedule.EmployeeCount}</td>
                             <td>
-                                {{#if this.LastPayDay}}
-                                    {{this.LastPayDay}}
-                                {{else}}
+                                <span if.bind="schedule.LastPayDay">${schedule.LastPayDay}</span>
+
+                                <span if.bind="!schedule.LastPayDay">
                                     <em>Never</em>
-                                {{/if}}
+                                </span>
                             </td>
                             <td>
-                                {{#if this.NextPayDay}}
-                                    {{this.NextPayDay}}
-                                {{else}}
-                                    -
-                                {{/if}}
+                                <span if.bind="schedule.NextPayDay">${schedule.NextPayDay}</span>
+
+                                <span if.bind="!schedule.NextPayDay">-</span>
                             </td>
                             <td>
                                 <button type="button" 
@@ -136,21 +135,18 @@
             </div>
     
             <div class="tab-pane fade" id="runs" role="tabpanel" aria-labelledby="runs-tab">
-                {{#canAddPayRun this}}
-                {{else}}
-                <div class="card bg-light">
+                <div class="card bg-light" if.bind="!canAddPayRun(employer)">
                     <div class="card-header">Pay Runs</div>
                     <div class="card-body">
                         <p class="card-text">
                             Add a <strong>Pay Schedule</strong> and an <strong>Employee</strong> before starting a pay run.
                         </p>
                     </div>
-                </div>            
-                {{/canAddPayRun}}
+                </div>
     
                 <div class="job-info-container"></div>
     
-                <div class="card bg-light" repeat.for="schedule of PaySchedules.PaySchedulesTable.PaySchedule">
+                <div class="card bg-light" repeat.for="schedule of employer.PaySchedules.PaySchedulesTable.PaySchedule">
                     <div class="card-header">
                         <h6 class="float-left">${schedule.Name}</h6>
                     </div>
@@ -175,26 +171,26 @@
                                 <tr repeat.for="payrun of schedule.PayRuns">
                                     <th scope="row">
                                         <a href="#employer/${employer.Id}/paySchedule/${schedule.Key}/payRun/${payrun.Key}">
-                                            ${payrun.PaymentDate | formatDate}
+                                            ${payrun.PaymentDate | shortDate}
                                         </a>
                                     </th>
                                     <td>${payrun.TaxYear}/${payrun.TaxPeriod}</td>
-                                    <td>${payrun.PeriodStart | formatDate} - ${payrun.PeriodEnd | formatDate}</td>
+                                    <td>${payrun.PeriodStart | shortDate} - ${payrun.PeriodEnd | shortDate}</td>
                                     <td>${payrun.IsSupplementary}</td>
                                     <td class="text-right">
-                                        {{#ifCond ../HeadSequence this.Sequence this}}
-                                        <button type="button" 
+                                        <button if.bind="schedule.HeadSequence == payrun.Sequence"
+                                            type="button" 
                                             class="btn btn-sm btn-rerun-pay-run launch-modal" 
                                             data-modal-title="Rerun PayRun"
-                                            href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
+                                            href="#employer/${employer.Id}/reRun?paySchedule=${schedule.Key}&payRunId=${payrun.Key}">Rerun
                                         </button>
-                                        <button type="button" 
+                                        <button if.bind="schedule.HeadSequence == payrun.Sequence"
+                                            type="button" 
                                             class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                            data-pay-run-id="{{Key}}"
-                                            data-pay-schedule-id="{{../Key}}"  
-                                            data-employer-id="{{../../Id}}">Delete
-                                        </button>   
-                                        {{/ifCond}}        
+                                            data-pay-run-id="${payrun.Key}"
+                                            data-pay-schedule-id="${schedule.Key}"  
+                                            data-employer-id="${employer.Id}">Delete
+                                        </button>          
                                     </td>
                                 </tr>
                             </tbody>
@@ -231,11 +227,11 @@
                     </thead>
                     <tbody>
                         <tr repeat.for="pension of employer.Pensions">
-                            <td>
+                            <th scope="row">
                                 <a href="#employer/${employer.Id}/pension/${pension.Id}">
                                     ${pension.Id}
                                 </a>                            
-                            </td>
+                            </th>
                             <td>${pension.SchemeName}</td>
                             <td>${pension.ProviderName}</td>
                             <td>${pension.ProviderEmployerRef}</td>
@@ -261,7 +257,7 @@
             </div>
     
             <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
-                <div class="row actions" if.bind="PayRuns">
+                <div class="row actions" if.bind="employer.PayRuns">
                     <div class="col-sm-12">
                         <a class="btn btn-primary launch-modal" 
                             href="#employer/${employer.Id}/rtiTransaction" 
@@ -269,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="card bg-light" if.bind="!PayRuns">
+                <div class="card bg-light" if.bind="!employer.PayRuns">
                     <div class="card-header">RTI submissions</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -291,12 +287,12 @@
                         <tr repeat.for="transaction of employer.RTITransactions">
                             <th scope="row">
                                 <a href="#employer/${employer.Id}/rtiTransaction/${transaction.Id}" target="_blank">
-                                    ${this.Id}
+                                    ${transaction.Id}
                                 </a>
                             </th> 
-                            <td>${employer.TaxYear}</td>
-                            <td>${employer.TransmissionDate | longDateTime}</td>
-                            <td>${employer.TransactionStatus}</td>
+                            <td>${transaction.TaxYear}</td>
+                            <td>${transaction.TransmissionDate | longDateTime}</td>
+                            <td>${transaction.TransactionStatus}</td>
                         </tr>
                     </tbody>
                 </table>

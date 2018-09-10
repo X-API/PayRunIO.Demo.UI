@@ -10,6 +10,6 @@ export class BankAccountValueConverter {
 			return parts.join("<br />");
 		}
 	
-		return "";		
+		return "";
 	}
 }

@@ -24,8 +24,7 @@
         "name": "app-bundle.js",
         "source": [
           "[**/*.js]",
-          "**/*.{css,html}",
-          "moment"
+          "**/*.{css,html}"
         ]
       },
       {
@@ -86,7 +85,8 @@
             "path": "../node_modules/aurelia-validation/dist/amd",
             "main": "aurelia-validation"
           },          
-          "text"
+          "text",
+          "moment"
         ]
       }
     ],

@@ -3,6 +3,7 @@ export function configure(config) {
 		"./value-converters/address",
 		"./value-converters/bank-account",
 		"./value-converters/employee-name",
-    	"./value-converters/long-date-time"
+		"./value-converters/long-date-time",
+		"./value-converters/short-date"
   	]);
 }
