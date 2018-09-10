@@ -1,3 +1,12 @@
 .bootbox-close-button {
     display: none;
 }
+
+ux-dialog-overlay.active {
+    background-color: black;
+    opacity: 0.75 !important;
+}
+
+ux-dialog {
+    min-width: 700px !important;
+}

@@ -1,0 +1,48 @@
+<template>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+
+    <ux-dialog>
+        <ux-dialog-header>
+            <h5>Pay schedule</h5>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="container-fluid">
+                <validation-errors errors.bind="validationController.errors"></validation-errors>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" 
+                                class="form-control form-control-lg" 
+                                id="Name" 
+                                name="Name" 
+                                value.bind="state.Name & validate" 
+                                placeholder="Name of the pay schedule that unique identifies it" 
+                                maxlength="35">
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="PayFrequency">Pay Frequency</label>
+                    
+                            <select id="PayFrequency" 
+                                name="PayFrequency" 
+                                class="form-control form-control-lg" 
+                                value.bind="state.PayFrequency & validate">
+                                <option model.bind="null">Please Choose...</option>
+                                <option repeat.for="freq of frequencies" value.bind="freq.value">
+                                    ${freq.text}
+                                </option>
+                            </select>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-secondary" click.trigger="dialogController.cancel()">Cancel</button>
+            <button class="btn btn-primary" click.trigger="save()">Ok</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>    

@@ -84,7 +84,13 @@
             "name": "aurelia-validation",
             "path": "../node_modules/aurelia-validation/dist/amd",
             "main": "aurelia-validation"
-          },          
+          },     
+          {
+            "name": "aurelia-dialog",
+            "path": "../node_modules/aurelia-dialog/dist/amd",
+            "main": "aurelia-dialog",
+            "resources": ["resources/*.js"]
+          },     
           "text",
           "moment"
         ]

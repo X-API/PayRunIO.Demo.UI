@@ -61,10 +61,7 @@ router
     //.post("/employer/:id/delete", async ctx => { })
 
     // pay schedule
-    .get("api/employer/:employerId/paySchedule/new", async ctx => await payScheduleController.requestNewSchedule(ctx))
-    .post("api/employer/:employerId/paySchedule", async ctx => await payScheduleController.addNewSchedule(ctx))
-    .get("api/employer/:employerId/paySchedule/:payScheduleId", async ctx => await payScheduleController.getScheduleDetails(ctx))
-    .post("api/employer/:employerId/paySchedule/:payScheduleId", async ctx => await payScheduleController.saveScheduleDetails(ctx))
+    .post("api/employer/:employerId/paySchedule", async ctx => await payScheduleController.post(ctx))
     .post("api/employer/:employerId/paySchedule/:payScheduleId/delete", async ctx => await payScheduleController.deleteSchedule(ctx))
 
     // employee
