@@ -11,10 +11,14 @@ module.exports = class PayScheduleController extends BaseController {
         let response = null;
 
         if (body.Id) {
-            response = await apiWrapper.put(`Employer/${employerId}/paySchedule/${body.Id}`, { PaySchedule: body });
+            let url = `Employer/${employerId}/paySchedule/${body.Id}`;
+
+            body.Id = null;
+
+            response = await apiWrapper.put(url, { PaySchedule: body });
         }
         else {
-            response = await apiWrapper.post(`Employer/${employerId}/paySchedule`, { PaySchedule: body });
+            response = await apiWrapper.post(`Employer/${employerId}/PaySchedules`, { PaySchedule: body });
         }
 
         if (ValidationParser.containsErrors(response)) {
@@ -46,7 +50,12 @@ module.exports = class PayScheduleController extends BaseController {
             };
         }
         else {
-            ctx.body = {};
+            ctx.body = {
+                status: {
+                    message: "Pay schedule deleted",
+                    type: "success"
+                }
+            };
         }
     }
 };

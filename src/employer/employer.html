@@ -1,9 +1,12 @@
 <template>
     <require from="./employer-form"></require>
     <require from="../resources/elements/status/status"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
 
-    <status></status>
+    <status status.bind="status"></status>
     
+    <api-errors errors.bind="apiErrors"></api-errors>
+
     <div if.bind="employer">
         <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             <li class="nav-item">
@@ -126,8 +129,8 @@
                             <td>
                                 <button type="button" 
                                     class="btn btn-danger btn-sm btn-delete-pay-schedule" 
-                                    data-pay-schedule-id="${schedule.Key}" 
-                                    data-employer-id="${employer.Id}">Delete
+                                    click.delegate="deletePaySchedule(schedule)">
+                                    Delete
                                 </button>
                             </td>
                         </tr>

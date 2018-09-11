@@ -1,5 +1,6 @@
 <template>
     <require from="../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
 
     <ux-dialog>
         <ux-dialog-header>
@@ -8,6 +9,8 @@
         <ux-dialog-body>
             <div class="container-fluid">
                 <validation-errors errors.bind="validationController.errors"></validation-errors>
+
+                <api-errors errors.bind="apiErrors"></api-errors>
 
                 <div class="row">
                     <div class="col-sm-12">

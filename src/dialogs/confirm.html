@@ -1,0 +1,17 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h5>
+                ${state.title}
+            </h5>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <p>${state.message}</p>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-secondary" click.trigger="no()">No</button>
+            <button class="btn btn-danger" click.trigger="yes()">Yes</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

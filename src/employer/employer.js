@@ -3,6 +3,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
 import { AddPayScheduleModal } from "../pay-schedule/add-pay-schedule-modal";
+import { Confirm } from "../dialogs/confirm";
 
 @inject(EventAggregator, DialogService)
 export class Employer {
@@ -14,12 +15,20 @@ export class Employer {
 
     activate(params) {
         if (params && params.id) {
+            return this.getEmployerDetails(params.id);
+        }
+    }
+
+    getEmployerDetails(employerId) {
+        return new Promise((resolve) => {
             let client = new HttpClient();
 
-            client.get(`/api/employer/${params.id}`).then(data => {
+            client.get(`/api/employer/${employerId}`).then(data => {
                 this.employer = JSON.parse(data.response);
+
+                resolve();
             });
-        }
+        });
     }
 
     canAddPayRun(context) {
@@ -36,6 +45,35 @@ export class Employer {
         this.openPayScheduleModal(schedule);
     }
 
+    deletePaySchedule(schedule) {
+        let opts = {
+            viewModel: Confirm,
+            model: {
+                title: "Are you sure?",
+                message: "Are you sure you want to delete this pay schedule?"
+            }
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                let client = new HttpClient();
+
+                client.post(`/api/employer/${this.employer.Id}/paySchedule/${schedule.Key}/delete/`).then(res => {
+                    let parsedResponse = JSON.parse(res.response);
+
+                    if (parsedResponse.errors) {
+                        this.apiErrors = parsedResponse.errors;
+                        return;
+                    }
+
+                    this.apiErrors = null;
+                    this.status = parsedResponse.status;
+                    this.getEmployerDetails(this.employer.Id);
+                });
+            }
+        });        
+    }
+
     openPayScheduleModal(schedule) {
         schedule.employerId = this.employer.Id;
         
@@ -46,7 +84,9 @@ export class Employer {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
-                // todo: reset employer.PaySchedules.
+                this.status = response.output;
+
+                this.getEmployerDetails(this.employer.Id);
             }
         });
     }

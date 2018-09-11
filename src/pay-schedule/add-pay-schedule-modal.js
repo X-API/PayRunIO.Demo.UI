@@ -39,8 +39,15 @@ export class AddPayScheduleModal {
 
         this.validationController.validate().then(result => {
             if (result.valid) {
-                this.client.post(`/api/employer/${this.state.employerId}/paySchedule`, data).then(() => {
-                    this.dialogController.ok();
+                this.client.post(`/api/employer/${this.state.employerId}/paySchedule`, data).then(res => {
+                    let parsedResponse = JSON.parse(res.response);
+
+                    if (parsedResponse.errors) {
+                        this.apiErrors = parsedResponse.errors;
+                        return;
+                    }
+
+                    this.dialogController.ok(parsedResponse.status);
                 });
             }
         });
