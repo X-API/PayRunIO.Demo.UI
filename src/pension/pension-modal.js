@@ -4,7 +4,7 @@ import { ValidationControllerFactory, ValidationRules } from "aurelia-validation
 import { HttpClient } from "aurelia-http-client";
 
 @inject(ValidationControllerFactory, DialogController)
-export class AddPayScheduleModal {
+export class PensionModal {
     constructor(controllerFactory, dialogController) {
         this.dialogController = dialogController;
         this.validationController = controllerFactory.createForCurrentScope();
@@ -13,11 +13,20 @@ export class AddPayScheduleModal {
 
     activate(state) {
         this.state = state;
-        this.frequencies = [
-            { text: "Weekly", value: "Weekly" },
-            { text: "Monthly", value: "Monthly" },
-            { text: "Two weekly", value: "TwoWeekly" },
-            { text: "Four weekly", value: "FourWeekly" }
+
+        this.proRataMethods = [
+            { value: "NotSet", text: "Not set" },
+            { value: "Annual260Days", text: "Annual 260 days" },
+            { value: "Annual365Days", text: "Annual 365 days" },
+            { value: "AnnualQualifyingDays", text: "Annual qualifying days" },
+            { value: "DaysPerCalenderMonth", text: "Days per calender month" },
+            { value: "DaysPerTaxPeriod", text: "Days per tax period" },
+        ];
+
+        this.taxationMethods = [
+            { value: "NotSet", text: "Not set" },
+            { value: "NetBased", text: "Net based" },
+            { value: "ReliefAtSource", text: "Relief at source" }
         ];
 
         this.setupValidationRules();
@@ -25,21 +34,17 @@ export class AddPayScheduleModal {
 
     setupValidationRules() {
         ValidationRules
-            .ensure("Name").required().withMessage("Name is required")
-            .ensure("PayFrequency").required().withMessage("Pay Frequency is required")
+            .ensure("SchemeName").required().withMessage("Scheme name is required")
+            .ensure("ProviderName").required().withMessage("Provider name is required")
+            .ensure("ProviderEmployerRef").required().withMessage("Provider employer ref is required")
+            .ensure("EffectiveDate").required().withMessage("Effective date is required")
             .on(this.state);        
     }    
 
     save() {
-        let data = {
-            Id: this.state.Key,
-            Name: this.state.Name,
-            PayFrequency: this.state.PayFrequency
-        };
-
         this.validationController.validate().then(result => {
             if (result.valid) {
-                this.client.post(`/api/employer/${this.state.employerId}/paySchedule`, data).then(res => {
+                this.client.post(`/api/employer/${this.state.employerId}/pension`, this.state).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
                     if (parsedResponse.errors) {

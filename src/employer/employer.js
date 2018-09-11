@@ -2,7 +2,8 @@ import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
-import { AddPayScheduleModal } from "../pay-schedule/add-pay-schedule-modal";
+import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
+import { PensionModal } from "../pension/pension-modal";
 import { Confirm } from "../dialogs/confirm";
 
 @inject(EventAggregator, DialogService)
@@ -78,8 +79,33 @@ export class Employer {
         schedule.employerId = this.employer.Id;
         
         let opts = {
-            viewModel: AddPayScheduleModal,
+            viewModel: PayScheduleModal,
             model: JSON.parse(JSON.stringify(schedule))
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                this.status = response.output;
+
+                this.getEmployerDetails(this.employer.Id);
+            }
+        });
+    }
+
+    addAPension() {
+        this.openPensionModal({});
+    }
+
+    editPension(pension) {
+        this.openPensionModal(pension);
+    }
+
+    openPensionModal(pension) {
+        schedule.employerId = this.employer.Id;
+        
+        let opts = {
+            viewModel: PensionModal,
+            model: JSON.parse(JSON.stringify(pension))
         };
 
         this.dialogService.open(opts).whenClosed(response => {

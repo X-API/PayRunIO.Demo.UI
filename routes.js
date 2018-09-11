@@ -105,9 +105,7 @@ router
     .get("api/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))
 
     // pension
-    .get("api/employer/:employerId/pension", async ctx => await pensionController.getNewPension(ctx))
     .post("api/employer/:employerId/pension", async ctx => await pensionController.postNewPension(ctx))
-    .get("api/employer/:employerId/pension/:id", async ctx => await pensionController.getExistingPension(ctx))
     .post("api/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
     .post("api/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))
     .post("api/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))

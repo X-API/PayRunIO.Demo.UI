@@ -232,7 +232,7 @@
                     <tbody>
                         <tr repeat.for="pension of employer.Pensions">
                             <th scope="row">
-                                <a href="#employer/${employer.Id}/pension/${pension.Id}">
+                                <a href="#" click.delegate="editPension(pension)">
                                     ${pension.Id}
                                 </a>                            
                             </th>
@@ -243,15 +243,13 @@
                                 <button if.bind="!pension.UseForAutoEnrolment"
                                     type="button" 
                                     class="btn btn-link btn-primary btn-sm btn-default-for-ae" 
-                                    data-employer-id="${employer.Id}" 
-                                    data-id="${pension.Id}">
+                                    click.delegate="editPension(pension)">
                                     Default for AE
                                 </button>
     
                                 <button type="button" 
-                                    class="btn btn-link btn-danger btn-sm btn-delete-pension" 
-                                    data-employer-id="${employer.Id}" 
-                                    data-id="${this.Id}">
+                                    class="btn btn-danger btn-sm btn-delete-pension" 
+                                    click.delegate="deletePension(pension)">
                                     Delete
                                 </button>                             
                             </td>
