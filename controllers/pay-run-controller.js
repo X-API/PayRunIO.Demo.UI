@@ -10,7 +10,7 @@ let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class PayRunController extends BaseController {
-    async getPayRunInfo(ctx) {
+    async get(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
@@ -44,19 +44,11 @@ module.exports = class PayRunController extends BaseController {
             });
         }
 
-        let body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
-            title: "Pay Run",
+        ctx.body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
             Employees: mappedEmployees,
             EmployerId: employerId,
-            PaySchedule: queryResult.PayrunG2N.PaySchedule,
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: "Pay Run" }
-            ]            
+            PaySchedule: queryResult.PayrunG2N.PaySchedule            
         });
-
-        await ctx.render("pay-run", await this.getExtendedViewModel(ctx, body));
     }
     
     async requestNewRun(ctx) {

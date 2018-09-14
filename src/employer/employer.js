@@ -150,4 +150,8 @@ export class Employer {
             }
         });
     }
+
+    openPayRunInfoModal(employerId, payScheduleId, payRunId) {
+        let url = `api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`;
+    }
 }
