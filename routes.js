@@ -90,7 +90,7 @@ router
     .get("/api/employer/:employerId/reRun", async ctx => await payRunController.requestReRun(ctx))
     .post("/api/employer/:employerId/payRun", async ctx => await payRunController.startNewRun(ctx))
     .get("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.get(ctx))
-    .post("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/delete", async ctx => await payRunController.deletePayRun(ctx))
+    .delete("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.delete(ctx))
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/rerun", async ctx => await payRunController.rerunPayRun(ctx))
 
     // comentary

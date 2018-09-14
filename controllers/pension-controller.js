@@ -76,7 +76,7 @@ module.exports = class PensionController extends BaseController {
             ctx.body = {
                 status: {
                     message: "Pension deleted",
-                    type: "success"                
+                    type: "success"
                 }
             };
         }        

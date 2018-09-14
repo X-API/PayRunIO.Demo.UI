@@ -155,28 +155,27 @@ module.exports = class PayRunController extends BaseController {
         await ctx.redirect(route);
     }
 
-    async deletePayRun(ctx) {
+    async delete(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
 
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
         
-        await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(apiRoute);
 
-        // todo: handle error from API
-
-        let route = `/employer/${employerId}#runs`;
-        await ctx.redirect(route);
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Pay Run deleted",
+                    type: "success"
+                }
+            };
+        }
     }
-
-    /*async rerunPayRun(ctx) {
-        let employerId = ctx.params.employerId;
-        let scheduleId = ctx.params.payScheduleId;
-        let payRunId = ctx.params.payRunId;
-
-        // todo: enqueue re-run job
-
-        return true;
-    }*/
 };
