@@ -215,7 +215,7 @@
             <div class="tab-pane fade" id="pensions" role="tabpanel" aria-labelledby="pensions-tab">
                 <div class="row actions">
                     <div class="col-sm-12">
-                        <a class="btn btn-primary" href="#employer/${employer.Id}/pension" role="button">Add a Pension</a>
+                        <button class="btn btn-primary" type="button" role="button" click.delegate="addAPension()">Add a Pension</button>
                     </div>
                 </div>
     
@@ -226,7 +226,7 @@
                             <th scope="col">Scheme</th>
                             <th scope="col">Provider</th>
                             <th scope="col">Provider Employer Ref</th>
-                            <th width="50px"></th>
+                            <th width="200px"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -242,14 +242,14 @@
                             <td>
                                 <button if.bind="!pension.UseForAutoEnrolment"
                                     type="button" 
-                                    class="btn btn-link btn-primary btn-sm btn-default-for-ae" 
-                                    click.delegate="editPension(pension)">
+                                    class="btn btn-primary btn-sm btn-default-for-ae" 
+                                    click.delegate="defaultPensionForAE(employer.Id, pension.Id)">
                                     Default for AE
                                 </button>
     
                                 <button type="button" 
                                     class="btn btn-danger btn-sm btn-delete-pension" 
-                                    click.delegate="deletePension(pension)">
+                                    click.delegate="deletePension(employer.Id, pension.Id)">
                                     Delete
                                 </button>                             
                             </td>

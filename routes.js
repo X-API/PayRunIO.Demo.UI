@@ -34,7 +34,6 @@ let versionController = new VersionController();
 
 router
     // root/get started
-    //.get("/", async ctx => await rootController.getRootView(ctx))
     .get("/", async ctx => {
         await ctx.render("aurelia");
     })
@@ -58,11 +57,15 @@ router
     .get("/api/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
     .post("/api/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
     .post("/api/employer", async ctx => await employerController.addNewEmployer(ctx))
-    //.post("/employer/:id/delete", async ctx => { })
 
     // pay schedule
     .post("/api/employer/:employerId/paySchedule", async ctx => await payScheduleController.post(ctx))
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/delete", async ctx => await payScheduleController.deleteSchedule(ctx))
+
+    // pension
+    .post("/api/employer/:employerId/pension", async ctx => await pensionController.post(ctx))
+    .patch("/api/employer/:employerId/pension/:id", async ctx => await pensionController.patch(ctx))
+    .delete("/api/employer/:employerId/pension/:id", async ctx => await pensionController.delete(ctx))
 
     // employee
     .get("api/employer/:employerId/employee/new", async ctx => await employeeController.requestNewEmployee(ctx))
@@ -103,12 +106,6 @@ router
 
     // job
     .get("api/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))
-
-    // pension
-    .post("api/employer/:employerId/pension", async ctx => await pensionController.postNewPension(ctx))
-    .post("api/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
-    .post("api/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))
-    .post("api/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))
 
     // p45 pay instruction
     .post("api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))

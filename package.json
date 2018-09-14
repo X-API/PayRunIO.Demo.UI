@@ -11,7 +11,7 @@
     "build-css": "./bin/build-css",
     "lint": "./node_modules/.bin/eslint ./",
     "test": "./node_modules/.bin/jasmine-node spec",
-    "watch": "concurrently --kill-others \"npm run watch-css\" \"npm run watch-hbs\"",
+    "watch": "concurrently --kill-others \"au build\" \"npm run watch-css\" \"npm run watch-hbs\"",
     "watch-css": "./bin/watch-css",
     "watch-hbs": "./bin/watch-hbs"
   },

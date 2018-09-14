@@ -100,8 +100,42 @@ export class Employer {
         this.openPensionModal(pension);
     }
 
+    defaultPensionForAE(employerId, pensionId) {
+        let client = new HttpClient();
+
+        client.patch(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+            let parsedResponse = JSON.parse(res.response);
+
+            if (parsedResponse.errors) {
+                this.apiErrors = parsedResponse.errors;
+                return;
+            }
+
+            this.apiErrors = null;
+            this.status = parsedResponse.status;
+            this.getEmployerDetails(employerId);
+        });        
+    }
+
+    deletePension(employerId, pensionId) {
+        let client = new HttpClient();
+
+        client.delete(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+            let parsedResponse = JSON.parse(res.response);
+
+            if (parsedResponse.errors) {
+                this.apiErrors = parsedResponse.errors;
+                return;
+            }
+
+            this.apiErrors = null;
+            this.status = parsedResponse.status;
+            this.getEmployerDetails(employerId);
+        });
+    }
+
     openPensionModal(pension) {
-        schedule.employerId = this.employer.Id;
+        pension.employerId = this.employer.Id;
         
         let opts = {
             viewModel: PensionModal,
