@@ -174,7 +174,7 @@
                             <tbody>
                                 <tr repeat.for="payrun of schedule.PayRuns">
                                     <th scope="row">
-                                        <a href="#employer/${employer.Id}/paySchedule/${schedule.Key}/payRun/${payrun.Key}">
+                                        <a href="#" click.delegate="openPayRunInfoModal(employer.Id, schedule.Key, payrun.Key)">
                                             ${payrun.PaymentDate | shortDate}
                                         </a>
                                     </th>

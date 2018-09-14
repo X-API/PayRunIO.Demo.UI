@@ -44,11 +44,13 @@ module.exports = class PayRunController extends BaseController {
             });
         }
 
-        ctx.body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
+        let body = Object.assign(queryResult.PayrunG2N.PaySchedule.PayRun, {
             Employees: mappedEmployees,
-            EmployerId: employerId,
-            PaySchedule: queryResult.PayrunG2N.PaySchedule            
+            PaySchedule: queryResult.PayrunG2N.PaySchedule.Name,
+            PayFrequency: queryResult.PayrunG2N.PaySchedule.PayFrequency
         });
+
+        ctx.body = body;
     }
     
     async requestNewRun(ctx) {

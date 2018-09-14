@@ -1,0 +1,123 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h5>Pay run</h5>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="container-fluid">
+                <div class="pay-run-info">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Pay Schedule</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.PaySchedule}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Pay Frequency</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.PayFrequency}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Payment Date</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.PaymentDate}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Tax Year / Period</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.TaxYear}/${state.TaxPeriod}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Period start</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.PeriodStart}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Period end</strong>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    ${state.PeriodEnd}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" if.bind="state.Employees.length > 0">
+                            <p><strong>Employees</strong></p>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Payments</th>
+                                        <th scope="col">Tax</th>
+                                        <th scope="col">EE NI</th>
+                                        <th scope="col">ER NI</th>
+                                        <th scope="col">Other Deducs</th>
+                                        <th scope="col">Net Pay</th>
+                                        <th width="210px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="employee of state.Employees">
+                                        <td>
+                                            <a href="#Employer/${state.EmployerId}/Employee/${employee.Key}">${employee.Name}</a>
+                                        </td>
+                                        <td>${employee.PAYMENTS}</td>
+                                        <td>${employee.TAX}</td>
+                                        <td>${employee.EE_NI}</td>
+                                        <td>${employee.ER_NI}</td>
+                                        <td>${employee.OTHERDEDNS}</td>
+                                        <td>${employee.NETPAY}</td>
+                                        <td class="text-right">
+                                            <a href="/api/Employer/${state.EmployerId}/Employee/${employee.Key}/PaySlipData/${employee.Code}/${state.TaxPeriod}/${state.TaxYear}" target="_blank">Payslip</a>
+                                            &nbsp;|&nbsp;
+                                            <a href="/api${employee.Commentary | extractHref}" target="_blank" if.bind="employee.Commentary">Commentary</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-primary" click.trigger="dialogController.ok()">Close</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

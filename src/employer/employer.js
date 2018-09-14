@@ -4,6 +4,7 @@ import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
 import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
+import { InfoModal } from "../pay-run/info-modal";
 import { Confirm } from "../dialogs/confirm";
 
 @inject(EventAggregator, DialogService)
@@ -153,5 +154,19 @@ export class Employer {
 
     openPayRunInfoModal(employerId, payScheduleId, payRunId) {
         let url = `api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`;
+        let client = new HttpClient();
+
+        client.get(url).then(res => {
+            let payRun = JSON.parse(res.response);
+
+            payRun.EmployerId = this.employer.Id;
+
+            let opts = {
+                viewModel: InfoModal,
+                model: payRun
+            };
+    
+            this.dialogService.open(opts);
+        });
     }
 }

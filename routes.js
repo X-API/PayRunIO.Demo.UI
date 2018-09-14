@@ -94,10 +94,10 @@ router
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/rerun", async ctx => await payRunController.rerunPayRun(ctx))
 
     // comentary
-    .get("api/employer/:employerId/employee/:employeeId/commentary/:commentaryId", async ctx => await commentaryController.getCommentary(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId/commentary/:commentaryId", async ctx => await commentaryController.getCommentary(ctx))
 
     // pay slip
-    .get("api/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
 
     // rti transaction
     .get("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
