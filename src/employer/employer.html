@@ -185,14 +185,14 @@
                                         <button if.bind="schedule.HeadSequence == payrun.Sequence"
                                             type="button" 
                                             class="btn btn-sm btn-rerun-pay-run launch-modal" 
-                                            data-modal-title="Rerun PayRun"
-                                            href="#employer/${employer.Id}/reRun?paySchedule=${schedule.Key}&payRunId=${payrun.Key}">Rerun
+                                            data-modal-title="Rerun PayRun" 
+                                            click.delegate="openRerunPayRunModal(employer.Id, schedule.Key, payrun)">Rerun</button>
                                         </button>
+                                        
                                         <button if.bind="schedule.HeadSequence == payrun.Sequence"
                                             type="button" 
                                             class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                            click.delegate="deletePayRun(employer.Id, schedule.Key, payrun.Key)">Delete
-                                        </button>          
+                                            click.delegate="deletePayRun(employer.Id, schedule.Key, payrun.Key)">Delete</button>          
                                     </td>
                                 </tr>
                             </tbody>

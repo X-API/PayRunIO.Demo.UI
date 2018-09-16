@@ -5,6 +5,7 @@ import { DialogService } from "aurelia-dialog";
 import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
 import { InfoModal } from "../pay-run/info-modal";
+import { NewPayRunModal } from "../pay-run/new-pay-run-modal";
 import { Confirm } from "../dialogs/confirm";
 
 @inject(EventAggregator, DialogService)
@@ -168,6 +169,32 @@ export class Employer {
     
             this.dialogService.open(opts);
         });
+    }
+
+    openRerunPayRunModal(employerId, payScheduleId, payRun) {
+        let state = {
+            Title: "Rerun PayRun",
+            Instruction: "Re-running will delete the previous run.",
+            EmployerId: employerId,
+            PayScheduleId: payScheduleId,
+            PaymentDate: payRun.PaymentDate,
+            StartDate: payRun.PeriodStart,
+            EndDate: payRun.PeriodEnd,
+            PaySchedules: []
+        };
+        
+        let opts = {
+            viewModel: NewPayRunModal,
+            model: state
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                this.status = response.output;
+
+                this.getEmployerDetails(this.employer.Id);
+            }
+        });        
     }
 
     deletePayRun(employerId, payScheduleId, payRunId) {

@@ -1,6 +1,8 @@
 <template>
     <div class="status alert alert-${status.type} alert-dismissible fade show" role="alert" if.bind="status">
         <span>${status.message}</span>
+
+        <button type="button" class="btn btn-sm btn-outline-secondary" if.bind="status.jobId" click.delegate="viewJob()">View job</button>
     
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
