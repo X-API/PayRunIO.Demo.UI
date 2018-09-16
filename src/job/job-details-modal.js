@@ -9,7 +9,24 @@ export class JobDetailsModal {
         this.client = new HttpClient();
     }
 
-    activate(state) {
-        this.state = state;
+    activate(job) {
+        this.job = job;
+
+        return this.getJobInfo();
+    }
+
+    getJobInfo() {
+        return new Promise((resolve) => {
+            let client = new HttpClient();
+            let url = `/api/job/${this.job.id}/${this.job.type}`;
+
+            client.get(url).then(data => {
+				this.state = JSON.parse(data.response);
+                
+                window.setTimeout(() => this.getJobInfo(), 500);
+
+                resolve();
+            });
+        });
     }
 }

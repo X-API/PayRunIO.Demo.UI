@@ -1,7 +1,6 @@
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { DialogService } from "aurelia-dialog";
-import { HttpClient } from "aurelia-http-client";
 import { JobDetailsModal } from "job/job-details-modal";
 import { PLATFORM } from "aurelia-pal";
 
@@ -14,18 +13,12 @@ export class App {
 
 	activate() {
 		this.ea.subscribe("app:view-job", job => {
-			let client = new HttpClient();
-
-            client.get(`/api/job/${job.id}/${job.type}`).then(data => {
-				let job = JSON.parse(data.response);
-				
-				let opts = {
-					viewModel: JobDetailsModal,
-					model: job
-				};
-		
-				this.dialogService.open(opts);				
-            });			
+			let opts = {
+				viewModel: JobDetailsModal,
+				model: job
+			};
+	
+			this.dialogService.open(opts);
 		})
 	}
 

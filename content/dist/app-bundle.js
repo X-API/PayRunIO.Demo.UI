@@ -852,8 +852,29 @@ define('job/job-details-modal',["exports", "aurelia-framework", "aurelia-dialog"
             this.client = new _aureliaHttpClient.HttpClient();
         }
 
-        JobDetailsModal.prototype.activate = function activate(state) {
-            this.state = state;
+        JobDetailsModal.prototype.activate = function activate(job) {
+            this.job = job;
+
+            return this.getJobInfo();
+        };
+
+        JobDetailsModal.prototype.getJobInfo = function getJobInfo() {
+            var _this = this;
+
+            return new Promise(function (resolve) {
+                var client = new _aureliaHttpClient.HttpClient();
+                var url = "/api/job/" + _this.job.id + "/" + _this.job.type;
+
+                client.get(url).then(function (data) {
+                    _this.state = JSON.parse(data.response);
+
+                    window.setTimeout(function () {
+                        return _this.getJobInfo();
+                    }, 500);
+
+                    resolve();
+                });
+            });
         };
 
         return JobDetailsModal;
@@ -1297,7 +1318,7 @@ define('dialogs/confirm',["exports", "aurelia-framework", "aurelia-dialog"], fun
     }()) || _class);
 });
 define('text!dialogs/confirm.html', ['module'], function(module) { module.exports = "<template>\n    <ux-dialog>\n        <ux-dialog-header>\n            <h5>\n                ${state.title}\n            </h5>\n        </ux-dialog-header>\n        <ux-dialog-body>\n            <div class=\"container-fluid\">\n                <div class=\"row\">\n                    <div class=\"col-sm-12 text-left\">\n                        <p>${state.message}</p>\n                    </div>\n                </div>\n            </div>\n        </ux-dialog-body>\n\n        <ux-dialog-footer>\n            <div class=\"container-fluid\">\n                <div class=\"row\">\n                    <div class=\"col-sm-6 text-left\">\n                        <button class=\"btn btn-secondary\" click.trigger=\"no()\">No</button>\n                    </div>\n                    <div class=\"col-sm-6 text-right\">\n                        <button class=\"btn btn-danger\" click.trigger=\"yes()\">Yes</button>\n                    </div>\n                </div>\n            </div>\n        </ux-dialog-footer>\n    </ux-dialog>\n</template>"; });
-define('app',["exports", "aurelia-framework", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-http-client", "job/job-details-modal", "aurelia-pal"], function (exports, _aureliaFramework, _aureliaEventAggregator, _aureliaDialog, _aureliaHttpClient, _jobDetailsModal, _aureliaPal) {
+define('app',["exports", "aurelia-framework", "aurelia-event-aggregator", "aurelia-dialog", "job/job-details-modal", "aurelia-pal"], function (exports, _aureliaFramework, _aureliaEventAggregator, _aureliaDialog, _jobDetailsModal, _aureliaPal) {
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -1325,18 +1346,12 @@ define('app',["exports", "aurelia-framework", "aurelia-event-aggregator", "aurel
 			var _this = this;
 
 			this.ea.subscribe("app:view-job", function (job) {
-				var client = new _aureliaHttpClient.HttpClient();
+				var opts = {
+					viewModel: _jobDetailsModal.JobDetailsModal,
+					model: job
+				};
 
-				client.get("/api/job/" + job.id + "/" + job.type).then(function (data) {
-					var job = JSON.parse(data.response);
-
-					var opts = {
-						viewModel: _jobDetailsModal.JobDetailsModal,
-						model: job
-					};
-
-					_this.dialogService.open(opts);
-				});
+				_this.dialogService.open(opts);
 			});
 		};
 
