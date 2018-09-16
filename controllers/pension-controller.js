@@ -79,6 +79,6 @@ module.exports = class PensionController extends BaseController {
                     type: "success"
                 }
             };
-        }        
+        }
     }    
 };

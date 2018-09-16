@@ -159,10 +159,7 @@ module.exports = class PayRunController extends BaseController {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
-
-        let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
-        
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(`/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

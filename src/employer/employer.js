@@ -169,4 +169,33 @@ export class Employer {
             this.dialogService.open(opts);
         });
     }
+
+    deletePayRun(employerId, payScheduleId, payRunId) {
+        let opts = {
+            viewModel: Confirm,
+            model: {
+                title: "Are you sure?",
+                message: "Are you sure you want to delete this pay run?"
+            }
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                let client = new HttpClient();
+
+                client.delete(`/api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`).then(res => {
+                    let parsedResponse = JSON.parse(res.response);
+        
+                    if (parsedResponse.errors) {
+                        this.apiErrors = parsedResponse.errors;
+                        return;
+                    }
+        
+                    this.apiErrors = null;
+                    this.status = parsedResponse.status;
+                    this.getEmployerDetails(employerId);
+                });
+            }
+        });
+    }
 }

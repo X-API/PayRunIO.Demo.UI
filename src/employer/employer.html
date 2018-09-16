@@ -191,9 +191,7 @@
                                         <button if.bind="schedule.HeadSequence == payrun.Sequence"
                                             type="button" 
                                             class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                            data-pay-run-id="${payrun.Key}"
-                                            data-pay-schedule-id="${schedule.Key}"  
-                                            data-employer-id="${employer.Id}">Delete
+                                            click.delegate="deletePayRun(employer.Id, schedule.Key, payrun.Key)">Delete
                                         </button>          
                                     </td>
                                 </tr>
