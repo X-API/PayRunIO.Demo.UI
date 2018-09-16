@@ -426,7 +426,7 @@ define('resources/elements/status/status',["exports", "aurelia-framework", "aure
         }
 
         Status.prototype.viewJob = function viewJob() {
-            this.ea.publish("app:view-job", this.status.jobId);
+            this.ea.publish("app:view-job", this.status.job);
         };
 
         return Status;
@@ -437,7 +437,7 @@ define('resources/elements/status/status',["exports", "aurelia-framework", "aure
         }
     })), _class2)) || _class) || _class);
 });
-define('text!resources/elements/status/status.html', ['module'], function(module) { module.exports = "<template>\n    <div class=\"status alert alert-${status.type} alert-dismissible fade show\" role=\"alert\" if.bind=\"status\">\n        <span>${status.message}</span>\n\n        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" if.bind=\"status.jobId\" click.delegate=\"viewJob()\">View job</button>\n    \n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>    \n</template>"; });
+define('text!resources/elements/status/status.html', ['module'], function(module) { module.exports = "<template>\n    <div class=\"status alert alert-${status.type} alert-dismissible fade show\" role=\"alert\" if.bind=\"status\">\n        <span>${status.message}</span>\n\n        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" if.bind=\"status.job\" click.delegate=\"viewJob()\">View job</button>\n    \n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>    \n</template>"; });
 define('resources/elements/router-progress-indicator/router-progress-indicator',["exports", "aurelia-framework", "aurelia-event-aggregator"], function (exports, _aureliaFramework, _aureliaEventAggregator) {
     "use strict";
 
@@ -828,6 +828,38 @@ define('main',["exports", "aurelia-pal", "./environment"], function (exports, _a
 		});
 	}
 });
+define('job/job-details-modal',["exports", "aurelia-framework", "aurelia-dialog", "aurelia-http-client"], function (exports, _aureliaFramework, _aureliaDialog, _aureliaHttpClient) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.JobDetailsModal = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var JobDetailsModal = exports.JobDetailsModal = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogController), _dec(_class = function () {
+        function JobDetailsModal(dialogController) {
+            _classCallCheck(this, JobDetailsModal);
+
+            this.dialogController = dialogController;
+            this.client = new _aureliaHttpClient.HttpClient();
+        }
+
+        JobDetailsModal.prototype.activate = function activate(state) {
+            this.state = state;
+        };
+
+        return JobDetailsModal;
+    }()) || _class);
+});
+define('text!job/job-details-modal.html', ['module'], function(module) { module.exports = "<template>\n    <ux-dialog>\n        <ux-dialog-header>\n            <h5>${state.Title}</h5>\n        </ux-dialog-header>\n        <ux-dialog-body>\n            <div class=\"container-fluid\">\n                <div class=\"job-info\">\n                    <div class=\"row\" if.bind=\"state.Errors.length > 0\">\n                        <div class=\"col-sm-12\">\n                            <div class=\"alert alert-danger\" role=\"alert\">\n                                <p>\n                                    <strong>This job contains the following errors:</strong>\n                                </p>\n            \n                                <ul>\n                                    <li repeat.for=\"error of state.Errors\">${error}</li>\n                                </ul>\n                            </div>            \n                        </div>\n                    </div>\n                \n                    <div class=\"row\">\n                        <div class=\"col-sm-12\">\n                            <strong>Progress</strong>\n                        </div>\n                \n                        <div class=\"col-sm-12\">\n                            <div class=\"progress\">\n                                <div class=\"progress-bar progress-bar-striped progress-bar-animated\" \n                                    role=\"progressbar\"\n                                    style=\"width: ${state.Progress}%\"></div>\n                            </div>        \n                        </div>\n                    </div>\n                \n                    <div class=\"row\">\n                        <div class=\"col-sm-12 col-md-6\">\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <strong>Status</strong>\n                                </div>\n                \n                                <div class=\"col-sm-12\">\n                                    ${state.JobStatus}\n                                </div>            \n                            </div>\n                \n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <strong>Job Id</strong>\n                                </div>\n                \n                                <div class=\"col-sm-12\">\n                                    ${state.JobId}\n                                </div>            \n                            </div>        \n                        </div>\n                \n                        <div class=\"col-sm-12 col-md-6\">\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <strong>Last updated on</strong>\n                                </div>\n                \n                                <div class=\"col-sm-12\">\n                                    ${state.LastUpdated | longDateTime}\n                                </div>            \n                            </div>\n                \n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <strong>Created on</strong>\n                                </div>\n                \n                                <div class=\"col-sm-12\">\n                                    ${state.Created | longDateTime}\n                                </div>            \n                            </div>\n                        </div>    \n                    </div>\n                </div>\n            </div>\n        </ux-dialog-body>\n\n        <ux-dialog-footer>\n            <div class=\"container-fluid\">\n                <div class=\"row\">\n                    <div class=\"col-sm-12\">\n                        <button class=\"btn btn-primary\" click.trigger=\"dialogController.ok()\">Close</button>\n                    </div>\n                </div>\n            </div>\n        </ux-dialog-footer>\n    </ux-dialog>        \n</template>"; });
 define('header/header',["exports", "aurelia-framework", "aurelia-event-aggregator"], function (exports, _aureliaFramework, _aureliaEventAggregator) {
     "use strict";
 
@@ -1265,7 +1297,7 @@ define('dialogs/confirm',["exports", "aurelia-framework", "aurelia-dialog"], fun
     }()) || _class);
 });
 define('text!dialogs/confirm.html', ['module'], function(module) { module.exports = "<template>\n    <ux-dialog>\n        <ux-dialog-header>\n            <h5>\n                ${state.title}\n            </h5>\n        </ux-dialog-header>\n        <ux-dialog-body>\n            <div class=\"container-fluid\">\n                <div class=\"row\">\n                    <div class=\"col-sm-12 text-left\">\n                        <p>${state.message}</p>\n                    </div>\n                </div>\n            </div>\n        </ux-dialog-body>\n\n        <ux-dialog-footer>\n            <div class=\"container-fluid\">\n                <div class=\"row\">\n                    <div class=\"col-sm-6 text-left\">\n                        <button class=\"btn btn-secondary\" click.trigger=\"no()\">No</button>\n                    </div>\n                    <div class=\"col-sm-6 text-right\">\n                        <button class=\"btn btn-danger\" click.trigger=\"yes()\">Yes</button>\n                    </div>\n                </div>\n            </div>\n        </ux-dialog-footer>\n    </ux-dialog>\n</template>"; });
-define('app',["exports", "aurelia-pal"], function (exports, _aureliaPal) {
+define('app',["exports", "aurelia-framework", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-http-client", "job/job-details-modal", "aurelia-pal"], function (exports, _aureliaFramework, _aureliaEventAggregator, _aureliaDialog, _aureliaHttpClient, _jobDetailsModal, _aureliaPal) {
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -1279,10 +1311,34 @@ define('app',["exports", "aurelia-pal"], function (exports, _aureliaPal) {
 		}
 	}
 
-	var App = exports.App = function () {
-		function App() {
+	var _dec, _class;
+
+	var App = exports.App = (_dec = (0, _aureliaFramework.inject)(_aureliaEventAggregator.EventAggregator, _aureliaDialog.DialogService), _dec(_class = function () {
+		function App(eventAggregator, dialogService) {
 			_classCallCheck(this, App);
+
+			this.ea = eventAggregator;
+			this.dialogService = dialogService;
 		}
+
+		App.prototype.activate = function activate() {
+			var _this = this;
+
+			this.ea.subscribe("app:view-job", function (job) {
+				var client = new _aureliaHttpClient.HttpClient();
+
+				client.get("/api/job/" + job.id + "/" + job.type).then(function (data) {
+					var job = JSON.parse(data.response);
+
+					var opts = {
+						viewModel: _jobDetailsModal.JobDetailsModal,
+						model: job
+					};
+
+					_this.dialogService.open(opts);
+				});
+			});
+		};
 
 		App.prototype.configureRouter = function configureRouter(config, router) {
 			config.title = "PayRun.io Demo";
@@ -1309,7 +1365,7 @@ define('app',["exports", "aurelia-pal"], function (exports, _aureliaPal) {
 		};
 
 		return App;
-	}();
+	}()) || _class);
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"./header/header\"></require>\t\n\t<require from=\"./footer/footer\"></require>\n\t<require from=\"./api-calls/api-calls\"></require>\n\t<require from=\"./resources/elements/router-progress-indicator/router-progress-indicator\"></require>\n\n\t<router-progress-indicator></router-progress-indicator>\n\n\t<header></header>\n\n\t<div class=\"container content-container\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t<router-view></router-view>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\t<footer></footer>\n\n\t<api-calls></api-calls>\n</template>"; });
 define('api-calls/api-calls',["exports", "aurelia-framework", "aurelia-event-aggregator"], function (exports, _aureliaFramework, _aureliaEventAggregator) {

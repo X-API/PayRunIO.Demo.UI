@@ -11,6 +11,6 @@ export class Status {
     @bindable status = null;
 
     viewJob() {
-        this.ea.publish("app:view-job", this.status.jobId);
+        this.ea.publish("app:view-job", this.status.job);
     }
 }

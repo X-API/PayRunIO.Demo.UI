@@ -71,7 +71,10 @@ module.exports = class PayRunController extends BaseController {
                 status: {
                     message: "Pay Run job created",
                     type: "success",
-                    jobId: jobId
+                    job: {
+                        id: jobId,
+                        type: "payrun"
+                    }
                 }                
             };
         }

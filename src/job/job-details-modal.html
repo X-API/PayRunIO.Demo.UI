@@ -1,0 +1,96 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h5>${state.Title}</h5>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="container-fluid">
+                <div class="job-info">
+                    <div class="row" if.bind="state.Errors.length > 0">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger" role="alert">
+                                <p>
+                                    <strong>This job contains the following errors:</strong>
+                                </p>
+            
+                                <ul>
+                                    <li repeat.for="error of state.Errors">${error}</li>
+                                </ul>
+                            </div>            
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <strong>Progress</strong>
+                        </div>
+                
+                        <div class="col-sm-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                    role="progressbar"
+                                    style="width: ${state.Progress}%"></div>
+                            </div>        
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Status</strong>
+                                </div>
+                
+                                <div class="col-sm-12">
+                                    ${state.JobStatus}
+                                </div>            
+                            </div>
+                
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Job Id</strong>
+                                </div>
+                
+                                <div class="col-sm-12">
+                                    ${state.JobId}
+                                </div>            
+                            </div>        
+                        </div>
+                
+                        <div class="col-sm-12 col-md-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Last updated on</strong>
+                                </div>
+                
+                                <div class="col-sm-12">
+                                    ${state.LastUpdated | longDateTime}
+                                </div>            
+                            </div>
+                
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Created on</strong>
+                                </div>
+                
+                                <div class="col-sm-12">
+                                    ${state.Created | longDateTime}
+                                </div>            
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" click.trigger="dialogController.ok()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>        
+</template>

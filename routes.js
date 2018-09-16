@@ -62,6 +62,9 @@ router
     .post("/api/employer/:employerId/paySchedule", async ctx => await payScheduleController.post(ctx))
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/delete", async ctx => await payScheduleController.deleteSchedule(ctx))
 
+    // job
+    .get("/api/job/:jobId/:type", async ctx => await jobController.get(ctx))    
+
     // pension
     .post("/api/employer/:employerId/pension", async ctx => await pensionController.post(ctx))
     .patch("/api/employer/:employerId/pension/:id", async ctx => await pensionController.patch(ctx))
@@ -72,11 +75,8 @@ router
     .post("api/employer/:employerId/employee", async ctx => await employeeController.addNewEmployee(ctx))
     .get("api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx))
     .post("api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx))
-    //.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
-    //.get("/employer/:employerId/employee/:employeeId/p45", async ctx => { })
     .get("api/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
     .post("api/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
-    //.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
 
     // pay instruction
     .get("api/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))
@@ -101,9 +101,6 @@ router
     .get("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
     .post("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.postNewRtiInstruction(ctx))
     .get("api/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.getTransactionResults(ctx))
-
-    // job
-    .get("api/employer/:employerId/job/:jobId/:type", async ctx => await jobController.getJobDetails(ctx))
 
     // p45 pay instruction
     .post("api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
