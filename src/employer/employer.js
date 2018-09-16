@@ -171,6 +171,32 @@ export class Employer {
         });
     }
 
+    openAddPayRunModal(employerId, payScheduleId) {
+        // todo: get next payrun to populate the next few fields. 
+        let state = {
+            Title: "Create PayRun",
+            EmployerId: employerId,
+            PayScheduleId: payScheduleId,
+            //PaymentDate: payRun.PaymentDate,
+            //StartDate: payRun.PeriodStart,
+            //EndDate: payRun.PeriodEnd,
+            PaySchedules: []
+        };
+        
+        let opts = {
+            viewModel: NewPayRunModal,
+            model: state
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                this.status = response.output;
+
+                this.getEmployerDetails(this.employer.Id);
+            }
+        });        
+    }
+
     openRerunPayRunModal(employerId, payScheduleId, payRun) {
         let state = {
             Title: "Rerun PayRun",

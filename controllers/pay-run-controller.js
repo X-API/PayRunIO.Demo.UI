@@ -124,10 +124,7 @@ module.exports = class PayRunController extends BaseController {
             nextPeriodEnd = queryResult.NextPayRunDates.NextPeriodEnd;
         }
 
-        let message = "";
-
         let body = await this.getExtendedViewModel(ctx, {
-            Status: message,
             EmployerId: employerId,
             PayScheduleId: payScheduleId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,

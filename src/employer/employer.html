@@ -163,11 +163,10 @@
                                     <th scope="col">Pay Period</th>
                                     <th scope="col">Supplementary</th>
                                     <th scope="col">
-                                        <a class="btn btn-sm btn-primary launch-modal float-right" 
-                                            data-modal-title="Create PayRun"
-                                            data-pay-schedule-id="${schedule.Key}" 
-                                            href="#employer/${employer.Id}/payRun?paySchedule=${schedule.Key}" 
-                                            role="button">Add PayRun</a>
+                                        <button class="btn btn-sm btn-primary launch-modal float-right" 
+                                            type="button" 
+                                            role="button" 
+                                            click.delegate="openAddPayRunModal(employer.Id, schedule.Key)">Add PayRun</button>
                                     </th>
                                 </tr>
                             </thead>
