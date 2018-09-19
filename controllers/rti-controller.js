@@ -7,6 +7,16 @@ const moment = require("moment");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class RtiController extends BaseController {
+    async get(ctx) {
+        let employerId = ctx.params.employerId;
+        let rtiTransactionId = ctx.params.rtiTransactionId;
+
+        let apiRoute = `/Employer/${employerId}/RtiTransaction/${rtiTransactionId}`;
+        let response = await apiWrapper.get(apiRoute);
+
+        ctx.type = "text/plain; charset=utf-8";
+        ctx.body = JSON.stringify(response.RtiFpsTransaction, null, 4);
+    }
 
     async getNewRtiInstruction(ctx) {
         let employerId = ctx.params.employerId;
@@ -29,7 +39,7 @@ module.exports = class RtiController extends BaseController {
         return ctx.render("rti-instruction", extendedBody);
     }
 
-    async postNewRtiInstruction(ctx) {
+    async post(ctx) {
         let employerId = ctx.params.employerId;
         let formValues = ctx.request.body;
 
@@ -81,16 +91,5 @@ module.exports = class RtiController extends BaseController {
         let route = `/employer/${employerId}/job/${jobId}/rti`;
 
         await ctx.redirect(route);
-    }
-    
-    async getTransactionResults(ctx) {
-        let employerId = ctx.params.employerId;
-        let rtiTransactionId = ctx.params.rtiTransactionId;
-
-        let apiRoute = `/Employer/${employerId}/RtiTransaction/${rtiTransactionId}`;
-        let response = await apiWrapper.get(apiRoute);
-
-        ctx.type = "text/plain; charset=utf-8";
-        ctx.body = JSON.stringify(response.RtiFpsTransaction, null, 4);
     }
 };

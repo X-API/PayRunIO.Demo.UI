@@ -98,9 +98,9 @@ router
     .get("/api/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
 
     // rti transaction
+    .get("/api/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.get(ctx))    
     .get("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
-    .post("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.postNewRtiInstruction(ctx))
-    .get("api/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.getTransactionResults(ctx))
+    .post("/api/employer/:employerId/rtiTransaction", async ctx => await rtiController.post(ctx))
 
     // p45 pay instruction
     .post("api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
