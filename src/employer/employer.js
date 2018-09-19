@@ -173,28 +173,34 @@ export class Employer {
     }
 
     openAddPayRunModal(employerId, payScheduleId) {
-        // todo: get next payrun to populate the next few fields. 
-        let state = {
-            Title: "Create PayRun",
-            EmployerId: employerId,
-            PayScheduleId: payScheduleId,
-            //PaymentDate: payRun.PaymentDate,
-            //StartDate: payRun.PeriodStart,
-            //EndDate: payRun.PeriodEnd,
-            PaySchedules: []
-        };
-        
-        let opts = {
-            viewModel: NewPayRunModal,
-            model: state
-        };
+        let url = `/api/employer/${employerId}/paySchedule/${payScheduleId}/next-pay-run`;
+        let client = new HttpClient();
 
-        this.dialogService.open(opts).whenClosed(response => {
-            if (!response.wasCancelled) {
-                this.status = response.output;
+        client.get(url).then(res => {
+            let nextPayRun = JSON.parse(res.response);
+            
+            let state = {
+                Title: "Create PayRun",
+                EmployerId: employerId,
+                PayScheduleId: payScheduleId,
+                PaymentDate: nextPayRun.paymentDate,
+                StartDate: nextPayRun.periodStart,
+                EndDate: nextPayRun.periodEnd,
+                PaySchedules: []
+            };
+            
+            let opts = {
+                viewModel: NewPayRunModal,
+                model: state
+            };
 
-                this.getEmployerDetails(this.employer.Id);
-            }
+            this.dialogService.open(opts).whenClosed(response => {
+                if (!response.wasCancelled) {
+                    this.status = response.output;
+
+                    this.getEmployerDetails(this.employer.Id);
+                }
+            });
         });        
     }
 

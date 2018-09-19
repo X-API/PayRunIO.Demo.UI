@@ -61,6 +61,7 @@ router
     .post("/api/employer", async ctx => await employerController.addNewEmployer(ctx))
 
     // pay schedule
+    .get("/api/employer/:employerId/paySchedule/:payScheduleId/next-pay-run", async ctx => await payScheduleController.getNextPayRun(ctx))
     .post("/api/employer/:employerId/paySchedule", async ctx => await payScheduleController.post(ctx))
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/delete", async ctx => await payScheduleController.deleteSchedule(ctx))
 
@@ -91,7 +92,6 @@ router
     .post("/api/employer/:employerId/payRun", async ctx => await payRunController.post(ctx))
     .get("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.get(ctx))
     .delete("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.delete(ctx))
-    .post("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/rerun", async ctx => await payRunController.rerunPayRun(ctx))
 
     // pay runs
     .get("/api/employer/:employerId/payRuns", async ctx => await payRunsController.get(ctx))

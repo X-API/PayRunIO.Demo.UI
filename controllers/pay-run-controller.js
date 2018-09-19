@@ -1,13 +1,10 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const EmployerService = require("../services/employer-service");
 const PayRunUtils = require("../services/pay-run-utils");
 const PayRunG2NQuery = require("../queries/payrun-g2n-query");
-const NextPayRunDatesQuery = require("../queries/next-payrun-dates-query");
 
 let apiWrapper = new ApiWrapper();
-let employerService = new EmployerService();
 
 module.exports = class PayRunController extends BaseController {
     async get(ctx) {
@@ -99,41 +96,5 @@ module.exports = class PayRunController extends BaseController {
                 }
             };
         }
-    }
-
-    async requestNewRun(ctx) {
-        let employerId = ctx.params.employerId;
-        let payScheduleId = ctx.query.paySchedule;
-        let paySchedules = await employerService.getPaySchedules(employerId);
-
-        let nextPaymentDate;
-        let nextPeriodStart;
-        let nextPeriodEnd;
-
-        // query next PayRun dates
-        if (payScheduleId) {
-            let queryStr = JSON.stringify(NextPayRunDatesQuery)
-                .replace("$$EmployerKey$$", employerId)
-                .replace("$$PayScheduleKey$$", payScheduleId);
-
-            let query = JSON.parse(queryStr);
-            let queryResult = await apiWrapper.query(query);
-
-            nextPaymentDate = queryResult.NextPayRunDates.NextPayDay;
-            nextPeriodStart = queryResult.NextPayRunDates.NextPeriodStart;
-            nextPeriodEnd = queryResult.NextPayRunDates.NextPeriodEnd;
-        }
-
-        let body = await this.getExtendedViewModel(ctx, {
-            EmployerId: employerId,
-            PayScheduleId: payScheduleId,
-            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
-            PaymentDate: nextPaymentDate,
-            StartDate: nextPeriodStart,
-            EndDate: nextPeriodEnd
-        });
-
-        let model = Object.assign(body, { layout: "modal" });
-        await ctx.render("pay-run-creation", model);
     }
 };

@@ -1250,25 +1250,34 @@ define('employer/employer',["exports", "aurelia-framework", "aurelia-event-aggre
         Employer.prototype.openAddPayRunModal = function openAddPayRunModal(employerId, payScheduleId) {
             var _this8 = this;
 
-            var state = {
-                Title: "Create PayRun",
-                EmployerId: employerId,
-                PayScheduleId: payScheduleId,
+            var url = "/api/employer/" + employerId + "/paySchedule/" + payScheduleId + "/next-pay-run";
+            var client = new _aureliaHttpClient.HttpClient();
 
-                PaySchedules: []
-            };
+            client.get(url).then(function (res) {
+                var nextPayRun = JSON.parse(res.response);
 
-            var opts = {
-                viewModel: _newPayRunModal.NewPayRunModal,
-                model: state
-            };
+                var state = {
+                    Title: "Create PayRun",
+                    EmployerId: employerId,
+                    PayScheduleId: payScheduleId,
+                    PaymentDate: nextPayRun.paymentDate,
+                    StartDate: nextPayRun.periodStart,
+                    EndDate: nextPayRun.periodEnd,
+                    PaySchedules: []
+                };
 
-            this.dialogService.open(opts).whenClosed(function (response) {
-                if (!response.wasCancelled) {
-                    _this8.status = response.output;
+                var opts = {
+                    viewModel: _newPayRunModal.NewPayRunModal,
+                    model: state
+                };
 
-                    _this8.getEmployerDetails(_this8.employer.Id);
-                }
+                _this8.dialogService.open(opts).whenClosed(function (response) {
+                    if (!response.wasCancelled) {
+                        _this8.status = response.output;
+
+                        _this8.getEmployerDetails(_this8.employer.Id);
+                    }
+                });
             });
         };
 
