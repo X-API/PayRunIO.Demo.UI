@@ -27,7 +27,7 @@ module.exports = class APILogger {
                     Accept: call.headers.accept
                 },
                 hasRequestBody: call.body && call.method === "POST",
-                requestBody: call.body ? this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4)) : ""
+                requestBody: call.body ? "-d " + this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4)) : ""
             });
         }
         else {

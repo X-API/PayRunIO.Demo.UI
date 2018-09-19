@@ -49,10 +49,7 @@ router
     .post("/api/setup", async ctx => await setupController.post(ctx))    
 
     // api calls
-    .get("api/api-calls", async ctx => await apiLoggerController.getView(ctx))
-    .get("api/api-calls/data", async ctx => await apiLoggerController.getData(ctx))
-    .post("api/api-calls/is-open", async ctx => await apiLoggerController.postAPICallsOpenStatus(ctx))
-    .post("api/api-calls/size", async ctx => await apiLoggerController.postAPICallsPanelSize(ctx))
+    .get("/api/api-calls", async ctx => await apiLoggerController.get(ctx))
 
     // employer
     .get("/api/employers", async ctx => await employerController.getEmployers(ctx))

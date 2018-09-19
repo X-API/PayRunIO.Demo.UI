@@ -1,11 +1,7 @@
 const BaseController = require("./base-controller");
 
 module.exports = class APILoggerController extends BaseController {
-    async getView(ctx) {
-        await ctx.render("api-logs", await this.getExtendedViewModel(ctx, { title: "API calls", HideAPICallsLink: true }));
-    }
-
-    async getData(ctx) {
+    async get(ctx) {
         let data = ctx.session.apiCalls;
 
         if (!data) {
@@ -18,17 +14,5 @@ module.exports = class APILoggerController extends BaseController {
         let reversed = filteredData.reverse();
 
         ctx.body = reversed;
-    }
-
-    async postAPICallsOpenStatus(ctx) {
-        let body = ctx.request.body;
-
-        ctx.session.openAPICalls = body.open === "true";
-    }
-
-    async postAPICallsPanelSize(ctx) {
-        let body = ctx.request.body;
-
-        ctx.session.apiCallsHeight = body.size;
-    }    
+    }   
 };
