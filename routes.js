@@ -71,12 +71,8 @@ router
     .delete("/api/employer/:employerId/pension/:id", async ctx => await pensionController.delete(ctx))
 
     // employee
-    .get("api/employer/:employerId/employee/new", async ctx => await employeeController.requestNewEmployee(ctx))
-    .post("api/employer/:employerId/employee", async ctx => await employeeController.addNewEmployee(ctx))
-    .get("api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx))
-    .post("api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx))
-    .get("api/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
-    .post("api/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.get(ctx))
+    .post("/api/employer/:employerId/employee", async ctx => await employeeController.post(ctx))
 
     // pay instruction
     .get("api/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))

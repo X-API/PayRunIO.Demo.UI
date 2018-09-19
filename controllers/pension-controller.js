@@ -11,8 +11,6 @@ module.exports = class PensionController extends BaseController {
         let body = ctx.request.body;
         let response = null;
 
-        console.log(body);
-
         if (body.Id) {
             let url = `Employer/${employerId}/Pension/${body.Id}`;
 

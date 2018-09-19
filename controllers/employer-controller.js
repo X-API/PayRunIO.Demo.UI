@@ -85,10 +85,6 @@ module.exports = class EmployerController extends BaseController {
 
         ctx.body = Object.assign(employer, {
             Id: id,
-            //Breadcrumbs: [
-            //    { Name: "Employers", Url: "/employer" },
-            //    { Name: employer.Name }
-            //],
             Employees: employees,
             Pensions: extendedPensions,
             PaySchedules: paySchedules,
