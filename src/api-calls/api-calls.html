@@ -14,49 +14,50 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="api-calls-container" <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="row" repeat.for="call of calls">
-                                        <div class="col-sm-12">
-                                            <div class="summary" click.delegate="showCallDetails(call)">
-                                                <span>
-                                                    ${call.method}
-                                                    <strong>/${call.relativeUri}</strong>
-                                                </span>
+                        <div class="api-calls-container">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row" repeat.for="call of calls">
+                                            <div class="col-sm-12">
+                                                <div class="summary" click.delegate="showCallDetails(call)">
+                                                    <span>
+                                                        ${call.method}
+                                                        <strong>/${call.relativeUri}</strong>
+                                                    </span>
 
-                                                <em>
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </em>
+                                                    <em>
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </em>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm-12">
-                                            <hr>
+                                            <div class="col-sm-12">
+                                                <hr>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-sm-8 request-and-response">
-                                    <div if.bind="selectedCall">
-                                        <h4>
-                                            ${selectedCall.method}
-                                            <strong>/${selectedCall.relativeUri}</strong>
-                                        </h4>
+                                    <div class="col-sm-8 request-and-response">
+                                        <div if.bind="selectedCall">
+                                            <h4>
+                                                ${selectedCall.method}
+                                                <strong>/${selectedCall.relativeUri}</strong>
+                                            </h4>
 
-                                        <nav>
-                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                                <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
-                                                <a class="nav-item nav-link" data-toggle="tab" href="#nav-response">Response</a>
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content" id="nav-tabContent">
-                                            <div class="tab-pane fade show active" id="nav-request">
-                                                <div class="code-container">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-copy"
-                                                        click.delegate="copyTextToClipboard($event)">Copy</button>
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                    <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
+                                                    <a class="nav-item nav-link" data-toggle="tab" href="#nav-response">Response</a>
+                                                </div>
+                                            </nav>
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <div class="tab-pane fade show active" id="nav-request">
+                                                    <div class="code-container">
+                                                        <button type="button" class="btn btn-secondary btn-sm btn-copy"
+                                                            click.delegate="copyTextToClipboard($event)">Copy</button>
 
-                                                    <code>
+                                                        <code>
                                                         curl -X ${selectedCall.method} \
                                                             <span>${selectedCall.uri} \</span>
                                                             <span>-H 'Accept: ${selectedCall.headers.Accept}' \</span>
@@ -68,18 +69,19 @@
                                                             <span if.bind="selectedCall.hasRequestBody" 
                                                                 innerhtml.bind="selectedCall.requestBody"></span>
                                                     </code>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="nav-response">
-                                                <div class="code-container">
-                                                    <code innerhtml.bind="selectedCall.response"></code>
+                                                <div class="tab-pane fade" id="nav-response">
+                                                    <div class="code-container">
+                                                        <code innerhtml.bind="selectedCall.response"></code>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="initial-request-and-response-explanation" if.bind="!selectedCall">
-                                        <p>Click on a request to view the request and response details here</p>
+                                        <div class="initial-request-and-response-explanation" if.bind="!selectedCall">
+                                            <p>Click on a request to view the request and response details here</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -88,6 +90,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
