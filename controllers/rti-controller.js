@@ -18,38 +18,16 @@ module.exports = class RtiController extends BaseController {
         ctx.body = JSON.stringify(response.RtiFpsTransaction, null, 4);
     }
 
-    async getNewRtiInstruction(ctx) {
-        let employerId = ctx.params.employerId;
-
-        let queryStr = JSON.stringify(PayRunsQuery).replace("$$EmployerKey$$", employerId);
-
-        let query = JSON.parse(queryStr);
-
-        let paymentDates = await apiWrapper.query(query);
-
-        let body = {
-            Status: "",
-            EmployerId: employerId,
-            PayRuns: paymentDates.PayRunsQuery.PayRuns,
-            layout: "modal"
-        };
-
-        let extendedBody = await this.getExtendedViewModel(ctx, body);        
-
-        return ctx.render("rti-instruction", extendedBody);
-    }
-
     async post(ctx) {
         let employerId = ctx.params.employerId;
-        let formValues = ctx.request.body;
-
-        let apiRoute = `/Employer/${employerId}/${formValues.PayRun}`;
+        let body = ctx.request.body;
+        let apiRoute = `/Employer/${employerId}/PaySchedule/${body.PayScheduleId}/PayRun/${body.PayRunId}`;
         let payRun = await apiWrapper.get(apiRoute);
 
         let fpsBody = {
             RtiType: "FPS",
-            Generate: true,
-            Transmit: true,
+            Generate: body.Generate,
+            Transmit: body.Transmit,
             Employer: {
                 "@href": `/Employer/${employerId}`
             },
@@ -58,38 +36,30 @@ module.exports = class RtiController extends BaseController {
             TaxMonth: payRun.PayRun.TaxPeriod,
             PaymentDate: payRun.PayRun.PaymentDate,
             Timestamp: moment().format("YYYY-MM-DDTHH:mm:ss"),
-            HoldingDate: null,
-            LateReason: null
+            HoldingDate: body.HoldingDate,
+            LateReason: body.LateReason
         };
 
         let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: fpsBody });
 
         if (ValidationParser.containsErrors(response)) {
-            ctx.session.body = formValues;
-
-            let queryStr = JSON.stringify(PayRunsQuery)
-                .replace("$$EmployerKey$$", employerId);
-
-            let query = JSON.parse(queryStr);
-            let paymentDates = await apiWrapper.query(query);
-
-            let body = {
-                Status: "",
-                EmployerId: employerId,
-                PayRuns: paymentDates.PayRunsQuery.PayRuns,
-                //layout: "modal"
-            };
-
-            await ctx.render("rti-instruction", await this.getExtendedViewModel(ctx, Object.assign(body, { 
+            ctx.body = {
                 errors: ValidationParser.extractErrors(response)
-            })));
-
-            return;
+            };
         }
+        else {
+            let jobId = response.Link["@href"].split("/")[3];
 
-        let jobId = response.Link["@href"].split("/")[3];
-        let route = `/employer/${employerId}/job/${jobId}/rti`;
-
-        await ctx.redirect(route);
+            ctx.body = {
+                status: {
+                    message: "RTI submission job created",
+                    type: "success",
+                    job: {
+                        id: jobId,
+                        type: "rti"
+                    }
+                }
+            };
+        }
     }
 };

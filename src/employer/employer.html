@@ -258,9 +258,9 @@
             <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
                 <div class="row actions" if.bind="employer.PayRuns">
                     <div class="col-sm-12">
-                        <a class="btn btn-primary launch-modal" 
-                            href="#employer/${employer.Id}/rtiTransaction" 
-                            role="button">Make FPS Submission</a>
+                        <button class="btn btn-primary launch-modal" 
+                            type="button" 
+                            click.delegate="openAddRtiSubmissionModal(employer.Id)">Make FPS Submission</button>
                     </div>
                 </div>
 

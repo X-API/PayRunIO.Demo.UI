@@ -5,6 +5,7 @@ const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
 const PayRunController = require("./controllers/pay-run-controller");
+const PayRunsController = require("./controllers/pay-runs-controller");
 const CommentaryController = require("./controllers/commentary-controller");
 const PaySlipController = require("./controllers/pay-slip-controller");
 const JobController = require("./controllers/job-controller");
@@ -22,6 +23,7 @@ let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
 let payInstructionController = new PayInstructionController();
 let payRunController = new PayRunController();
+let payRunsController = new PayRunsController();
 let commentaryController = new CommentaryController();
 let paySlipController = new PaySlipController();
 let jobController = new JobController();
@@ -91,6 +93,9 @@ router
     .delete("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId", async ctx => await payRunController.delete(ctx))
     .post("/api/employer/:employerId/paySchedule/:payScheduleId/payRun/:payRunId/rerun", async ctx => await payRunController.rerunPayRun(ctx))
 
+    // pay runs
+    .get("/api/employer/:employerId/payRuns", async ctx => await payRunsController.get(ctx))
+
     // comentary
     .get("/api/employer/:employerId/employee/:employeeId/commentary/:commentaryId", async ctx => await commentaryController.getCommentary(ctx))
 
@@ -99,7 +104,6 @@ router
 
     // rti transaction
     .get("/api/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.get(ctx))    
-    .get("api/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
     .post("/api/employer/:employerId/rtiTransaction", async ctx => await rtiController.post(ctx))
 
     // p45 pay instruction

@@ -6,6 +6,7 @@ import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
 import { InfoModal } from "../pay-run/info-modal";
 import { NewPayRunModal } from "../pay-run/new-pay-run-modal";
+import { RtiTransactionModal } from "../rti-transaction/rti-transaction-modal";
 import { Confirm } from "../dialogs/confirm";
 
 @inject(EventAggregator, DialogService)
@@ -250,5 +251,29 @@ export class Employer {
                 });
             }
         });
+    }
+
+    openAddRtiSubmissionModal(employerId) {
+        let client = new HttpClient();
+
+        client.get(`/api/employer/${employerId}/payRuns`).then(res => {
+            let payRuns = JSON.parse(res.response);
+
+            let opts = {
+                viewModel: RtiTransactionModal,
+                model: {
+                    employerId: employerId,
+                    payRuns: payRuns
+                }
+            };
+    
+            this.dialogService.open(opts).whenClosed(response => {
+                if (!response.wasCancelled) {
+                    this.status = response.output;
+    
+                    this.getEmployerDetails(this.employer.Id);
+                }
+            });
+        }); 
     }
 }
