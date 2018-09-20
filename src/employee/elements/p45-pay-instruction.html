@@ -1,3 +1,192 @@
 <template>
+    <require from="../../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../../resources/elements/api-errors/api-errors"></require>
+    <require from="../../resources/elements/status/status"></require>
+        
+    <validation-errors errors.bind="validationController.errors"></validation-errors>
     
+    <api-errors errors.bind="apiErrors"></api-errors>
+
+    <status status.bind="status"></status>
+
+    <div id="add-p45-pay-instruction-container" class="row actions" if.bind="!p45payinstruction">
+        <div class="col-sm-12">
+            <button id="add-p45-pay-instruction" type="button" class="btn btn-primary btn-lg btn-block" click.delegate="add()">Add a P45 pay instruction</button>
+        </div>
+    </div>
+    
+    <div id="p45-pay-instruction-container" if.bind="p45payinstruction">
+        <form>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="StartDate">Start date</label>
+    
+                        <input type="date" 
+                            class="form-control" 
+                            id="StartDate" 
+                            name="StartDate" 
+                            value.bind="p45payinstruction.StartDate & validate">
+    
+                        <span class="notes">
+                            The date the instruction will come into effect.
+                        </span>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="EndDate">End date</label>
+    
+                        <input type="date" 
+                            class="form-control" 
+                            id="EndDate" 
+                            name="EndDate" 
+                            value.bind="p45payinstruction.EndDate">
+    
+                        <span class="notes">
+                            The date the instruction will end, open ended instructions will run forever.
+                        </span>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+    
+                        <input type="text" 
+                            class="form-control" 
+                            id="Description" 
+                            name="Description" 
+                            value.bind="p45payinstruction.Description" 
+                            maxlength="200">
+    
+                        <span class="notes">
+                            This description will override the default description from the pay code. 
+                            See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+                        </span>
+                    </div> 
+    
+                    <div class="form-group">
+                        <label for="TaxablePay">Taxable pay</label>
+    
+                        <input type="number" 
+                            class="form-control" 
+                            id="TaxablePay" 
+                            name="TaxablePay" 
+                            value.bind="p45payinstruction.TaxablePay & validate" 
+                            step="0.01">
+    
+                        <span class="notes">
+                            The year to date taxable pay from the previous employment.
+                        </span>
+                    </div> 
+    
+                    <div class="form-group">
+                        <label for="TaxPaid">Tax paid</label>
+    
+                        <input type="number" 
+                            class="form-control" 
+                            id="TaxPaid" 
+                            name="TaxPaid" 
+                            value.bind="p45payinstruction.TaxPaid & validate" 
+                            step="0.01">
+    
+                        <span class="notes">
+                            The year to date tax paid from the previous employment.
+                        </span>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="TaxCode">Tax code</label>
+    
+                        <input type="text" 
+                            class="form-control" 
+                            id="TaxCode" 
+                            name="TaxCode" 
+                            pattern="^(SD1|SD2|D1|BR|SBR|SD0|D0|NT)$|^[S]?((K{1}[0-9]{1,6})|([0-9]{1,6}[LMNPTYV]{1})$)" 
+                            minlength="2" 
+                            maxlength="7" 
+                            value.bind="p45payinstruction.TaxCode & validate">
+    
+                        <span class="notes">
+                            The tax code from the previous employment.
+                        </span>
+                    </div>                                  
+                </div>
+    
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="TaxBasis">Tax basis</label>
+    
+                        <select id="TaxBasis" name="TaxBasis" class="form-control" value.bind="p45payinstruction.TaxBasis">
+                            <option value="Cumulative">Cumulative</option>
+                            <option value="Week1Month1">Week1Month1</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="StudentLoan">Student loan</label>
+    
+                        <select id="StudentLoan" name="StudentLoan" class="form-control" value.bind="p45payinstruction.StudentLoan">
+                            <option value="Off">Off</option>
+                            <option value="Plan1">Plan 1</option>
+                            <option value="Plan2">Plan 2</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="PayFrequency">Pay frequency</label>
+    
+                        <select id="PayFrequency" name="PayFrequency" class="form-control" value.bind="p45payinstruction.PayFrequency">
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="TwoWeekly">Two weekly</option>
+                            <option value="FourWeekly">Four weekly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="LeavingDate">Leaving date</label>
+    
+                        <input type="date" 
+                            class="form-control" 
+                            id="LeavingDate" 
+                            name="LeavingDate" 
+                            value.bind="p45payinstruction.LeavingDate & validate">
+    
+                        <span class="notes">
+                            The leaving date from the previous employment.
+                        </span>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="PreviousEmployerPayeRef">Previous employer Paye ref</label>
+    
+                        <input type="text" 
+                            class="form-control" 
+                            id="PreviousEmployerPayeRef" 
+                            name="PreviousEmployerPayeRef" 
+                            value.bind="p45payinstruction.PreviousEmployerPayeRef" 
+                            maxlength="14" 
+                            pattern="([0-9]{3})/([A-Za-z0-9]{1,10})">
+    
+                        <span class="notes">
+                            The previous employer's PAYE scheme reference if known.
+                        </span>
+                    </div>                  
+                </div>            
+            </div>
+    
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button"  
+                        class="btn btn-danger" 
+                        click.delegate="delete()" 
+                        if.bind="p45payinstruction.Id">Delete</button>
+                </div>
+    
+                <div class="col-sm-6 text-right">
+                    <button class="btn btn-primary" click.delegate="save()">Save</button>
+                </div>
+            </div>        
+        </form>
+    </div>    
 </template>

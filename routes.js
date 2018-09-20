@@ -100,8 +100,7 @@ router
     .post("/api/employer/:employerId/rtiTransaction", async ctx => await rtiController.post(ctx))
 
     // p45 pay instruction
-    .post("api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
-    .post("api/employer/:employerId/Employee/:employeeId/P45Instruction/:id", async ctx => await p45InstructionController.postExistingInstruction(ctx))
+    .post("/api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.post(ctx))
 ;
 
 module.exports = router.routes();

@@ -44,7 +44,7 @@ export class Employee {
         if (params && params.employerId && params.employeeId) {
             return this.getEmployeeDetails(params.employerId, params.employeeId);
         }
-    }
+    } 
 
     getEmployeeDetails(employerId, employeeId) {
         let client = new HttpClient();
@@ -78,8 +78,6 @@ export class Employee {
                 let employeeId = this.employee.Id;
                 let payInstructionId = pi.Id;
                 let url = `/api/employer/${employerId}/employee/${employeeId}/payInstruction/${payInstructionId}`;
-
-                // /api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId
                 
                 client.delete(url).then(res => {
                     let parsedResponse = JSON.parse(res.response);

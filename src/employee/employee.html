@@ -100,7 +100,9 @@
             </div>
 
             <div class="tab-pane fade" id="p45-instruction">
-                {{>p45PayInstruction}}
+                <p45-pay-instruction employeeid.bind="employee.Id" 
+                    employerid.bind="employee.EmployerId" 
+                    p45payinstruction.bind="employee.P45PayInstruction"></p45-pay-instruction>
             </div>               
 
             <div class="tab-pane fade" id="year-to-date-instructions">
