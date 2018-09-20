@@ -1,0 +1,52 @@
+<template>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pension</th>
+                <th>Employee Contribution</th>
+                <th>Employer Contribution</th>
+                <th>Salary Sacrifice?</th>
+                <th>Taxation Method</th>
+                <th width="50px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="item of pi.Instructions">
+                <th scope="row">
+                    <a class="launch-modal" 
+                        data-modal-size="modal-lg" 
+                        data-modal-title="Pension" 
+                        href="#" 
+                        click.delegate="openEditPayInstructionModal(item)">
+                        ${item.Id}
+                    </a>
+                </th>
+                <td>
+                    <a href="{{extractHref this.Pension}}">
+                        ${item.Pension | extractIdFromLink}
+                    </a>
+                </td>
+                <td>
+                    ${getPensionContribution(item.EmployeeContributionCash, item.EmployeeContributionPercent)}
+                </td>
+                <td>
+                    ${getPensionContribution(item.EmployerContributionCash, item.EmployerContributionPercent)}
+                </td>            
+                <td>
+                    <input type="checkbox" disabled readonly checked.bind="item.SalarySacrifice">
+                </td>
+                <td>
+                    ${item.TaxationMethod}
+                </td>
+                <td>
+                    <button type="button" 
+                        class="btn btn-danger btn-sm btn-delete-instruction" 
+                        click.delegate="deleteInstruction(item)">
+                        Delete
+                    </button>                
+                </td>                                                          
+            </tr>
+        </tbody>
+    </table>
+</template>

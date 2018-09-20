@@ -79,7 +79,7 @@ router
     .post("api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.addNewInstruction(ctx))
     .get("api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.getInstruction(ctx))
     .post("api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.saveInstruction(ctx))
-    .post("api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId/delete", async ctx => payInstructionController.deleteInstruction(ctx))
+    .delete("/api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.delete(ctx))
 
     // pay run
     .post("/api/employer/:employerId/payRun", async ctx => await payRunController.post(ctx))

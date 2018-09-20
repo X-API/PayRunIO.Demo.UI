@@ -47,7 +47,7 @@ export class App {
 				title: "Employer" 
 			},
 			{ 
-				route: "employee/:id?",
+				route: "employer/:employerId/employee/:employeeId?",
 				moduleId: PLATFORM.moduleName("employee/employee"),
 				title: "Employee" 
 			}

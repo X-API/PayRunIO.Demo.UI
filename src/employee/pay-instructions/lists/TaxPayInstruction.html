@@ -1,0 +1,42 @@
+<template>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tax code</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Description</th>
+                <th width="50px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="item of pi.Instructions">
+                <th scope="row">
+                    <a class="launch-modal" data-modal-size="modal-lg" data-modal-size="modal-lg" data-modal-title="Tax Instruction" href="#" click.delegate="openEditPayInstructionModal(item)">
+                        ${item.Id}
+                    </a>
+                </th>
+                <td>
+                    ${item.TaxCode}
+                </td>            
+                <td>
+                    ${item.StartDate}
+                </td>
+                <td>
+                    ${item.EndDate}
+                </td>
+                <td>
+                    ${item.Description}
+                </td>
+                <td>
+                    <button type="button" 
+                        class="btn btn-danger btn-sm btn-delete-instruction" 
+                        click.delegate="deleteInstruction(item)">
+                        Delete
+                    </button>                
+                </td>                                         
+            </tr>
+        </tbody>
+    </table>
+</template>

@@ -1,0 +1,38 @@
+<template>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Absence Start</th>
+                <th>Absence End</th>
+                <th>Statutory Offset?</th>
+                <th width="50px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="item of pi.Instructions">
+                <th scope="row">
+                    <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="SSP Instruction" href="#" click.delegate="openEditPayInstructionModal(item)">
+                        ${item.Id}
+                    </a>
+                </th>
+                <td>
+                    ${item.AbsenceStart}
+                </td>
+                <td>
+                    ${item.AbsenceEnd}
+                </td>
+                <td>
+                    ${item.StatutoryOffset}
+                </td>
+                <td>
+                    <button type="button" 
+                        class="btn btn-danger btn-sm btn-delete-instruction" 
+                        click.delegate="deleteInstruction(item)">
+                        Delete
+                    </button>                
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

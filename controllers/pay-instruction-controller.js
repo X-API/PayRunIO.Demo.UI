@@ -5,51 +5,6 @@ const ValidationParser = require("../services/validation-parser");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class PayInstructionController extends BaseController {
-    async requestNewInstruction(ctx) {
-        let employerId = ctx.params.employerId;
-        let employeeId = ctx.params.employeeId;
-        let instructionType = ctx.query.type || (ctx.session.body ? ctx.session.body.InstructionType : undefined);
-
-        if (!instructionType) {
-            await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#instructions`);
-            return;
-        }
-
-        let body = {
-            title: "Pay instruction",
-            EmployeeId: employeeId,
-            EmployerId: employerId,
-            InstructionType: instructionType,
-            EnableForm: await this.canInstructionBeAdded({ 
-                employerId: employerId,
-                employeeId: employeeId, 
-                type: instructionType
-            }),
-            MinStartDate: await this.getMinStartDateForNewInstruction({ 
-                employerId: employerId, 
-                employeeId: employeeId, 
-                type: instructionType
-            }),
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
-                { Name: "Pay instruction" }
-            ],
-            layout: "modal"
-        };
-
-        if (ctx.query && ctx.query.type) {
-            body.InstructionType = ctx.query.type;
-        }
-
-        let instructionTypeInstance = this.getInstructionInstance(instructionType);
-        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);
-
-        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
-    }
-
     async addNewInstruction(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
@@ -149,11 +104,11 @@ module.exports = class PayInstructionController extends BaseController {
         await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
     }
 
-    async deleteInstruction(ctx) {
+    async delete(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let payInstructionId = ctx.params.payInstructionId;
-        
+
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
         let response = await apiWrapper.delete(apiRoute);
@@ -164,7 +119,12 @@ module.exports = class PayInstructionController extends BaseController {
             };
         }
         else {
-            ctx.body = {};
+            ctx.body = {
+                status: {
+                    message: "Pay Instruction deleted",
+                    type: "success"                    
+                }
+            };
         }
     }
 

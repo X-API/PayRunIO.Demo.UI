@@ -1,6 +1,6 @@
 <template>
     <require from="./elements/employee-form"></require>
-    <require from="./p45-pay-instruction"></require>
+    <require from="./elements/p45-pay-instruction"></require>
     <require from="../resources/elements/status/status"></require>
     <require from="../resources/elements/api-errors/api-errors"></require>    
     
@@ -68,7 +68,10 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
-                                {{listOfPayInstructionsToAdd this false}}                           
+                                <a class="dropdown-item launch-modal" 
+                                    href="#" 
+                                    repeat.for="type of typesOfPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(type)">${type}</a>
                             </div>
                         </div>
                     </div>
@@ -82,14 +85,14 @@
                     </div>
                 </div>
 
-                <div class="row" if.bind="pi of GroupedPayInstructions">
+                <div class="row" repeat.for="pi of employee.GroupedPayInstructions">
                     <div class="col-sm-12">
                         <div class="card bg-light">
                             <div class="card-header">
-                                <h6>{{payInstructionFriendlyName InstructionType}}</h6>
+                                <h6>${pi.InstructionType}</h6>
                             </div>
                             <div class="card-body">
-                                {{payInstructionListPartial this ../this}}
+                                <compose view="./pay-instructions/lists/${pi.InstructionType}.html"></compose>
                             </div>
                         </div> 
                     </div>
@@ -115,7 +118,10 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="addNewYTDPayInstruction">
-                                {{listOfPayInstructionsToAdd this true}}                           
+                                <a class="dropdown-item launch-modal" 
+                                    href="#" 
+                                    repeat.for="type of typesOfYTDPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(type)">${type}</a>                           
                             </div>
                         </div>
                     </div>
@@ -129,14 +135,14 @@
                     </div>
                 </div>
 
-                <div class="row" repeat.for="pi of GroupedYTDPayInstructions">
+                <div class="row" repeat.for="pi of employee.GroupedYTDPayInstructions">
                     <div class="col-sm-12">
                         <div class="card bg-light">
                             <div class="card-header">
-                                <h6>{{payInstructionFriendlyName InstructionType}}</h6>
+                                <h6>${pi.InstructionType}</h6>
                             </div>
                             <div class="card-body">
-                                {{payInstructionListPartial this ../this}}
+                                <compose view="./ytd-pay-instructions/lists/${pi.InstructionType}.html"></compose>
                             </div>
                         </div> 
                     </div>
