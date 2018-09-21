@@ -3,6 +3,7 @@ const RootController = require("./controllers/root-controller");
 const EmployerController = require("./controllers/employer-controller");
 const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
+const PaySchedulesController = require("./controllers/pay-schedules-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
 const PayRunController = require("./controllers/pay-run-controller");
 const PayRunsController = require("./controllers/pay-runs-controller");
@@ -21,6 +22,7 @@ let rootController = new RootController();
 let employerController = new EmployerController();
 let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
+let paySchedulesController = new PaySchedulesController();
 let payInstructionController = new PayInstructionController();
 let payRunController = new PayRunController();
 let payRunsController = new PayRunsController();
@@ -56,6 +58,9 @@ router
     .get("/api/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
     .post("/api/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
     .post("/api/employer", async ctx => await employerController.addNewEmployer(ctx))
+
+    // pay schedules
+    .get("/api/employer/:employerId/pay-schedules", async ctx => await paySchedulesController.get(ctx))
 
     // pay schedule
     .get("/api/employer/:employerId/paySchedule/:payScheduleId/next-pay-run", async ctx => await payScheduleController.getNextPayRun(ctx))

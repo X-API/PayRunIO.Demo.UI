@@ -44,15 +44,27 @@ export class Employee {
         if (params && params.employerId && params.employeeId) {
             return this.getEmployeeDetails(params.employerId, params.employeeId);
         }
-    } 
+        else {
+            this.employee = {
+                EmployerId: params.employerId
+            };
+        }
+    }
+    
+    deactivate() {
+    }    
 
     getEmployeeDetails(employerId, employeeId) {
         let client = new HttpClient();
 
-        client.get(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
-            this.employee = JSON.parse(res.response);
-            
-            this.employee.EmployerId = employerId;
+        return new Promise(resolve => {
+            client.get(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+                this.employee = JSON.parse(res.response);
+                
+                this.employee.EmployerId = employerId;
+
+                resolve();
+            });
         });
     }
 

@@ -1,12 +1,10 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
-const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
 const _ = require("lodash");
 
 let apiWrapper = new ApiWrapper();
-let employerService = new EmployerService();
 
 module.exports = class EmployeeController extends BaseController {
     async get(ctx) {
@@ -21,12 +19,10 @@ module.exports = class EmployeeController extends BaseController {
         });
 
         let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
-        let paySchedules = await employerService.getPaySchedules(employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
 
         ctx.body = Object.assign(employee, {
             Id: employeeId,
-            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayInstructions: filteredPayInstructions,
             GroupedPayInstructions: this.getNormalGroupedPayInstructions(filteredPayInstructions),
             GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(filteredPayInstructions),
@@ -58,6 +54,7 @@ module.exports = class EmployeeController extends BaseController {
         }
         else {
             ctx.body = {
+                employeeId: 0,
                 status: {
                     message: "Employee details saved",
                     type: "success"

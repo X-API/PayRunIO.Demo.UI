@@ -10,11 +10,11 @@ const Session = require("koa-session");
 const MemoryStore = require("koa-session-memory");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
-const Routes = require("./routes");
+const Routes = require("./api/routes");
 const Raven = require("raven");
-const APILogger = require("./services/api-logger");
-const SetupController = require("./controllers/setup-controller");
-const Constants = require("./Constants");
+const APILogger = require("./api/services/api-logger");
+const SetupController = require("./api/controllers/setup-controller");
+const Constants = require("./api/Constants");
 
 let app = new Koa();
 let router = new Router();

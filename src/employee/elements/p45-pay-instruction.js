@@ -64,6 +64,7 @@ export class P45PayInstruction {
                         return;
                     }
 
+                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                 });
             }

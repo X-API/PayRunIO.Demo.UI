@@ -1,6 +1,17 @@
 <template>
     <require from="../../resources/elements/bank-account-form/bank-account-form"></require>
     <require from="../../resources/elements/address-form/address-form"></require>
+    <require from="../../resources/elements/rule-exclusions/rule-exclusions"></require>
+    <require from="../../resources/elements/pay-schedule-dropdown/pay-schedule-dropdown"></require>
+    <require from="../../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../../resources/elements/api-errors/api-errors"></require>
+    <require from="../../resources/elements/status/status"></require>
+        
+    <validation-errors errors.bind="validationController.errors"></validation-errors>
+    
+    <api-errors errors.bind="apiErrors"></api-errors>
+
+    <status status.bind="status"></status>
 
     <form>
         <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
@@ -33,11 +44,9 @@
                                 class="form-control form-control-lg" 
                                 id="LastName" 
                                 name="LastName" 
-                                value.bind="employee.LastName" 
+                                value.bind="employee.LastName & validate" 
                                 placeholder="Last name"
-                                required 
-                                maxlength="35" 
-                                data-required-message="Last name is required">
+                                maxlength="35">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-2">
@@ -47,11 +56,9 @@
                                 class="form-control form-control-lg" 
                                 id="Code" 
                                 name="Code" 
-                                value.bind="employee.Code" 
+                                value.bind="employee.Code & validate" 
                                 placeholder="Unique code also known as the Payroll Id"
-                                required 
-                                maxlength="35" 
-                                data-required-message="Code is required">
+                                maxlength="35">
 
                             <span class="notes" The code must be unique to Employer and never reused.></span>
                         </div>
@@ -74,10 +81,8 @@
                                 class="form-control form-control-lg" 
                                 id="EffectiveDate" 
                                 name="EffectiveDate" 
-                                value.bind="employee.EffectiveDate"
-                                placeholder="Date the revision will come into effect" 
-                                required 
-                                data-required-message="Effective date is required">
+                                value.bind="employee.EffectiveDate & validate"
+                                placeholder="Date the revision will come into effect">
                         </div>
                     </div>
                 </div>
@@ -144,10 +149,8 @@
                                         class="form-control" 
                                         id="DateOfBirth" 
                                         name="DateOfBirth" 
-                                        value.bind="employee.DateOfBirth" 
-                                        placeholder="Date of birth"
-                                        required 
-                                        data-required-message="Date of birth is required">
+                                        value.bind="employee.DateOfBirth & validate" 
+                                        placeholder="Date of birth">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -157,9 +160,7 @@
                                     <select class="form-control" 
                                         id="Gender" 
                                         name="Gender" 
-                                        required 
-                                        data-required-message="Gender is required" 
-                                        value.bind="employee.Gender">
+                                        value.bind="employee.Gender & validate">
                                         <option value=""></option>
                                         <option value="Unknown">Unknown</option>
                                         <option value="Male">Male</option>
@@ -169,7 +170,7 @@
                             </div>
                         </div>
                         
-                        {{>payScheduleDropdown}} 
+                        <pay-schedule-dropdown payschedule.bind="employee.PaySchedule" payschedules.bind="paySchedules"></pay-schedule-dropdown>
 
                         <bank-account-form bankaccount.bind="employee.BankAccount"></bank-account-form>
                     </div>
@@ -189,9 +190,7 @@
                     <select class="form-control" 
                         id="StarterDeclaration" 
                         name="StarterDeclaration" 
-                        required 
-                        data-required-message="Starter declaration is required" 
-                        value.bind="employee.StarterDeclaration">
+                        value.bind="employee.StarterDeclaration & validate">
                         <option value=""></option>
                         <option value="A">A</option>
                         <option value="B">B</option>
@@ -221,8 +220,7 @@
                 <div class="form-group">
                     <label for="NicLiability">Nic Liability</label>
 
-                    {{#multipleSelect NicLiability}}
-                    <select class="form-control" id="NicLiability" name="NicLiability" multiple>
+                    <select class="form-control" id="NicLiability" name="NicLiability" multiple value.bind="employee.NicLiability">
                         <option value="IsFullyLiable">IsFullyLiable</option>
                         <option value="HasOtherJob">HasOtherJob</option>
                         <option value="IsFemaleEntitledToReducedRate">IsFemaleEntitledToReducedRate</option>
@@ -231,7 +229,6 @@
                         <option value="IsApprentice">IsApprentice</option>
                         <option value="LeaverBeyond6Weeks">LeaverBeyond6Weeks</option>
                     </select>
-                    {{/multipleSelect}}
 
                     <span class="notes">
                         The NIC liability flags are used to ensure the correct NI letter is assigned. See
@@ -241,66 +238,76 @@
             </div>
 
             <div class="tab-pane fade" id="ae" role="tabpanel" aria-labelledby="ae-tab">
-                <div class="col-sm-12 col-md-6">
-                    <h4>Auto enrolment</h4>
-
-                    <div class="form-group">
-                        <label for="AEAssessmentOverride">AEAssessment override</label>
-
-                        <select class="form-control" id="AEAssessmentOverride" name="AEAssessmentOverride" value.bind="employee.AEAssessmentOverride">
-                            <option value=""></option>
-                            <option value="None">Not set</option>
-                            <option value="OptOut">Opt out</option>
-                            <option value="OptIn">Opt in</option>
-                            <option value="VoluntaryJoiner">Voluntary joiner</option>
-                            <option value="ContractualPension">Contractual pension</option>
-                            <option value="CeasedMembership">Ceased membership</option>
-                            <option value="Leaver">Leaver</option>
-                            <option value="Excluded" Excluded></option>
-                        </select>
-
-                        <span class="notes">
-                            The auto enrolment assessment override value. Enables the auto enrolment assessment result to be overridden
-                        </span>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>Auto enrolment</h4>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="AEAssessmentOverrideDate">Assessment override date</label>
-                        <input type="date" 
-                            class="form-control" 
-                            id="AEAssessmentOverrideDate" 
-                            name="AEAssessmentOverrideDate" 
-                            value.bind="employee.AEAssessmentOverrideDate"
-                            placeholder="Assessment override date">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="AEAssessmentOverride">AEAssessment override</label>
 
-                        <span class="notes">
-                            The auto enrolment assessment override date. Determines the date when auto enrolment assessment override applies.
-                        </span>
-                    </div>
+                            <select class="form-control" id="AEAssessmentOverride" name="AEAssessmentOverride" value.bind="employee.AEAssessmentOverride">
+                                <option value=""></option>
+                                <option value="None">Not set</option>
+                                <option value="OptOut">Opt out</option>
+                                <option value="OptIn">Opt in</option>
+                                <option value="VoluntaryJoiner">Voluntary joiner</option>
+                                <option value="ContractualPension">Contractual pension</option>
+                                <option value="CeasedMembership">Ceased membership</option>
+                                <option value="Leaver">Leaver</option>
+                                <option value="Excluded" Excluded></option>
+                            </select>
 
-                    <div class="form-group">
-                        <label for="AEPostponementDate">Postponement date</label>
-                        <input type="date" 
-                            class="form-control" 
-                            id="AEPostponementDate" 
-                            name="AEPostponementDate" 
-                            value.bind="employee.AEPostponementDate"
-                            placeholder="Postponement date">
+                            <span class="notes">
+                                The auto enrolment assessment override value. Enables the auto enrolment assessment result to be overridden
+                            </span>
+                        </div>
 
-                        <span class="notes">
-                            The auto enrolment deferment date. Indicates the date when auto enrolment assessments are deferred to.
-                        </span>
+                        <div class="form-group">
+                            <label for="AEAssessmentOverrideDate">Assessment override date</label>
+                            <input type="date" 
+                                class="form-control" 
+                                id="AEAssessmentOverrideDate" 
+                                name="AEAssessmentOverrideDate" 
+                                value.bind="employee.AEAssessmentOverrideDate"
+                                placeholder="Assessment override date">
+
+                            <span class="notes">
+                                The auto enrolment assessment override date. Determines the date when auto enrolment assessment override applies.
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AEPostponementDate">Postponement date</label>
+                            <input type="date" 
+                                class="form-control" 
+                                id="AEPostponementDate" 
+                                name="AEPostponementDate" 
+                                value.bind="employee.AEPostponementDate"
+                                placeholder="Postponement date">
+
+                            <span class="notes">
+                                The auto enrolment deferment date. Indicates the date when auto enrolment assessments are deferred to.
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="partner" role="tabpanel" aria-labelledby="partner-tab">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12">
                         <h4>Partner</h4>
 
                         <span class="intro">The details of the employee's partner only need be provided when claiming ShPP.</span>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-sm-6">                
                         <div class="form-group">
                             <label for="EmployeePartner_Title">Title</label>
                             <input type="text" 
@@ -335,7 +342,9 @@
 
                             <span class="notes">The employee's initial, if not supplying a first name</span>
                         </div>
+                    </div>
 
+                    <div class="col-sm-6"> 
                         <div class="form-group">
                             <label for="EmployeePartner_MiddleName">Middle name(s)</label>
                             <input type="text" 
@@ -397,7 +406,7 @@
                                 <div class="form-group" >
                                     <label for="Territory">Territory</label>
 
-                                    <select class="form-control" id="Territory" name="Territory" required value.bind="employee.Territory">
+                                    <select class="form-control" id="Territory" name="Territory" value.bind="employee.Territory & validate">
                                         <option value=""></option>
                                         <option value="UnitedKingdom">United Kingdom</option>
                                     </select>
@@ -407,7 +416,7 @@
                                 <div class="form-group">
                                     <label for="Region">Region</label>
 
-                                    <select class="form-control" id="Region" name="Region" required value.bind="employee.Region">
+                                    <select class="form-control" id="Region" name="Region" value.bind="employee.Region & validate">
                                         <option value=""></option>
                                         <option value="England">England</option>
                                         <option value="Scotland">Scotland</option>
@@ -449,13 +458,15 @@
 
                         <div class="form-group">
                             <label for="HoursPerWeek">Hours per week</label>
-                            <input type="number" class="form-control" id="HoursPerWeek" name="HoursPerWeek" value="{{defaultHours HoursPerWeek}}" placeholder="Hours per week"
-                                min="0" max="168" required step="0.5">
+                            <input type="number" class="form-control" id="HoursPerWeek" name="HoursPerWeek" value.bind="employee.HoursPerWeek & validate" placeholder="Hours per week"
+                                min="0" max="168" step="0.5">
 
                             <span class="notes">
                                 The employee's normal number of hours worked per week (irrespective of pay frequency).
                             </span>
                         </div>
+
+                        <rule-exclusions ruleexclusions.bind="employee.RuleExclusions"></rule-exclusions>
 
                         <div class="form-group">
                             <label for="Seconded">Seconded</label>
@@ -494,8 +505,7 @@
                         <div class="form-group">
                             <label for="WorkingWeek">Working week pattern</label>
 
-                            {{#multipleSelect WorkingWeek}}
-                            <select class="form-control" id="WorkingWeek" name="WorkingWeek" multiple>
+                            <select class="form-control" id="WorkingWeek" name="WorkingWeek" multiple value.bind="employee.WorkingWeek">
                                 <option value="AllWeekDays">All week days</option>
                                 <option value="Monday">Monday</option>
                                 <option value="Tuesday">Tuesday</option>
@@ -507,7 +517,6 @@
                                 <option value="AllDays">All days</option>
                                 <option value="None">None</option>
                             </select>
-                            {{/multipleSelect}}
 
                             <span class="notes">
                                 The employee's normal working week pattern.
@@ -546,8 +555,6 @@
                             </label>
                         </div>
 
-                        {{>ruleExclusions}}
-
                         <div class="form-check">
                             <input class="form-check-input form-control-lg" type="checkbox" id="Deactivated" name="Deactivated" checked.bind="employee.Deactivated">
                             <label class="form-check-label" for="Deactivated">
@@ -560,7 +567,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 text-right">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-primary" click.delegate="save()">Save</button>
                 </div>
             </div>
         </div>

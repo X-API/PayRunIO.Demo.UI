@@ -24,7 +24,7 @@ module.exports = class EmployeeUtils {
             }
         }
         else {
-            copy.WorkingWeek = "AllWeekDays";
+            copy.WorkingWeek = [ "AllWeekDays" ];
         }
 
         if (copy.NicLiability) {
@@ -33,7 +33,7 @@ module.exports = class EmployeeUtils {
             }
         } 
         else {
-            copy.NicLiability = "IsFullyLiable";
+            copy.NicLiability = [ "IsFullyLiable"] ;
         }
 
         if (copy.RuleExclusions) {
@@ -42,7 +42,7 @@ module.exports = class EmployeeUtils {
             }
         }
         else {
-            copy.RuleExclusions = "None";
+            copy.RuleExclusions = [ "None" ];
         }
 
         let hasPartnerValueSet = false;
@@ -69,6 +69,24 @@ module.exports = class EmployeeUtils {
             let id = hrefParts[hrefParts.length - 1];
 
             copy.PaySchedule = id;
+        }
+
+        if (copy.WorkingWeek) {
+            if (!Array.isArray(copy.WorkingWeek)) {
+                copy.WorkingWeek = copy.WorkingWeek.split(" ");
+            }
+        }
+
+        if (copy.NicLiability) {
+            if (!Array.isArray(copy.NicLiability)) {
+                copy.NicLiability = copy.NicLiability.split(" ");
+            }
+        }
+
+        if (copy.RuleExclusions) {
+            if (!Array.isArray(copy.RuleExclusions)) {
+                copy.RuleExclusions = copy.RuleExclusions.split(" ");
+            }
         }
 
         return copy;
