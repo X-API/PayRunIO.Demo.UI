@@ -11,7 +11,7 @@ module.exports = class P45InstructionController extends BaseController {
         let response = null;
 
         if (body.Id) {
-            let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
+            let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstruction/${body.Id}`;
 
             response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
         }

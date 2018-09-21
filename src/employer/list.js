@@ -9,8 +9,6 @@ export class List {
 
         client.get("/api/employers").then(data => {
             this.employers = JSON.parse(data.response);
-
-            console.log(this.employers);
         });
     }
 }

@@ -3,8 +3,6 @@ const ApiWrapper = require("../services/api-wrapper");
 const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
-const StatusUtils = require("../services/status-utils");
-const AppState = require("../app-state");
 const EmployerQuery = require("../queries/employer-query");
 const EmployerRevisionsQuery = require("../queries/employer-revisions-query");
 

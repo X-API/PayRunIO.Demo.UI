@@ -16,8 +16,6 @@ module.exports = class PayInstructionController extends BaseController {
 
         request[instructionType] = cleanBody;
 
-        console.log(cleanBody);
-
         let response = await apiWrapper.post(apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {

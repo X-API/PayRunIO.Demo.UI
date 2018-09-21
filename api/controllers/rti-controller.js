@@ -1,7 +1,6 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const PayRunsQuery = require("../queries/payruns-query");
 const moment = require("moment");
 
 let apiWrapper = new ApiWrapper();

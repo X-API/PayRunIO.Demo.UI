@@ -16,7 +16,6 @@ const PensionController = require("./controllers/pension-controller");
 const P45InstructionController = require("./controllers/p45-instruction-controller");
 const SetupController = require("./controllers/setup-controller");
 const VersionController = require("./controllers/version-controller");
-const fs = require("fs");
 
 let rootController = new RootController();
 let employerController = new EmployerController();

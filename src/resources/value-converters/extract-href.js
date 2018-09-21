@@ -1,5 +1,5 @@
 export class ExtractHrefValueConverter {
-	toView(obj) {
-		return obj["@href"];	
-	}
+    toView(obj) {
+        return obj["@href"];	
+    }
 }

@@ -13,4 +13,4 @@ module.exports = class VersionController extends BaseController {
             apiVersion: healthCheckResponse.HealthCheck.Version
         };
     }
-}
+};

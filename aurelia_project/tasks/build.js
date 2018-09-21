@@ -3,10 +3,7 @@ import {CLIOptions, build as buildCLI} from 'aurelia-cli';
 import transpile from './transpile';
 import processMarkup from './process-markup';
 import copyFiles from './copy-files';
-import watch from './watch';
 import project from '../aurelia.json';
-
-console.log(project);
 
 let build = gulp.series(
   readProjectConfiguration,
