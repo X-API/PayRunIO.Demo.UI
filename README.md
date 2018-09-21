@@ -6,31 +6,7 @@ To get started/setup:
 
 1. Run `node -v` and ensure you have at least node v9.6.0 installed. 
 2. Run `npm install --dev` to install all the npm package dependencies. When installing in production omit the `--dev` flag. 
-3. Run `node app.js` this will startup the server, which will default to run on port 3000. This can be set to an explicit port by running `node app.js -p 80` which will run the app up on port 80.
-
-## Scripts
-
-All scripts rely on local npm modules therefore run `npm install` before running the below scripts:
-
-### `npm run watch`
-
-Will run the up the node server, listen on port 3000 and watch the following file types for changes. If a change is detected it will restart the server. 
-
-- *.js
-- *.hbs
-- *.scss
-
-### `npm run test`
-
-Will run all spec unit tests in jasmine.
-
-### `npm run lint`
-
-Runs `eslint` in `./`. Note the three `.eslintrc.json` configs in:
-
-- ./
-- ./content/js
-- ./spec
+3. TODO
 
 ## FAQs
 
