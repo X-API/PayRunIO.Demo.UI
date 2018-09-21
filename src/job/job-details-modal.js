@@ -21,7 +21,7 @@ export class JobDetailsModal {
             let url = `/api/job/${this.job.id}/${this.job.type}`;
 
             client.get(url).then(data => {
-				this.state = JSON.parse(data.response);
+                this.state = JSON.parse(data.response);
                 
                 window.setTimeout(() => this.getJobInfo(), 500);
 
