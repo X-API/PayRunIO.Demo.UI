@@ -19,7 +19,7 @@ export class PayScheduleModal {
             { text: "Two weekly", value: "TwoWeekly" },
             { text: "Four weekly", value: "FourWeekly" }
         ];
-
+        
         this.setupValidationRules();
     }
 

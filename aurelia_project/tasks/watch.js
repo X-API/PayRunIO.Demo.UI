@@ -6,7 +6,6 @@ import { build } from 'aurelia-cli';
 import project from '../aurelia.json';
 import transpile from './transpile';
 import processMarkup from './process-markup';
-import processCSS from './process-css';
 import copyFiles from './copy-files';
 
 const debounceWaitTime = 100;
@@ -15,8 +14,7 @@ let pendingRefreshPaths = [];
 let watchCallback = () => { };
 let watches = [
   { name: 'transpile', callback: transpile, source: project.transpiler.source },
-  { name: 'markup', callback: processMarkup, source: project.markupProcessor.source },
-  { name: 'CSS', callback: processCSS, source: project.cssProcessor.source }
+  { name: 'markup', callback: processMarkup, source: project.markupProcessor.source }
 ];
 
 if (typeof project.build.copyFiles === 'object') {
