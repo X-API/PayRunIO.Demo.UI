@@ -77,6 +77,7 @@ router
     // employee
     .get("/api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.get(ctx))
     .post("/api/employer/:employerId/employee", async ctx => await employeeController.post(ctx))
+    .delete("/api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.delete(ctx))
 
     // pay instruction
     .get("api/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))

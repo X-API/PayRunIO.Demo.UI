@@ -282,4 +282,33 @@ export class Employer {
             });
         }); 
     }
+
+    deleteEmployee(employerId, employeeId) {
+        let opts = {
+            viewModel: Confirm,
+            model: {
+                title: "Are you sure?",
+                message: "Are you sure you want to delete this employee?"
+            }
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                let client = new HttpClient();
+
+                client.delete(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+                    let parsedResponse = JSON.parse(res.response);
+        
+                    if (parsedResponse.errors) {
+                        this.apiErrors = parsedResponse.errors;
+                        return;
+                    }
+        
+                    this.apiErrors = null;
+                    this.status = parsedResponse.status;
+                    this.getEmployerDetails(employerId);
+                });
+            }
+        });        
+    }
 }

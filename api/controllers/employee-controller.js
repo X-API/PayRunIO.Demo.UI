@@ -31,6 +31,27 @@ module.exports = class EmployeeController extends BaseController {
         });
     }
 
+    async delete(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Employee deleted",
+                    type: "success"
+                }
+            };
+        }        
+    }
+
     async post(ctx) {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;
@@ -40,26 +61,43 @@ module.exports = class EmployeeController extends BaseController {
             let url = `Employer/${employerId}/Employee/${body.Id}`;
 
             response = await apiWrapper.put(url, { Employee: EmployeeUtils.parse(body, employerId) });
+
+            if (ValidationParser.containsErrors(response)) {
+                ctx.body = {
+                    errors: ValidationParser.extractErrors(response)
+                };
+            }
+            else {
+                ctx.body = {
+                    employeeId: body.Id,
+                    status: {
+                        message: "Employee details saved",
+                        type: "success"
+                    }
+                };
+            }            
         }
         else {
             let url = `Employer/${employerId}/Employees`;
 
             response = await apiWrapper.post(url, { Employee: EmployeeUtils.parse(body, employerId) });
-        }
 
-        if (ValidationParser.containsErrors(response)) {
-            ctx.body = {
-                errors: ValidationParser.extractErrors(response)
-            };
-        }
-        else {
-            ctx.body = {
-                employeeId: 0,
-                status: {
-                    message: "Employee details saved",
-                    type: "success"
-                }
-            };
+            if (ValidationParser.containsErrors(response)) {
+                ctx.body = {
+                    errors: ValidationParser.extractErrors(response)
+                };
+            }
+            else {
+                let id = response.Link["@href"].split('/').slice(-1)[0];
+
+                ctx.body = {
+                    employeeId: id,
+                    status: {
+                        message: "Employee details saved",
+                        type: "success"
+                    }
+                };
+            }
         }
     }
 

@@ -41,6 +41,10 @@ export class Employee {
     }
 
     activate(params) {
+        this.reloadEmployeeSubscriber = this.ea.subscribe("employee:reload", state => {
+            this.getEmployeeDetails(state.employerId, state.employeeId);
+        });
+
         if (params && params.employerId && params.employeeId) {
             return this.getEmployeeDetails(params.employerId, params.employeeId);
         }
@@ -52,6 +56,9 @@ export class Employee {
     }
     
     deactivate() {
+        if (this.reloadEmployeeSubscriber) {
+            this.reloadEmployeeSubscriber.dispose();
+        }
     }    
 
     getEmployeeDetails(employerId, employeeId) {

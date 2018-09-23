@@ -4,13 +4,11 @@ module.exports = class EmployeeUtils {
     static parse(employee, employerId) {
         let copy = JSON.parse(JSON.stringify(employee));
 
-        copy.IsAgencyWorker = FormUtils.checkboxToBool(copy.IsAgencyWorker);
-        copy.EEACitizen = FormUtils.checkboxToBool(copy.EEACitizen);
-        copy.EPM6 = FormUtils.checkboxToBool(copy.EPM6);
-        copy.PaymentToANonIndividual = FormUtils.checkboxToBool(copy.PaymentToANonIndividual);
-        copy.IrregularEmployment = FormUtils.checkboxToBool(copy.IrregularEmployment);
-        copy.OnStrike = FormUtils.checkboxToBool(copy.OnStrike);
-        copy.Deactivated = FormUtils.checkboxToBool(copy.Deactivated);
+        copy.Id = null;
+        copy.EmployerId = null;
+        copy.PayInstructions = null;
+        copy.GroupedPayInstructions = null;
+        copy.CanAddANewPayInstruction = null;
 
         if (copy.PaySchedule) {
             copy.PaySchedule = {
@@ -24,7 +22,7 @@ module.exports = class EmployeeUtils {
             }
         }
         else {
-            copy.WorkingWeek = [ "AllWeekDays" ];
+            copy.WorkingWeek = "AllWeekDays";
         }
 
         if (copy.NicLiability) {
@@ -33,7 +31,7 @@ module.exports = class EmployeeUtils {
             }
         } 
         else {
-            copy.NicLiability = [ "IsFullyLiable"] ;
+            copy.NicLiability = "IsFullyLiable";
         }
 
         if (copy.RuleExclusions) {
@@ -42,7 +40,7 @@ module.exports = class EmployeeUtils {
             }
         }
         else {
-            copy.RuleExclusions = [ "None" ];
+            copy.RuleExclusions = "None";
         }
 
         let hasPartnerValueSet = false;
@@ -56,6 +54,9 @@ module.exports = class EmployeeUtils {
         if (!hasPartnerValueSet) {
             copy.copyPartner = null;
         }
+
+        console.log("parsed employee: ");
+        console.log(copy);
 
         return copy;
     }

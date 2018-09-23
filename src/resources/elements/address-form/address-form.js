@@ -5,6 +5,10 @@ export class AddressForm {
     @bindable address = null;
 
     addressChanged() {
+        if (!this.address) {
+            this.address = {};
+        }
+
         if (!this.address.Country) {
             this.address.Country = "United Kingdom";
         }

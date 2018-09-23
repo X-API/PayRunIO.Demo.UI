@@ -42,7 +42,10 @@ export class EmployeeForm {
                     this.status = parsedResponse.status;
                     this.employee.Id = parsedResponse.employeeId;
 
-                    this.ea.publish("employee:reload");
+                    this.ea.publish("employee:reload", {
+                        employerId: this.employee.EmployerId,
+                        employeeId: parsedResponse.employeeId
+                    });
                 });                
             }
         });
@@ -75,6 +78,7 @@ export class EmployeeForm {
             .ensure("Territory").required().withMessage("Territory is required")
             .ensure("Region").required().withMessage("Region is required")
             .ensure("HoursPerWeek").required().withMessage("Hours per week is required")
+            .ensure("AEAssessmentOverride").required().withMessage("AEAssessment override is required")
             .on(this.employee); 
     }
 }
