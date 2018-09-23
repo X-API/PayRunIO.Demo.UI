@@ -3,20 +3,12 @@ const ApiWrapper = require("../services/api-wrapper");
 const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
-const EmployerQuery = require("../queries/employer-query");
 const EmployerRevisionsQuery = require("../queries/employer-revisions-query");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
-    async getEmployers(ctx) {
-        let queryResponse = await apiWrapper.query(EmployerQuery);
-        let employers = queryResponse.EmployerTable.Employer;
-
-        ctx.body = employers;
-    }
-
     async get(ctx) {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);

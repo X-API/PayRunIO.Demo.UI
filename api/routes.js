@@ -1,6 +1,7 @@
 const router = require("koa-router")();
 const RootController = require("./controllers/root-controller");
 const EmployerController = require("./controllers/employer-controller");
+const EmployersController = require("./controllers/employers-controller");
 const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PaySchedulesController = require("./controllers/pay-schedules-controller");
@@ -19,6 +20,7 @@ const VersionController = require("./controllers/version-controller");
 
 let rootController = new RootController();
 let employerController = new EmployerController();
+let employersController = new EmployersController();
 let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
 let paySchedulesController = new PaySchedulesController();
@@ -53,7 +55,7 @@ router
     .get("/api/api-calls", async ctx => await apiLoggerController.get(ctx))
 
     // employer
-    .get("/api/employers", async ctx => await employerController.getEmployers(ctx))
+    .get("/api/employers", async ctx => await employersController.get(ctx))
     .get("/api/employer/:id", async ctx => await employerController.get(ctx))
     .post("/api/employer", async ctx => await employerController.post(ctx))
     .delete("/api/employer/:id", async ctx => await employerController.delete(ctx))
