@@ -54,9 +54,9 @@ router
 
     // employer
     .get("/api/employers", async ctx => await employerController.getEmployers(ctx))
-    .get("/api/employer/:id", async ctx => await employerController.getEmployerDetails(ctx))
-    .post("/api/employer/:id", async ctx => await employerController.saveEmployerDetails(ctx))
-    .post("/api/employer", async ctx => await employerController.addNewEmployer(ctx))
+    .get("/api/employer/:id", async ctx => await employerController.get(ctx))
+    .post("/api/employer", async ctx => await employerController.post(ctx))
+    .delete("/api/employer/:id", async ctx => await employerController.delete(ctx))
 
     // pay schedules
     .get("/api/employer/:employerId/pay-schedules", async ctx => await paySchedulesController.get(ctx))

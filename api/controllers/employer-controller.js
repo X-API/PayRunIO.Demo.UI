@@ -17,36 +17,7 @@ module.exports = class EmployerController extends BaseController {
         ctx.body = employers;
     }
 
-    async requestNewEmployer(ctx) {
-        await ctx.render("employer", await this.getExtendedViewModel(ctx, {
-            title: "Add a new Employer",
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Add a new Employer" }
-            ]
-        }));
-    }
-
-    async addNewEmployer(ctx) {
-        let body = EmployerUtils.parse(ctx.request.body);
-        let response = await apiWrapper.post("Employers", { Employer: body });
-
-        if (ValidationParser.containsErrors(response)) {
-            await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
-                title: "Add a new Employer",
-                errors: ValidationParser.extractErrors(response),
-                Breadcrumbs: [
-                    { Name: "Employers", Url: "/employer" },
-                    { Name: "Add a new Employer" }
-                ]
-            })));
-            return;
-        }
-
-        await ctx.redirect(response.Link["@href"] + "?status=Employer details saved&statusType=success");
-    }
-
-    async getEmployerDetails(ctx) {
+    async get(ctx) {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
         let employer = response.Employer;
@@ -92,23 +63,50 @@ module.exports = class EmployerController extends BaseController {
         });
     }
 
-    async saveEmployerDetails(ctx) {
-        let id = ctx.params.id;
-        let body = EmployerUtils.parse(ctx.request.body);
-        let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
+    async post(ctx) {
+        let body = ctx.request.body;
+        let parsedBody = EmployerUtils.parse(body);
+        let response = null;
 
-        if (ValidationParser.containsErrors(response)) {
-            await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
-                Id: id,
-                errors: ValidationParser.extractErrors(response),
-                Breadcrumbs: [
-                    { Name: "Employers", Url: "/employer" },
-                    { Name: body.Name }
-                ]
-            })));
-            return;
+        if (body.Id) {
+            response = await apiWrapper.put(`Employer/${body.Id}`, { Employer: parsedBody });
+        }
+        else {
+            response = await apiWrapper.post("Employers", { Employer: parsedBody });
         }
 
-        await ctx.redirect(`/employer/${id}?status=Employer details saved&statusType=success`);
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Employer details saved",
+                    type: "success"
+                }
+            };
+        }
+    }
+
+    async delete(ctx) {
+        let id = ctx.params.id;
+        let apiRoute = `/Employer/${id}`;
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Employer deleted",
+                    type: "success"
+                }
+            };
+        }        
     }
 };

@@ -1,5 +1,6 @@
 import { inject, customElement } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
+import * as nprogress from 'nprogress';
 
 @customElement("router-progress-indicator")
 @inject(EventAggregator)
@@ -11,11 +12,11 @@ export class RouterProgressIndicator {
         
     attached() {
         this.processingSubscriber = this.ea.subscribe("router:navigation:processing", () => {
-            NProgress.start();
+            nprogress.start();
         });
 
         this.completeSubscriber = this.ea.subscribe("router:navigation:complete", () => {
-            NProgress.done();
+            nprogress.done();
         });        
     }
 

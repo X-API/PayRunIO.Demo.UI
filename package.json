@@ -36,6 +36,7 @@
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "moment": "^2.22.2",
+    "nprogress": "^0.2.0",
     "oauth-1.0a": "^2.2.4",
     "raven": "^2.5.0",
     "request": "^2.85.0",

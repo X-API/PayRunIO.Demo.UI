@@ -1,4 +1,10 @@
 <template>
+    <require from="../resources/elements/status/status"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+
+    <status status.bind="status"></status>
+    <api-errors errors.bind="apiErrors"></api-errors>    
+
     <div class="row actions">
         <div class="col-sm-12">
             <a class="btn btn-primary btn-lg" href="#employer/" role="button">Add a new employer</a>
@@ -33,6 +39,7 @@
                         </div>
                     </div>
                 </th>
+                <th scope="col" style="width:50px;"></th>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +82,13 @@
                         data-modal-title="Add Pay Schedule"
                         href="#employer/${employer.Key}/paySchedule/new" 
                         role="button">Add a Pay Schedule</a>
+                </td>
+                <td>
+                    <button type="button" 
+                        class="btn btn-danger btn-sm" 
+                        click.delegate="deleteEmployer(employer.Key)">
+                        Delete
+                    </button>                      
                 </td>
             </tr>
       </tbody>
