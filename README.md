@@ -6,7 +6,9 @@ To get started/setup:
 
 1. Run `node -v` and ensure you have at least node v9.6.0 installed. 
 2. Run `npm install --dev` to install all the npm package dependencies. When installing in production omit the `--dev` flag. 
-3. TODO
+3. Install `aurelia-cli` which is required to run the aurelia bits: `npm install aurelia-cli -g`
+4. Install `gulp` which is required to run builds: `npm install -g gulp`
+5. Run `gulp` from the root of the checked out repo.
 
 ## FAQs
 
