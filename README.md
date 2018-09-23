@@ -10,6 +10,38 @@ To get started/setup:
 4. Install `gulp` which is required to run builds: `npm install -g gulp`
 5. Run `gulp` from the root of the checked out repo.
 
+## Gulp tasks
+
+### `lint`
+
+TODO
+
+### `sass`
+
+Compiles `content/scss/main.scss` to `content/css/main.css`. Simples.
+
+### `server`
+
+Starts the node server, as setup in `app.js`, using nodemon. Watches the following files, and on change will re-run the server:
+
+- `app.js`
+- `api/**/*.js`
+
+### `start-au-cli`
+
+Runs `au run` which is an aurelia-cli command, this in turns watches the `src` folder and will transcompile all js and html file changes into `/content/dist`. For more information on these tasks check out:
+
+- The `/aurelia_project` directory that holds the gulp tasks specific to aurelia.
+- `aurelia-cli` documentation [here](https://aurelia.io/docs/build-systems/aurelia-cli/). 
+
+### `watch-sass`
+
+Watches all `scss` files in `/content/scss` and executes the sass task (detailed above) on a file change. 
+
+### `default`
+
+Runs all of the above, in parallel. 
+
 ## FAQs
 
 ### How do I run the server up in IIS?

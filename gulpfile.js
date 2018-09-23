@@ -11,10 +11,12 @@ gulp.task("lint", () => {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
+
+        // todo: also need to lint sass. 
 });
 
 gulp.task("sass", function() {
-    return gulp.src("content/scss/**/main.scss")
+    return gulp.src("content/scss/main.scss")
         .pipe(sass())
         .pipe(gulp.dest("content/css/"));
 });
