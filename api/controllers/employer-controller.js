@@ -44,6 +44,10 @@ module.exports = class EmployerController extends BaseController {
             });
         }
 
+        if (employer.RuleExclusions) {
+            employer.RuleExclusions = employer.RuleExclusions.split(" ");
+        }
+
         ctx.body = Object.assign(employer, {
             Id: id,
             Employees: employees,
@@ -51,7 +55,7 @@ module.exports = class EmployerController extends BaseController {
             PaySchedules: paySchedules,
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
-            Revisions: revisions,
+            Revisions: revisions.EmployerRevisions.Revisions.Revision
         });
     }
 

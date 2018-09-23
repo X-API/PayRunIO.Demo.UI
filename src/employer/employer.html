@@ -302,7 +302,7 @@
     </div>
 
     <div if.bind="!employer">
-        <employer-form></employer-form>
+        <employer-form employer.bind="employer"></employer-form>
     </div>
     
     <input id="employer-id" type="hidden" value="${employer.Id}">  
