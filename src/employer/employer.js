@@ -75,7 +75,7 @@ export class Employer {
                     this.getEmployerDetails(this.employer.Id);
                 });
             }
-        });        
+        });
     }
 
     openPayScheduleModal(schedule) {
