@@ -28,11 +28,27 @@ module.exports = class EmployerController extends BaseController {
             Id: id,
             Employees: employees,
             Pensions: pensions,
-            PaySchedules: paySchedules,
+            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
             Revisions: revisions
         });
+    }
+
+    async paySchedules(ctx) {
+        let id = ctx.params.id;
+
+        let paySchedules = await employerService.getPaySchedules(id);
+
+        ctx.body = paySchedules.PaySchedulesTable.PaySchedule;
+    }
+
+    async rtiSubmissions(ctx) {
+        let id = ctx.params.id;
+
+        let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
+
+        ctx.body = rtiTransactions;
     }
 
     async post(ctx) {

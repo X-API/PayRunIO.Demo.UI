@@ -59,6 +59,8 @@ router
 
     // employer
     .get("/api/employer/:id", async ctx => await employerController.get(ctx))
+    .get("/api/employer/:id/pay-schedules", async ctx => await employerController.paySchedules(ctx))
+    .get("/api/employer/:id/rti-submissions", async ctx => await employerController.rtiSubmissions(ctx))
     .post("/api/employer", async ctx => await employerController.post(ctx))
     .delete("/api/employer/:id", async ctx => await employerController.delete(ctx))
     .delete("/api/employer/:id/revision/:effectiveDate", async ctx => await employerController.deleteRevision(ctx))

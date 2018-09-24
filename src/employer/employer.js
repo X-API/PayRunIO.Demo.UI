@@ -31,6 +31,14 @@ export class Employer {
         if (this.reloadEmployerSubscriber) {
             this.reloadEmployerSubscriber.dispose();
         }
+
+        if (this.getPaySchedulesTimeout) {
+            window.clearTimeout(this.getPaySchedulesTimeout);
+        }
+
+        if (this.getRtiSubmissionsTimeout) {
+            window.clearTimeout(this.getRtiSubmissionsTimeout);
+        }
     }    
 
     getEmployerDetails(employerId) {
@@ -40,15 +48,44 @@ export class Employer {
             client.get(`/api/employer/${employerId}`).then(data => {
                 this.employer = JSON.parse(data.response);
 
+                this.createPaySchedulesTimer();
+                this.createRtiSubmissionsTimer();
+
                 resolve();
             });
         });
     }
 
+    getPaySchedules() {
+        let client = new HttpClient();
+
+        client.get(`/api/employer/${this.employer.Id}/pay-schedules`).then(data => {
+            this.employer.PaySchedules = JSON.parse(data.response);
+
+            this.createPaySchedulesTimer();
+        });
+    }
+
+    createPaySchedulesTimer() {
+        this.getPaySchedulesTimeout = window.setTimeout(() => this.getPaySchedules(), 2500);
+    }
+
+    getRtiSubmissions() {
+        let client = new HttpClient();
+
+        client.get(`/api/employer/${this.employer.Id}/rti-submissions`).then(data => {
+            this.employer.RTITransactions = JSON.parse(data.response);
+
+            this.createRtiSubmissionsTimer();
+        });
+    }
+
+    createRtiSubmissionsTimer() {
+        this.getRtiSubmissionsTimeout = window.setTimeout(() => this.getRtiSubmissions(), 2500);
+    }
+
     canAddPayRun(context) {
-        return context.Employees.length > 0 
-            && context.PaySchedules.PaySchedulesTable.PaySchedule
-            && context.PaySchedules.PaySchedulesTable.PaySchedule.length > 0;
+        return context.Employees.length > 0 && context.PaySchedules && context.PaySchedules.length > 0;
     }
 
     addAPaySchedule() {
