@@ -17,7 +17,7 @@ module.exports = class EmployerController extends BaseController {
         let paySchedules = await employerService.getPaySchedules(id);
         let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
         let revisions = await this.getRevisions(id);
-        let pensions = await this.getPensions(id);
+        let pensions = await this.getPensions(employer, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
 
         if (employer.RuleExclusions) {
@@ -89,7 +89,28 @@ module.exports = class EmployerController extends BaseController {
         }
     }
 
-    async getPensions(employerId) {
+    async deleteRevision(ctx) {
+        let id = ctx.params.id;
+        let effectiveDate = ctx.params.effectiveDate;
+        let apiRoute = `/Employer/${id}/${effectiveDate}`;
+        let response = await apiWrapper.delete(apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Revision deleted",
+                    type: "success"
+                }
+            };
+        }
+    }
+
+    async getPensions(employer, employerId) {
         let pensions = await apiWrapper.getAndExtractLinks(`Employer/${employerId}/Pensions`);
 
         let extendedPensions = pensions.map(pension => {
@@ -107,7 +128,17 @@ module.exports = class EmployerController extends BaseController {
     }
 
     async getPayRunCount(schedules) {
+        let payRunCount = 0;
 
+        if (schedules.PaySchedulesTable.PaySchedule) {
+            schedules.PaySchedulesTable.PaySchedule.forEach(ps => {
+                if (ps.PayRuns) {
+                    payRunCount = payRunCount + ps.PayRuns.length;
+                }
+            });
+        }
+
+        return payRunCount;
     }
 
     async getRevisions(employerId) {

@@ -2,7 +2,12 @@
     <div class="form-group">
         <label for="RuleExclusions">Rule Exclusions</label>
     
-        <select class="form-control" id="RuleExclusions" name="RuleExclusions" multiple value.bind="ruleexclusions">
+        <select class="form-control" 
+            id="RuleExclusions" 
+            name="RuleExclusions" 
+            multiple 
+            value.bind="ruleexclusions" 
+            style="height:180px;">
             <option value="NiMissingPayInstructionRule">NiMissingPayInstructionRule</option>
             <option value="TaxMissingPayInstructionRule">TaxMissingPayInstructionRule</option>
             <option value="TaxCodeUpliftRule">TaxCodeUpliftRule</option>
