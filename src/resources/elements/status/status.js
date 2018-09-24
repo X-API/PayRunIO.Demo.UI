@@ -16,7 +16,10 @@ export class Status {
 
     statusChanged() {
         if (this.status) {
-            $("div.status.alert").fadeIn();
+            $("#status").fadeIn();
+            $("html, body").animate({
+                scrollTop: $("#status").offset().top
+            }, 500);            
 
             if (this.fadeTimeout) {
                 window.clearTimeout(this.fadeTimeout);

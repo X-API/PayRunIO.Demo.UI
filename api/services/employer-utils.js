@@ -1,15 +1,24 @@
 module.exports = class EmployerUtils {
     static parse(employer) {
-        employer.ClaimEmploymentAllowance = (employer.ClaimEmploymentAllowance && employer.ClaimEmploymentAllowance.toLowerCase() === "on");
-        employer.ClaimSmallEmployerRelief = (employer.ClaimSmallEmployerRelief && employer.ClaimSmallEmployerRelief.toLowerCase() === "on");
+        let copy = JSON.parse(JSON.stringify(employer));
 
-        if (employer.RuleExclusions) {
-            employer.RuleExclusions = employer.RuleExclusions.join(" ");
+        copy.Id = null;
+        copy.Employees = null;
+        copy.Pensions = null;
+        copy.PaySchedules = null;
+        copy.PayRuns = null;
+        copy.RTITransactions = null;
+        copy.Revisions = null;
+
+        if (copy.RuleExclusions) {
+            copy.RuleExclusions = employer.RuleExclusions.join(" ");
         }
         else {
-            employer.RuleExclusions = "None";
+            copy.RuleExclusions = "None";
         }
 
-        return employer;
+        console.log("copy", copy);
+
+        return copy;
     }
 };

@@ -18,10 +18,20 @@ export class Employer {
     }
 
     activate(params) {
+        this.reloadEmployerSubscriber = this.ea.subscribe("employer:reload", state => {
+            this.getEmployerDetails(state.employerId);
+        });
+
         if (params && params.id) {
             return this.getEmployerDetails(params.id);
         }
     }
+
+    deactivate() {
+        if (this.reloadEmployerSubscriber) {
+            this.reloadEmployerSubscriber.dispose();
+        }
+    }    
 
     getEmployerDetails(employerId) {
         return new Promise((resolve) => {

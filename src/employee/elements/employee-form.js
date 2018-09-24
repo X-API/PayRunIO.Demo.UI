@@ -22,8 +22,6 @@ export class EmployeeForm {
     }
 
     save() {
-        console.log(this.employee);
-
         this.validationController.validate().then(result => {
             if (result.valid) {
                 let url = `/api/employer/${this.employee.EmployerId}/employee`;

@@ -14,35 +14,11 @@ module.exports = class EmployerController extends BaseController {
         let response = await apiWrapper.get(`Employer/${id}`);
         let employer = response.Employer;
         let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
-        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
-        let extendedPensions = pensions.map(pension => {
-            if (employer.AutoEnrolment.Pension) {
-                pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
-            }
-            else {
-                pension.UseForAutoEnrolment = false;
-            }
-
-            return pension;
-        });
         let paySchedules = await employerService.getPaySchedules(id);
         let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
-
-        let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
-
-        let query = JSON.parse(queryStr);
-        
-        let revisions = await apiWrapper.query(query);
-
-        let payRunCount = 0;
-
-        if (paySchedules.PaySchedulesTable.PaySchedule) {
-            paySchedules.PaySchedulesTable.PaySchedule.forEach(ps => {
-                if (ps.PayRuns) {
-                    payRunCount = payRunCount + ps.PayRuns.length;
-                }
-            });
-        }
+        let revisions = await this.getRevisions(id);
+        let pensions = await this.getPensions(id);
+        let payRunCount = await this.getPayRunCount(paySchedules);
 
         if (employer.RuleExclusions) {
             employer.RuleExclusions = employer.RuleExclusions.split(" ");
@@ -51,21 +27,23 @@ module.exports = class EmployerController extends BaseController {
         ctx.body = Object.assign(employer, {
             Id: id,
             Employees: employees,
-            Pensions: extendedPensions,
+            Pensions: pensions,
             PaySchedules: paySchedules,
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
-            Revisions: revisions.EmployerRevisions.Revisions.Revision
+            Revisions: revisions
         });
     }
 
     async post(ctx) {
         let body = ctx.request.body;
+
         let parsedBody = EmployerUtils.parse(body);
+        let employerId = body.Id;
         let response = null;
 
-        if (body.Id) {
-            response = await apiWrapper.put(`Employer/${body.Id}`, { Employer: parsedBody });
+        if (employerId) {
+            response = await apiWrapper.put(`Employer/${employerId}`, { Employer: parsedBody });
         }
         else {
             response = await apiWrapper.post("Employers", { Employer: parsedBody });
@@ -77,7 +55,12 @@ module.exports = class EmployerController extends BaseController {
             };
         }
         else {
+            if (!employerId) {
+                employerId = response.Link["@href"].split('/').slice(-1)[0];
+            }
+
             ctx.body = {
+                employerId: employerId,
                 status: {
                     message: "Employer details saved",
                     type: "success"
@@ -103,6 +86,37 @@ module.exports = class EmployerController extends BaseController {
                     type: "success"
                 }
             };
-        }        
+        }
+    }
+
+    async getPensions(employerId) {
+        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${employerId}/Pensions`);
+
+        let extendedPensions = pensions.map(pension => {
+            if (employer.AutoEnrolment.Pension) {
+                pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
+            }
+            else {
+                pension.UseForAutoEnrolment = false;
+            }
+
+            return pension;
+        });
+
+        return extendedPensions;
+    }
+
+    async getPayRunCount(schedules) {
+
+    }
+
+    async getRevisions(employerId) {
+        let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", employerId);
+
+        let query = JSON.parse(queryStr);
+        
+        let revisions = await apiWrapper.query(query);
+        
+        return Array.from(revisions.EmployerRevisions.Revisions.Revision);
     }
 };

@@ -59,7 +59,7 @@ export class Employee {
         if (this.reloadEmployeeSubscriber) {
             this.reloadEmployeeSubscriber.dispose();
         }
-    }    
+    }
 
     getEmployeeDetails(employerId, employeeId) {
         let client = new HttpClient();

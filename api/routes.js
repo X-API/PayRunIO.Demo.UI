@@ -54,8 +54,10 @@ router
     // api calls
     .get("/api/api-calls", async ctx => await apiLoggerController.get(ctx))
 
-    // employer
+    // employers
     .get("/api/employers", async ctx => await employersController.get(ctx))
+
+    // employer
     .get("/api/employer/:id", async ctx => await employerController.get(ctx))
     .post("/api/employer", async ctx => await employerController.post(ctx))
     .delete("/api/employer/:id", async ctx => await employerController.delete(ctx))
