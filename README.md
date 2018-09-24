@@ -14,7 +14,7 @@ To get started/setup:
 
 ### `lint`
 
-TODO
+Lints all js files. Check `.eslintrc.json` for the rules it uses when linting. 
 
 ### `sass`
 

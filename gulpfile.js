@@ -31,12 +31,18 @@ gulp.task("server", () => {
     });
 });
 
-gulp.task("start-au-cli", (cb) => {
+gulp.task("au-run", (cb) => {
     start("au run", {}, cb);
+});
+
+gulp.task("au-build", (cb) => {
+    start("au build", {}, cb);
 });
 
 gulp.task("watch-sass", () => {
     gulp.watch("content/scss/**/*.scss", gulp.series("sass"));
 });
 
-gulp.task("default", gulp.parallel("server", "sass", "watch-sass", "start-au-cli", () => {}));
+gulp.task("build", gulp.parallel("sass", "au-build"));
+
+gulp.task("default", gulp.parallel("server", "sass", "watch-sass", "au-run"));
