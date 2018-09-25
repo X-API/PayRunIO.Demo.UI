@@ -1,4 +1,4 @@
-const BaseAbsenceYtdPayInstruction = require("./BaseAbsenceYtdPayInstruction");
+const BaseAbsenceYtdPayInstruction = require("./base-absence-ytd-pay-instruction");
 
 module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction {
     get name() {

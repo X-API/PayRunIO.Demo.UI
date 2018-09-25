@@ -1,4 +1,4 @@
-const BaseInstruction = require("./BaseInstruction");
+const BaseInstruction = require("../base-instruction");
 
 module.exports = class StudentLoanPayInstruction extends BaseInstruction {
     get name() {

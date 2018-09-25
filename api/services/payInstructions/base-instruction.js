@@ -1,9 +1,3 @@
-const ApiWrapper = require("../api-wrapper");
-const moment = require("moment");
-const PayInstructionType = require("../../models/PayInstructionType");
-
-let apiWrapper = new ApiWrapper();
-
 module.exports = class BaseInstruction {
     get name() {
         throw Error("get name() needs implementing against each instruction");

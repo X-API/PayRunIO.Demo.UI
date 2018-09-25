@@ -1,4 +1,4 @@
-const BaseYtdPayInstruction = require("./BaseYtdPayInstruction");
+const BaseYtdPayInstruction = require("./base-ytd-pay-instruction");
 
 module.exports = class StudentLoanYtdPayInstruction extends BaseYtdPayInstruction {
     get name() {

@@ -1,5 +1,5 @@
-const BaseInstruction = require("./BaseInstruction");
-const ApiWrapper = require("../../services/api-wrapper");
+const BaseInstruction = require("../base-instruction");
+const ApiWrapper = require("../../api-wrapper");
 
 let apiWrapper = new ApiWrapper();
 

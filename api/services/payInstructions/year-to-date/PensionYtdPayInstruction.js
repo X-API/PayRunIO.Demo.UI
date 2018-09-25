@@ -1,4 +1,4 @@
-const BaseYtdPayInstruction = require("./BaseYtdPayInstruction");
+const BaseYtdPayInstruction = require("./base-ytd-pay-instruction");
 const ApiWrapper = require("../../../services/api-wrapper");
 
 let apiWrapper = new ApiWrapper();

@@ -95,10 +95,10 @@ module.exports = class PayInstructionController extends BaseController {
         let Instruction;
 
         if (type.toLowerCase().indexOf("ytd") !== -1) {
-            Instruction = require(`../services/payInstructions/yearToDate/${type}`);
+            Instruction = require(`../services/payInstructions/year-to-date/${type}`);
         }
         else {
-            Instruction = require(`../services/payInstructions/${type}`);
+            Instruction = require(`../services/payInstructions/normal/${type}`);
         }
 
         return new Instruction();        

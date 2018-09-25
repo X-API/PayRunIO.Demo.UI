@@ -1,4 +1,4 @@
-const AbsencePayInstruction = require("./AbsencePayInstruction");
+const AbsencePayInstruction = require("./base-absence-pay-instruction");
 
 module.exports = class ShppPayInstruction extends AbsencePayInstruction {
     get name() {
