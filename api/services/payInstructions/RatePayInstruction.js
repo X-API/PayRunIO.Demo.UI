@@ -4,8 +4,4 @@ module.exports = class RatePayInstruction extends BaseInstruction {
     get name() {
         return "Rate";
     }
-
-    get canInstructionsOverlap() {
-        return true;
-    }
 };

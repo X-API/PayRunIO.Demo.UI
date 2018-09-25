@@ -5,76 +5,33 @@ const ValidationParser = require("../services/validation-parser");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class PayInstructionController extends BaseController {
-    async addNewInstruction(ctx) {
+    async get(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
-        let body = ctx.request.body;
-        let instructionType = body.InstructionType;
-        let cleanBody = this.getInstructionInstance(instructionType).parseForApi(body);
-        let request = {};
-
-        request[instructionType] = cleanBody;
-
-        let response = await apiWrapper.post(apiRoute, request);
-
-        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
-            ctx.body = {
-                Errors: ValidationParser.extractErrors(response)
-            };
-            return;
-        }
-
-        if (ValidationParser.containsErrors(response)) {
-            ctx.session.body = body;
-            ctx.session.errors = ValidationParser.extractErrors(response);
-
-            ctx.redirect("/payInstruction/new");
-            return;
-        }
-
-        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
-    }
-
-    async getInstruction(ctx) {
-        let employerId = ctx.params.employerId;
-        let employeeId = ctx.params.employeeId;
-        let id = ctx.params.payInstructionId;
+        let id = ctx.params.id;
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
         let response = await apiWrapper.get(apiRoute);
+
         let instructionType = Object.keys(response)[0];
 
         let body = Object.assign(response[instructionType], {
-            title: "Pay instruction",
             Id: id,
-            EnableForm: true,
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
-            MinStartDate: null,
-            Breadcrumbs: [
-                { Name: "Employers", Url: "/employer" },
-                { Name: "Employer", Url: `/employer/${employerId}` },
-                { Name: "Employee", Url: `/employer/${employerId}/employee/${employeeId}#instructions` },
-                { Name: "Pay instruction" }
-            ],
-            layout: "modal"
         });
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
-        let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);        
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(body);        
 
-        await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
+        ctx.body = instructionTypeExtendedViewModel;
     }
 
-    async saveInstruction(ctx) {
+    async post(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        let id = ctx.params.payInstructionId;
-        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
         let body = ctx.request.body;
         let instructionType = body.InstructionType;
         let cleanBody = this.getInstructionInstance(instructionType).parseForApi(body);
@@ -82,30 +39,38 @@ module.exports = class PayInstructionController extends BaseController {
 
         request[instructionType] = cleanBody;
 
-        let response = await apiWrapper.put(apiRoute, request);
+        let response = null;
 
-        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
-            ctx.body = {
-                Errors: ValidationParser.extractErrors(response)
-            };
-            return;
+        if (body.Id) {
+            let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${body.Id}`;
+
+            response = await apiWrapper.put(apiRoute, request);
+        }
+        else {
+            let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
+
+            response = await apiWrapper.post(apiRoute, request);
         }
 
         if (ValidationParser.containsErrors(response)) {
-            ctx.session.body = body;
-            ctx.session.errors = ValidationParser.extractErrors(response);
-            
-            ctx.redirect(apiRoute);
-            return;
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
         }
-
-        await this.redirectWithStatus(ctx, employerId, employeeId, instructionType);
+        else {
+            ctx.body = {
+                status: {
+                    message: "Pay instruction saved",
+                    type: "success"
+                }
+            };
+        }
     }
 
     async delete(ctx) {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
-        let payInstructionId = ctx.params.payInstructionId;
+        let payInstructionId = ctx.params.id;
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
@@ -124,29 +89,6 @@ module.exports = class PayInstructionController extends BaseController {
                 }
             };
         }
-    }
-
-    async redirectWithStatus(ctx, employerId, employeeId, instructionType) {
-        let employeeRoute = `/employer/${employerId}/employee/${employeeId}`;
-        let hash = instructionType.toLowerCase().indexOf("ytd") !== -1 ? "#year-to-date-instructions" : "#instructions";
-        
-        await ctx.redirect(`${employeeRoute}?status=Pay instruction saved&statusType=success${hash}`);        
-    }
-
-    async canInstructionBeAdded({ employerId, employeeId, type }) {
-        let instruction = this.getInstructionInstance(type);
-
-        return instruction.canNewInstructionBeAdded(employerId, employeeId);
-    }
-
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
-        let instruction = this.getInstructionInstance(type);
-
-        return instruction.getMinStartDateForNewInstruction({
-            employerId: employerId,
-            employeeId: employeeId,
-            payInstructionId: payInstructionId
-        });
     }
 
     getInstructionInstance(type) {

@@ -8,10 +8,6 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
         return "Pension";
     }
 
-    get canInstructionsOverlap() {
-        return true;
-    }
-
     async extendViewModel(vm) {
         let extendedViewModel = await super.extendViewModel(vm);
         let pensions = await apiWrapper.getAndExtractLinks(`Employer/${vm.EmployerId}/Pensions`);

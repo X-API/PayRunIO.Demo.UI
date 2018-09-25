@@ -87,11 +87,9 @@ router
     .delete("/api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.delete(ctx))
 
     // pay instruction
-    .get("api/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))
-    .post("api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.addNewInstruction(ctx))
-    .get("api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.getInstruction(ctx))
-    .post("api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.saveInstruction(ctx))
-    .delete("/api/employer/:employerId/employee/:employeeId/payInstruction/:payInstructionId", async ctx => payInstructionController.delete(ctx))
+    .get("api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.getInstruction(ctx))    
+    .post("api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.post(ctx))
+    .delete("/api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.delete(ctx))
 
     // pay run
     .post("/api/employer/:employerId/payRun", async ctx => await payRunController.post(ctx))

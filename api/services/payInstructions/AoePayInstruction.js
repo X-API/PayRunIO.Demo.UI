@@ -5,10 +5,6 @@ module.exports = class AoePayInstruction extends BaseInstruction {
         return "Attachment of Earnings";
     }
 
-    get canInstructionsOverlap() {
-        return true;
-    }
-
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
