@@ -1,0 +1,37 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value.bind="pi.Value" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+            </div>
+
+            <div class="form-group">
+                <label for="StudentLoanCalculationMethod">Student loan calculation method</label>
+
+                <select id="StudentLoanCalculationMethod" 
+                    name="StudentLoanCalculationMethod" 
+                    class="form-control" 
+                    required 
+                    data-required-message="Student loan calculation method is required" 
+                    value.bind="pi.StudentLoanCalculationMethod">
+                    <option value=""></option>
+                    <option value="Off">Off</option>
+                    <option value="Plan1">Plan1</option>
+                    <option value="Plan2">Plan2</option>
+                </select>
+            </div> 
+        </div>
+    </div>
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

@@ -1,0 +1,68 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value.bind="pi.Value" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+            </div>
+
+            <div class="form-group">
+                <label for="TaxablePay">Taxable Pay</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="TaxablePay" 
+                    name="TaxablePay" 
+                    value.bind="pi.TaxablePay" 
+                    step="0.01" 
+                    placeholder="Taxable Pay" 
+                    required 
+                    data-required-message="Taxable Pay is required">
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="TaxCode">Tax code</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="TaxCode" 
+                    name="TaxCode" 
+                    value.bind="pi.TaxCode" 
+                    placeholder="Tax code" 
+                    required 
+                    data-required-message="Tax code is required" 
+                    minlength="2" 
+                    maxlength="7" 
+                    pattern="^(SD1|SD2|D1|BR|SBR|SD0|D0|NT)$|^[S]?((K{1}[0-9]{1,6})|([0-9]{1,6}[LMNPTYV]{1})$)">
+            </div>
+
+            <div class="form-group">
+                <label for="TaxBasis">Tax basis</label>
+
+                <select id="TaxBasis" 
+                    name="TaxBasis" 
+                    class="form-control" 
+                    required 
+                    data-required-message="Tax basis is required" 
+                    value.bind="pi.TaxBasis">
+                    <option value=""></option>
+                    <option value="Cumulative">Cumulative</option>
+                    <option value="Week1Month1">Week1Month1</option>
+                </select>
+            </div>             
+        </div>
+    </div>
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

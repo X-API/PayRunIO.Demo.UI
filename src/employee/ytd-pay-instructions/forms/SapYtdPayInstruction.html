@@ -1,0 +1,100 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="AbsenceStart">Absence start</label>
+
+                <input type="date" 
+                    class="form-control" 
+                    id="AbsenceStart" 
+                    name="AbsenceStart" 
+                    value.bind="pi.AbsenceStart" 
+                    placeholder="Absence start" 
+                    required 
+                    data-required-message="Absence start is required">
+            </div>        
+
+            <div class="form-group">
+                <label for="AbsenceEnd">Absence end</label>
+
+                <input type="date" 
+                    class="form-control" 
+                    id="AbsenceEnd" 
+                    name="AbsenceEnd" 
+                    value.bind="pi.AbsenceEnd" 
+                    placeholder="Absence end" 
+                    required 
+                    data-required-message="Absence end is required">
+            </div> 
+
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value.bind="pi.Value" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+            </div>              
+        </div>
+
+        <div class="col-sm-12 col-md-6">        
+            <div class="form-group">
+                <label for="AverageWeeklyEarnings">Average weekly earnings</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="AverageWeeklyEarnings" 
+                    name="AverageWeeklyEarnings" 
+                    value.bind="pi.AverageWeeklyEarnings" 
+                    step="0.01" 
+                    placeholder="Average weekly earnings" 
+                    required 
+                    data-required-message="Average weekly earnings is required">
+            </div>
+
+            <div class="form-group">
+                <label for="WeeksUsed">Weeks used</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="WeeksUsed" 
+                    name="WeeksUsed" 
+                    value.bind="pi.WeeksUsed" 
+                    step="0.01" 
+                    min="0" 
+                    placeholder="Weeks used" 
+                    required 
+                    data-required-message="Weeks used is required">
+            </div>            
+        </div>
+    </div>
+
+    <!--<div class="row keep-in-touch-days">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>Keep in touch days</label>
+                </div>
+            </div>
+
+            <div id="keep-in-touch-days-container"></div>
+
+            <div class="row">
+                <div class="col-sm-12 add-keep-in-touch-day-container">
+                    <button id="add-keep-in-touch-day" class="btn btn-secondary btn-sm" type="button">Add a keep in touch day</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="KeepInTouchDays" type="hidden" name="KeepInTouchDays" value="{{CoalescedKeepInTouchDays}}">
+
+    <script src="/js/keep-in-touch-days.js"></script>-->
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

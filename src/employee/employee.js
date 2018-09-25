@@ -10,6 +10,7 @@ export class Employee {
         this.employee = null;
         this.ea = eventAggregator;
         this.dialogService = dialogService;
+        this.client = new HttpClient();
 
         this.typesOfPayInstruction = [
             "AoePayInstruction", 
@@ -41,9 +42,7 @@ export class Employee {
     }
 
     activate(params) {
-        this.reloadEmployeeSubscriber = this.ea.subscribe("employee:reload", state => {
-            this.getEmployeeDetails(state.employerId, state.employeeId);
-        });
+        this.getPayInstructionTypes();
 
         if (params && params.employerId && params.employeeId) {
             return this.getEmployeeDetails(params.employerId, params.employeeId);
@@ -62,13 +61,24 @@ export class Employee {
     }
 
     getEmployeeDetails(employerId, employeeId) {
-        let client = new HttpClient();
-
         return new Promise(resolve => {
-            client.get(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+            this.client.get(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
                 this.employee = JSON.parse(res.response);
                 
                 this.employee.EmployerId = employerId;
+
+                resolve();
+            });
+        });
+    }
+
+    getPayInstructionTypes() {
+        return new Promise(resolve => {
+            this.client.get("/api/pay-instructions").then(res => {
+                let response = JSON.parse(res.response);
+
+                this.typesOfPayInstruction = response.filter(pi => pi.group === "normal");
+                this.typesOfYTDPayInstruction = response.filter(pi => pi.group === "year-to-date");
 
                 resolve();
             });
@@ -92,13 +102,12 @@ export class Employee {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
-                let client = new HttpClient();
                 let employerId = this.employee.EmployerId;
                 let employeeId = this.employee.Id;
                 let payInstructionId = pi.Id;
                 let url = `/api/employer/${employerId}/employee/${employeeId}/payInstruction/${payInstructionId}`;
                 
-                client.delete(url).then(res => {
+                this.client.delete(url).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
                     if (parsedResponse.errors) {

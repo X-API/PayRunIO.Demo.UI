@@ -1,0 +1,237 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value="{{Value}}" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+            </div>
+
+            <div class="form-group">
+                <label for="EmployerNI">Employer NI</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="EmployerNI" 
+                    name="EmployerNI" 
+                    value="{{EmployerNI}}" 
+                    step="0.01" 
+                    placeholder="Employer NI" 
+                    required 
+                    data-required-message="Employer NI is required">
+            </div>
+
+            <div class="form-group">
+                <label for="NiablePay">Niable Pay</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="NiablePay" 
+                    name="NiablePay" 
+                    value="{{NiablePay}}" 
+                    step="0.01" 
+                    placeholder="Niable Pay" 
+                    required 
+                    data-required-message="Niable Pay is required">
+            </div>
+
+            <div class="form-group">
+                <label for="NiLetter">NI Letter</label>
+
+                {{#select NiLetter}}
+                <select id="NiLetter" 
+                    name="NiLetter" 
+                    class="form-control" 
+                    required 
+                    data-required-message="NI Letter is required">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="H">H</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="X">X</option>
+                    <option value="Z">Z</option>
+                </select>
+                {{/select}}
+            </div>
+
+            <div class="form-group">
+                <label for="LEL">LEL</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="LEL" 
+                    name="LEL" 
+                    value="{{LEL}}" 
+                    step="0.01" 
+                    placeholder="LEL">
+            </div>
+
+            <div class="form-group">
+                <label for="LELtoPT">LEL to PT</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="LELtoPT" 
+                    name="LELtoPT" 
+                    value="{{LELtoPT}}" 
+                    step="0.01" 
+                    placeholder="LEL to PT">
+            </div>
+
+            <div class="form-group">
+                <label for="PTtoST">PT to ST</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="PTtoST" 
+                    name="PTtoST" 
+                    value="{{PTtoST}}" 
+                    step="0.01" 
+                    placeholder="PT to ST">
+            </div>
+
+            <div class="form-group">
+                <label for="STtoUAP">ST to UAP</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="STtoUAP" 
+                    name="STtoUAP" 
+                    value="{{STtoUAP}}" 
+                    step="0.01" 
+                    placeholder="ST to UAP">
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="STtoUEL">ST to UEL</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="STtoUEL" 
+                    name="STtoUEL" 
+                    value="{{STtoUEL}}" 
+                    step="0.01" 
+                    placeholder="ST to UEL">
+            </div>
+
+            <div class="form-group">
+                <label for="UAPtoUEL">UAP to UEL</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="UAPtoUEL" 
+                    name="UAPtoUEL" 
+                    value="{{UAPtoUEL}}" 
+                    step="0.01" 
+                    placeholder="UAP to UEL">
+            </div>
+
+            <div class="form-group">
+                <label for="UELtoUST">UEL to UST</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="UELtoUST" 
+                    name="UELtoUST" 
+                    value="{{UELtoUST}}" 
+                    step="0.01" 
+                    placeholder="UEL to UST">
+            </div>
+
+            <div class="form-group">
+                <label for="UELtoAUST">UEL to AUST</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="UELtoAUST" 
+                    name="UELtoAUST" 
+                    value="{{UELtoAUST}}" 
+                    step="0.01" 
+                    placeholder="UEL to AUST">
+            </div>
+
+            <div class="form-group">
+                <label for="AboveUST">Above UST</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="AboveUST" 
+                    name="AboveUST" 
+                    value="{{AboveUST}}" 
+                    step="0.01" 
+                    placeholder="Above UST">
+            </div>
+
+            <div class="form-group">
+                <label for="AboveAUST">Above AUST</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="AboveAUST" 
+                    name="AboveAUST" 
+                    value="{{AboveAUST}}" 
+                    step="0.01" 
+                    placeholder="Above AUST">
+            </div>
+
+            <div class="form-group">
+                <label for="RebateEE">Rebate EE</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="RebateEE" 
+                    name="RebateEE" 
+                    value="{{RebateEE}}" 
+                    step="0.01" 
+                    placeholder="Rebate EE">
+            </div>
+
+            <div class="form-group">
+                <label for="RebateER">Rebate ER</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="RebateER" 
+                    name="RebateER" 
+                    value="{{RebateER}}" 
+                    step="0.01" 
+                    placeholder="Rebate ER">
+            </div>
+            
+            <div class="form-group">
+                <label for="DirCalculationMethod">Dir Calculation Method</label>
+
+                {{#select DirCalculationMethod}}
+                <select id="DirCalculationMethod" 
+                    name="DirCalculationMethod" 
+                    class="form-control" 
+                    required 
+                    data-required-message="Calculation Method is required">
+                    <option value="Off">Off</option>
+                    <option value="AnnualBasis">Annual Basis</option>
+                    <option value="AlternativeBasis">Alternative Basis</option>
+                </select>
+                {{/select}}
+            </div>            
+        </div>
+    </div>
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

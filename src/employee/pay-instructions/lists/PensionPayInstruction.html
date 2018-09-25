@@ -23,9 +23,7 @@
                     </a>
                 </th>
                 <td>
-                    <a href="{{extractHref this.Pension}}">
-                        ${item.Pension | extractIdFromLink}
-                    </a>
+                    ${item.Pension | extractIdFromLink}
                 </td>
                 <td>
                     ${getPensionContribution(item.EmployeeContributionCash, item.EmployeeContributionPercent)}

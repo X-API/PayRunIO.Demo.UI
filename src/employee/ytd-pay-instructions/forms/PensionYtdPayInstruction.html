@@ -1,0 +1,99 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="PensionablePay">Pensionable pay</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="PensionablePay" 
+                    name="PensionablePay" 
+                    value.bind="pi.PensionablePay" 
+                    step="0.01" 
+                    placeholder="Pensionable pay" 
+                    required 
+                    data-required-message="Pensionable pay is required">
+
+                <span class="notes">The total amount of pensionable pay.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value.bind="pi.Value" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+
+                <span class="notes">
+                    The employee contribution amount.
+                </span>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="EmployerContribution">Employer contribution</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="EmployerContribution" 
+                    name="EmployerContribution" 
+                    value.bind="pi.EmployerContribution" 
+                    step="0.01" 
+                    placeholder="EmployerContribution" 
+                    required 
+                    data-required-message="Employer contribution is required">
+
+                <span class="notes">
+                    The employer contribution amount.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="Code">Code</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="Code" 
+                    name="Code" 
+                    value.bind="pi.Code" 
+                    placeholder="Code" 
+                    minlength="2" 
+                    maxlength="35" 
+                    pattern="[A-Za-z0-9]*" 
+                    required 
+                    data-required-message="Code is required">
+
+                <span class="notes">
+                    The code that represents the pension payment code.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="Pension">Pension</label>
+
+                <select class="form-control" 
+                    id="Pension" 
+                    name="Pension" 
+                    required 
+                    data-required-message="Pension is required" 
+                    value.bind="pi.Pension">
+                    <option value=""></option>
+                    <option repeat.for="pension of pi.Pensions" value.bind="pension.Id">${pension.Name}</option>
+                </select>
+
+                <span class="notes">
+                    The related pension scheme.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

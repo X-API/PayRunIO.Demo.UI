@@ -6,6 +6,7 @@ const EmployeeController = require("./controllers/employee-controller");
 const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PaySchedulesController = require("./controllers/pay-schedules-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
+const PayInstructionsController = require("./controllers/pay-instructions-controller");
 const PayRunController = require("./controllers/pay-run-controller");
 const PayRunsController = require("./controllers/pay-runs-controller");
 const CommentaryController = require("./controllers/commentary-controller");
@@ -25,6 +26,7 @@ let employeeController = new EmployeeController();
 let payScheduleController = new PayScheduleController();
 let paySchedulesController = new PaySchedulesController();
 let payInstructionController = new PayInstructionController();
+let payInstructionsController = new PayInstructionsController();
 let payRunController = new PayRunController();
 let payRunsController = new PayRunsController();
 let commentaryController = new CommentaryController();
@@ -87,9 +89,12 @@ router
     .delete("/api/employer/:employerId/employee/:employeeId", async ctx => await employeeController.delete(ctx))
 
     // pay instruction
-    .get("api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.getInstruction(ctx))    
-    .post("api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.post(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.get(ctx))
+    .post("/api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.post(ctx))
     .delete("/api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.delete(ctx))
+
+    // pay instructions
+    .get("/api/pay-instructions", async ctx => payInstructionsController.get(ctx))
 
     // pay run
     .post("/api/employer/:employerId/payRun", async ctx => await payRunController.post(ctx))

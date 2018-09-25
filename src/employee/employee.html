@@ -70,8 +70,8 @@
                             <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
                                 <a class="dropdown-item launch-modal" 
                                     href="#" 
-                                    repeat.for="type of typesOfPayInstruction" 
-                                    click.delegate="openAddPayInstructionModal(type)">${type}</a>
+                                    repeat.for="pi of typesOfPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(pi.type)">${pi.name}</a>
                             </div>
                         </div>
                     </div>
@@ -122,8 +122,8 @@
                             <div class="dropdown-menu" aria-labelledby="addNewYTDPayInstruction">
                                 <a class="dropdown-item launch-modal" 
                                     href="#" 
-                                    repeat.for="type of typesOfYTDPayInstruction" 
-                                    click.delegate="openAddPayInstructionModal(type)">${type}</a>                           
+                                    repeat.for="pi of typesOfYTDPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(pi.type)">${pi.name}</a>                           
                             </div>
                         </div>
                     </div>

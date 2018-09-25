@@ -1,0 +1,47 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="DirCalculationMethod">Director calculation method</label>
+
+                <select id="DirCalculationMethod" name="DirCalculationMethod" class="form-control" value.bind="pi.DirCalculationMethod">
+                    <option value="Off">Off</option>
+                    <option value="AnnualBasis">Annual Basis</option>
+                    <option value="AlternativeBasis">Alternative Basis</option>
+                </select>
+
+                <span class="notes">
+                    The calculation method to be used when treating and employee as a director. 
+                    See <a href="https://developer.payrun.io/docs/payroll-help/employees-as-directors.html" target="_blank">employees as directors</a> for more information.
+                </span>                
+            </div>                              
+
+            <div class="form-group">
+                <label for="NiLetter">Ni Letter</label>
+
+                <select id="NiLetter" name="NiLetter" class="form-control" value.bind="pi.NiLetter">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="H">H</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="X">X</option>
+                    <option value="Z">Z</option>
+                </select>
+
+                <span class="notes">
+                    The employee's NI letter category. 
+                    See <a href="https://developer.payrun.io/docs/payroll-help/using-the-correct-ni-letter.html" target="_blank">using the correct NI letter</a> for more information.
+                </span>                
+            </div>
+        </div>
+    </div>
+
+    <compose view="./pay-instruction.html"></compose>
+</template>
