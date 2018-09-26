@@ -50,8 +50,21 @@ app
     .use(async (ctx, next) => {
         let setupCookie = ctx.cookies.get(SetupController.cookieKey);
 
+        let href = ctx.href;
+        let path = ctx.path;
+
         if (setupCookie && Constants.setup) {
             Constants.setup(JSON.parse(setupCookie));
+        }
+        else if (!setupCookie) {
+            if (href.indexOf("/css/") == -1 
+                && href.indexOf("/js/") == -1
+                && href.indexOf("/favicon.ico") == -1
+                && href.indexOf("/setup") == -1
+                && path !== "/" 
+                && path !== "/api-calls/data") {
+                await ctx.redirect("/");
+            }
         }
 
         await next();
