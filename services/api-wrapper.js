@@ -114,7 +114,13 @@ module.exports = class APIWrapper {
     }
 
     getOptions(ctx, relativeUrl, method) {
-        let setup = JSON.parse(ctx.cookies.get("setupCookieKey"));
+        let ck = ctx.cookies.get("setupCookieKey");
+
+        if (!ck) {
+            return;
+        }
+
+        let setup = JSON.parse(ck);
         let oauth = OAuth({
             consumer: {
                 key: setup.ConsumerKey,

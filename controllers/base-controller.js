@@ -5,6 +5,10 @@ const apiWrapper = new ApiWrapper();
 
 module.exports = class BaseController {
     async getExtendedViewModel(ctx, vm) {
+        if (!ctx.cookies.get("setupCookieKey")) {
+            return vm;
+        }
+
         let healthCheckResponse = await apiWrapper.get(ctx, "/Healthcheck");
 
         let body = ctx.session.body || {};
