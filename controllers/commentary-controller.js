@@ -10,7 +10,7 @@ module.exports = class CommentaryController extends BaseController {
         let commentaryId = ctx.params.commentaryId;
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/Commentary/${commentaryId}`;
-        let commentary = await apiWrapper.get(apiRoute);
+        let commentary = await apiWrapper.get(ctx, apiRoute);
 
         ctx.type = "text/plain; charset=utf-8";
         ctx.body = commentary.Commentary.Detail;

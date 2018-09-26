@@ -90,7 +90,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
         let instructionType = Object.keys(response)[0];
 
         let body = Object.assign(response[instructionType], {
@@ -129,7 +129,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         request[instructionType] = cleanBody;
 
-        let response = await apiWrapper.put(apiRoute, request);
+        let response = await apiWrapper.put(ctx, apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
             ctx.body = {
@@ -156,7 +156,7 @@ module.exports = class PayInstructionController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

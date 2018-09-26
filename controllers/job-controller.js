@@ -11,7 +11,7 @@ module.exports = class JobController extends BaseController {
         
         let apiRoute = type === "payrun" ? `/Jobs/PayRuns/${jobId}/Info` : `/Jobs/RTI/${jobId}/Info`;
         
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
         
         if (response.JobInfo) {
             let body = response.JobInfo;

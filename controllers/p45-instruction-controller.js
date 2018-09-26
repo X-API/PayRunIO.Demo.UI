@@ -10,7 +10,7 @@ module.exports = class P45InstructionController extends BaseController {
         let body = ctx.request.body;
         let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
 
-        let response = await apiWrapper.post(apiRoute, { P45PayInstruction: body });
+        let response = await apiWrapper.post(ctx, apiRoute, { P45PayInstruction: body });
 
         if (ValidationParser.containsErrors(response)) {
             return;
@@ -26,7 +26,7 @@ module.exports = class P45InstructionController extends BaseController {
         let body = ctx.request.body;
         let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
-        let response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
+        let response = await apiWrapper.put(ctx, apiRoute, { P45PayInstruction: body });
 
         if (ValidationParser.containsErrors(response)) {
             return;

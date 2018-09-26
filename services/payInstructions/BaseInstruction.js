@@ -71,7 +71,7 @@ module.exports = class BaseInstruction {
     async getInstructions(employerId, employeeId) {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let instructionType = this.constructor.name;
-        let links = await apiWrapper.getLinks(apiRoute);
+        let links = await apiWrapper.getLinks(ctx, apiRoute);
         
         let filteredLinks = links.filter(link => {
             return link["@rel"] === instructionType;

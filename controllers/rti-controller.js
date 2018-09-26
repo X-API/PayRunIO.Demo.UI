@@ -15,7 +15,7 @@ module.exports = class RtiController extends BaseController {
 
         let query = JSON.parse(queryStr);
 
-        let paymentDates = await apiWrapper.query(query);
+        let paymentDates = await apiWrapper.query(ctx, query);
 
         let body = {
             Status: "",
@@ -34,7 +34,7 @@ module.exports = class RtiController extends BaseController {
         let formValues = ctx.request.body;
 
         let apiRoute = `/Employer/${employerId}/${formValues.PayRun}`;
-        let payRun = await apiWrapper.get(apiRoute);
+        let payRun = await apiWrapper.get(ctx, apiRoute);
 
         let fpsBody = {
             RtiType: "FPS",
@@ -52,7 +52,7 @@ module.exports = class RtiController extends BaseController {
             LateReason: null
         };
 
-        let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: fpsBody });
+        let response = await apiWrapper.post(ctx, "/Jobs/rti", { RtiJobInstruction: fpsBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = formValues;
@@ -61,7 +61,7 @@ module.exports = class RtiController extends BaseController {
                 .replace("$$EmployerKey$$", employerId);
 
             let query = JSON.parse(queryStr);
-            let paymentDates = await apiWrapper.query(query);
+            let paymentDates = await apiWrapper.query(ctx, query);
 
             let body = {
                 Status: "",
@@ -88,7 +88,7 @@ module.exports = class RtiController extends BaseController {
         let rtiTransactionId = ctx.params.rtiTransactionId;
 
         let apiRoute = `/Employer/${employerId}/RtiTransaction/${rtiTransactionId}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         ctx.type = "text/plain; charset=utf-8";
         ctx.body = JSON.stringify(response.RtiFpsTransaction, null, 4);

@@ -13,7 +13,6 @@ const Routes = require("./routes");
 const Raven = require("raven");
 const APILogger = require("./services/api-logger");
 const SetupController = require("./controllers/setup-controller");
-const Constants = require("./Constants");
 
 let app = new Koa();
 let router = new Router();
@@ -53,10 +52,7 @@ app
         let href = ctx.href;
         let path = ctx.path;
 
-        if (setupCookie && Constants.setup) {
-            Constants.setup(JSON.parse(setupCookie));
-        }
-        else if (!setupCookie) {
+        if (!setupCookie) {
             if (href.indexOf("/css/") == -1 
                 && href.indexOf("/js/") == -1
                 && href.indexOf("/favicon.ico") == -1
