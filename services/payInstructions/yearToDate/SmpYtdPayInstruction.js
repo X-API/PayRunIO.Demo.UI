@@ -5,8 +5,8 @@ module.exports = class SmpYtdPayInstruction extends BaseAbsenceYtdPayInstruction
         return "Statutory Maternity Pay YTD";
     }
 
-    async extendViewModel(vm) {
-        let evm = await super.extendViewModel(vm);
+    async extendViewModel(ctx, vm) {
+        let evm = await super.extendViewModel(ctx, vm);
 
         if (vm.KeepInTouchDays) {
             evm.CoalescedKeepInTouchDays = vm.KeepInTouchDays.Date.join("|");

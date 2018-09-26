@@ -45,7 +45,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
         let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, extendedViewModel);
 
         await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
@@ -112,7 +112,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
         let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);        
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, extendedViewModel);        
 
         await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }

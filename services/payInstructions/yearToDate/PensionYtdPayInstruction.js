@@ -9,7 +9,7 @@ module.exports = class PensionYtdPayInstruction extends BaseYtdPayInstruction {
     }
 
     async extendViewModel(ctx, vm) {
-        let evm = await super.extendViewModel(vm);
+        let evm = await super.extendViewModel(ctx, vm);
         let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${vm.EmployerId}/Pensions`);
         let selectedPensionId = "";
 
