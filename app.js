@@ -14,7 +14,6 @@ const Routes = require("./api/routes");
 const Raven = require("raven");
 const APILogger = require("./api/services/api-logger");
 const SetupController = require("./api/controllers/setup-controller");
-const Constants = require("./api/Constants");
 
 let app = new Koa();
 let router = new Router();
@@ -50,10 +49,6 @@ app
     })
     .use(async (ctx, next) => {
         let setupCookie = ctx.cookies.get(SetupController.cookieKey);
-
-        if (setupCookie && Constants.setup) {
-            Constants.setup(JSON.parse(setupCookie));
-        }
 
         await next();
     })

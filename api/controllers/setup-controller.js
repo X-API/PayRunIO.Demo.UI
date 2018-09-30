@@ -1,5 +1,4 @@
 const BaseController = require("./base-controller");
-const Globals = require("../Constants");
 
 module.exports = class SetupController extends BaseController {
     static get cookieKey() {
@@ -33,8 +32,6 @@ module.exports = class SetupController extends BaseController {
             overwrite: true,
             httpOnly: false
         });
-
-        Globals.setup(body);
 
         ctx.body = {
             valid: true

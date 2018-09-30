@@ -15,7 +15,7 @@ module.exports = class PayScheduleController extends BaseController {
             .replace("$$PayScheduleKey$$", payScheduleId);
 
         let query = JSON.parse(queryStr);
-        let queryResult = await apiWrapper.query(query);
+        let queryResult = await apiWrapper.query(ctx, query);
 
         ctx.body = {
             paymentDate: queryResult.NextPayRunDates.NextPayDay,
@@ -34,10 +34,10 @@ module.exports = class PayScheduleController extends BaseController {
 
             body.Id = null;
 
-            response = await apiWrapper.put(url, { PaySchedule: body });
+            response = await apiWrapper.put(ctx, url, { PaySchedule: body });
         }
         else {
-            response = await apiWrapper.post(`Employer/${employerId}/PaySchedules`, { PaySchedule: body });
+            response = await apiWrapper.post(ctx, `Employer/${employerId}/PaySchedules`, { PaySchedule: body });
         }
 
         if (ValidationParser.containsErrors(response)) {
@@ -61,7 +61,7 @@ module.exports = class PayScheduleController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

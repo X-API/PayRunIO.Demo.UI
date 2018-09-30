@@ -20,10 +20,10 @@ module.exports = class PayRunController extends BaseController {
             .replace("$$PayRunKey$$", payRunId);
 
         let query = JSON.parse(queryStr);
-        let queryResult = await apiWrapper.query(query);
+        let queryResult = await apiWrapper.query(ctx, query);
         let employees = queryResult.PayrunG2N.PaySchedule.PayRun.Employees;
 
-        let commentaries = await apiWrapper.get(payRunRoute + "/Commentaries");
+        let commentaries = await apiWrapper.get(ctx, payRunRoute + "/Commentaries");
 
         let mappedEmployees = [];
 
@@ -54,7 +54,7 @@ module.exports = class PayRunController extends BaseController {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;
         let cleanBody = PayRunUtils.parse(body, employerId);
-        let response = await apiWrapper.post("jobs/payruns", { PayRunJobInstruction: cleanBody });
+        let response = await apiWrapper.post(ctx, "jobs/payruns", { PayRunJobInstruction: cleanBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -81,7 +81,7 @@ module.exports = class PayRunController extends BaseController {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let payRunId = ctx.params.payRunId;
-        let response = await apiWrapper.delete(`/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
+        let response = await apiWrapper.delete(ctx, `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

@@ -1,5 +1,3 @@
-const Constants = require("../Constants");
-
 module.exports = class APILogger {
     static get context() {
         return this._context;
@@ -21,7 +19,7 @@ module.exports = class APILogger {
                 id: call.debugId,
                 method: call.method,
                 uri: call.uri,
-                relativeUri: call.uri.trim().toLowerCase().replace(Constants.apiUrl, ""),
+                relativeUri: call.uri.trim().toLowerCase(),
                 headers: {
                     Authorization: call.headers.Authorization,
                     Accept: call.headers.accept

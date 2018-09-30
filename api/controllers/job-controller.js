@@ -8,7 +8,7 @@ module.exports = class JobController extends BaseController {
         let jobId = ctx.params.jobId;
         let type = ctx.params.type.trim().toLowerCase();
         let apiRoute = type === "payrun" ? `/Jobs/PayRuns/${jobId}/Info` : `/Jobs/RTI/${jobId}/Info`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
         let body = response.JobInfo;
 
         body.Title = type === "payrun" ? "Pay Run Info" : "RTI Full Payment Submission";

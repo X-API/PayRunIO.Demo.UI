@@ -13,12 +13,12 @@ module.exports = class P45InstructionController extends BaseController {
         if (body.Id) {
             let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstruction/${body.Id}`;
 
-            response = await apiWrapper.put(apiRoute, { P45PayInstruction: body });
+            response = await apiWrapper.put(ctx, apiRoute, { P45PayInstruction: body });
         }
         else {
             let apiRoute = `Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
 
-            response = await apiWrapper.post(apiRoute, { P45PayInstruction: body });    
+            response = await apiWrapper.post(ctx, apiRoute, { P45PayInstruction: body });    
         }
 
         if (ValidationParser.containsErrors(response)) {

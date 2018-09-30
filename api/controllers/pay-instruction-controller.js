@@ -12,7 +12,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         let instructionType = Object.keys(response)[0];
 
@@ -44,12 +44,12 @@ module.exports = class PayInstructionController extends BaseController {
         if (body.Id) {
             let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${body.Id}`;
 
-            response = await apiWrapper.put(apiRoute, request);
+            response = await apiWrapper.put(ctx, apiRoute, request);
         }
         else {
             let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
 
-            response = await apiWrapper.post(apiRoute, request);
+            response = await apiWrapper.post(ctx, apiRoute, request);
         }
 
         if (ValidationParser.containsErrors(response)) {
@@ -74,7 +74,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

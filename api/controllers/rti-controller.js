@@ -11,7 +11,7 @@ module.exports = class RtiController extends BaseController {
         let rtiTransactionId = ctx.params.rtiTransactionId;
 
         let apiRoute = `/Employer/${employerId}/RtiTransaction/${rtiTransactionId}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         ctx.type = "text/plain; charset=utf-8";
         ctx.body = JSON.stringify(response.RtiFpsTransaction, null, 4);
@@ -21,7 +21,7 @@ module.exports = class RtiController extends BaseController {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;
         let apiRoute = `/Employer/${employerId}/PaySchedule/${body.PayScheduleId}/PayRun/${body.PayRunId}`;
-        let payRun = await apiWrapper.get(apiRoute);
+        let payRun = await apiWrapper.get(ctx, apiRoute);
 
         let fpsBody = {
             RtiType: "FPS",
@@ -39,7 +39,7 @@ module.exports = class RtiController extends BaseController {
             LateReason: body.LateReason
         };
 
-        let response = await apiWrapper.post("/Jobs/rti", { RtiJobInstruction: fpsBody });
+        let response = await apiWrapper.post(ctx, "/Jobs/rti", { RtiJobInstruction: fpsBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

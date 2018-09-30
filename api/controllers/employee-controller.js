@@ -11,8 +11,8 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
-        let response = await apiWrapper.get(apiRoute);
-        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
+        let response = await apiWrapper.get(ctx, apiRoute);
+        let payInstructions = await apiWrapper.getAndExtractLinks(ctx, `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
 
         let filteredPayInstructions = payInstructions.filter(pi => {
             return pi.ObjectType !== "P45PayInstruction";
@@ -35,7 +35,7 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -60,7 +60,7 @@ module.exports = class EmployeeController extends BaseController {
         if (body.Id) {
             let url = `Employer/${employerId}/Employee/${body.Id}`;
 
-            response = await apiWrapper.put(url, { Employee: EmployeeUtils.parse(body, employerId) });
+            response = await apiWrapper.put(ctx, url, { Employee: EmployeeUtils.parse(body, employerId) });
 
             if (ValidationParser.containsErrors(response)) {
                 ctx.body = {
@@ -80,7 +80,7 @@ module.exports = class EmployeeController extends BaseController {
         else {
             let url = `Employer/${employerId}/Employees`;
 
-            response = await apiWrapper.post(url, { Employee: EmployeeUtils.parse(body, employerId) });
+            response = await apiWrapper.post(ctx, url, { Employee: EmployeeUtils.parse(body, employerId) });
 
             if (ValidationParser.containsErrors(response)) {
                 ctx.body = {

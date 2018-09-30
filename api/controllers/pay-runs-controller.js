@@ -9,7 +9,7 @@ module.exports = class PayRunsController extends BaseController {
         let employerId = ctx.params.employerId;
         let queryStr = JSON.stringify(PayRunsQuery).replace("$$EmployerKey$$", employerId);
         let query = JSON.parse(queryStr);
-        let paymentDates = await apiWrapper.query(query);
+        let paymentDates = await apiWrapper.query(ctx, query);
 
         ctx.body = paymentDates.PayRunsQuery.PayRuns;
     }

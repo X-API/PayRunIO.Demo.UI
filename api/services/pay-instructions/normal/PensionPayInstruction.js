@@ -8,9 +8,9 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
         return "Pension";
     }
 
-    async extendViewModel(vm) {
-        let extendedViewModel = await super.extendViewModel(vm);
-        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${vm.EmployerId}/Pensions`);
+    async extendViewModel(ctx, vm) {
+        let extendedViewModel = await super.extendViewModel(ctx, vm);
+        let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${vm.EmployerId}/Pensions`);
 
         extendedViewModel.Pensions = pensions.map(pension => {
             return {

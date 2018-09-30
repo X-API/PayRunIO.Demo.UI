@@ -6,7 +6,7 @@ let apiWrapper = new ApiWrapper();
 
 module.exports = class EmployersController extends BaseController {
     async get(ctx) {
-        let queryResponse = await apiWrapper.query(EmployerQuery);
+        let queryResponse = await apiWrapper.query(ctx, EmployerQuery);
         let employers = queryResponse.EmployerTable.Employer;
 
         ctx.body = employers;

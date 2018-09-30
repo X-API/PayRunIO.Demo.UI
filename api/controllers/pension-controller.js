@@ -14,12 +14,12 @@ module.exports = class PensionController extends BaseController {
         if (body.Id) {
             let url = `Employer/${employerId}/Pension/${body.Id}`;
 
-            response = await apiWrapper.put(url, { Pension: PensionUtils.parse(body) });
+            response = await apiWrapper.put(ctx, url, { Pension: PensionUtils.parse(body) });
         }
         else {
             let url = `Employer/${employerId}/Pensions`;
 
-            response = await apiWrapper.post(url, { Pension: PensionUtils.parse(body) });
+            response = await apiWrapper.post(ctx, url, { Pension: PensionUtils.parse(body) });
         }
 
         if (ValidationParser.containsErrors(response)) {
@@ -41,7 +41,7 @@ module.exports = class PensionController extends BaseController {
         let id = ctx.params.id;
         let employerId = ctx.params.employerId;
 
-        await apiWrapper.patch(`/Employer/${employerId}`, {
+        await apiWrapper.patch(ctx, `/Employer/${employerId}`, {
             Employer: {
                 AutoEnrolment: {
                     Pension: {
@@ -63,7 +63,7 @@ module.exports = class PensionController extends BaseController {
         let employerId = ctx.params.employerId;
         let id = ctx.params.id;
         let apiRoute = `/Employer/${employerId}/Pension/${id}`;
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

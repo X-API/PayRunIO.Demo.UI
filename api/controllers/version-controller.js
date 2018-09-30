@@ -6,7 +6,7 @@ let apiWrapper = new ApiWrapper();
 
 module.exports = class VersionController extends BaseController {
     async get(ctx) {
-        let healthCheckResponse = await apiWrapper.get("/Healthcheck");
+        let healthCheckResponse = await apiWrapper.get(ctx, "/Healthcheck");
 
         ctx.body = {
             version: PackageJson.version,

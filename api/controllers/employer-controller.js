@@ -11,11 +11,11 @@ let employerService = new EmployerService();
 module.exports = class EmployerController extends BaseController {
     async get(ctx) {
         let id = ctx.params.id;
-        let response = await apiWrapper.get(`Employer/${id}`);
+        let response = await apiWrapper.get(ctx, `Employer/${id}`);
         let employer = response.Employer;
-        let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
-        let paySchedules = await employerService.getPaySchedules(id);
-        let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
+        let employees = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Employees`);
+        let paySchedules = await employerService.getPaySchedules(ctx, id);
+        let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
         let revisions = await this.getRevisions(id);
         let pensions = await this.getPensions(employer, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
@@ -38,7 +38,7 @@ module.exports = class EmployerController extends BaseController {
     async paySchedules(ctx) {
         let id = ctx.params.id;
 
-        let paySchedules = await employerService.getPaySchedules(id);
+        let paySchedules = await employerService.getPaySchedules(ctx, id);
 
         ctx.body = paySchedules.PaySchedulesTable.PaySchedule;
     }
@@ -46,7 +46,7 @@ module.exports = class EmployerController extends BaseController {
     async rtiSubmissions(ctx) {
         let id = ctx.params.id;
 
-        let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
+        let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
 
         ctx.body = rtiTransactions;
     }
@@ -59,10 +59,10 @@ module.exports = class EmployerController extends BaseController {
         let response = null;
 
         if (employerId) {
-            response = await apiWrapper.put(`Employer/${employerId}`, { Employer: parsedBody });
+            response = await apiWrapper.put(ctx, `Employer/${employerId}`, { Employer: parsedBody });
         }
         else {
-            response = await apiWrapper.post("Employers", { Employer: parsedBody });
+            response = await apiWrapper.post(ctx, "Employers", { Employer: parsedBody });
         }
 
         if (ValidationParser.containsErrors(response)) {
@@ -88,7 +88,7 @@ module.exports = class EmployerController extends BaseController {
     async delete(ctx) {
         let id = ctx.params.id;
         let apiRoute = `/Employer/${id}`;
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -109,7 +109,7 @@ module.exports = class EmployerController extends BaseController {
         let id = ctx.params.id;
         let effectiveDate = ctx.params.effectiveDate;
         let apiRoute = `/Employer/${id}/${effectiveDate}`;
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -127,7 +127,7 @@ module.exports = class EmployerController extends BaseController {
     }
 
     async getPensions(employer, employerId) {
-        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${employerId}/Pensions`);
+        let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${employerId}/Pensions`);
 
         let extendedPensions = pensions.map(pension => {
             if (employer.AutoEnrolment.Pension) {
@@ -162,7 +162,7 @@ module.exports = class EmployerController extends BaseController {
 
         let query = JSON.parse(queryStr);
         
-        let revisions = await apiWrapper.query(query);
+        let revisions = await apiWrapper.query(ctx, query);
         
         return Array.from(revisions.EmployerRevisions.Revisions.Revision);
     }
