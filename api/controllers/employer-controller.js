@@ -16,8 +16,8 @@ module.exports = class EmployerController extends BaseController {
         let employees = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Employees`);
         let paySchedules = await employerService.getPaySchedules(ctx, id);
         let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
-        let revisions = await this.getRevisions(id);
-        let pensions = await this.getPensions(employer, id);
+        let revisions = await this.getRevisions(ctx, id);
+        let pensions = await this.getPensions(ctx, employer, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
 
         if (employer.RuleExclusions) {
@@ -126,7 +126,7 @@ module.exports = class EmployerController extends BaseController {
         }
     }
 
-    async getPensions(employer, employerId) {
+    async getPensions(ctx, employer, employerId) {
         let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${employerId}/Pensions`);
 
         let extendedPensions = pensions.map(pension => {
@@ -157,7 +157,7 @@ module.exports = class EmployerController extends BaseController {
         return payRunCount;
     }
 
-    async getRevisions(employerId) {
+    async getRevisions(ctx, employerId) {
         let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", employerId);
 
         let query = JSON.parse(queryStr);

@@ -24,10 +24,27 @@ module.exports = class PayInstructionController extends BaseController {
         });
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(body);        
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, body);        
 
         ctx.body = instructionTypeExtendedViewModel;
     }
+
+    async getByType(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let instructionType = ctx.params.instructionType;
+
+        let body = {
+            EmployeeId: employeeId,
+            EmployerId: employerId,
+            InstructionType: instructionType
+        };
+
+        let instructionTypeInstance = this.getInstructionInstance(instructionType);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, body);        
+
+        ctx.body = instructionTypeExtendedViewModel;
+    }    
 
     async post(ctx) {
         let employerId = ctx.params.employerId;

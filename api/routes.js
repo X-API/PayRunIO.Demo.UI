@@ -90,6 +90,7 @@ router
 
     // pay instruction
     .get("/api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.get(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId/:instructionType", async ctx => payInstructionController.getByType(ctx))
     .post("/api/employer/:employerId/employee/:employeeId/payInstruction", async ctx => payInstructionController.post(ctx))
     .delete("/api/employer/:employerId/employee/:employeeId/payInstruction/:id", async ctx => payInstructionController.delete(ctx))
 

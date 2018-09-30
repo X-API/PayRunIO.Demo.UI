@@ -3,6 +3,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
 import { Confirm } from "../dialogs/confirm";
+import { PayInstructionModal } from "../pay-instruction/pay-instruction-modal";
 
 @inject(EventAggregator, DialogService)
 export class Employee {
@@ -86,9 +87,41 @@ export class Employee {
     }
 
     openAddPayInstructionModal(piType) {
+        let employerId = this.employee.EmployerId;
+        let employeeId = this.employee.Id;
+        let opts = {
+            viewModel: PayInstructionModal,
+            model: {
+                type: piType,
+                employerId: employerId,
+                employeeId: employeeId
+            }
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                this.getEmployeeDetails(employerId, employeeId);
+            }
+        });
     }
 
     openEditPayInstructionModal(pi) {
+        let employerId = this.employee.EmployerId;
+        let employeeId = this.employee.Id;        
+        let opts = {
+            viewModel: PayInstructionModal,
+            model: {
+                id: pi.Id,
+                employerId: employerId,
+                employeeId: employeeId
+            }
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {                
+                this.getEmployeeDetails(employerId, employeeId);
+            }
+        });        
     }
 
     deleteInstruction(pi) {

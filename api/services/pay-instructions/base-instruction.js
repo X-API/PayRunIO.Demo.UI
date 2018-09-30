@@ -5,6 +5,8 @@ module.exports = class BaseInstruction {
 
     async extendViewModel(ctx, vm) {
         // override this to extend the passed in view model with instruction type specific properties. 
+        vm.Name = this.name;
+
         return vm;
     }
 

@@ -1,5 +1,4 @@
 const ApiWrapper = require("./api-wrapper");
-const Flatten = require("array-flatten");
 const PaySchedulesQuery = require("../queries/pay-schedules-query");
 
 const apiWrapper = new ApiWrapper();

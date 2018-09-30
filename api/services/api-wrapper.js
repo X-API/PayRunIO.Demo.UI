@@ -59,7 +59,7 @@ module.exports = class APIWrapper {
     }
 
     async getAndExtractLinks(ctx, relativeUrl, getIdCallback) {
-        let links = await this.getLinks(relativeUrl);
+        let links = await this.getLinks(ctx, relativeUrl);
 
         return await this.extractLinks(ctx, links, getIdCallback);
     }
@@ -116,7 +116,7 @@ module.exports = class APIWrapper {
     getOptions(ctx, relativeUrl, method) {
         let setupCookie = ctx.cookies.get("setupCookieKey");
 
-        if (!setup) {
+        if (!setupCookie) {
             return;
         }
 
