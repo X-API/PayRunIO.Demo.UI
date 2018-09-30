@@ -10,8 +10,6 @@ export class PayInstructionModal {
     }
 
     activate(state) {
-        this.state = state;
-
         return new Promise(resolve => {
             let apiUrl;
 

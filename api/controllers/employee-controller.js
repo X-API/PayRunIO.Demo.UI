@@ -134,9 +134,21 @@ module.exports = class EmployeeController extends BaseController {
     getProjectedPayInstructions(groupedPayInstructions) {
         let projectedPayInstructions = Object.keys(groupedPayInstructions).map(key => {
             let instructions = groupedPayInstructions[key];
-    
+            let pi;
+            
+            if (key.trim().toLowerCase().indexOf("ytd") !== -1) {
+                pi = require(`../services/pay-instructions/year-to-date/${key}`);
+            }
+            else {
+                pi = require(`../services/pay-instructions/normal/${key}`);
+            }
+
+            let instance = new pi();
+            let name = instance.name;
+
             return {
                 InstructionType: key,
+                InstructionFriendlyName: name,
                 Instructions: instructions
             };
         });
