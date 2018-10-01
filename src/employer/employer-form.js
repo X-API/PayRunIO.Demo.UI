@@ -50,7 +50,7 @@ export class EmployerForm {
 
                     this.ea.publish("employer:reload", {
                         employerId: parsedResponse.employerId
-                    });            
+                    });
                 });
             }
         });
@@ -89,6 +89,8 @@ export class EmployerForm {
                     this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.employer.Revisions = this.employer.Revisions.filter(rev => rev.Revision !== revision.Revision);
+
+                    this.ea.publish("employer:reload", { employerId: employerId });
                 });                
             }
         });
