@@ -5,7 +5,7 @@
                 <img src="https://www.payrun.io/images/logo-white-bg.png">
             </a>
 
-            <div class="justify-content-end" id="navbarCollapse">
+            <div class="justify-content-end" id="navbarCollapse" if.bind="showApiCallsButton">
                 <ul class="navbar-nav">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link view-api-calls" href="#" click.delegate="toggleAPICalls()">View API calls</a>

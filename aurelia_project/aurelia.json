@@ -100,7 +100,11 @@
             "resources": [
               "nprogress.css"
             ]
-          }
+          },
+          {
+            "name": "github-buttons",
+            "path": "../content/js/buttons"
+          }          
         ]
       }
     ],

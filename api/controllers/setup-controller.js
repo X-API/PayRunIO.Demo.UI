@@ -45,7 +45,7 @@ module.exports = class SetupController extends BaseController {
     }
 
     hasApiBeenSetup(ctx) {
-        let cookie = ctx.cookies.get(this.cookieKey);
+        let cookie = ctx.cookies.get(SetupController.cookieKey);
         let hasBeenSetup = cookie !== undefined && cookie !== null;
 
         return hasBeenSetup;
