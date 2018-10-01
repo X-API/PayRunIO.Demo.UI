@@ -13,7 +13,6 @@ const argv = require("minimist")(process.argv.slice(2));
 const Routes = require("./api/routes");
 const Raven = require("raven");
 const APILogger = require("./api/services/api-logger");
-const SetupController = require("./api/controllers/setup-controller");
 
 let app = new Koa();
 let router = new Router();
@@ -47,11 +46,11 @@ app
 
         await next();
     })
-    .use(async (ctx, next) => {
-        let setupCookie = ctx.cookies.get(SetupController.cookieKey);
+    // .use(async (ctx, next) => {
+    //     let setupCookie = ctx.cookies.get(SetupController.cookieKey);
 
-        await next();
-    })
+    //     await next();
+    // })
     .use(async (ctx, next) => {
         try {
             await next();

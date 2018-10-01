@@ -17,8 +17,6 @@ module.exports = class EmployerUtils {
             copy.RuleExclusions = "None";
         }
 
-        console.log("copy", copy);
-
         return copy;
     }
 };

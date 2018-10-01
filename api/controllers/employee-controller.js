@@ -88,7 +88,7 @@ module.exports = class EmployeeController extends BaseController {
                 };
             }
             else {
-                let id = response.Link["@href"].split('/').slice(-1)[0];
+                let id = response.Link["@href"].split("/").slice(-1)[0];
 
                 ctx.body = {
                     employeeId: id,

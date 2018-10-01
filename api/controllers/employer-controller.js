@@ -72,7 +72,7 @@ module.exports = class EmployerController extends BaseController {
         }
         else {
             if (!employerId) {
-                employerId = response.Link["@href"].split('/').slice(-1)[0];
+                employerId = response.Link["@href"].split("/").slice(-1)[0];
             }
 
             ctx.body = {

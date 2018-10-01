@@ -1,6 +1,6 @@
 import { inject, customElement } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import * as nprogress from 'nprogress';
+import * as nprogress from "nprogress";
 
 @customElement("router-progress-indicator")
 @inject(EventAggregator)

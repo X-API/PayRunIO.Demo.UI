@@ -11,8 +11,6 @@ gulp.task("lint", () => {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
-
-        // todo: also need to lint sass. 
 });
 
 gulp.task("sass", function() {

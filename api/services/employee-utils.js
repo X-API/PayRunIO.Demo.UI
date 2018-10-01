@@ -1,5 +1,3 @@
-const FormUtils = require("./form-utils");
-
 module.exports = class EmployeeUtils {
     static parse(employee, employerId) {
         let copy = JSON.parse(JSON.stringify(employee));
@@ -54,9 +52,6 @@ module.exports = class EmployeeUtils {
         if (!hasPartnerValueSet) {
             copy.copyPartner = null;
         }
-
-        console.log("parsed employee: ");
-        console.log(copy);
 
         return copy;
     }
