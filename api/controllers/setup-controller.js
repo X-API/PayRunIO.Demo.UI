@@ -22,6 +22,12 @@ module.exports = class SetupController extends BaseController {
         ctx.body = body;
     }
 
+    async hasBeenSetup(ctx) {
+        ctx.body = {
+            hasBeenSetup: this.hasApiBeenSetup(ctx)
+        };
+    }    
+
     async post(ctx) {
         let body = ctx.request.body;
         let stringifiedBody = JSON.stringify(body);
@@ -37,4 +43,11 @@ module.exports = class SetupController extends BaseController {
             valid: true
         };
     }
+
+    hasApiBeenSetup(ctx) {
+        let cookie = ctx.cookies.get(this.cookieKey);
+        let hasBeenSetup = cookie !== undefined && cookie !== null;
+
+        return hasBeenSetup;
+    }    
 };

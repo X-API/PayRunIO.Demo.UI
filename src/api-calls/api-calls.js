@@ -23,7 +23,13 @@ export class APICalls {
         let client = new HttpClient();
 
         client.get("/api/api-calls").then(res => {
-            let calls = JSON.parse(res.response);
+            let response = res.response;
+
+            if (response === "") {
+                return;
+            }
+
+            let calls = JSON.parse(response);
     
             if (this.calls.length !== calls.length) {
                 this.calls = calls;

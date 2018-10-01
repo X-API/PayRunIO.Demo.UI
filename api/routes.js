@@ -1,5 +1,4 @@
 const router = require("koa-router")();
-const RootController = require("./controllers/root-controller");
 const EmployerController = require("./controllers/employer-controller");
 const EmployersController = require("./controllers/employers-controller");
 const EmployeeController = require("./controllers/employee-controller");
@@ -19,7 +18,6 @@ const P45InstructionController = require("./controllers/p45-instruction-controll
 const SetupController = require("./controllers/setup-controller");
 const VersionController = require("./controllers/version-controller");
 
-let rootController = new RootController();
 let employerController = new EmployerController();
 let employersController = new EmployersController();
 let employeeController = new EmployeeController();
@@ -49,7 +47,7 @@ router
     .get("/api/version", async ctx => await versionController.get(ctx))
 
     // setup
-    .get("/api/has-been-setup", async ctx => await rootController.hasBeenSetup(ctx))    
+    .get("/api/has-been-setup", async ctx => await setupController.hasBeenSetup(ctx))    
     .get("/api/setup", async ctx => await setupController.get(ctx))
     .post("/api/setup", async ctx => await setupController.post(ctx))    
 
