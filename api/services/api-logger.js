@@ -15,11 +15,15 @@ module.exports = class APILogger {
         }
         
         if (type.trim().toLowerCase() === "request") {
+            let relativeUri = call.uri.trim().toLowerCase()
+                .replace("https://api.test.payrun.io/", "")
+                .replace("https://api.payrun.io/", "");
+
             calls.push({
                 id: call.debugId,
                 method: call.method,
                 uri: call.uri,
-                relativeUri: call.uri.trim().toLowerCase(),
+                relativeUri: relativeUri,
                 headers: {
                     Authorization: call.headers.Authorization,
                     Accept: call.headers.accept

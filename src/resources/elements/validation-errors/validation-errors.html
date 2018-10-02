@@ -1,15 +1,17 @@
 <template>
-    <div id="validation-errors" class="alert alert-danger" role="alert" if.bind="errors.length > 0">
-        <p>
-            <strong>
-                Please fix the below errors:
-            </strong>
-        </p>
-    
-        <ul>
-            <li repeat.for="error of errors">
-                ${error.message}
-            </li>
-        </ul>
+    <div id="validation-errors-container">
+        <div class="alert alert-danger" role="alert" if.bind="errors.length > 0">
+            <p>
+                <strong>
+                    Please fix the below errors:
+                </strong>
+            </p>
+        
+            <ul>
+                <li repeat.for="error of errors">
+                    ${error.message}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>

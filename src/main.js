@@ -5,7 +5,10 @@ export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
         .plugin("aurelia-validation")
-        .plugin(PLATFORM.moduleName("aurelia-dialog"))
+        .plugin(PLATFORM.moduleName("aurelia-dialog"), config => {
+            config.useDefaults();
+            config.settings.centerHorizontalOnly = true;
+        })
         .feature("resources");
 
     if (environment.debug) {

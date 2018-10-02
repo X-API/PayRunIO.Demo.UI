@@ -29,30 +29,35 @@ export class App {
 
         config.map([
             { 
+                name: "get-started",
                 route: "",
                 moduleId: PLATFORM.moduleName("welcome/welcome"),
                 title: "Get started",
                 auth: false 
             },
             { 
+                name: "setup",
                 route: "setup",
                 moduleId: PLATFORM.moduleName("welcome/setup"),
                 title: "Setup",
                 auth: false 
             },            
             { 
+                name: "employers",
                 route: "employers",
                 moduleId: PLATFORM.moduleName("employer/list"),
                 title: "Employers",
                 auth: true 
             },
             { 
+                name: "employer",
                 route: "employer/:id?",
                 moduleId: PLATFORM.moduleName("employer/employer"),
                 title: "Employer",
                 auth: true 
             },
             { 
+                name: "employee",
                 route: "employer/:employerId/employee/:employeeId?",
                 moduleId: PLATFORM.moduleName("employee/employee"),
                 title: "Employee",

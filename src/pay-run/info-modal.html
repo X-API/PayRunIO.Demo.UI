@@ -1,7 +1,13 @@
 <template>
     <ux-dialog>
         <ux-dialog-header>
-            <h5>Pay run</h5>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Pay run</h5>
+                    </div>
+                </div>
+            </div>
         </ux-dialog-header>
         <ux-dialog-body>
             <div class="container-fluid">
@@ -94,7 +100,7 @@
                                 <tbody>
                                     <tr repeat.for="employee of state.Employees">
                                         <td>
-                                            <a href="#Employer/${state.EmployerId}/Employee/${employee.Key}">${employee.Name}</a>
+                                            <a href="#" click.delegate="viewEmployee(state.EmployerId, employee.Key)">${employee.Name}</a>
                                         </td>
                                         <td>${employee.PAYMENTS}</td>
                                         <td>${employee.TAX}</td>
