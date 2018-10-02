@@ -202,6 +202,14 @@ th {
     .api-calls .api-calls-container hr:last-child {
       visibility: collapse; }
 
+.coming-soon {
+  width: 75%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e9ecef;
+  border-radius: 20px;
+  margin-top: 30px; }
+
 .job-info .row {
   margin-bottom: 10px; }
 
@@ -214,19 +222,14 @@ th {
     .job-info-container h5 .close {
       color: white; }
 
+.keep-in-touch-days .keep-in-touch-day {
+  margin-bottom: 5px; }
+
 .pay-run-info .row {
   margin-bottom: 20px; }
 
-.coming-soon {
-  width: 75%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #e9ecef;
-  border-radius: 20px;
-  margin-top: 30px; }
-
-.keep-in-touch-days .keep-in-touch-day {
-  margin-bottom: 5px; }
+.pension-modal-container {
+  max-width: 1000px; }
 
 .setup .jumbotron {
   padding: 30px; }

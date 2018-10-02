@@ -19,7 +19,7 @@ module.exports = class APILogger {
                 .replace("https://api.test.payrun.io/", "")
                 .replace("https://api.payrun.io/", "");
 
-            let body = this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4));
+            let body = call.body ? this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4)) : "";
 
             calls.push({
                 id: call.debugId,
