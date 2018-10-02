@@ -19,6 +19,8 @@ module.exports = class APILogger {
                 .replace("https://api.test.payrun.io/", "")
                 .replace("https://api.payrun.io/", "");
 
+            let body = this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4));
+
             calls.push({
                 id: call.debugId,
                 method: call.method,
@@ -29,7 +31,7 @@ module.exports = class APILogger {
                     Accept: call.headers.accept
                 },
                 hasRequestBody: call.body && call.method === "POST",
-                requestBody: call.body ? "-d " + this.formatForHtml(JSON.stringify(JSON.parse(call.body), null, 4)) : ""
+                requestBody: call.body ? `-d ${body}` : ""
             });
         }
         else {
