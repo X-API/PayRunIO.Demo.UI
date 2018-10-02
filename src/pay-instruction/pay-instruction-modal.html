@@ -14,12 +14,14 @@
         </ux-dialog-header>
         <ux-dialog-body>
             <form>
-                <div class="container-fluid">
-                    <!-- <validation-errors errors.bind="validationController.errors"></validation-errors> -->
+                <div class="pay-instruction-modal-container">
+                    <div class="container-fluid">
+                        <!-- <validation-errors errors.bind="validationController.errors"></validation-errors> -->
 
-                    <api-errors errors.bind="apiErrors"></api-errors>
+                        <api-errors errors.bind="apiErrors"></api-errors>
 
-                    <compose view="${getPayInstructionPartial(pi)}"></compose>
+                        <compose view="${getPayInstructionPartial(pi)}"></compose>
+                    </div>
                 </div>
             </form>
         </ux-dialog-body>
