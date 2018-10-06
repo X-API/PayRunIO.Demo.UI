@@ -14,9 +14,12 @@ module.exports = class BaseInstruction {
         let copy = JSON.parse(JSON.stringify(body));
 
         // clear out utility properties as otherwise the api will return an error as they are unexpected.
+        copy.Id = null;
+        copy.EmployeeId = null;
         copy.MinStartDate = null;
         copy.InstructionType = null;
         copy.EmployerId = null;
+        copy.Name = null;
 
         // reorder properties so we always have the StartDate, EndDate and Description at the beginning of the 
         // list, as required by the api. 

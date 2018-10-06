@@ -30,13 +30,14 @@ export class EmployeeForm {
                 this.client.post(url, data).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
-                        this.status = null;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.employee.Id = parsedResponse.employeeId;
 
@@ -46,12 +47,28 @@ export class EmployeeForm {
                     });
                 });                
             }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
+            }
         });
     }
 
     employeeChanged() {
         if (!this.employee.HoursPerWeek) {
             this.employee.HoursPerWeek = 40;
+        }
+
+        if (!this.employee.EmployeePartner) {
+            this.employee.EmployeePartner = {
+                Title: "",
+                FirstName: "",
+                Initials: "",
+                MiddleName: "",
+                LastName: "",
+                NiNumber: ""
+            };
         }
 
         if (!this.paySchedules) {

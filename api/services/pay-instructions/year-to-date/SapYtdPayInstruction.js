@@ -31,9 +31,9 @@ module.exports = class SapYtdPayInstruction extends BaseAbsenceYtdPayInstruction
             WeeksUsed: cleanBody.WeeksUsed,
             Description: cleanBody.Description,
             IsAdjustment: cleanBody.IsAdjustment,
-            KeepInTouchDays: {
+            /*KeepInTouchDays: {
                 Date: cleanBody.KeepInTouchDays.split("|")
-            },
+            },*/
             MinStartDate: cleanBody.MinStartDate,
             InstructionType: cleanBody.InstructionType,
             EmployerId: cleanBody.EmployerId

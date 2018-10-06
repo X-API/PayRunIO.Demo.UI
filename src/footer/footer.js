@@ -11,7 +11,7 @@ export class Footer {
     attached() {
         this.showVersionInfo = this.router.currentInstruction.config.auth;
 
-        var GitHubButtons = require("github-buttons")
+        var GitHubButtons = require("github-buttons");
 
         GitHubButtons.render();
 

@@ -6,8 +6,8 @@ export class ValidationErrors {
 
     errorsChanged() {
         if (this.errors && this.errors.length > 0) {
-            $("html, body").animate({
-                scrollTop: $("#validation-errors-container").offset().top
+            $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                scrollTop: 0
             }, 500);
         }
     }    

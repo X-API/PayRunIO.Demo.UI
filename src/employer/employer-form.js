@@ -23,7 +23,8 @@ export class EmployerForm {
         if (!this.employer) {
             this.employer = {
                 Territory: "UnitedKingdom",
-                Region: "NotSet"
+                Region: "NotSet",
+
             };
         }
 
@@ -39,19 +40,25 @@ export class EmployerForm {
                 this.client.post("/api/Employer", this.employer).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
-                        this.status = null;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
 
                     this.ea.publish("employer:reload", {
                         employerId: parsedResponse.employerId
                     });
                 });
+            }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
             }
         });
     }
@@ -81,12 +88,14 @@ export class EmployerForm {
                 this.client.delete(url).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.employer.Revisions = this.employer.Revisions.filter(rev => rev.Revision !== revision.Revision);
 

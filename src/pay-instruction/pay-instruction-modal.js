@@ -10,6 +10,8 @@ export class PayInstructionModal {
     }
 
     activate(state) {
+        this.state = state;
+
         return new Promise(resolve => {
             let apiUrl;
 
@@ -30,10 +32,13 @@ export class PayInstructionModal {
 
     save() {
         let data = this.pi;
+        let url = `/api/employer/${this.state.employerId}/employee/${this.state.employeeId}/payInstruction`;
 
-        this.client.post(`/api/employer/${this.state.employerId}/paySchedule`, data).then(res => {
+        this.client.post(url, data).then(res => {
             let parsedResponse = JSON.parse(res.response);
 
+            this.apiErrors = null;
+            
             if (parsedResponse.errors) {
                 this.apiErrors = parsedResponse.errors;
                 return;

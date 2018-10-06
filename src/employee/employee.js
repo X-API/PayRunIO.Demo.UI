@@ -45,6 +45,10 @@ export class Employee {
     activate(params) {
         this.getPayInstructionTypes();
 
+        $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+            scrollTop: 0
+        }, 100);
+
         if (params && params.employerId && params.employeeId) {
             return this.getEmployeeDetails(params.employerId, params.employeeId);
         }
@@ -100,6 +104,8 @@ export class Employee {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
+                this.status = response.output;
+                
                 this.getEmployeeDetails(employerId, employeeId);
             }
         });
@@ -118,7 +124,9 @@ export class Employee {
         };
 
         this.dialogService.open(opts).whenClosed(response => {
-            if (!response.wasCancelled) {                
+            if (!response.wasCancelled) {
+                this.status = response.output;
+
                 this.getEmployeeDetails(employerId, employeeId);
             }
         });        
@@ -143,12 +151,14 @@ export class Employee {
                 this.client.delete(url).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.getEmployeeDetails(employerId, employeeId);
                 });

@@ -142,7 +142,7 @@
                     </div>
                 </div>
         
-                <div class="card bg-light" repeat.for="schedule of employer.PaySchedules">
+                <div class="card bg-light" repeat.for="schedule of employer.PaySchedules" if.bind="canAddPayRun(employer)">
                     <div class="card-header">
                         <h6 class="float-left">${schedule.Name}</h6>
                     </div>

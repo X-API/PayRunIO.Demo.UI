@@ -58,15 +58,21 @@ export class P45PayInstruction {
                 this.client.post(url, data).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
-                        this.status = null;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                 });
+            }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
             }
         });
     }
@@ -90,13 +96,15 @@ export class P45PayInstruction {
                 this.client.delete(url).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
 
-                    this.p45payinstruction = null;                    
-                    this.apiErrors = null;
+                    this.p45payinstruction = null;
                     this.status = parsedResponse.status;
                 });
             }

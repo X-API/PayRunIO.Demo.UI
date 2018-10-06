@@ -7,6 +7,8 @@ module.exports = class EmployeeUtils {
         copy.PayInstructions = null;
         copy.GroupedPayInstructions = null;
         copy.CanAddANewPayInstruction = null;
+        copy.GroupedYTDPayInstructions = null;
+        copy.P45PayInstruction = null;
 
         if (copy.PaySchedule) {
             copy.PaySchedule = {

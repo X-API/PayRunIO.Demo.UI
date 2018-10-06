@@ -40,13 +40,15 @@ export class List {
 
                 client.delete(`/api/employer/${id}`).then(res => {
                     let parsedResponse = JSON.parse(res.response);
-                
+
+                    this.apiErrors = null;
+                    this.status = null;
+                    
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;            
                     this.getEmployers();
                 });

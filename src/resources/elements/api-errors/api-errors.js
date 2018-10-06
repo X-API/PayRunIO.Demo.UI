@@ -6,8 +6,8 @@ export class ApiErrors {
 
     errorsChanged() {
         if (this.errors) {
-            $("html, body").animate({
-                scrollTop: $("#api-errors").offset().top
+            $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                scrollTop: 0
             }, 500);
         }
     }

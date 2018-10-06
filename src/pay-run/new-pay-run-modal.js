@@ -39,6 +39,8 @@ export class NewPayRunModal {
                 this.client.post(`/api/employer/${this.state.EmployerId}/payRun`, data).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
@@ -46,6 +48,11 @@ export class NewPayRunModal {
 
                     this.dialogController.ok(parsedResponse.status);
                 });
+            }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
             }
         });
     }

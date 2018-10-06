@@ -28,6 +28,8 @@ export class RtiTransactionModal {
         this.client.post(`/api/employer/${this.state.employerId}/rtiTransaction`, data).then(res => {
             let parsedResponse = JSON.parse(res.response);
 
+            this.apiErrors = null;
+            
             if (parsedResponse.errors) {
                 this.apiErrors = parsedResponse.errors;
                 return;

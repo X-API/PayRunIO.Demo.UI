@@ -22,6 +22,10 @@ export class Employer {
             this.getEmployerDetails(state.employerId);
         });
 
+        $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+            scrollTop: 0
+        }, 100);
+        
         if (params && params.id) {
             return this.getEmployerDetails(params.id);
         }
@@ -112,12 +116,14 @@ export class Employer {
                 client.post(`/api/employer/${this.employer.Id}/paySchedule/${schedule.Key}/delete/`).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
 
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.getEmployerDetails(this.employer.Id);
                 });
@@ -156,12 +162,14 @@ export class Employer {
         client.patch(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
             let parsedResponse = JSON.parse(res.response);
 
+            this.apiErrors = null;
+            this.status = null;
+
             if (parsedResponse.errors) {
                 this.apiErrors = parsedResponse.errors;
                 return;
             }
 
-            this.apiErrors = null;
             this.status = parsedResponse.status;
             this.getEmployerDetails(employerId);
         });        
@@ -173,12 +181,14 @@ export class Employer {
         client.delete(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
             let parsedResponse = JSON.parse(res.response);
 
+            this.apiErrors = null;
+            this.status = null;
+
             if (parsedResponse.errors) {
                 this.apiErrors = parsedResponse.errors;
                 return;
             }
 
-            this.apiErrors = null;
             this.status = parsedResponse.status;
             this.getEmployerDetails(employerId);
         });
@@ -293,12 +303,14 @@ export class Employer {
                 client.delete(`/api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`).then(res => {
                     let parsedResponse = JSON.parse(res.response);
         
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
         
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.getEmployerDetails(employerId);
                 });
@@ -346,12 +358,14 @@ export class Employer {
                 client.delete(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
                     let parsedResponse = JSON.parse(res.response);
         
+                    this.apiErrors = null;
+                    this.status = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
                     }
         
-                    this.apiErrors = null;
                     this.status = parsedResponse.status;
                     this.getEmployerDetails(employerId);
                 });

@@ -50,5 +50,5 @@ module.exports = class PensionYtdPayInstruction extends BaseYtdPayInstruction {
                 "@href": `/Employer/${employerId}/Pension/${body.Pension}`
             }            
         };
-    }    
+    }
 };

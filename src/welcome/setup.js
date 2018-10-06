@@ -41,6 +41,11 @@ export class Setup {
                     this.router.navigate("employers");
                 });
             }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
+            }
         });  
     }    
 }

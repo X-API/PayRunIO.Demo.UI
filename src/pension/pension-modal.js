@@ -47,6 +47,8 @@ export class PensionModal {
                 this.client.post(`/api/employer/${this.state.employerId}/pension`, this.state).then(res => {
                     let parsedResponse = JSON.parse(res.response);
 
+                    this.apiErrors = null;
+
                     if (parsedResponse.errors) {
                         this.apiErrors = parsedResponse.errors;
                         return;
@@ -54,6 +56,11 @@ export class PensionModal {
 
                     this.dialogController.ok(parsedResponse.status);
                 });
+            }
+            else {
+                $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                    scrollTop: 0
+                }, 500);                
             }
         });
     }
