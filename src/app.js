@@ -33,35 +33,43 @@ export class App {
                 route: "",
                 moduleId: PLATFORM.moduleName("welcome/welcome"),
                 title: "Get started",
-                auth: false 
+                auth: false,
+                includeInBreadcrumbs: true
             },
             { 
                 name: "setup",
                 route: "setup",
                 moduleId: PLATFORM.moduleName("welcome/setup"),
                 title: "Setup",
-                auth: false 
+                auth: false,
+                previousInstruction: "get-started"
             },            
             { 
                 name: "employers",
                 route: "employers",
                 moduleId: PLATFORM.moduleName("employer/list"),
                 title: "Employers",
-                auth: true 
+                auth: true,
+                includeInBreadcrumbs: true,
+                previousInstruction: "get-started"
             },
             { 
                 name: "employer",
                 route: "employer/:id?",
                 moduleId: PLATFORM.moduleName("employer/employer"),
                 title: "Employer",
-                auth: true 
+                auth: true,
+                includeInBreadcrumbs: true,
+                previousInstruction: "employers"
             },
             { 
                 name: "employee",
                 route: "employer/:employerId/employee/:employeeId?",
                 moduleId: PLATFORM.moduleName("employee/employee"),
                 title: "Employee",
-                auth: true
+                auth: true,
+                includeInBreadcrumbs: true,
+                previousInstruction: "employer"
             }
         ]);
 
