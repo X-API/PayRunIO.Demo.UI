@@ -63,7 +63,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         console.log(cleanBody);
 
-        let response = await apiWrapper.post(apiRoute, request);
+        let response = await apiWrapper.post(ctx, apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
             ctx.body = {
