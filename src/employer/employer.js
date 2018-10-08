@@ -71,7 +71,7 @@ export class Employer {
     }
 
     createPaySchedulesTimer() {
-        this.getPaySchedulesTimeout = window.setTimeout(() => this.getPaySchedules(), 2500);
+        this.getPaySchedulesTimeout = window.setTimeout(() => this.getPaySchedules(), 15000);
     }
 
     getRtiSubmissions() {
@@ -85,7 +85,7 @@ export class Employer {
     }
 
     createRtiSubmissionsTimer() {
-        this.getRtiSubmissionsTimeout = window.setTimeout(() => this.getRtiSubmissions(), 2500);
+        this.getRtiSubmissionsTimeout = window.setTimeout(() => this.getRtiSubmissions(), 15000);
     }
 
     canAddPayRun(context) {
