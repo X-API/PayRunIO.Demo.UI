@@ -20,16 +20,8 @@ module.exports = class PayInstructionController extends BaseController {
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
-            EnableForm: await this.canInstructionBeAdded({ 
-                employerId: employerId,
-                employeeId: employeeId, 
-                type: instructionType
-            }),
-            MinStartDate: await this.getMinStartDateForNewInstruction({ 
-                employerId: employerId, 
-                employeeId: employeeId, 
-                type: instructionType
-            }),
+            EnableForm: true,
+            MinStartDate: null,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
@@ -181,10 +173,11 @@ module.exports = class PayInstructionController extends BaseController {
         return instruction.canNewInstructionBeAdded(employerId, employeeId);
     }
 
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
+    async getMinStartDateForNewInstruction({ ctx, employerId, employeeId, payInstructionId, type }) {
         let instruction = this.getInstructionInstance(type);
 
         return instruction.getMinStartDateForNewInstruction({
+            ctx: ctx,
             employerId: employerId,
             employeeId: employeeId,
             payInstructionId: payInstructionId
