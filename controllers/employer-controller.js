@@ -57,7 +57,7 @@ module.exports = class EmployerController extends BaseController {
         let employees = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Employees`);
         let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Pensions`);
         let extendedPensions = pensions.map(pension => {
-            if (employer.AutoEnrolment.Pension) {
+            if (employer.AutoEnrolment && employer.AutoEnrolment.Pension) {
                 pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
             }
             else {
