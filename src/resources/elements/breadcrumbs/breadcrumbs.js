@@ -34,6 +34,8 @@ export class Breadcrumbs {
     }
 
     navigateToRoute(instruction) {
+        console.log(instruction);
+        
         this.router.navigateToRoute(instruction.config.name, instruction.params);
     }
 

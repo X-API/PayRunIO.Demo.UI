@@ -2,12 +2,16 @@ import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
+import { Router } from "aurelia-router";
 import { Confirm } from "../dialogs/confirm";
 import { PayInstructionModal } from "../pay-instruction/pay-instruction-modal";
+import { BaseViewModel } from "../base-view-model";
 
-@inject(EventAggregator, DialogService)
-export class Employee {
-    constructor(eventAggregator, dialogService) {
+@inject(EventAggregator, DialogService, Router)
+export class Employee extends BaseViewModel {
+    constructor(eventAggregator, dialogService, router) {
+        super(router);
+
         this.employee = null;
         this.ea = eventAggregator;
         this.dialogService = dialogService;
@@ -56,6 +60,15 @@ export class Employee {
             this.employee = {
                 EmployerId: params.employerId
             };
+        }
+    }
+
+    attached() {
+        if (this.employee) {
+            super.setTitle(this.employee.Code);
+        }
+        else {
+            super.setTitle("New Employee");
         }
     }
     

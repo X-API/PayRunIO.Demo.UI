@@ -2,22 +2,28 @@ import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { HttpClient } from "aurelia-http-client";
 import { DialogService } from "aurelia-dialog";
+import { Router } from "aurelia-router";
 import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
 import { InfoModal } from "../pay-run/info-modal";
 import { NewPayRunModal } from "../pay-run/new-pay-run-modal";
 import { RtiTransactionModal } from "../rti-transaction/rti-transaction-modal";
 import { Confirm } from "../dialogs/confirm";
+import { BaseViewModel } from "../base-view-model";
 
-@inject(EventAggregator, DialogService)
-export class Employer {
-    constructor(eventAggregator, dialogService) {
+@inject(EventAggregator, DialogService, Router)
+export class Employer extends BaseViewModel {
+    constructor(eventAggregator, dialogService, router) {
+        super(router);
+
         this.employer = null;
         this.ea = eventAggregator;
         this.dialogService = dialogService;
     }
 
     activate(params) {
+        this.params = params;
+
         this.reloadEmployerSubscriber = this.ea.subscribe("employer:reload", state => {
             this.getEmployerDetails(state.employerId);
         });
@@ -25,9 +31,20 @@ export class Employer {
         $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
             scrollTop: 0
         }, 100);
-        
+
         if (params && params.id) {
             return this.getEmployerDetails(params.id);
+        }
+    }
+
+    attached() {
+        super.setParams(this.params);
+        
+        if (this.employer) {
+            super.setTitle(this.employer.Name);
+        }
+        else {
+            super.setTitle("New Employer");
         }
     }
 
