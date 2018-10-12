@@ -30,6 +30,9 @@
             <li class="nav-item">
                 <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
             </li>
+            <li class="nav-item" if.bind="employee.Id">
+                <a class="nav-link" id="revisions-tab" data-toggle="tab" href="#revisions" role="tab" aria-controls="revisions" aria-selected="false">Revisions</a>
+            </li>            
         </ul>
 
         <div class="tab-content" id="mySubTabContent">
@@ -379,20 +382,6 @@
 
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-
-                        <div class="form-group">
-                            <label for="Revision">Revision</label>
-                            <input type="number" 
-                                class="form-control" 
-                                id="Revision" 
-                                name="Revision" 
-                                value.bind="employee.Revision" 
-                                placeholder="Revision number"
-                                readonly 
-                                step="1" 
-                                min="0">
-                        </div>
-
                         <div class="row">
                             <div class="col-sm-12 col-md-8">
                                 <div class="form-group" >
@@ -557,6 +546,45 @@
                     </div>
                 </div>
             </div>
+
+            <div class="tab-pane fade" id="revisions" role="tabpanel" aria-labelledby="revisions-tab" if.bind="employee.Id">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="Revision">Revision</label>
+                            
+                            <input type="number" class="form-control" id="Revision" name="Revision" value.bind="employee.Revision" placeholder="Revision number"
+                                readonly step="1" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6" if.bind="employee.Revisions">
+                        <h5>Revision History</h5>
+                        <span class="notes">Employer revisions must be deleted in order, validation rules will prevent revisions being deleted if they invalidate an existing payrun.</span>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Revision</th>
+                                    <th>Effective Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="revision of employee.Revisions">
+                                    <td>${revision.Revision}</td>
+                                    <td>${revision.EffectiveDate}</td>
+                                    <td class="text-right">
+                                        <a class="btn btn-sm btn-danger" 
+                                            href="#" 
+                                            role="button" 
+                                            click.delegate="deleteRevision(revision)">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>         
+                    </div>
+                </div>
+            </div>            
 
             <div class="row" if.bind="showSaveButton">
                 <div class="col-sm-12">
