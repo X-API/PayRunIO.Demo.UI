@@ -426,7 +426,13 @@
                 </div>
             </div>
     
-            <div class="row">
+            <div class="row" if.bind="showSaveButton">
+                <div class="col-sm-12">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row" if.bind="showSaveButton">
                 <div class="col-sm-12 text-right">
                     <button class="btn btn-primary" click.delegate="save()">Save</button>
                 </div>

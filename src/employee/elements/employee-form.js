@@ -11,6 +11,7 @@ export class EmployeeForm {
         this.paySchedules = null;
         this.client = new HttpClient();
         this.validationController = controllerFactory.createForCurrentScope();
+        this.showSaveButton = true;
     }
 
     @bindable employee = null;
@@ -72,6 +73,7 @@ export class EmployeeForm {
         }
 
         if (!this.paySchedules) {
+            this.setupTabEvents();
             this.setupValidationRules();
             
             let employerId = this.employee.EmployerId;
@@ -81,6 +83,12 @@ export class EmployeeForm {
             });
         }       
     }
+
+    setupTabEvents() {
+        $("a[data-toggle='tab']").on("shown.bs.tab", (e) => {
+            this.showSaveButton = e.target.id !== "revisions-tab";
+        });        
+    }    
 
     setupValidationRules() {
         ValidationRules

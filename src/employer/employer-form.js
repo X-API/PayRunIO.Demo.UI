@@ -15,6 +15,7 @@ export class EmployerForm {
         this.client = new HttpClient();
         this.validationController = controllerFactory.createForCurrentScope();
         this.dialogService = dialogService;
+        this.showSaveButton = true;
     }
 
     @bindable employer = null;
@@ -28,6 +29,7 @@ export class EmployerForm {
             };
         }
 
+        this.setupTabEvents();
         this.setupValidationRules();        
     }
 
@@ -61,6 +63,12 @@ export class EmployerForm {
                 }, 500);                
             }
         });
+    }
+
+    setupTabEvents() {
+        $("a[data-toggle='tab']").on("shown.bs.tab", (e) => {
+            this.showSaveButton = e.target.id !== "revisions-tab";
+        });        
     }
 
     setupValidationRules() {
