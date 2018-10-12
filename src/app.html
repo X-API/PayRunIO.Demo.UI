@@ -1,0 +1,25 @@
+<template>
+	<require from="./header/header"></require>	
+	<require from="./footer/footer"></require>
+	<require from="./api-calls/api-calls"></require>
+	<require from="./resources/elements/router-progress-indicator/router-progress-indicator"></require>
+	<require from="./resources/elements/breadcrumbs/breadcrumbs"></require>
+
+	<router-progress-indicator></router-progress-indicator>
+
+	<header></header>
+
+	<breadcrumbs></breadcrumbs>
+
+	<div class="container content-container">
+		<div class="row">
+			<div class="col-sm-12">
+				<router-view></router-view>
+			</div>
+		</div>
+	</div>
+
+	<footer></footer>
+
+	<api-calls></api-calls>
+</template>

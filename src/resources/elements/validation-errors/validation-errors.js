@@ -1,0 +1,14 @@
+import { bindable, customElement } from "aurelia-framework";
+
+@customElement("validation-errors")
+export class ValidationErrors {
+    @bindable errors = null;
+
+    errorsChanged() {
+        if (this.errors && this.errors.length > 0) {
+            $("html, body, ux-dialog-container, ux-dialog, ux-dialog-body").animate({
+                scrollTop: 0
+            }, 500);
+        }
+    }    
+}

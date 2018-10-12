@@ -1,0 +1,128 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="AverageWeeklyEarningOverride">Average weekly earning override</label>
+                <input type="number" 
+                    class="form-control" 
+                    id="AverageWeeklyEarningOverride" 
+                    name="AverageWeeklyEarningOverride" 
+                    value.bind="pi.AverageWeeklyEarningOverride">
+
+                <span class="notes">
+                    Optional override value to the Average Weekly Earnings calculation. 
+                    If this value is set then the calculated value is ignored.
+                </span>                
+            </div>
+
+            <div class="form-group">
+                <label for="AbsenceStart">Absence Start</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="AbsenceStart" 
+                    name="AbsenceStart" 
+                    value.bind="pi.AbsenceStart"  
+                    required 
+                    data-required-message="Absence start is required">
+
+                <span class="notes">
+                    The start date of the employee absence.
+                </span>                
+            </div>
+                    
+            <div class="form-group">
+                <label for="AbsenceEnd">Absence End</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="AbsenceEnd" 
+                    name="AbsenceEnd" 
+                    value.bind="pi.AbsenceEnd">
+
+                <span class="notes">
+                    The end date of the employee absence, leave blank if the absence is long-term and the end date is not known.
+                </span>                
+            </div>        
+
+            <div class="form-check">
+                <input class="form-check-input" 
+                    type="checkbox" 
+                    id="StatutoryOffset" 
+                    name="StatutoryOffset" 
+                    checked.bind="pi.StatutoryOffset">
+
+                <label class="form-check-label" for="StatutoryOffset">
+                    Statutory offset?
+                </label>
+
+                <span class="notes">
+                    Flag to indicate if the statutory payment should be offset.
+                </span>
+            </div>                     
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="BabyDueDate">Due date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="BabyDueDate" 
+                    name="BabyDueDate" 
+                    value.bind="pi.BabyDueDate"                 
+                    required 
+                    data-required-message="Due date is required">                
+            </div>                          
+
+            <div class="form-group">
+                <label for="BabyBornDate">Birth date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="BabyBornDate" 
+                    name="BabyBornDate" 
+                    value.bind="pi.BabyBornDate"                 
+                    required 
+                    data-required-message="Birth date is required">                
+            </div>
+
+            <div class="form-group">
+                <label for="SmpSapWeeksTaken">Weeks taken</label>
+                <input type="number" 
+                    class="form-control" 
+                    id="SmpSapWeeksTaken" 
+                    name="SmpSapWeeksTaken" 
+                    value.bind="pi.SmpSapWeeksTaken"                 
+                    required 
+                    data-required-message="Weeks taken is required" 
+                    step="1">                
+            </div> 
+                    
+            <div class="form-group">
+                <label for="SplStartDate">Leave start date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="SplStartDate" 
+                    name="SplStartDate" 
+                    value.bind="pi.SplStartDate">
+            </div>
+
+            <div class="form-group">
+                <label for="SplEndDate">Leave end date</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="SplEndDate" 
+                    name="SplEndDate" 
+                    value.bind="pi.SplEndDate">
+            </div>
+
+            <div class="form-group">
+                <label for="MothersDateOfDeath">Date of the mother's death</label>
+                <input type="date" 
+                    class="form-control" 
+                    id="MothersDateOfDeath" 
+                    name="MothersDateOfDeath" 
+                    value.bind="pi.MothersDateOfDeath">
+            </div>
+        </div>
+    </div>
+
+    <compose view="./pay-instruction.html"></compose>
+</template>

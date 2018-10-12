@@ -2,6 +2,7 @@ const Koa = require("koa");
 const Router = require("koa-router");
 const Helmet = require("koa-helmet");
 const Serve = require("koa-static");
+const Mount = require("koa-mount");
 const HandlebarsRenderer = require("koa-hbs-renderer");
 const Handlebars = require("handlebars");
 const BodyParser = require("koa-bodyparser");
@@ -9,10 +10,9 @@ const Session = require("koa-session");
 const MemoryStore = require("koa-session-memory");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
-const Routes = require("./routes");
+const Routes = require("./api/routes");
 const Raven = require("raven");
-const APILogger = require("./services/api-logger");
-const SetupController = require("./controllers/setup-controller");
+const APILogger = require("./api/services/api-logger");
 
 let app = new Koa();
 let router = new Router();
@@ -46,25 +46,10 @@ app
 
         await next();
     })
-    .use(async (ctx, next) => {
-        let setupCookie = ctx.cookies.get(SetupController.cookieKey);
-
-        let href = ctx.href;
-        let path = ctx.path;
-
-        if (!setupCookie) {
-            if (href.indexOf("/css/") == -1 
-                && href.indexOf("/js/") == -1
-                && href.indexOf("/favicon.ico") == -1
-                && href.indexOf("/setup") == -1
-                && path !== "/" 
-                && path !== "/api-calls/data") {
-                await ctx.redirect("/");
-            }
-        }
-
-        await next();
-    })
+    // .use(async (ctx, next) => {
+    //     let setupCookie = ctx.cookies.get(SetupController.cookieKey);
+    //     await next();
+    // })
     .use(async (ctx, next) => {
         try {
             await next();
@@ -91,14 +76,15 @@ app
         hbs: Handlebars,
         paths: {
             views: path.join(__dirname, "views"),
-            layouts: path.join(__dirname, "views", "layouts"),
-            helpers: path.join(__dirname, "helpers"),
-            partials: path.join(__dirname, "views", "partials")
+            //layouts: path.join(__dirname, "views", "layouts"),
+            //helpers: path.join(__dirname, "helpers"),
+            //partials: path.join(__dirname, "views", "partials")
         }
     }))
     .use(Helmet())
     .use(BodyParser())
-    .use(Serve("./content"))
+    .use(Mount("/content", Serve("./content")))
+    //.use(Serve("./content"))
     .use(router.routes())
     .use(router.allowedMethods());
 

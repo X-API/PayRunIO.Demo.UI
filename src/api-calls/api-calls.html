@@ -1,0 +1,94 @@
+<template>
+    <div class="api-calls" if.bind="visible">
+        <div class="rui-resizable-content">
+            <div class="container-fluid">
+                <div class="row title">
+                    <div class="col-sm-11">
+                        API calls
+                    </div>
+
+                    <div class="col-sm-1 text-right close-api-calls" click.delegate="close()">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="api-calls-container">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row" repeat.for="call of calls">
+                                            <div class="col-sm-12">
+                                                <div class="summary" click.delegate="showCallDetails(call)">
+                                                    <span>
+                                                        ${call.method}
+                                                        <strong>/${call.relativeUri}</strong>
+                                                    </span>
+
+                                                    <em>
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </em>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12">
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8 request-and-response">
+                                        <div if.bind="selectedCall">
+                                            <h4>
+                                                ${selectedCall.method}
+                                                <strong>/${selectedCall.relativeUri}</strong>
+                                            </h4>
+
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                    <a class="nav-item nav-link active" data-toggle="tab" href="#nav-request">Request</a>
+                                                    <a class="nav-item nav-link" data-toggle="tab" href="#nav-response">Response</a>
+                                                </div>
+                                            </nav>
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <div class="tab-pane fade show active" id="nav-request">
+                                                    <div class="code-container">
+                                                        <button type="button" class="btn btn-secondary btn-sm btn-copy"
+                                                            click.delegate="copyTextToClipboard($event)">Copy</button>
+
+                                                        <code>
+                                                        curl -X ${selectedCall.method} \
+                                                            <span>${selectedCall.uri} \</span>
+                                                            <span>-H 'Accept: ${selectedCall.headers.Accept}' \</span>
+                                                            <span>-H 'Api-Version: default' \</span>
+                                                            <span>-H 'Authorization: ${selectedCall.headers.Authorization}' \</span>
+                                                            <span>-H 'Cache-Control: no-cache' \</span>
+                                                            <span>-H 'Content-type: ${selectedCall.headers.Accept}' \</span>
+                                    
+                                                            <span if.bind="selectedCall.hasRequestBody" 
+                                                                innerhtml.bind="selectedCall.requestBody"></span>
+                                                    </code>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-response">
+                                                    <div class="code-container">
+                                                        <code innerhtml.bind="selectedCall.response"></code>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="initial-request-and-response-explanation" if.bind="!selectedCall">
+                                            <p>Click on a request to view the request and response details here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

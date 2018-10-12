@@ -1,0 +1,42 @@
+<template>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+
+    <ux-dialog>
+        <ux-dialog-header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>${pi.Name}</h5>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <form>
+                <div class="pay-instruction-modal-container">
+                    <div class="container-fluid">
+                        <!-- <validation-errors errors.bind="validationController.errors"></validation-errors> -->
+
+                        <api-errors errors.bind="apiErrors"></api-errors>
+
+                        <compose view="${getPayInstructionPartial(pi)}"></compose>
+                    </div>
+                </div>
+            </form>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 text-left">
+                        <button class="btn btn-secondary" click.trigger="dialogController.cancel()">Cancel</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-primary" click.trigger="save()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>    

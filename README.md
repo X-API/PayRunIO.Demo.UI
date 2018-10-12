@@ -6,31 +6,41 @@ To get started/setup:
 
 1. Run `node -v` and ensure you have at least node v9.6.0 installed. 
 2. Run `npm install --dev` to install all the npm package dependencies. When installing in production omit the `--dev` flag. 
-3. Run `node app.js` this will startup the server, which will default to run on port 3000. This can be set to an explicit port by running `node app.js -p 80` which will run the app up on port 80.
+3. Install `aurelia-cli` which is required to run the aurelia bits: `npm install aurelia-cli -g`
+4. Install `gulp` which is required to run builds: `npm install -g gulp`
+5. Run `gulp` from the root of the checked out repo.
 
-## Scripts
+## Gulp tasks
 
-All scripts rely on local npm modules therefore run `npm install` before running the below scripts:
+### `lint`
 
-### `npm run watch`
+Lints all js files. Check `.eslintrc.json` for the rules it uses when linting. 
 
-Will run the up the node server, listen on port 3000 and watch the following file types for changes. If a change is detected it will restart the server. 
+### `sass`
 
-- *.js
-- *.hbs
-- *.scss
+Compiles `content/scss/main.scss` to `content/css/main.css`. Simples.
 
-### `npm run test`
+### `server`
 
-Will run all spec unit tests in jasmine.
+Starts the node server, as setup in `app.js`, using nodemon. Watches the following files, and on change will re-run the server:
 
-### `npm run lint`
+- `app.js`
+- `api/**/*.js`
 
-Runs `eslint` in `./`. Note the three `.eslintrc.json` configs in:
+### `start-au-cli`
 
-- ./
-- ./content/js
-- ./spec
+Runs `au run` which is an aurelia-cli command, this in turns watches the `src` folder and will transcompile all js and html file changes into `/content/dist`. For more information on these tasks check out:
+
+- The `/aurelia_project` directory that holds the gulp tasks specific to aurelia.
+- `aurelia-cli` documentation [here](https://aurelia.io/docs/build-systems/aurelia-cli/). 
+
+### `watch-sass`
+
+Watches all `scss` files in `/content/scss` and executes the sass task (detailed above) on a file change. 
+
+### `default`
+
+Runs all of the above, in parallel. 
 
 ## FAQs
 

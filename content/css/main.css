@@ -92,8 +92,16 @@ a.btn-default {
     display: block;
     margin-bottom: 10px; }
 
-.bootbox-close-button {
-  display: none; }
+.status .btn-outline-secondary {
+  float: right;
+  margin-top: -2px; }
+
+ux-dialog-overlay.active {
+  background-color: black;
+  opacity: 0.75 !important; }
+
+ux-dialog {
+  min-width: 700px !important; }
 
 .tab-pane {
   padding-top: 20px; }
@@ -118,8 +126,13 @@ th {
 .display-none {
   display: none; }
 
+.splash {
+  font-size: 100px;
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px); }
+
 .api-calls {
-  display: none;
   height: 300px;
   position: fixed;
   bottom: 0;
@@ -189,6 +202,14 @@ th {
     .api-calls .api-calls-container hr:last-child {
       visibility: collapse; }
 
+.coming-soon {
+  width: 75%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e9ecef;
+  border-radius: 20px;
+  margin-top: 30px; }
+
 .job-info .row {
   margin-bottom: 10px; }
 
@@ -201,24 +222,83 @@ th {
     .job-info-container h5 .close {
       color: white; }
 
+.keep-in-touch-days .keep-in-touch-day {
+  margin-bottom: 5px; }
+
+.pay-instruction-modal-container {
+  width: 1000px; }
+
 .pay-run-info .row {
   margin-bottom: 20px; }
 
-.coming-soon {
-  width: 75%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #e9ecef;
-  border-radius: 20px;
-  margin-top: 30px; }
-
-.keep-in-touch-days .keep-in-touch-day {
-  margin-bottom: 5px; }
+.pension-modal-container {
+  width: 1000px; }
 
 .setup .jumbotron {
   padding: 30px; }
   .setup .jumbotron .lead {
     margin-bottom: 0px; }
+
+/* Make clicks pass-through */
+#nprogress {
+  pointer-events: none;
+  /* Fancy blur effect */
+  /* Remove these to get rid of the spinner */ }
+  #nprogress .bar {
+    background: #00b100;
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px; }
+  #nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px #00b100, 0 0 5px #00b100;
+    opacity: 1.0;
+    -webkit-transform: rotate(3deg) translate(0px, -4px);
+    -ms-transform: rotate(3deg) translate(0px, -4px);
+    transform: rotate(3deg) translate(0px, -4px); }
+  #nprogress .spinner {
+    display: block;
+    position: fixed;
+    z-index: 1031;
+    top: 15px;
+    right: 15px; }
+  #nprogress .spinner-icon {
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-top-color: #00b100;
+    border-left-color: #00b100;
+    border-radius: 50%;
+    -webkit-animation: nprogress-spinner 400ms linear infinite;
+    animation: nprogress-spinner 400ms linear infinite; }
+
+.nprogress-custom-parent {
+  overflow: hidden;
+  position: relative; }
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  position: absolute; }
+
+@-webkit-keyframes nprogress-spinner {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
 
 input.parsley-error,
 select.parsley-error,

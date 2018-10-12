@@ -1,0 +1,32 @@
+<template>
+    <div class="form-group">
+        <label for="RuleExclusions">Rule Exclusions</label>
+    
+        <select class="form-control" 
+            id="RuleExclusions" 
+            name="RuleExclusions" 
+            multiple 
+            value.bind="ruleexclusions" 
+            style="height:180px;">
+            <option value="NiMissingPayInstructionRule">NiMissingPayInstructionRule</option>
+            <option value="TaxMissingPayInstructionRule">TaxMissingPayInstructionRule</option>
+            <option value="TaxCodeUpliftRule">TaxCodeUpliftRule</option>
+            <option value="NiSetExpectedLetterRule">NiSetExpectedLetterRule</option>
+            <option value="NiDateOfBirthChangeRetrospectiveCRule">NiDateOfBirthChangeRetrospectiveCRule</option>
+            <option value="NiDefermentStatusChangeRule">NiDefermentStatusChangeRule</option>
+            <option value="NiEndContractedOutTransferRule">NiEndContractedOutTransferRule</option>
+            <option value="PaymentAfterLeavingRule">PaymentAfterLeavingRule</option>
+            <option value="LeaverEndInstructionsRule">LeaverEndInstructionsRule</option>
+            <option value="P45StudentLoanInstructionRule">P45StudentLoanInstructionRule</option>
+            <option value="P45TaxInstructionRule">P45TaxInstructionRule</option>
+            <option value="P45YtdTaxRule">P45YtdTaxRule</option>
+            <option value="YtdInstructionRule">YtdInstructionRule</option>
+            <option value="TaxCodeRegionChangeRule">TaxCodeRegionChangeRule</option>
+        </select>
+    
+        <span class="notes">
+            The list of pre-claculation rules to exclude by default for all employees. 
+            See <a href="http://developer.payrun.io/docs/key-concepts/pre-calculation-rules.html" target="_blank">Pre-calculation rules</a> for more information on how they work.
+        </span>
+    </div>    
+</template>

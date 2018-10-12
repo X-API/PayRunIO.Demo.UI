@@ -1,0 +1,37 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="Code">Code</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="Code" 
+                    name="Code" 
+                    value.bind="pi.Code" 
+                    placeholder="Code" 
+                    pattern="[A-Za-z0-9]*" 
+                    minlength="2" 
+                    maxlength="35"
+                    required 
+                    data-required-message="Code is required">
+            </div>
+
+            <div class="form-group">
+                <label for="Value">Value</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="Value" 
+                    name="Value" 
+                    value.bind="pi.Value" 
+                    step="0.01" 
+                    placeholder="Value" 
+                    required 
+                    data-required-message="Value is required">
+            </div>            
+        </div>
+    </div>
+
+    <compose view="./ytd-pay-instruction.html"></compose>
+</template>

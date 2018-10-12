@@ -1,0 +1,94 @@
+<template>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+
+    <ux-dialog>
+        <ux-dialog-header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>${state.Title}</h5>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="container-fluid">
+                <form>
+                    <validation-errors errors.bind="validationController.errors"></validation-errors>
+    
+                    <api-errors errors.bind="apiErrors"></api-errors>
+
+                    <div class="row" if.bind="state.Instruction">
+                        <div class="col-sm-12">
+                            <p>${state.Instruction}</p>
+                        </div>
+                    </div> 
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">        
+                            <div class="form-group" if.bind="!state.PayScheduleId">
+                                <label for="PayScheduleId">Pay Schedule</label>
+                                <select class="form-control" id="PayScheduleId" name="PayScheduleId">
+                                    <option repeat.for="paySchedule of state.PaySchedules" value.bind="paySchedule.Id">
+                                        ${paySchedule.Name}
+                                    </option>
+                                </select>
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="PaymentDate">Payment Date</label>
+                                <input type="date" 
+                                    class="form-control form-control-lg" 
+                                    id="PaymentDate" 
+                                    name="PaymentDate" 
+                                    value.bind="state.PaymentDate & validate" 
+                                    placeholder="The date the employees were paid in the pay run">
+                
+                                <span class="notes">The date you wish to appear on the employee's payslip (aka pay day).</span>
+                            </div>
+                
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">    
+                                    <div class="form-group">
+                                        <label for="StartDate">Pay Period Start</label>
+                                        <input type="date" 
+                                            class="form-control" 
+                                            id="StartDate" 
+                                            name="StartDate" 
+                                            value.bind="state.StartDate & validate" 
+                                            placeholder="The pay period start date">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6"> 
+                                    <div class="form-group">
+                                        <label for="EndDate">Pay Period End</label>
+                                        <input type="date" 
+                                            class="form-control" 
+                                            id="EndDate" 
+                                            name="EndDate" 
+                                            value.bind="state.EndDate & validate" 
+                                            placeholder="The pay period end date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 text-left">
+                        <button class="btn btn-secondary" click.trigger="dialogController.cancel()">Cancel</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-primary" click.trigger="save()">Start</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

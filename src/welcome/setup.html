@@ -1,0 +1,66 @@
+<template>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+
+    <div class="setup">
+        <validation-errors errors.bind="controller.errors"></validation-errors>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="jumbotron">
+                    <h3>Setup</h3>
+    
+                    <p class="lead">
+                        Before getting started with the API <a href="https://developer.payrun.io/Account/Register" target="_blank">register</a> to retrieve your consumer key and secret.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="Environment">Environment</label>
+
+                    <select 
+                        class="form-control" 
+                        id="Environment" 
+                        name="Environment" 
+                        value.bind="state.Environment & validate">
+                        <option model.bind="null">Please Choose...</option>
+                        <option repeat.for="env of environments" value.bind="env">
+                            ${env}
+                        </option>
+                    </select>
+
+                    <span class="notes">
+                        See <a href="https://developer.payrun.io/docs/getting-started/environments.html" target="_blank">Environments</a> for more information on the available environments. 
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="ConsumerKey">Consumer Key</label>
+                    <input id="ConsumerKey" 
+                        name="ConsumerKey" 
+                        type="text" 
+                        class="form-control" 
+                        value.bind="state.ConsumerKey & validate">
+                </div>
+
+                <div class="form-group">
+                    <label for="ConsumerSecret">Consumer Secret</label>
+                    <input id="ConsumerSecret" 
+                        name="ConsumerSecret" 
+                        type="text" 
+                        class="form-control" 
+                        value.bind="state.ConsumerSecret & validate">
+                </div>            
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button type="submit" class="btn btn-primary" click.delegate="save()">Setup and get started</button>
+            </div>
+        </div>
+    </div>    
+</template>

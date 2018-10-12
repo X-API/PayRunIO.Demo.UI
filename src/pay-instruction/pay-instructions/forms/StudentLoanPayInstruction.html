@@ -1,0 +1,23 @@
+<template>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="StudentLoanCalculationMethod">Student loan calculation method</label>
+
+                <select id="StudentLoanCalculationMethod" 
+                    name="StudentLoanCalculationMethod" 
+                    class="form-control" 
+                    value.bind="pi.StudentLoanCalculationMethod" 
+                    required 
+                    data-required-message="Student loan calculation method is required">
+                    <option value=""></option>
+                    <option value="Off">Off</option>
+                    <option value="Plan1">Plan1</option>
+                    <option value="Plan2">Plan2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <compose view="./pay-instruction.html"></compose>
+</template>

@@ -1,0 +1,35 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>${state.title}</h5>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 text-left">
+                        <p>${state.message}</p>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 text-left">
+                        <button class="btn btn-secondary" click.trigger="no()">No</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-danger" click.trigger="yes()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

@@ -1,0 +1,12 @@
+<template>
+    <div class="form-group">
+        <label for="PaySchedule">Pay Schedule</label>
+    
+        <select class="form-control" id="PaySchedule" name="PaySchedule" value.bind="payschedule">
+            <option value="">Not set</option>
+            <option repeat.for="ps of payschedules" value.bind="ps.Key">
+                ${ps.Name}
+            </option>
+        </select>
+    </div>    
+</template>

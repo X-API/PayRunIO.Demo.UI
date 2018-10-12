@@ -1,0 +1,442 @@
+<template>
+    <require from="../resources/elements/bank-account-form/bank-account-form"></require>
+    <require from="../resources/elements/address-form/address-form"></require>
+    <require from="../resources/elements/rule-exclusions/rule-exclusions"></require>
+    <require from="../resources/elements/pay-schedule-dropdown/pay-schedule-dropdown"></require>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+    <require from="../resources/elements/status/status"></require>
+        
+    <validation-errors errors.bind="validationController.errors"></validation-errors>
+    
+    <api-errors errors.bind="apiErrors"></api-errors>
+
+    <status status.bind="status"></status>
+
+    <form>    
+        <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hmrc-tab" data-toggle="tab" href="#hmrc" role="tab" aria-controls="hmrc" aria-selected="false">RTI Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="ae-tab" data-toggle="tab" href="#ae" role="tab" aria-controls="ae" aria-selected="false">Auto Enrolment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="bankaccount-tab" data-toggle="tab" href="#bankaccount" role="tab" aria-controls="bankaccount" aria-selected="false">Bank Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
+            </li>
+            <li class="nav-item" if.bind="employer.Id">
+                <a class="nav-link" id="revisions-tab" data-toggle="tab" href="#revisions" role="tab" aria-controls="revisions" aria-selected="false">Revisions</a>
+            </li>
+        </ul>
+    
+        <div class="tab-content" id="mySubTabContent">
+    
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+    
+                <div class="row">
+                    <div class="col-sm-12 col-md-8">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" 
+                                class="form-control form-control-lg" 
+                                id="Name" 
+                                name="Name" 
+                                value.bind="employer.Name" 
+                                placeholder="Legal name of the employer"
+                                maxlength="35" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label for="EffectiveDate">Effective date</label>
+                            <input type="date" 
+                                class="form-control form-control-lg" 
+                                id="EffectiveDate" 
+                                name="EffectiveDate" 
+                                value.bind="employer.EffectiveDate"
+                                placeholder="Date the revision will come into effect" />
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="TaxOfficeNumber">Tax office number</label>
+    
+                            <input type="number" class="form-control" id="TaxOfficeNumber" name="HmrcSettings[TaxOfficeNumber]" value.bind="employer.HmrcSettings.TaxOfficeNumber"
+                                placeholder="Tax office number" step="1" maxlength="3">
+    
+                            <span class="notes">
+                                The Tax Office Number is the first part of your employer's PAYE reference issued by HMRC; it consists of 3 numbers. Required
+                                to make RTI submissions.
+                            </span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="TaxOfficeReference">Tax office reference</label>
+    
+                            <input type="text" class="form-control" id="TaxOfficeReference" name="HmrcSettings[TaxOfficeReference]" value.bind="employer.HmrcSettings.TaxOfficeReference"
+                                placeholder="Tax office reference" maxlength="10" />
+    
+                            <span class="notes">
+                                The Tax Office Reference is the second part of your employer's PAYE refernce issued by HMRC; it consists of up to 10 apha-numeric
+                                charaters. Required to make RTI submissions.
+                            </span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="AccountingOfficeRef">Accounting office ref</label>
+    
+                            <input type="text" class="form-control" id="AccountingOfficeRef" name="HmrcSettings[AccountingOfficeRef]" value.bind="employer.HmrcSettings.AccountingOfficeRef"
+                                placeholder="Tax office reference">
+    
+                            <span class="notes">
+                                The Accounting Office Reference is issued by HMRC; typically it is found on employer's P30BC Employer Payment Booklet. Required
+                                to make RTI submissions.
+                            </span>
+                        </div>
+    
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ClaimEmploymentAllowance" name="ClaimEmploymentAllowance" checked.bind="employer.ClaimEmploymentAllowance">
+    
+                            <label class="form-check-label" for="ClaimEmploymentAllowance">
+                                Claim employment allowance
+    
+                                <span class="notes">
+                                    See
+                                    <a href="https://developer.payrun.io/docs/payroll-help/claiming-employment-allowance.html" target="_blank">Claiming the Employment Allowance</a> for more details.
+                                </span>
+                            </label>
+                        </div>
+    
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ClaimSmallEmployerRelief" name="ClaimSmallEmployerRelief" checked.bind="employer.ClaimSmallEmployerRelief">
+    
+                            <label class="form-check-label" for="ClaimSmallEmployerRelief">
+                                Claim small employer relief
+    
+                                <span class="notes">
+                                    See
+                                    <a href="https://developer.payrun.io/docs/payroll-help/claiming-small-employer-relief.html" target="_blank">Claiming Small Employer Relief</a> for more details.
+                                </span>
+                            </label>
+                        </div>
+    
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <address-form address.bind="employer.Address"></address-form>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="bankaccount" role="tabpanel" aria-labelledby="bankaccount-tab">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <bank-account-form bankaccount.bind="employer.BankAccount"></bank-account-form>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="BacsServiceUserNumber">Bacs service user number</label>
+    
+                            <input type="number" class="form-control" id="BacsServiceUserNumber" name="BacsServiceUserNumber" value.bind="employer.BacsServiceUserNumber"
+                                placeholder="Unique identifier making payments throught the BACS network" step="1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="hmrc" role="tabpanel" aria-labelledby="hmrc-tab">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="Sender">Sender</label>
+    
+                            <select class="form-control" id="Sender" name="HmrcSettings[Sender]" value.bind="employer.HmrcSettings.Sender">
+                                <option value="Individual">Individual</option>
+                                <option value="Company">Company</option>
+                                <option value="Agent">Agent</option>
+                                <option value="Bureau">Bureau</option>
+                                <option value="Partnership">Partnership</option>
+                                <option value="Trust">Trust</option>
+                                <option value="Employer">Employer</option>
+                                <option value="Government">Government</option>
+                                <option value="ActingInCapacity">ActingInCapacity</option>
+                                <option value="Other">Other</option>
+                            </select>
+    
+                            <span class="notes">The entity type that is making the RTI submission on behalf of the employer. Required to make
+                                RTI submissions.</span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SenderId">Sender Id</label>
+    
+                            <input type="text" class="form-control" id="SenderId" name="HmrcSettings[SenderId]" value.bind="employer.HmrcSettings.SenderId" placeholder="Government gateway username issued to the employer by HMRC"
+                                maxlength="35">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+    
+                            <input type="text" class="form-control" id="Password" name="HmrcSettings[Password]" value.bind="employer.HmrcSettings.Password" placeholder="Government gateway password issued to the employer by HMRC"
+                                maxlength="35">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SAUTR">SAUTR</label>
+    
+                            <input type="number" class="form-control" id="SAUTR" name="HmrcSettings[SAUTR]" value.bind="employer.HmrcSettings.SAUTR" placeholder="Self Assessment Unique Tax reference; only applicable to sole proprietors or partnerships.">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="COTAXRef">COTAX Ref</label>
+    
+                            <input type="number" class="form-control" id="COTAXRef" name="HmrcSettings[COTAXRef]" value.bind="employer.HmrcSettings.COTAXRef" placeholder="Corporation Tax reference; applicable to limited companies.">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+    
+                        <div class="form-group">
+                            <label for="ContactFirstName">Contact first name</label>
+    
+                            <input type="text" class="form-control" id="ContactFirstName" name="HmrcSettings[ContactFirstName]" value.bind="employer.HmrcSettings.ContactFirstName"
+                                placeholder="Designated HMRC contact person's first name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ContactLastName">Contact last name</label>
+    
+                            <input type="text" class="form-control" id="ContactLastName" name="HmrcSettings[ContactLastName]" value.bind="employer.HmrcSettings.ContactLastName"
+                                placeholder="Designated HMRC contact person's last name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ContactEmail">Contact email</label>
+    
+                            <input type="email" class="form-control" id="ContactEmail" name="HmrcSettings[ContactEmail]" value.bind="employer.HmrcSettings.ContactEmail"
+                                placeholder="Contact email">
+    
+                            <span class="notes">The designated HMRC contact person's email address; RTI submission acknowledgements will be sent
+                                to this address.</span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ContactTelephone">Contact telephone</label>
+    
+                            <input type="tel" class="form-control" id="ContactTelephone" name="HmrcSettings[ContactTelephone]" value.bind="employer.HmrcSettings.ContactTelephone"
+                                placeholder="Designated HMRC contact person's telephone number">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ContactFax">Contact fax</label>
+    
+                            <input type="tel" class="form-control" id="ContactFax" name="HmrcSettings[ContactFax]" value.bind="employer.HmrcSettings.ContactFax"
+                                placeholder="Designated HMRC contact person's fax number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-8">
+                                <div class="form-group" >
+                                    <label for="Territory">Territory</label>
+    
+                                    <select class="form-control" id="Territory" name="Territory" value.bind="employer.Territory">
+                                        <option value="UnitedKingdom">United Kingdom</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="Region">Region</label>
+    
+                                    <select class="form-control" id="Region" name="Region" value.bind="employer.Region">
+                                        <option value="NotSet">Not Set</option>
+                                        <option value="England">England</option>
+                                        <option value="Scotland">Scotland</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ApprenticeshipLevyAllowance">Apprenticeship levy allowance</label>
+    
+                            <input type="number" class="form-control" id="ApprenticeshipLevyAllowance" name="ApprenticeshipLevyAllowance" value.bind="employer.ApprenticeshipLevyAllowance"
+                                placeholder="The employer's annual levy allowance" min="0" max="15000" />
+    
+                            <span class="notes">The apprenticeship levy will only apply to employers with annual paybill in excess of £3 million.</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <rule-exclusions ruleexclusions.bind="employer.RuleExclusions"></rule-exclusions>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="ae" role="tabpanel" aria-labelledby="ae-tab">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="StagingDate">Staging date</label>
+                            <input type="date" class="form-control" id="StagingDate" name="AutoEnrolment[StagingDate]" value.bind="employer.AutoEnrolment.StagingDate"
+                                placeholder="Auto enrolment staging date" />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="PostponementDate">Postponement date</label>
+                            <input type="date" class="form-control" id="PostponementDate" name="AutoEnrolment[PostponementDate]" value.bind="employer.AutoEnrolment.PostponementDate"
+                                placeholder="Optional auto enrolment deferment date">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ReEnrolmentDayOffset">Re enrolment day offset</label>
+                            <input type="number" class="form-control" id="ReEnrolmentDayOffset" name="AutoEnrolment[ReEnrolmentDayOffset]" value.bind="employer.AutoEnrolment.ReEnrolmentDayOffset"
+                                placeholder="Re enrolment day offset" min="-31" max="31">
+    
+                            <span class="notes">
+                                The optional employers auto enrolment re-enrolment day offset. Allows the tri-annual re-enrolment to be offset by a number
+                                of days. Supports positive and negative integers.
+                            </span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="ReEnrolmentMonthOffset">Re enrolment month offset</label>
+                            <input type="number" class="form-control" id="ReEnrolmentMonthOffset" name="AutoEnrolment[ReEnrolmentMonthOffset]" value.bind="employer.AutoEnrolment.ReEnrolmentMonthOffset"
+                                placeholder="Re enrolment month offset" min="-3" max="3">
+    
+                            <span class="notes">
+                                The optional employers auto enrolment re-enrolment month offset. Allows the tri-annual re-enrolment to be offset by a number
+                                of months. Supports positive and negative integers.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="PrimaryFirstName">Primary first name</label>
+                            <input type="number" class="form-control" id="PrimaryFirstName" name="AutoEnrolment[PrimaryFirstName]" value.bind="employer.AutoEnrolment.PrimaryFirstName"
+                                placeholder="Auto enrolment primary contact first name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="PrimaryLastName">Primary last name</label>
+                            <input type="number" class="form-control" id="PrimaryLastName" name="AutoEnrolment[PrimaryLastName]" value.bind="employer.AutoEnrolment.PrimaryLastName"
+                                placeholder="Auto enrolment primary contact last name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="PrimaryEmail">Primary email</label>
+                            <input type="number" class="form-control" id="PrimaryEmail" name="AutoEnrolment[PrimaryEmail]" value.bind="employer.AutoEnrolment.PrimaryEmail"
+                                placeholder="Auto enrolment primary contact email address">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="PrimaryTelephone">Primary telephone</label>
+                            <input type="tel" class="form-control" id="PrimaryTelephone" name="AutoEnrolment[PrimaryTelephone]" value.bind="employer.AutoEnrolment.PrimaryTelephone"
+                                placeholder="Auto enrolment primary contact telephone number">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="PrimaryJobTitle">Primary job title</label>
+                            <input type="tel" class="form-control" id="PrimaryJobTitle" name="AutoEnrolment[PrimaryJobTitle]" value.bind="employer.AutoEnrolment.PrimaryJobTitle"
+                                placeholder="Auto enrolment primary contact job title" maxlength="50">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SecondaryFirstName">Secondary first name</label>
+                            <input type="number" class="form-control" id="SecondaryFirstName" name="AutoEnrolment[SecondaryFirstName]" value.bind="employer.AutoEnrolment.SecondaryFirstName"
+                                placeholder="Auto enrolment secondary contact first name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SecondaryLastName">Secondary last name</label>
+                            <input type="number" class="form-control" id="SecondaryLastName" name="AutoEnrolment[SecondaryLastName]" value.bind="employer.AutoEnrolment.SecondaryLastName"
+                                placeholder="Auto enrolment secondary contact last name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SecondaryEmail">Secondary email</label>
+                            <input type="number" class="form-control" id="SecondaryEmail" name="AutoEnrolment[SecondaryEmail]" value.bind="employer.AutoEnrolment.SecondaryEmail"
+                                placeholder="Auto enrolment secondary contact email address">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SecondaryTelephone">Secondary telephone</label>
+                            <input type="tel" class="form-control" id="SecondaryTelephone" name="AutoEnrolment[SecondaryTelephone]" value.bind="employer.AutoEnrolment.SecondaryTelephone"
+                                placeholder="Auto enrolment secondary contact telephone number">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="SecondaryJobTitle">Secondary job title</label>
+                            <input type="tel" class="form-control" id="SecondaryJobTitle" name="AutoEnrolment[SecondaryJobTitle]" value.bind="employer.AutoEnrolment.SecondaryJobTitle"
+                                placeholder="Auto enrolment secondary contact job title" maxlength="50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="revisions" role="tabpanel" aria-labelledby="revisions-tab" if.bind="employer.Id">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="Revision">Revision</label>
+                            
+                            <input type="number" class="form-control" id="Revision" name="Revision" value.bind="employer.Revision" placeholder="Revision number"
+                                readonly step="1" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6" if.bind="employer.Revisions">
+                        <h5>Revision History</h5>
+                        <span class="notes">Employer revisions must be deleted in order, validation rules will prevent revisions being deleted if they invalidate an existing payrun.</span>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Revision</th>
+                                    <th>Effective Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="revision of employer.Revisions">
+                                    <td>${revision.Revision}</td>
+                                    <td>${revision.EffectiveDate}</td>
+                                    <td class="text-right">
+                                        <a class="btn btn-sm btn-danger" 
+                                            href="#" 
+                                            role="button" 
+                                            click.delegate="deleteRevision(revision)">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>         
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row" if.bind="showSaveButton">
+                <div class="col-sm-12">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row" if.bind="showSaveButton">
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" click.delegate="save()">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>    
+</template>

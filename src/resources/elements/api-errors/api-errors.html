@@ -1,0 +1,17 @@
+<template>
+    <div id="api-errors">
+        <div class="alert alert-warning" role="alert" if.bind="errors.length > 0">
+            <p>
+                <strong>
+                    The PayRun api has returned the following errors:
+                </strong>
+            </p>
+        
+            <ul>
+                <li repeat.for="error of errors">
+                    ${error}
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,23 @@
+<template>
+    <h1 class="display-4">Demo-UI Project</h1>
+  
+    <p class="lead">
+        A few things to note before getting started:
+        <ul>
+            <li>Please open a developer account at <a href="https://developer.payrun.io/Account/Register" target="_blank">https://developer.payrun.io/Account/Register</a> </li> and use the keys you are issued.
+            <li>This is demonstration software and is provided without support, warranty or liability.</li>
+            <li>This software is built against the latest browsers (Chrome, Firefox, Safari or MS Edge) and may not function as intended on older browsers.</li>
+            <li>Under no circumstances should you run this software as-is in a production environment. Fork it and make it your own!</li>
+            <li>The application is written in NodeJS and the <a href="https://github.com/X-API/PayRunIO.Demo.UI" target="_blank">source code is available on GitHub</a>.</li>
+            <li>This project has been open-sourced under <a href="https://github.com/X-API/PayRunIO.Demo.UI/blob/master/LICENSE" target="_blank">"The Unlicense"</a> license.</li>
+            <li>Finally, this project is <strong>WORK IN PROGRESS</strong>, there are areas of unfinished, missing or broken functionality. If you discover an issue then please either <a href="https://github.com/X-API/PayRunIO.Demo.UI/issues" target="_blank">log it as in issue in GitHub</a> or <a href="https://github.com/X-API/PayRunIO.Demo.UI/pulls" target="_blank">submit a Pull Request</a> with your proposed fix.</li>
+        </ul>
+
+        Get started by clicking on `Get started` below.
+    </p>
+
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="#employers" role="button" if.bind="state.hasBeenSetup">Get started</a>
+        <a class="btn btn-primary btn-lg" href="#setup" role="button" if.bind="!state.hasBeenSetup">Get started</a>
+    </p>
+</template>

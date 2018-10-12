@@ -1,0 +1,159 @@
+<template>
+    <require from="./elements/employee-form"></require>
+    <require from="./elements/p45-pay-instruction"></require>
+    <require from="../resources/elements/status/status"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+    
+    <status status.bind="status"></status>
+    
+    <api-errors errors.bind="apiErrors"></api-errors>    
+    
+    <div if.bind="employee.Id">
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" 
+                    id="home-tab" 
+                    data-toggle="tab" 
+                    href="#home" 
+                    role="tab" 
+                    aria-controls="home" 
+                    aria-selected="true">Employee</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" 
+                    id="instructions-tab" 
+                    data-toggle="tab" 
+                    href="#instructions" 
+                    role="tab" 
+                    aria-controls="instructions" 
+                    aria-selected="false">Pay Instructions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" 
+                    id="p45-instruction-tab" 
+                    data-toggle="tab" 
+                    href="#p45-instruction" 
+                    role="tab" 
+                    aria-controls="p45-instruction" 
+                    aria-selected="false">P45</a>
+            </li>   
+            <li class="nav-item">
+                <a class="nav-link" 
+                    id="year-to-date-instructions-tab" 
+                    data-toggle="tab" 
+                    href="#year-to-date-instructions" 
+                    role="tab" 
+                    aria-controls="year-to-date-instructions" 
+                    aria-selected="false">YTD Pay Instructions</a>
+            </li>         
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <employee-form employee.bind="employee"></employee-form>
+            </div>
+
+            <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
+                <div class="row actions">
+                    <div class="col-sm-6">
+                        <div class="dropdown show">
+                            <a class="btn btn-primary dropdown-toggle" 
+                                href="#" 
+                                role="button" 
+                                id="addNewPayInstruction" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false">
+                                Add New Pay Instruction
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="addNewPayInstruction">
+                                <a class="dropdown-item launch-modal" 
+                                    href="#" 
+                                    repeat.for="pi of typesOfPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(pi.type)">${pi.name}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <p class="text-right">
+                            <a href="http://developer.payrun.io/docs/key-concepts/understanding-pay-instructions.html" target="_blank">
+                                Understanding Pay Instructions
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row" repeat.for="pi of employee.GroupedPayInstructions">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>${pi.InstructionFriendlyName}</h6>
+                            </div>
+                            <div class="card-body">
+                                <compose view="../pay-instruction/pay-instructions/lists/${pi.InstructionType}.html"></compose>
+                            </div>
+                        </div> 
+                    </div>
+                </div>                                 
+            </div>
+
+            <div class="tab-pane fade" id="p45-instruction">
+                <p45-pay-instruction employeeid.bind="employee.Id" 
+                    employerid.bind="employee.EmployerId" 
+                    p45payinstruction.bind="employee.P45PayInstruction"></p45-pay-instruction>
+            </div>               
+
+            <div class="tab-pane fade" id="year-to-date-instructions">
+                <div class="row actions">
+                    <div class="col-sm-6">
+                        <div class="dropdown show">
+                            <a class="btn btn-primary dropdown-toggle" 
+                                href="#" 
+                                role="button" 
+                                id="addNewYTDPayInstruction" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false">
+                                Add New YTD Pay Instruction
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="addNewYTDPayInstruction">
+                                <a class="dropdown-item launch-modal" 
+                                    href="#" 
+                                    repeat.for="pi of typesOfYTDPayInstruction" 
+                                    click.delegate="openAddPayInstructionModal(pi.type)">${pi.name}</a>                           
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <p class="text-right">
+                            <a href="http://developer.payrun.io/docs/key-concepts/understanding-pay-instructions.html" target="_blank">
+                                Understanding Pay Instructions
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row" repeat.for="pi of employee.GroupedYTDPayInstructions">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>${pi.InstructionFriendlyName}</h6>
+                            </div>
+                            <div class="card-body">
+                                <compose view="../pay-instruction/ytd-pay-instructions/lists/${pi.InstructionType}.html"></compose>
+                            </div>
+                        </div> 
+                    </div>
+                </div>          
+            </div> 
+        </div>
+    </div>
+
+    <div if.bind="!employee.Id">
+        <employee-form employee.bind="employee"></employee-form>
+    </div> 
+</template>

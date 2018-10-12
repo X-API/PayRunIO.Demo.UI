@@ -1,0 +1,17 @@
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" repeat.for="instruction of instructions">
+                        <a href="#" 
+                            click.delegate="navigateToRoute(instruction)"
+                            if.bind="$index !== (instructions.length - 1)">${instruction.config.title}</a>
+
+                        <span if.bind="$index === (instructions.length - 1)">${instruction.config.title}</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</template>

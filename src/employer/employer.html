@@ -1,0 +1,307 @@
+<template>
+    <require from="./employer-form"></require>
+    <require from="../resources/elements/status/status"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+
+    <status status.bind="status"></status>
+    
+    <api-errors errors.bind="apiErrors"></api-errors>
+
+    <div if.bind="employer">
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Employer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="schedules-tab" data-toggle="tab" href="#schedules" role="tab" aria-controls="schedules" aria-selected="false">Pay Schedules</a>
+            </li>        
+            <li class="nav-item">
+                <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">Employees</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pensions-tab" data-toggle="tab" href="#pensions" role="tab" aria-controls="pensions" aria-selected="false">Pensions</a>
+            </li>        
+            <li class="nav-item">
+                <a class="nav-link" id="runs-tab" data-toggle="tab" href="#runs" role="tab" aria-controls="runs" aria-selected="false">Pay Runs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="rti-submissions-tab" data-toggle="tab" href="#rti-submissions" role="tab" aria-controls="rti-submissions" aria-selected="false">RTI Submissions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="reports-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="reports" aria-selected="false">Reports</a>
+            </li>       
+        </ul>
+    
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <employer-form employer.bind="employer"></employer-form>
+            </div>
+            
+            <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary" href="#employer/${employer.Id}/employee" role="button">Add a new employee</a>
+                    </div>
+                </div>
+    
+                <table class="table" if.bind="employer.Employees.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Bank Account</th>
+                            <th width="50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="employee of employer.Employees">
+                            <th scope="row">
+                                <a href="#employer/${employer.Id}/employee/${employee.Id}">
+                                    ${employee.Code}
+                                </a>
+                            </th>
+                            <td>${employee | employeeName}</td>
+                            <td innerhtml.bind="employee.Address | address"></td>
+                            <td innerhtml.bind="employee.BankAccount | bankAccount"></td>
+                            <td>
+                                <button type="button" 
+                                    class="btn btn-danger btn-sm" 
+                                    click.delegate="deleteEmployee(employer.Id, employee.Id)">
+                                    Delete
+                                </button>                             
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                           
+            </div>
+            
+            <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary"
+                            href="#" 
+                            role="button" 
+                            click.delegate="addAPaySchedule()">Add a Pay Schedule</a>
+                    </div>
+                </div>
+    
+                <table class="table" if.bind="employer.PaySchedules.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Employees</th>
+                            <th scope="col">Last Pay Day</th>
+                            <th scope="col">Next Pay Day</th>
+                            <th width="50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="schedule of employer.PaySchedules">
+                            <th scope="row">
+                                <a href="#" click.delegate="editPaySchedule(schedule)">
+                                    ${schedule.Key}
+                                </a>
+                            </th>
+                            <td>${schedule.Name}</td>
+                            <td>${schedule.PayFrequency}</td>
+                            <td>${schedule.EmployeeCount}</td>
+                            <td>
+                                <span if.bind="schedule.LastPayDay">${schedule.LastPayDay}</span>
+
+                                <span if.bind="!schedule.LastPayDay">
+                                    <em>Never</em>
+                                </span>
+                            </td>
+                            <td>
+                                <span if.bind="schedule.NextPayDay">${schedule.NextPayDay}</span>
+
+                                <span if.bind="!schedule.NextPayDay">-</span>
+                            </td>
+                            <td>
+                                <button type="button" 
+                                    class="btn btn-danger btn-sm btn-delete-pay-schedule" 
+                                    click.delegate="deletePaySchedule(schedule)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="tab-pane fade" id="runs" role="tabpanel" aria-labelledby="runs-tab">
+                <div class="card bg-light" if.bind="!canAddPayRun(employer)">
+                    <div class="card-header">Pay Runs</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Add a <strong>Pay Schedule</strong> and an <strong>Employee</strong> before starting a pay run.
+                        </p>
+                    </div>
+                </div>
+        
+                <div class="card bg-light" repeat.for="schedule of employer.PaySchedules" if.bind="canAddPayRun(employer)">
+                    <div class="card-header">
+                        <h6 class="float-left">${schedule.Name}</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" if.bind="schedule.PayRuns.length > 0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Payment Date</th>
+                                    <th scope="col">Tax Period</th>
+                                    <th scope="col">Pay Period</th>
+                                    <th scope="col">Supplementary</th>
+                                    <th scope="col">
+                                        <button class="btn btn-sm btn-primary launch-modal float-right" 
+                                            type="button" 
+                                            role="button" 
+                                            click.delegate="openAddPayRunModal(employer.Id, schedule.Key)">Add PayRun</button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="payrun of schedule.PayRuns">
+                                    <th scope="row">
+                                        <a href="#" click.delegate="openPayRunInfoModal(employer.Id, schedule.Key, payrun.Key)">
+                                            ${payrun.PaymentDate | shortDate}
+                                        </a>
+                                    </th>
+                                    <td>${payrun.TaxYear}/${payrun.TaxPeriod}</td>
+                                    <td>${payrun.PeriodStart | shortDate} - ${payrun.PeriodEnd | shortDate}</td>
+                                    <td>${payrun.IsSupplementary}</td>
+                                    <td class="text-right">
+                                        <button if.bind="schedule.HeadSequence == payrun.Sequence"
+                                            type="button" 
+                                            class="btn btn-sm btn-rerun-pay-run launch-modal" 
+                                            data-modal-title="Rerun PayRun" 
+                                            click.delegate="openRerunPayRunModal(employer.Id, schedule.Key, payrun)">Rerun</button>
+                                        </button>
+                                        
+                                        <button if.bind="schedule.HeadSequence == payrun.Sequence"
+                                            type="button" 
+                                            class="btn btn-danger btn-sm btn-delete-pay-run" 
+                                            click.delegate="deletePayRun(employer.Id, schedule.Key, payrun.Key)">Delete</button>          
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="card-text" if.bind="schedule.PayRuns.length === 0">
+                            There are currently no payruns for this pay schedule.
+                            
+                            <a class="btn btn-sm btn-primary launch-modal" 
+                                href="#employer/${employer.Id}/payRun?paySchedule=${schedule.Key}" 
+                                data-modal-title="Create PayRun"
+                                role="button">Add PayRun</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-pane fade" id="pensions" role="tabpanel" aria-labelledby="pensions-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" type="button" role="button" click.delegate="addAPension()">Add a Pension</button>
+                    </div>
+                </div>
+    
+                <table class="table" if.bind="employer.Pensions.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Scheme</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Provider Employer Ref</th>
+                            <th width="200px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="pension of employer.Pensions">
+                            <th scope="row">
+                                <a href="#" click.delegate="editPension(pension)">
+                                    ${pension.Id}
+                                </a>                            
+                            </th>
+                            <td>${pension.SchemeName}</td>
+                            <td>${pension.ProviderName}</td>
+                            <td>${pension.ProviderEmployerRef}</td>
+                            <td>
+                                <button if.bind="!pension.UseForAutoEnrolment"
+                                    type="button" 
+                                    class="btn btn-primary btn-sm btn-default-for-ae" 
+                                    click.delegate="defaultPensionForAE(employer.Id, pension.Id)">
+                                    Default for AE
+                                </button>
+    
+                                <button type="button" 
+                                    class="btn btn-danger btn-sm btn-delete-pension" 
+                                    click.delegate="deletePension(employer.Id, pension.Id)">
+                                    Delete
+                                </button>                             
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
+                <div class="row actions" if.bind="employer.PayRuns">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary launch-modal" 
+                            type="button" 
+                            click.delegate="openAddRtiSubmissionModal(employer.Id)">Make FPS Submission</button>
+                    </div>
+                </div>
+
+                <div class="card bg-light" if.bind="!employer.PayRuns">
+                    <div class="card-header">RTI submissions</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Start a new <strong>Pay Run</strong> before creating an RTI submission.
+                        </p>
+                    </div>
+                </div>
+    
+                <table class="table" if.bind="employer.RTITransactions.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Tax Year</th>
+                            <th scope="col">Transmission Date</th>
+                            <th scope="col">Transaction Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="transaction of employer.RTITransactions">
+                            <th scope="row">
+                                <a href="/api/employer/${employer.Id}/rtiTransaction/${transaction.Id}" target="_blank">
+                                    ${transaction.Id}
+                                </a>
+                            </th> 
+                            <td>${transaction.TaxYear}</td>
+                            <td>${transaction.TransmissionDate | longDateTime}</td>
+                            <td>${transaction.TransactionStatus}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+    
+            <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
+                <div class="coming-soon">
+                    <h4>Coming soon!</h4>
+                    <p>Check soon to see this functionality wired up with the API</p>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div if.bind="!employer">
+        <employer-form employer.bind="employer"></employer-form>
+    </div>
+    
+    <input id="employer-id" type="hidden" value="${employer.Id}">  
+</template>
