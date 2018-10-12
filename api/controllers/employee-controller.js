@@ -103,6 +103,28 @@ module.exports = class EmployeeController extends BaseController {
         }
     }
 
+    async deleteRevision(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let effectiveDate = ctx.params.effectiveDate;
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/${effectiveDate}`;
+        let response = await apiWrapper.delete(ctx, apiRoute);
+
+        if (ValidationParser.containsErrors(response)) {
+            ctx.body = {
+                errors: ValidationParser.extractErrors(response)
+            };
+        }
+        else {
+            ctx.body = {
+                status: {
+                    message: "Revision deleted",
+                    type: "success"
+                }
+            };
+        }
+    }    
+
     async getRevisions(ctx, employerId, employeeId) {
         let queryStr = JSON.stringify(EmployeeRevisionsQuery)
             .replace("$$EmployerKey$$", employerId)
