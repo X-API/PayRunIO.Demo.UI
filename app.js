@@ -48,7 +48,6 @@ app
     })
     // .use(async (ctx, next) => {
     //     let setupCookie = ctx.cookies.get(SetupController.cookieKey);
-
     //     await next();
     // })
     .use(async (ctx, next) => {
