@@ -1,8 +1,9 @@
+const _ = require("lodash");
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
 const EmployeeUtils = require("../services/employee-utils");
-const _ = require("lodash");
+const EmployeeRevisionsQuery = require("../queries/employee-revisions-query");
 
 let apiWrapper = new ApiWrapper();
 
@@ -27,7 +28,8 @@ module.exports = class EmployeeController extends BaseController {
             GroupedPayInstructions: this.getNormalGroupedPayInstructions(filteredPayInstructions),
             GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(filteredPayInstructions),
             CanAddANewPayInstruction: filteredPayInstructions.length === 0 || canAddANewPayInstruction,
-            P45PayInstruction: this.getP45PayInstruction(payInstructions)
+            P45PayInstruction: this.getP45PayInstruction(payInstructions),
+            Revisions: await this.getRevisions(ctx, employerId, employeeId)
         });
     }
 
@@ -99,6 +101,18 @@ module.exports = class EmployeeController extends BaseController {
                 };
             }
         }
+    }
+
+    async getRevisions(ctx, employerId, employeeId) {
+        let queryStr = JSON.stringify(EmployeeRevisionsQuery)
+            .replace("$$EmployerKey$$", employerId)
+            .replace("$$EmployeeKey$$", employeeId);
+
+        let query = JSON.parse(queryStr);
+        
+        let revisions = await apiWrapper.query(ctx, query);
+        
+        return Array.from(revisions.EmployeeRevisions.Revisions.Revision);
     }
 
     getP45PayInstruction(instructions) {
