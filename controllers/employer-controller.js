@@ -7,6 +7,8 @@ const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const EmployerQuery = require("../queries/employer-query");
 const EmployerRevisionsQuery = require("../queries/employer-revisions-query");
+const EmployeesQuery = require("../queries/employees-query");
+
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -54,7 +56,11 @@ module.exports = class EmployerController extends BaseController {
         let id = ctx.params.id;
         let response = await apiWrapper.get(`Employer/${id}`);
         let employer = response.Employer;
-        let employees = await apiWrapper.getAndExtractLinks(`Employer/${id}/Employees`);
+        
+        let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
+        let eeQuery = JSON.parse(eeQueryStr);   
+        let employees = await apiWrapper.query(eeQuery)
+        
         let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
         let extendedPensions = pensions.map(pension => {
             if (employer.AutoEnrolment.Pension) {
@@ -90,7 +96,7 @@ module.exports = class EmployerController extends BaseController {
                 { Name: "Employers", Url: "/employer" },
                 { Name: employer.Name }
             ],
-            Employees: employees,
+            Employees: employees.EmployeeTable.Employees,
             Pensions: extendedPensions,
             PaySchedules: paySchedules,
             PayRuns: payRunCount > 0,
