@@ -15,7 +15,7 @@ let employerService = new EmployerService();
 
 module.exports = class EmployerController extends BaseController {
     async getEmployers(ctx) {
-        let employers = await apiWrapper.query(EmployerQuery);
+        let employers = await apiWrapper.query(ctx, EmployerQuery);
 
         await ctx.render("employers", await this.getExtendedViewModel(ctx, {
             title: "Employers",
@@ -35,7 +35,7 @@ module.exports = class EmployerController extends BaseController {
 
     async addNewEmployer(ctx) {
         let body = EmployerUtils.parse(ctx.request.body);
-        let response = await apiWrapper.post("Employers", { Employer: body });
+        let response = await apiWrapper.post(ctx, "Employers", { Employer: body });
 
         if (ValidationParser.containsErrors(response)) {
             await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {
@@ -54,16 +54,16 @@ module.exports = class EmployerController extends BaseController {
 
     async getEmployerDetails(ctx) {
         let id = ctx.params.id;
-        let response = await apiWrapper.get(`Employer/${id}`);
-        let employer = response.Employer;
-        
-        let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
+        let response = await apiWrapper.get(ctx, `Employer/${id}`);
+        let employer = response.Employer;      
+
+		let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
         let eeQuery = JSON.parse(eeQueryStr);   
-        let employees = await apiWrapper.query(eeQuery)
+        let employees = await apiWrapper.query(ctx, eeQuery)        
         
-        let pensions = await apiWrapper.getAndExtractLinks(`Employer/${id}/Pensions`);
+        let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Pensions`);
         let extendedPensions = pensions.map(pension => {
-            if (employer.AutoEnrolment.Pension) {
+            if (employer.AutoEnrolment && employer.AutoEnrolment.Pension) {
                 pension.UseForAutoEnrolment = employer.AutoEnrolment.Pension["@href"].endsWith(pension.Id);
             }
             else {
@@ -72,12 +72,12 @@ module.exports = class EmployerController extends BaseController {
 
             return pension;
         });
-        let paySchedules = await employerService.getPaySchedules(id);
-        let rtiTransactions = await apiWrapper.getAndExtractLinks(`Employer/${id}/RtiTransactions`);
+        let paySchedules = await employerService.getPaySchedules(ctx, id);
+        let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
 
         let queryStr = JSON.stringify(EmployerRevisionsQuery).replace("$$EmployerKey$$", id);
         let query = JSON.parse(queryStr);
-        let revisions = await apiWrapper.query(query);
+        let revisions = await apiWrapper.query(ctx, query);
 
         let payRunCount = 0;
 
@@ -96,7 +96,7 @@ module.exports = class EmployerController extends BaseController {
                 { Name: "Employers", Url: "/employer" },
                 { Name: employer.Name }
             ],
-            Employees: employees.EmployeeTable.Employees,
+            Employees: employees.EmployeesTable.Employees,
             Pensions: extendedPensions,
             PaySchedules: paySchedules,
             PayRuns: payRunCount > 0,
@@ -115,7 +115,7 @@ module.exports = class EmployerController extends BaseController {
     async saveEmployerDetails(ctx) {
         let id = ctx.params.id;
         let body = EmployerUtils.parse(ctx.request.body);
-        let response = await apiWrapper.put(`Employer/${id}`, { Employer: body });
+        let response = await apiWrapper.put(ctx, `Employer/${id}`, { Employer: body });
 
         if (ValidationParser.containsErrors(response)) {
             await ctx.render("employer", await this.getExtendedViewModel(ctx, Object.assign(body, {

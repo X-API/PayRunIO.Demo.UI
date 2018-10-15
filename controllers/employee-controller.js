@@ -13,7 +13,7 @@ let employerService = new EmployerService();
 module.exports = class EmployeeController extends BaseController {
     async requestNewEmployee(ctx) {
         let employerId = ctx.params.employerId;
-        let paySchedules = await employerService.getPaySchedules(employerId);
+        let paySchedules = await employerService.getPaySchedules(ctx, employerId);
 
         await ctx.render("employee", await this.getExtendedViewModel(ctx, {
             title: "Add a new Employee",
@@ -30,10 +30,10 @@ module.exports = class EmployeeController extends BaseController {
     async addNewEmployee(ctx) {
         let employerId = ctx.params.employerId;
         let body = EmployeeUtils.parse(ctx.request.body, employerId);
-        let response = await apiWrapper.post(`Employer/${employerId}/Employees`, { Employee: body });
+        let response = await apiWrapper.post(ctx, `Employer/${employerId}/Employees`, { Employee: body });
 
         if (ValidationParser.containsErrors(response)) {
-            let paySchedules = await employerService.getPaySchedules(employerId);
+            let paySchedules = await employerService.getPaySchedules(ctx, employerId);
 
             await ctx.render("employee", await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Employee",
@@ -56,15 +56,15 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
-        let response = await apiWrapper.get(apiRoute);
-        let payInstructions = await apiWrapper.getAndExtractLinks(`/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
+        let response = await apiWrapper.get(ctx, apiRoute);
+        let payInstructions = await apiWrapper.getAndExtractLinks(ctx, `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
 
         let filteredPayInstructions = payInstructions.filter(pi => {
             return pi.ObjectType !== "P45PayInstruction";
         });
 
         let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
-        let paySchedules = await employerService.getPaySchedules(employerId);
+        let paySchedules = await employerService.getPaySchedules(ctx, employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
 
         let body = Object.assign(employee, {
@@ -94,10 +94,10 @@ module.exports = class EmployeeController extends BaseController {
         let employeeId = ctx.params.employeeId;
         let body = ctx.request.body;
         let cleanBody = EmployeeUtils.parse(body, employerId);
-        let response = await apiWrapper.put(`/Employer/${employerId}/Employee/${employeeId}`, { Employee: cleanBody });
+        let response = await apiWrapper.put(ctx, `/Employer/${employerId}/Employee/${employeeId}`, { Employee: cleanBody });
 
         if (ValidationParser.containsErrors(response)) {
-            let paySchedules = await employerService.getPaySchedules(employerId);
+            let paySchedules = await employerService.getPaySchedules(ctx, employerId);
 
             let extendedBody = Object.assign(body, {
                 Id: employeeId,
@@ -124,7 +124,7 @@ module.exports = class EmployeeController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         let body = {
             title: "Download P60",
@@ -148,7 +148,7 @@ module.exports = class EmployeeController extends BaseController {
         let year = body.Year;
         let apiRoute = `/Report/P60/run?EmployerKey=${employerId}&EmployeeKey=${employeeId}&TaxYear=${year}&TransformDefinitionKey=P60-${year}-Pdf`;
 
-        let response = await apiWrapper.getFile(apiRoute);
+        let response = await apiWrapper.getFile(ctx, apiRoute);
 
         ctx.set("Content-disposition", "attachment; filename=p60.pdf");
         ctx.set("Content-type", "application/pdf");

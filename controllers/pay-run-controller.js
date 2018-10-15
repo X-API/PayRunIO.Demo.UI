@@ -23,10 +23,10 @@ module.exports = class PayRunController extends BaseController {
             .replace("$$PayRunKey$$", payRunId);
 
         let query = JSON.parse(queryStr);
-        let queryResult = await apiWrapper.query(query);
+        let queryResult = await apiWrapper.query(ctx, query);
         let employees = queryResult.PayrunG2N.PaySchedule.PayRun.Employees;
 
-        let commentaries = await apiWrapper.get(payRunRoute + "/Commentaries");
+        let commentaries = await apiWrapper.get(ctx, payRunRoute + "/Commentaries");
 
         let mappedEmployees = [];
 
@@ -62,7 +62,7 @@ module.exports = class PayRunController extends BaseController {
     async requestNewRun(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.query.paySchedule;
-        let paySchedules = await employerService.getPaySchedules(employerId);
+        let paySchedules = await employerService.getPaySchedules(ctx, employerId);
 
         let nextPaymentDate;
         let nextPeriodStart;
@@ -75,7 +75,7 @@ module.exports = class PayRunController extends BaseController {
                 .replace("$$PayScheduleKey$$", payScheduleId);
 
             let query = JSON.parse(queryStr);
-            let queryResult = await apiWrapper.query(query);
+            let queryResult = await apiWrapper.query(ctx, query);
 
             nextPaymentDate = queryResult.NextPayRunDates.NextPayDay;
             nextPeriodStart = queryResult.NextPayRunDates.NextPeriodStart;
@@ -109,7 +109,7 @@ module.exports = class PayRunController extends BaseController {
 
         // query next rerun dates
         if (payRunId) {
-            let result = await apiWrapper.get(`Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
+            let result = await apiWrapper.get(ctx, `Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`);
 
             nextPaymentDate = result.PayRun.PaymentDate;
             nextPeriodStart = result.PayRun.PeriodStart;
@@ -134,10 +134,10 @@ module.exports = class PayRunController extends BaseController {
         let body = ctx.request.body;
         let cleanBody = PayRunUtils.parse(body, employerId);
 
-        let response = await apiWrapper.post("jobs/payruns", { PayRunJobInstruction: cleanBody });
+        let response = await apiWrapper.post(ctx, "jobs/payruns", { PayRunJobInstruction: cleanBody });
 
         if (ValidationParser.containsErrors(response)) {
-            let paySchedules = await employerService.getPaySchedules(employerId);
+            let paySchedules = await employerService.getPaySchedules(ctx, employerId);
 
             let extendedBody = await this.getExtendedViewModel(ctx, Object.assign(body, {
                 title: "Start a pay run",
@@ -168,7 +168,7 @@ module.exports = class PayRunController extends BaseController {
 
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}/PayRun/${payRunId}`;     
         
-        await apiWrapper.delete(apiRoute);
+        await apiWrapper.delete(ctx, apiRoute);
 
         // todo: handle error from API
 

@@ -56,10 +56,12 @@ $(function() {
     $("#myModal button[type=submit]").on("click", function() {
         var form = $("#myModal form");
 
-        form.parsley().validate();
+        if (form.parsley) {
+            form.parsley().validate();
 
-        if (form.parsley().isValid()) {
-            form.submit();
+            if (form.parsley().isValid()) {
+                form.submit();
+            }
         }
     });
 

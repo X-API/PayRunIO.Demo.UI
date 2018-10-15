@@ -11,7 +11,7 @@ module.exports = class PaySlipController extends BaseController {
         let taxYear = ctx.params.taxYear;
 
         let apiRoute = `/Report/PAYSLIP/run?EmployerKey=${employerId}&TaxYear=${taxYear}&TaxPeriod=${taxPeriod}&EmployeeCodes=${code}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         ctx.type = "text/plain; charset=utf-8";
         ctx.body = JSON.stringify(response.PayslipReport, null, 4);

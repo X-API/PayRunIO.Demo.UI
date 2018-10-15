@@ -13,7 +13,7 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "RenderValue",
-                            "@Name": "Key",
+                            "@Name": "Id",
                             "@Value": "[EmployeeKey]"
                         },
                         {
@@ -23,12 +23,12 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "RenderProperty",
-                            "@Name": "Firstname",
+                            "@Name": "FirstName",
                             "@Property": "FirstName"
                         },
                         {
                             "@xsi:type": "RenderProperty",
-                            "@Name": "Lastname",
+                            "@Name": "LastName",
                             "@Property": "LastName"
                         },
                         {

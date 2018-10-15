@@ -18,7 +18,7 @@ module.exports = class BaseInstruction {
         return true;
     }
 
-    async extendViewModel(vm) {
+    async extendViewModel(ctx, vm) {
         // override this to extend the passed in view model with instruction type specific properties. 
         return vm;
     }
@@ -50,12 +50,12 @@ module.exports = class BaseInstruction {
         return !payInstructions.includes(pi => !pi.EndDate);
     }
 
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId }) {
+    async getMinStartDateForNewInstruction({ ctx, employerId, employeeId, payInstructionId }) {
         if (this.canInstructionsOverlap) {
             return null;
         }
 
-        let payInstructions = await this.getInstructions(employerId, employeeId);
+        let payInstructions = await this.getInstructions(ctx, employerId, employeeId);
         let filteredPayInstructions = payInstructions.filter(pi => pi.EndDate && pi.Id !== payInstructionId);
 
         if (filteredPayInstructions.length === 0) {
@@ -68,10 +68,10 @@ module.exports = class BaseInstruction {
         return endDate.add(1, "day").format("YYYY-MM-DD");        
     }
 
-    async getInstructions(employerId, employeeId) {
+    async getInstructions(ctx, employerId, employeeId) {
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`;
         let instructionType = this.constructor.name;
-        let links = await apiWrapper.getLinks(apiRoute);
+        let links = await apiWrapper.getLinks(ctx, apiRoute);
         
         let filteredLinks = links.filter(link => {
             return link["@rel"] === instructionType;

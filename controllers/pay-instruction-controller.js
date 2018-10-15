@@ -20,16 +20,8 @@ module.exports = class PayInstructionController extends BaseController {
             EmployeeId: employeeId,
             EmployerId: employerId,
             InstructionType: instructionType,
-            EnableForm: await this.canInstructionBeAdded({ 
-                employerId: employerId,
-                employeeId: employeeId, 
-                type: instructionType
-            }),
-            MinStartDate: await this.getMinStartDateForNewInstruction({ 
-                employerId: employerId, 
-                employeeId: employeeId, 
-                type: instructionType
-            }),
+            EnableForm: true,
+            MinStartDate: null,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
@@ -45,7 +37,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
         let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, extendedViewModel);
 
         await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
@@ -63,7 +55,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         console.log(cleanBody);
 
-        let response = await apiWrapper.post(apiRoute, request);
+        let response = await apiWrapper.post(ctx, apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
             ctx.body = {
@@ -90,7 +82,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${id}`;
 
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
         let instructionType = Object.keys(response)[0];
 
         let body = Object.assign(response[instructionType], {
@@ -112,7 +104,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         let instructionTypeInstance = this.getInstructionInstance(instructionType);
         let extendedViewModel = await this.getExtendedViewModel(ctx, body);
-        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(extendedViewModel);        
+        let instructionTypeExtendedViewModel = await instructionTypeInstance.extendViewModel(ctx, extendedViewModel);        
 
         await ctx.render("pay-instruction", instructionTypeExtendedViewModel);
     }
@@ -129,7 +121,7 @@ module.exports = class PayInstructionController extends BaseController {
 
         request[instructionType] = cleanBody;
 
-        let response = await apiWrapper.put(apiRoute, request);
+        let response = await apiWrapper.put(ctx, apiRoute, request);
 
         if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
             ctx.body = {
@@ -156,7 +148,7 @@ module.exports = class PayInstructionController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/Employee/${employeeId}/PayInstruction/${payInstructionId}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -181,10 +173,11 @@ module.exports = class PayInstructionController extends BaseController {
         return instruction.canNewInstructionBeAdded(employerId, employeeId);
     }
 
-    async getMinStartDateForNewInstruction({ employerId, employeeId, payInstructionId, type }) {
+    async getMinStartDateForNewInstruction({ ctx, employerId, employeeId, payInstructionId, type }) {
         let instruction = this.getInstructionInstance(type);
 
         return instruction.getMinStartDateForNewInstruction({
+            ctx: ctx,
             employerId: employerId,
             employeeId: employeeId,
             payInstructionId: payInstructionId

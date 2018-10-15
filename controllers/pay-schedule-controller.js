@@ -21,7 +21,7 @@ module.exports = class PayScheduleController extends BaseController {
     async addNewSchedule(ctx) {
         let body = ctx.request.body;
         let apiRoute = `Employer/${ctx.params.employerId}/paySchedules`;
-        let response = await apiWrapper.post(apiRoute, { PaySchedule: body });
+        let response = await apiWrapper.post(ctx, apiRoute, { PaySchedule: body });
 
         let employerRoute = `/employer/${ctx.params.employerId}`;
 
@@ -44,7 +44,7 @@ module.exports = class PayScheduleController extends BaseController {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.params.payScheduleId;
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
 
         let body = Object.assign(response.PaySchedule, {
             Id: payScheduleId,
@@ -65,7 +65,7 @@ module.exports = class PayScheduleController extends BaseController {
         let payScheduleId = ctx.params.payScheduleId;
         let body = ctx.request.body;
         let apiRoute = `Employer/${employerId}/paySchedule/${payScheduleId}`;
-        let response = await apiWrapper.put(apiRoute, { PaySchedule: body });
+        let response = await apiWrapper.put(ctx, apiRoute, { PaySchedule: body });
 
         let employerRoute = `/employer/${employerId}`;
 
@@ -92,7 +92,7 @@ module.exports = class PayScheduleController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/PaySchedule/${payScheduleId}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {

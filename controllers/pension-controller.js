@@ -24,7 +24,7 @@ module.exports = class PensionController extends BaseController {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;
         let parsedBody = PensionUtils.parse(body);
-        let response = await apiWrapper.post(`Employer/${employerId}/Pensions`, { Pension: parsedBody });
+        let response = await apiWrapper.post(ctx, `Employer/${employerId}/Pensions`, { Pension: parsedBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
@@ -41,7 +41,7 @@ module.exports = class PensionController extends BaseController {
         let employerId = ctx.params.employerId;
         let pensionId = ctx.params.id;
         let apiRoute = `/Employer/${employerId}/Pension/${pensionId}`;
-        let response = await apiWrapper.get(apiRoute);
+        let response = await apiWrapper.get(ctx, apiRoute);
         let pension = response.Pension;
 
         let body = Object.assign(pension, {
@@ -63,7 +63,7 @@ module.exports = class PensionController extends BaseController {
         let employerId = ctx.params.employerId;
         let body = ctx.request.body;
         let parsedBody = PensionUtils.parse(body);
-        let response = await apiWrapper.put(`Employer/${employerId}/Pension/${id}`, { Pension: parsedBody });
+        let response = await apiWrapper.put(ctx, `Employer/${employerId}/Pension/${id}`, { Pension: parsedBody });
 
         if (ValidationParser.containsErrors(response)) {
             ctx.session.body = body;
@@ -82,7 +82,7 @@ module.exports = class PensionController extends BaseController {
         
         let apiRoute = `/Employer/${employerId}/Pension/${id}`;
 
-        let response = await apiWrapper.delete(apiRoute);
+        let response = await apiWrapper.delete(ctx, apiRoute);
 
         if (ValidationParser.containsErrors(response)) {
             ctx.body = {
@@ -98,7 +98,7 @@ module.exports = class PensionController extends BaseController {
         let id = ctx.params.id;
         let employerId = ctx.params.employerId;
 
-        await apiWrapper.patch(`/Employer/${employerId}`, {
+        await apiWrapper.patch(ctx, `/Employer/${employerId}`, {
             Employer: {
                 AutoEnrolment: {
                     Pension: {

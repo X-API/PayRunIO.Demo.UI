@@ -1,5 +1,4 @@
 const rp = require("request-promise");
-const Constants = require("../Constants");
 const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
@@ -10,15 +9,15 @@ require("request-debug")(rp, (type, data) => {
 });
 
 module.exports = class APIWrapper {
-    async get(relativeUrl) {
-        let options = this.getOptions(relativeUrl, "GET");
+    async get(ctx, relativeUrl) {
+        let options = this.getOptions(ctx, relativeUrl, "GET");
         let response = await rp(options);
 
         return response;
     }
 
-    async getFile(relativeUrl) {
-        let options = this.getOptions(relativeUrl, "GET");
+    async getFile(ctx, relativeUrl) {
+        let options = this.getOptions(ctx, relativeUrl, "GET");
 
         options.json = false;
         options.encoding = null;
@@ -27,8 +26,8 @@ module.exports = class APIWrapper {
         return await rp(options);
     }
 
-    async getLinks(relativeUrl) {
-        let options = this.getOptions(relativeUrl, "GET");
+    async getLinks(ctx, relativeUrl) {
+        let options = this.getOptions(ctx, relativeUrl, "GET");
         let response = await rp(options);
         let items = [];
         
@@ -39,12 +38,12 @@ module.exports = class APIWrapper {
         return items;
     }
 
-    async extractLinks(links, getIdCallback) {
+    async extractLinks(ctx, links, getIdCallback) {
         let items = [];
 
         for (let link of links) {
             let href = link["@href"];
-            let wrapper = await this.get(href);
+            let wrapper = await this.get(ctx, href);
             let objType = Object.keys(wrapper)[0];
             let item = wrapper[objType];
             let parts = href.split("/");
@@ -59,46 +58,46 @@ module.exports = class APIWrapper {
         return items;
     }
 
-    async getAndExtractLinks(relativeUrl, getIdCallback) {
-        let links = await this.getLinks(relativeUrl);
+    async getAndExtractLinks(ctx, relativeUrl, getIdCallback) {
+        let links = await this.getLinks(ctx, relativeUrl);
 
-        return await this.extractLinks(links, getIdCallback);
+        return await this.extractLinks(ctx, links, getIdCallback);
     }
 
-    async query(queryBody) {
-        let options = this.getOptions("/query", "POST");
+    async query(ctx, queryBody) {
+        let options = this.getOptions(ctx, "/query", "POST");
 
         options.body = queryBody;
 
         return await this.sendRequest(options);
     }
 
-    async post(relativeUrl, body) {
-        let options = this.getOptions(relativeUrl, "POST");
+    async post(ctx, relativeUrl, body) {
+        let options = this.getOptions(ctx, relativeUrl, "POST");
 
         options.body = this.cleanObject(body);
 
         return await this.sendRequest(options);
     }
 
-    async put(relativeUrl, body) {
-        let options = this.getOptions(relativeUrl, "PUT");
+    async put(ctx, relativeUrl, body) {
+        let options = this.getOptions(ctx, relativeUrl, "PUT");
 
         options.body = this.cleanObject(body);
 
         return await this.sendRequest(options);
     }
 
-    async patch(relativeUrl, body) {
-        let options = this.getOptions(relativeUrl, "PATCH");
+    async patch(ctx, relativeUrl, body) {
+        let options = this.getOptions(ctx, relativeUrl, "PATCH");
 
         options.body = this.cleanObject(body);
 
         return await this.sendRequest(options);
     }
 
-    async delete(relativeUrl) {
-        let options = this.getOptions(relativeUrl, "DELETE");
+    async delete(ctx, relativeUrl) {
+        let options = this.getOptions(ctx, relativeUrl, "DELETE");
 
         return await this.sendRequest(options);
     }
@@ -114,11 +113,18 @@ module.exports = class APIWrapper {
         }
     }
 
-    getOptions(relativeUrl, method) {
+    getOptions(ctx, relativeUrl, method) {
+        let ck = ctx.cookies.get("setupCookieKey");
+
+        if (!ck) {
+            return;
+        }
+
+        let setup = JSON.parse(ck);
         let oauth = OAuth({
             consumer: {
-                key: Constants.consumerKey,
-                secret: Constants.consumerSecret
+                key: setup.ConsumerKey,
+                secret: setup.ConsumerSecret
             },
             signature_method: "HMAC-SHA1",
             hash_function(base_string, key) {
@@ -126,7 +132,8 @@ module.exports = class APIWrapper {
             }
         });
 
-        let url = Url.resolve(Constants.apiUrl, relativeUrl);
+        let apiUrl = setup.Environment.toLowerCase() === "test" ? "https://api.test.payrun.io/" : "https://api.payrun.io/";
+        let url = Url.resolve(apiUrl, relativeUrl);
 
         let request_data = {
             url: url,

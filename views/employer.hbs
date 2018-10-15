@@ -47,7 +47,7 @@
                     <tr>
                         <th scope="col">Code</th>
                         <th scope="col">Name</th>
-                        <th width="50px"></th>
+                        <th width="200px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,17 +60,14 @@
                         </th>
                         <td>{{employeeName this}}</td>
                         <td>
-                            <a class="btn btn-link" 
+                            <a class="btn-link" 
                                data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Add leaver details</a>
-                            <br>                            
-                            <a class="btn btn-link" 
+                               data-employer-id="{{../Id}}">Leaver</a>                        
+                            <a class="btn-link" 
                                data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Download P45</a>
-                            <br>
-                            <a class="btn btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">Download P60</a>
-                            <br>
-                            <a class="btn btn-link btn-danger">Delete</a>
+                               data-employer-id="{{../Id}}">P45</a>
+                            <a class="btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
+                            <a href="#" class="btn-link btn-danger">Delete</a>
                         </td>
                     </tr>
                     {{/each}}
