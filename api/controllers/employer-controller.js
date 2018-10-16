@@ -4,6 +4,7 @@ const EmployerService = require("../services/employer-service");
 const ValidationParser = require("../services/validation-parser");
 const EmployerUtils = require("../services/employer-utils");
 const EmployerRevisionsQuery = require("../queries/employer-revisions-query");
+const EmployeesQuery = require("../queries/employees-query");
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
@@ -13,12 +14,14 @@ module.exports = class EmployerController extends BaseController {
         let id = ctx.params.id;
         let response = await apiWrapper.get(ctx, `Employer/${id}`);
         let employer = response.Employer;
-        let employees = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/Employees`);
         let paySchedules = await employerService.getPaySchedules(ctx, id);
         let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
         let revisions = await this.getRevisions(ctx, id);
         let pensions = await this.getPensions(ctx, employer, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
+        let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
+        let eeQuery = JSON.parse(eeQueryStr);   
+        let employees = await apiWrapper.query(eeQuery);
 
         if (employer.RuleExclusions) {
             employer.RuleExclusions = employer.RuleExclusions.split(" ");
@@ -26,7 +29,7 @@ module.exports = class EmployerController extends BaseController {
 
         ctx.body = Object.assign(employer, {
             Id: id,
-            Employees: employees,
+            Employees: employees.EmployeeTable.Employees,
             Pensions: pensions,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayRuns: payRunCount > 0,

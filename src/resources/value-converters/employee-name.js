@@ -5,7 +5,6 @@ export class EmployeeNameValueConverter {
         let parts = [
             employee.Title,
             firstname,
-            employee.MiddleName,
             employee.LastName
         ].filter(part => part !== undefined && part !== null && part.trim().length > 0);
     

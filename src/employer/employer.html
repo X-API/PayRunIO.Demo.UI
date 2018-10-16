@@ -49,8 +49,6 @@
                         <tr>
                             <th scope="col">Code</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Bank Account</th>
                             <th width="50px"></th>
                         </tr>
                     </thead>
@@ -62,8 +60,6 @@
                                 </a>
                             </th>
                             <td>${employee | employeeName}</td>
-                            <td innerhtml.bind="employee.Address | address"></td>
-                            <td innerhtml.bind="employee.BankAccount | bankAccount"></td>
                             <td>
                                 <button type="button" 
                                     class="btn btn-danger btn-sm" 
