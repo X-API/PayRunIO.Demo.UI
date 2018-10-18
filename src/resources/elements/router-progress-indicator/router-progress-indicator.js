@@ -7,7 +7,6 @@ import * as nprogress from "nprogress";
 export class RouterProgressIndicator {
     constructor(EventAggregator) {
         this.ea = EventAggregator;
-        this.visible = false;
     }
         
     attached() {

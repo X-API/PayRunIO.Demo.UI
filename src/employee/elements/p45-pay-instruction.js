@@ -55,7 +55,11 @@ export class P45PayInstruction {
                 };
                 let url = `/api/employer/${this.employerid}/Employee/${this.employeeid}/P45Instruction`;
 
+                this.ea.publish("request:processing");
+
                 this.client.post(url, data).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;
@@ -93,7 +97,11 @@ export class P45PayInstruction {
                 let payInstructionId = this.p45payinstruction.Id;
                 let url = `/api/employer/${employerId}/employee/${employeeId}/payInstruction/${payInstructionId}`;
                 
+                this.ea.publish("request:processing");
+
                 this.client.delete(url).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;

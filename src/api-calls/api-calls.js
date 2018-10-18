@@ -9,6 +9,7 @@ export class APICalls {
         this.ea = EventAggregator;
         this.visible = false;
         this.calls = [];
+        this.client = new HttpClient();
     }
 
     attached() {
@@ -20,9 +21,7 @@ export class APICalls {
     }
 
     loadCalls() {
-        let client = new HttpClient();
-
-        client.get("/api/api-calls").then(res => {
+        this.client.get("/api/api-calls").then(res => {
             let response = res.response;
 
             if (response === "") {

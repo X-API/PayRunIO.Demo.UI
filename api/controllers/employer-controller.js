@@ -21,7 +21,9 @@ module.exports = class EmployerController extends BaseController {
         let payRunCount = await this.getPayRunCount(paySchedules);
         let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
         let eeQuery = JSON.parse(eeQueryStr);   
-        let employees = await apiWrapper.query(eeQuery);
+        let employees = await apiWrapper.query(ctx, eeQuery);
+
+        console.log(employees);
 
         if (employer.RuleExclusions) {
             employer.RuleExclusions = employer.RuleExclusions.split(" ");
@@ -29,7 +31,7 @@ module.exports = class EmployerController extends BaseController {
 
         ctx.body = Object.assign(employer, {
             Id: id,
-            Employees: employees.EmployeeTable.Employees,
+            Employees: employees.EmployeesTable.Employees,
             Pensions: pensions,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayRuns: payRunCount > 0,

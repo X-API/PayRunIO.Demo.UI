@@ -33,7 +33,11 @@ export class EmployeeForm {
                 let url = `/api/employer/${this.employee.EmployerId}/employee`;
                 let data = this.employee;
 
+                this.ea.publish("request:processing");
+
                 this.client.post(url, data).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;
@@ -80,7 +84,11 @@ export class EmployeeForm {
         if (!this.paySchedules) {            
             let employerId = this.employee.EmployerId;
 
+            this.ea.publish("request:processing");
+
             this.client.get(`/api/employer/${employerId}/pay-schedules`).then(res => {
+                this.ea.publish("request:complete");
+
                 this.paySchedules = JSON.parse(res.response);
             });
         }       
@@ -123,7 +131,11 @@ export class EmployeeForm {
                 let effectiveDate = revision.EffectiveDate;
                 let url = `/api/employer/${employerId}/employee/${employeeId}/revision/${effectiveDate}`;
                 
+                this.ea.publish("request:processing");
+
                 this.client.delete(url).then(res => {
+                    this.ea.publish("request:complete");
+                    
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;

@@ -19,6 +19,7 @@ export class Employer extends BaseViewModel {
         this.employer = null;
         this.ea = eventAggregator;
         this.dialogService = dialogService;
+        this.client = new HttpClient();
     }
 
     activate(params) {
@@ -64,9 +65,11 @@ export class Employer extends BaseViewModel {
 
     getEmployerDetails(employerId) {
         return new Promise((resolve) => {
-            let client = new HttpClient();
+            this.ea.publish("request:processing");
 
-            client.get(`/api/employer/${employerId}`).then(data => {
+            this.client.get(`/api/employer/${employerId}`).then(data => {
+                this.ea.publish("request:complete");
+
                 this.employer = JSON.parse(data.response);
 
                 this.createPaySchedulesTimer();
@@ -78,9 +81,11 @@ export class Employer extends BaseViewModel {
     }
 
     getPaySchedules() {
-        let client = new HttpClient();
+        this.ea.publish("request:processing");
 
-        client.get(`/api/employer/${this.employer.Id}/pay-schedules`).then(data => {
+        this.client.get(`/api/employer/${this.employer.Id}/pay-schedules`).then(data => {
+            this.ea.publish("request:complete");
+
             this.employer.PaySchedules = JSON.parse(data.response);
 
             this.createPaySchedulesTimer();
@@ -92,9 +97,11 @@ export class Employer extends BaseViewModel {
     }
 
     getRtiSubmissions() {
-        let client = new HttpClient();
+        this.ea.publish("request:processing");
 
-        client.get(`/api/employer/${this.employer.Id}/rti-submissions`).then(data => {
+        this.client.get(`/api/employer/${this.employer.Id}/rti-submissions`).then(data => {
+            this.ea.publish("request:complete");
+
             this.employer.RTITransactions = JSON.parse(data.response);
 
             this.createRtiSubmissionsTimer();
@@ -128,9 +135,11 @@ export class Employer extends BaseViewModel {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
-                let client = new HttpClient();
+                this.ea.publish("request:processing");
 
-                client.post(`/api/employer/${this.employer.Id}/paySchedule/${schedule.Key}/delete/`).then(res => {
+                this.client.post(`/api/employer/${this.employer.Id}/paySchedule/${schedule.Key}/delete/`).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;
@@ -174,9 +183,11 @@ export class Employer extends BaseViewModel {
     }
 
     defaultPensionForAE(employerId, pensionId) {
-        let client = new HttpClient();
+        this.ea.publish("request:processing");
 
-        client.patch(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+        this.client.patch(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+            this.ea.publish("request:complete");
+
             let parsedResponse = JSON.parse(res.response);
 
             this.apiErrors = null;
@@ -193,9 +204,11 @@ export class Employer extends BaseViewModel {
     }
 
     deletePension(employerId, pensionId) {
-        let client = new HttpClient();
+        this.ea.publish("request:processing");
 
-        client.delete(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+        this.client.delete(`/api/employer/${employerId}/pension/${pensionId}`).then(res => {
+            this.ea.publish("request:complete");
+
             let parsedResponse = JSON.parse(res.response);
 
             this.apiErrors = null;
@@ -230,9 +243,12 @@ export class Employer extends BaseViewModel {
 
     openPayRunInfoModal(employerId, payScheduleId, payRunId) {
         let url = `api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`;
-        let client = new HttpClient();
+        
+        this.ea.publish("request:processing");
 
-        client.get(url).then(res => {
+        this.client.get(url).then(res => {
+            this.ea.publish("request:complete");
+
             let payRun = JSON.parse(res.response);
 
             payRun.EmployerId = this.employer.Id;
@@ -248,9 +264,12 @@ export class Employer extends BaseViewModel {
 
     openAddPayRunModal(employerId, payScheduleId) {
         let url = `/api/employer/${employerId}/paySchedule/${payScheduleId}/next-pay-run`;
-        let client = new HttpClient();
+        
+        this.ea.publish("request:processing");
 
-        client.get(url).then(res => {
+        this.client.get(url).then(res => {
+            this.ea.publish("request:complete");
+
             let nextPayRun = JSON.parse(res.response);
             
             let state = {
@@ -315,9 +334,11 @@ export class Employer extends BaseViewModel {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
-                let client = new HttpClient();
+                this.ea.publish("request:processing");
 
-                client.delete(`/api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`).then(res => {
+                this.client.delete(`/api/employer/${employerId}/paySchedule/${payScheduleId}/payRun/${payRunId}`).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
         
                     this.apiErrors = null;
@@ -336,9 +357,11 @@ export class Employer extends BaseViewModel {
     }
 
     openAddRtiSubmissionModal(employerId) {
-        let client = new HttpClient();
+        this.ea.publish("request:processing");
 
-        client.get(`/api/employer/${employerId}/payRuns`).then(res => {
+        this.client.get(`/api/employer/${employerId}/payRuns`).then(res => {
+            this.ea.publish("request:complete");
+
             let payRuns = JSON.parse(res.response);
 
             let opts = {
@@ -370,9 +393,11 @@ export class Employer extends BaseViewModel {
 
         this.dialogService.open(opts).whenClosed(response => {
             if (!response.wasCancelled) {
-                let client = new HttpClient();
+                this.ea.publish("request:processing");
 
-                client.delete(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+                this.client.delete(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
         
                     this.apiErrors = null;

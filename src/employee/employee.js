@@ -80,7 +80,11 @@ export class Employee extends BaseViewModel {
 
     getEmployeeDetails(employerId, employeeId) {
         return new Promise(resolve => {
+            this.ea.publish("request:processing");
+
             this.client.get(`/api/employer/${employerId}/employee/${employeeId}`).then(res => {
+                this.ea.publish("request:complete");
+
                 this.employee = JSON.parse(res.response);
                 
                 this.employee.EmployerId = employerId;
@@ -92,7 +96,11 @@ export class Employee extends BaseViewModel {
 
     getPayInstructionTypes() {
         return new Promise(resolve => {
+            this.ea.publish("request:processing");
+
             this.client.get("/api/pay-instructions").then(res => {
+                this.ea.publish("request:complete");
+
                 let response = JSON.parse(res.response);
 
                 this.typesOfPayInstruction = response.filter(pi => pi.group === "normal");
@@ -161,7 +169,11 @@ export class Employee extends BaseViewModel {
                 let payInstructionId = pi.Id;
                 let url = `/api/employer/${employerId}/employee/${employeeId}/payInstruction/${payInstructionId}`;
                 
+                this.ea.publish("request:processing");
+
                 this.client.delete(url).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;

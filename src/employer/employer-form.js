@@ -39,7 +39,11 @@ export class EmployerForm {
     save() {
         this.validationController.validate().then(result => {
             if (result.valid) {
+                this.ea.publish("request:processing");
+
                 this.client.post("/api/Employer", this.employer).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;
@@ -93,7 +97,11 @@ export class EmployerForm {
                 let effectiveDate = revision.EffectiveDate;
                 let url = `/api/employer/${employerId}/revision/${effectiveDate}`;
                 
+                this.ea.publish("request:processing");
+
                 this.client.delete(url).then(res => {
+                    this.ea.publish("request:complete");
+
                     let parsedResponse = JSON.parse(res.response);
 
                     this.apiErrors = null;
