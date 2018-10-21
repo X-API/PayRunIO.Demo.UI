@@ -84,7 +84,8 @@ router
     .get("/employer/:employerId/employee/:employeeId/commentary/:commentaryId", async ctx => await commentaryController.getCommentary(ctx))
 
     // pay slip
-    .get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
+    .get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxYear/:paymentDate/:paySchedule", async ctx => await paySlipController.getPaySlipData(ctx))
+    .get("/employer/:employerId/employee/:employeeId/paySlipPdf/:code/:taxYear/:paymentDate/:paySchedule", async ctx => await paySlipController.getPaySlipPdf(ctx))
 
     // rti transaction
     .get("/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))

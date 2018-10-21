@@ -78,13 +78,14 @@
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
+                        <th scope="col">Code</th>
                         <th scope="col">Payments</th>
                         <th scope="col">Tax</th>
                         <th scope="col">EE NI</th>
                         <th scope="col">ER NI</th>
                         <th scope="col">Other Deducs</th>
                         <th scope="col">Net Pay</th>
-                        <th width="210px"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +94,7 @@
                         <td>
                             <a href="/Employer/{{../EmployerId}}/Employee/{{Key}}">{{Name}}</a>          
                         </td>
+                        <td>{{Key}}</td>
                         <td>{{PAYMENTS}}</td>
                         <td>{{TAX}}</td>
                         <td>{{EE_NI}}</td>
@@ -100,13 +102,27 @@
                         <td>{{OTHERDEDNS}}</td>
                         <td>{{NETPAY}}</td>
                         <td class="text-right">
-                            <a href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipData/{{Code}}/{{../TaxPeriod}}/{{../TaxYear}}"
-                               target="_blank">Payslip</a>
-                            &nbsp;|&nbsp;
-                            {{#if Commentary}}
-                            <a href="{{extractHref Commentary}}"
-                               target="_blank">Commentary</a>
-                            {{/if}}
+
+                            <div class="dropdown show">
+                                <a class="btn btn-sm btn-default dropdown-toggle" 
+                                    href="#" 
+                                    role="button" 
+                                    id="empPayRunOptions" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false">
+                                    Payslip
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="empPayRunOptions">
+                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipPdf/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PaySchedule.Name}}">Payslip</a>        
+                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipData/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PaySchedule.Name}}">Payslip Data</a>                     
+                                    {{#if Commentary}}
+                                    <a class="dropdown-item" target="_blank" href="{{extractHref Commentary}}">Commentary</a>    
+                                    {{/if}}
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
                     {{/each}}
