@@ -1,10 +1,10 @@
 module.exports = (cash, percent) => {
     if (cash !== null && cash !== undefined) {
-        return "£" + cash.toFixed(2);
+        return "£" + cash;
     }
 
     if (percent !== null && percent !== undefined) {
-        return percent.toFixed(2) + "%";
+        return percent + "%";
     }
 
     return "";
