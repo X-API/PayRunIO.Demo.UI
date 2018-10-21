@@ -17,9 +17,7 @@ module.exports = class PaySlipController extends BaseController {
         ctx.type = "text/plain; charset=utf-8";
         ctx.body = JSON.stringify(response.Payslip3, null, 4);
     }
-};
 
-module.exports = class PaySlipController extends BaseController {
     async getPaySlipPdf(ctx) {
         let employerId = ctx.params.employerId;
         let code = ctx.params.code;
