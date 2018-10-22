@@ -26,9 +26,10 @@ module.exports = class PaySlipController extends BaseController {
         let paySchedule = ctx.params.paySchedule
 
         let apiRoute = `/Report/PAYSLIP3/run?EmployerKey=${employerId}&TaxYear=${taxYear}&PayScheduleKey=${paySchedule}&paymentDate=${paymentDate}&EmployeeCodes=${code}&TransformDefinitionKey=Payslip-A5-Basic-Pdf`;
-        let response = await apiWrapper.get(ctx, apiRoute);
+        let response = await apiWrapper.getFile(ctx, apiRoute);
 
-        ctx.type = "application/pdf";
-        ctx.body = response;
+        //ctx.set("Content-disposition", "attachment; filename=payslip.pdf");
+        ctx.set("Content-type", "application/pdf");
+        ctx.body = response.body;
     }
 };
