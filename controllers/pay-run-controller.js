@@ -48,6 +48,7 @@ module.exports = class PayRunController extends BaseController {
             title: "Pay Run",
             Employees: mappedEmployees,
             EmployerId: employerId,
+            PayScheduleId: payScheduleId,
             PaySchedule: queryResult.PayrunG2N.PaySchedule,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
