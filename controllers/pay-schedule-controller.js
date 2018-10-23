@@ -29,7 +29,8 @@ module.exports = class PayScheduleController extends BaseController {
             let model = await this.getExtendedViewModel(ctx, Object.assign(body, { 
                 title: "Add a new Pay Schedule",
                 EmployerId: ctx.params.employerId,
-                errors: ValidationParser.extractErrors(response)
+                errors: ValidationParser.extractErrors(response),
+                layout: "modal"
             }));
 
             await ctx.render("pay-schedule", model);
@@ -54,7 +55,8 @@ module.exports = class PayScheduleController extends BaseController {
                 { Name: AppState.currentEmployer.Name, Url: `/employer/${employerId}` },
                 { Name: response.PaySchedule.Name }
             ],
-            title: response.PaySchedule.Name
+            title: response.PaySchedule.Name,
+            layout: "modal"
         });
 
         await ctx.render("pay-schedule", await this.getExtendedViewModel(ctx, body));
@@ -78,7 +80,8 @@ module.exports = class PayScheduleController extends BaseController {
                     { Name: "Employers", Url: "/employer" },
                     { Name: AppState.currentEmployer.Name, Url: employerRoute },
                     { Name: body.Name }
-                ]
+                ],
+                layout: "modal"
             })));
             return;
         }

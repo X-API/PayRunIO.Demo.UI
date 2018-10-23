@@ -1,5 +1,5 @@
 {{#if Id}}
-<form method="PUT" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}" data-parsley-validate>
+<form method="POST" action="/Employer/{{EmployerId}}/PaySchedule/{{Id}}" data-parsley-validate>
 {{else}}
 <form method="POST" action="/Employer/{{EmployerId}}/PaySchedule" data-parsley-validate>
 {{/if}}
@@ -31,12 +31,6 @@
             <option value="FourWeekly">Four weekly</option>
         </select>
         {{/select}}
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 text-right">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </div>    
+    </div>   
 
 </form>

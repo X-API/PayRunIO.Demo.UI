@@ -102,7 +102,9 @@
                     {{#each PaySchedules.PaySchedulesTable.PaySchedule}}
                     <tr>
                         <th scope="row">
-                            <a href="/employer/{{../Id}}/paySchedule/{{this.Key}}">
+                            <a class="launch-modal" 
+                                data-modal-title="{{this.Name}}" 
+                                href="/employer/{{../Id}}/paySchedule/{{this.Key}}">
                                 {{this.Key}}
                             </a>
                         </th>
