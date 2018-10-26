@@ -115,8 +115,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="empPayRunOptions">
-                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipPdf/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PaySchedule.Name}}">Payslip</a>        
-                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipData/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PaySchedule.Name}}">Payslip Data</a>                     
+                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipPdf/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PayScheduleId}}">Payslip</a>        
+                                    <a class="dropdown-item" target="_blank" href="/Employer/{{../EmployerId}}/Employee/{{Key}}/PaySlipData/{{Code}}/{{../TaxYear}}/{{../PaymentDate}}/{{../PayScheduleId}}">Payslip Data</a>                     
                                     {{#if Commentary}}
                                     <a class="dropdown-item" target="_blank" href="{{extractHref Commentary}}">Commentary</a>    
                                     {{/if}}
