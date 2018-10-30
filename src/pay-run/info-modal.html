@@ -109,9 +109,16 @@
                                         <td>${employee.OTHERDEDNS}</td>
                                         <td>${employee.NETPAY}</td>
                                         <td class="text-right">
-                                            <a href="/api/Employer/${state.EmployerId}/Employee/${employee.Key}/PaySlipData/${employee.Code}/${state.TaxPeriod}/${state.TaxYear}" target="_blank">Payslip</a>
-                                            &nbsp;|&nbsp;
-                                            <a href="/api${employee.Commentary | extractHref}" target="_blank" if.bind="employee.Commentary">Commentary</a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="/api/Employer/${state.EmployerId}/Employee/${employee.Key}/PaySlipData/${employee.Code}/${state.TaxPeriod}/${state.TaxYear}" target="_blank">View payslip data</a>
+                                                    <a class="dropdown-item" href="/api/Employer/${state.EmployerId}/Employee/${employee.Key}/PaySlipPdf/${employee.Code}/${state.TaxPeriod}/${state.TaxYear}" target="_blank">View payslip pdf</a>
+                                                    <a class="dropdown-item" href="/api${employee.Commentary | extractHref}" target="_blank" if.bind="employee.Commentary">View Commentary</a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>

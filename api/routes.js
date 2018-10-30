@@ -109,6 +109,7 @@ router
 
     // pay slip
     .get("/api/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipData(ctx))
+    .get("/api/employer/:employerId/employee/:employeeId/paySlipPdf/:code/:taxPeriod/:taxYear", async ctx => await paySlipController.getPaySlipPdf(ctx))
 
     // rti transaction
     .get("/api/employer/:employerId/rtiTransaction/:rtiTransactionId", async ctx => await rtiController.get(ctx))    
