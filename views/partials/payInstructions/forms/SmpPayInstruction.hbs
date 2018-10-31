@@ -106,49 +106,40 @@
                 class="form-control" 
                 id="BabyBornDate" 
                 name="BabyBornDate" 
-                value="{{BabyBornDate}}"                 
-                required 
-                data-required-message="Birth date is required">                
+                value="{{BabyBornDate}}">                
         </div>
 
-        <div class="form-group">
-            <label for="SmpSapWeeksTaken">Weeks taken</label>
-            <input type="number" 
-                class="form-control" 
-                id="SmpSapWeeksTaken" 
-                name="SmpSapWeeksTaken" 
-                value="{{SmpSapWeeksTaken}}"                 
-                required 
-                data-required-message="Weeks taken is required" 
-                step="1">                
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="PayAsLumpSum" name="PayAsLumpSum" {{checkedIf PayAsLumpSum}}>
+
+            <label class="form-check-label" for="PayAsLumpSum">
+                Pay as lump sum?
+            </label>
+
+            <span class="notes">
+                Flag to indicate if the entire statutory absence payment should be paid as a lump sum.
+            </span>            
         </div> 
-                
-        <div class="form-group">
-            <label for="SplStartDate">Leave start date</label>
-            <input type="date" 
-                class="form-control" 
-                id="SplStartDate" 
-                name="SplStartDate" 
-                value="{{SplStartDate}}">
-        </div>
 
-        <div class="form-group">
-            <label for="SplEndDate">Leave end date</label>
-            <input type="date" 
-                class="form-control" 
-                id="SplEndDate" 
-                name="SplEndDate" 
-                value="{{SplEndDate}}">
-        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="PayPartWeek" name="PayPartWeek" {{checkedIf PayPartWeek}}>
 
-        <div class="form-group">
-            <label for="MothersDateOfDeath">Date of the mother's death</label>
-            <input type="date" 
-                class="form-control" 
-                id="MothersDateOfDeath" 
-                name="MothersDateOfDeath" 
-                value="{{MothersDateOfDeath}}">
-        </div>                    
+            <label class="form-check-label" for="PayPartWeek">
+                Pay Part Week?
+            </label>
+
+            <span class="notes">
+                Flag to indicate if part weeks should be paid as opposed to payments being made as full weeks only.
+            </span>            
+        </div> 
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="Stillbirth" name="Stillbirth" {{checkedIf Stillbirth}}>
+
+            <label class="form-check-label" for="Stillbirth">
+                Stillbirth?
+            </label>
+        </div>                   
 
         <div class="form-group">
             <label for="Description">Description</label>

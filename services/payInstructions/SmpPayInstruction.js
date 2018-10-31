@@ -28,9 +28,23 @@ module.exports = class SmpPayInstruction extends AbsencePayInstruction {
         else {
             cleanBody.Stillbirth = false;
         }
-
-        // todo: parse KeepInTouchDays. 
-
-        return cleanBody;
+        
+        return {
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            AbsenceStart: cleanBody.AbsenceStart,
+            AbsenceEnd: cleanBody.AbsenceEnd,
+            StatutoryOffset: cleanBody.StatutoryOffset,
+            AverageWeeklyEarningOverride: cleanBody.AverageWeeklyEarningOverride,
+            PayAsLumpSum: cleanBody.PayAsLumpSum,
+            PayPartWeek: cleanBody.PayPartWeek,
+            BabyDueDate: cleanBody.BabyDueDate,
+            BabyBornDate: cleanBody.BabyBornDate,
+            Stillbirth: cleanBody.Stillbirth,
+            Description: cleanBody.Description,
+            MinStartDate: cleanBody.MinStartDate,
+            InstructionType: cleanBody.InstructionType,
+            EmployerId: cleanBody.EmployerId
+        };
     }    
 };
