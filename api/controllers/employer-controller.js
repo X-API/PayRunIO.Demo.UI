@@ -18,6 +18,7 @@ module.exports = class EmployerController extends BaseController {
         let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
         let revisions = await this.getRevisions(ctx, id);
         let pensions = await this.getPensions(ctx, employer, id);
+        let payCodes = await this.getPayCodes(ctx, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
         let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
         let eeQuery = JSON.parse(eeQueryStr);   
@@ -36,7 +37,8 @@ module.exports = class EmployerController extends BaseController {
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
-            Revisions: revisions
+            Revisions: revisions,
+            PayCodes: payCodes
         });
     }
 
@@ -171,4 +173,10 @@ module.exports = class EmployerController extends BaseController {
         
         return Array.from(revisions.EmployerRevisions.Revisions.Revision);
     }
+
+    async getPayCodes(ctx, employerId) {
+        let payCodes = await apiWrapper.getAndExtractLinks(ctx, `Employer/${employerId}/PayCodes`);
+        
+        return payCodes;
+    }    
 };

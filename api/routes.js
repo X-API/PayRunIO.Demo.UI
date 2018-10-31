@@ -14,6 +14,7 @@ const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
+const PayCodeController = require("./controllers/pay-code-controller");
 const P45InstructionController = require("./controllers/p45-instruction-controller");
 const SetupController = require("./controllers/setup-controller");
 const VersionController = require("./controllers/version-controller");
@@ -33,6 +34,7 @@ let jobController = new JobController();
 let rtiController = new RTIController();
 let apiLoggerController = new APILoggerController();
 let pensionController = new PensionController();
+let payCodeController = new PayCodeController();
 let p45InstructionController = new P45InstructionController();
 let setupController = new SetupController();
 let versionController = new VersionController();
@@ -117,6 +119,11 @@ router
 
     // p45 pay instruction
     .post("/api/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.post(ctx))
+
+    // pay codes
+    .post("/api/employer/:employerId/payCode", async ctx => await payCodeController.post(ctx))
+    .patch("/api/employer/:employerId/payCode/:id", async ctx => await payCodeController.patch(ctx))    
+    .delete("/api/employer/:employerId/payCode/:id", async ctx => await payCodeController.delete(ctx))
 ;
 
 module.exports = router.routes();

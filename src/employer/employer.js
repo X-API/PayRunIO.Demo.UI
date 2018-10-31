@@ -5,6 +5,7 @@ import { DialogService } from "aurelia-dialog";
 import { Router } from "aurelia-router";
 import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
+import { PayCodeModal } from "../pension/pension-modal";
 import { InfoModal } from "../pay-run/info-modal";
 import { NewPayRunModal } from "../pay-run/new-pay-run-modal";
 import { RtiTransactionModal } from "../rti-transaction/rti-transaction-modal";
@@ -172,6 +173,52 @@ export class Employer extends BaseViewModel {
                 this.getEmployerDetails(this.employer.Id);
             }
         });
+    }
+
+    addAPayCode() {
+        this.openPayCodeModal({});
+    }
+
+    editPayCode(payCode) {
+        this.openPayCodeModal(payCode);
+    }
+
+    deletePayCode(employerId, payCodeId) {
+        this.ea.publish("request:processing");
+
+        this.client.delete(`/api/employer/${employerId}/payCode/${payCodeId}`).then(res => {
+            this.ea.publish("request:complete");
+
+            let parsedResponse = JSON.parse(res.response);
+
+            this.apiErrors = null;
+            this.status = null;
+
+            if (parsedResponse.errors) {
+                this.apiErrors = parsedResponse.errors;
+                return;
+            }
+
+            this.status = parsedResponse.status;
+            this.getEmployerDetails(employerId);
+        });
+    }
+
+    openPayCodeModal(payCode) {
+        pension.employerId = this.employer.Id;
+        
+        let opts = {
+            viewModel: PayCodeModal,
+            model: JSON.parse(JSON.stringify(payCode))
+        };
+
+        this.dialogService.open(opts).whenClosed(response => {
+            if (!response.wasCancelled) {
+                this.status = response.output;
+
+                this.getEmployerDetails(this.employer.Id);
+            }
+        });        
     }
 
     addAPension() {

@@ -20,7 +20,10 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="pensions-tab" data-toggle="tab" href="#pensions" role="tab" aria-controls="pensions" aria-selected="false">Pensions</a>
-            </li>        
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pay-codes-tab" data-toggle="tab" href="#pay-codes" role="tab" aria-controls="pay-codes" aria-selected="false">Pay codes</a>
+            </li>            
             <li class="nav-item">
                 <a class="nav-link" id="runs-tab" data-toggle="tab" href="#runs" role="tab" aria-controls="runs" aria-selected="false">Pay Runs</a>
             </li>
@@ -242,6 +245,44 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="tab-pane fade" id="pay-codes" role="tabpanel" aria-labelledby="pay-codes-tab">
+                <div class="row actions">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" type="button" role="button" click.delegate="addAPayCode()">Add a Pay code</button>
+                    </div>
+                </div>
+    
+                <table class="table" if.bind="employer.PayCodes.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Scheme</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Provider Employer Ref</th>
+                            <th width="200px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="code of employer.PayCodes">
+                            <th scope="row">
+                                <a href="#" click.delegate="editPayCode(code)">
+                                    ${code.Code}
+                                </a>                            
+                            </th>
+                            <td>${code.Description}</td>
+                            <td>${code.Type}</td>
+                            <td>
+                                <button type="button" 
+                                    class="btn btn-danger btn-sm btn-delete-pay-code" 
+                                    click.delegate="deletePayCode(employer.Id, code.Id)">
+                                    Delete
+                                </button>                             
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
     
             <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
                 <div class="row actions" if.bind="employer.PayRuns">

@@ -1,0 +1,94 @@
+<template>
+    <require from="../resources/elements/validation-errors/validation-errors"></require>
+    <require from="../resources/elements/api-errors/api-errors"></require>
+    
+    <ux-dialog>
+        <ux-dialog-header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Pay code</h5>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="pay-code-modal-container">
+                <div class="container-fluid">
+                    <form>
+                        <validation-errors errors.bind="validationController.errors"></validation-errors>
+        
+                        <api-errors errors.bind="apiErrors"></api-errors>
+        
+                        <ul class="nav nav-pills nav-fill" id="subTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="advanced" aria-selected="false">Advanced</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="mySubTabContent">
+                            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                
+                            <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Revision">Revision</label>
+                                            <input type="number" 
+                                                class="form-control" 
+                                                id="Revision" 
+                                                name="Revision" 
+                                                value.bind="state.Revision" 
+                                                placeholder="Revision number"
+                                                readonly 
+                                                step="1" 
+                                                min="0">
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="EffectiveDate">Effective date</label>
+                                            <input type="date" 
+                                                class="form-control" 
+                                                id="EffectiveDate" 
+                                                name="EffectiveDate" 
+                                                value.bind="state.EffectiveDate & validate"
+                                                placeholder="Date the revision will come into effect">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 text-left">
+                        <button class="btn btn-secondary" click.trigger="dialogController.cancel()">Cancel</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-primary" click.trigger="save()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>    
+</template>
