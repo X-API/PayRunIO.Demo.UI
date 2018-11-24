@@ -8,7 +8,7 @@ module.exports = class AbsencePayInstruction extends BaseInstruction {
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
-        cleanBody.StatutoryOffset = cleanBody.StatutoryOffset && cleanBody.StatutoryOffset.toLowerCase() === "on");
+        cleanBody.StatutoryOffset = cleanBody.StatutoryOffset && cleanBody.StatutoryOffset.toLowerCase() === "on";
 
         return cleanBody;
     }
