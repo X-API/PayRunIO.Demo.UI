@@ -24,6 +24,7 @@ module.exports = class AoePayInstruction extends BaseInstruction {
             EndDate: cleanBody.EndDate,
             Description: cleanBody.Description,
             PayLineTag: cleanBody.PayLineTag,
+            
             CaseNumber: cleanBody.CaseNumber,
             AoeType: cleanBody.AoeType,
             IssueDate: cleanBody.IssueDate,

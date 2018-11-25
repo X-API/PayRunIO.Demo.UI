@@ -13,6 +13,7 @@ module.exports = class BenefitPayInstruction extends BaseInstruction {
             EndDate: cleanBody.EndDate,
             Description: cleanBody.Description,
             PayLineTag: cleanBody.PayLineTag,
+            
             Code: cleanBody.Code,
             TotalCost: cleanBody.TotalCost,
             EmployeeContribution: cleanBody.EmployeeContribution,
