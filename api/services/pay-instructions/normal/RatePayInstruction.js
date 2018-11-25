@@ -16,6 +16,19 @@ module.exports = class RatePayInstruction extends BaseInstruction {
 
         copy.Code = null;
 
-        return super.parseForApi(copy);        
+        let cleanBody = super.parseForApi(copy);
+        
+        return {
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            Description: cleanBody.Description,
+            PayLineTag: cleanBody.PayLineTag,
+
+            Code: cleanBody.Code,
+            Rate: cleanBody.Rate,
+            RateUoM: cleanBody.RateUoM,
+            Units: cleanBody.Units,
+            RoundingOption: cleanBody.RoundingOption
+        };        
     }
 };

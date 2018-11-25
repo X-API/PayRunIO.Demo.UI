@@ -23,6 +23,20 @@ module.exports = class NiAdjustmentPayInstruction extends NiPayInstruction {
             DirCalculationMethod: copy.DirCalculationMethod
         }, copy);
 
-        return super.parseForApi(copy);        
+        let cleanBody = super.parseForApi(copy);
+
+        return {
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            Description: cleanBody.Description,
+            PayLineTag: cleanBody.PayLineTag,
+
+            DirCalculationMethod: cleanBody.DirCalculationMethod,
+            NiLetter: cleanBody.NiLetter,
+
+            Periods: cleanBody.Periods,
+            TaxYear: cleanBody.TaxYear,
+            Reason: cleanBody.Reason
+        };        
     }
 };

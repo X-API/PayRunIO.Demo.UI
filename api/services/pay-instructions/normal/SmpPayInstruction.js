@@ -8,8 +8,25 @@ module.exports = class SmpPayInstruction extends AbsencePayInstruction {
     parseForApi(body) {
         let cleanBody = super.parseForApi(body);
 
-        // todo: parse KeepInTouchDays. 
+        return {
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            Description: cleanBody.Description,
+            PayLineTag: cleanBody.PayLineTag,
 
-        return cleanBody;
+            AbsenceStart: cleanBody.AbsenceStart,
+            AbsenceEnd: cleanBody.AbsenceEnd,
+            StatutoryOffset: cleanBody.StatutoryOffset,
+            
+            AverageWeeklyEarningOverride: cleanBody.AverageWeeklyEarningOverride,
+            PayAsLumpSum: cleanBody.PayAsLumpSum,
+            PayPartWeek: cleanBody.PayPartWeek,
+            BabyDueDate: cleanBody.BabyDueDate,
+            BabyBornDate: cleanBody.BabyBornDate,
+            Stillbirth: cleanBody.Stillbirth,
+            MinStartDate: cleanBody.MinStartDate,
+            InstructionType: cleanBody.InstructionType,
+            EmployerId: cleanBody.EmployerId
+        };
     }    
 };

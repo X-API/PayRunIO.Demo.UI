@@ -31,6 +31,23 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
             "@href": `/Employer/${employerId}/Pension/${body.Pension}`
         };
 
-        return cleanBody;
+        return {
+            StartDate: cleanBody.StartDate,
+            EndDate: cleanBody.EndDate,
+            Description: cleanBody.Description,
+            Code: cleanBody.Code,
+            EmployeeContributionCash: cleanBody.EmployeeContributionCash,
+            EmployerContributionCash: cleanBody.EmployerContributionCash,
+            EmployeeContributionPercent: cleanBody.EmployeeContributionPercent,
+            EmployerContributionPercent: cleanBody.EmployerContributionPercent,
+            AdditionalVoluntaryContributionCash: cleanBody.AdditionalVoluntaryContributionCash,
+            AdditionalVoluntaryContributionPercent: cleanBody.AdditionalVoluntaryContributionPercent,
+            LowerThreshold: cleanBody.LowerThreshold,
+            UpperThreshold: cleanBody.UpperThreshold,
+            SalarySacrifice: cleanBody.SalarySacrifice,
+            TaxationMethod: cleanBody.TaxationMethod,
+            ProRataMethod: cleanBody.ProRataMethod,
+            Pension: cleanBody.Pension
+        };
     }
 };
