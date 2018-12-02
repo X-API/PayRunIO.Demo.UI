@@ -225,13 +225,16 @@ th {
 .keep-in-touch-days .keep-in-touch-day {
   margin-bottom: 5px; }
 
+.pension-modal-container {
+  width: 1000px; }
+
 .pay-instruction-modal-container {
   width: 1000px; }
 
 .pay-run-info .row {
   margin-bottom: 20px; }
 
-.pension-modal-container {
+.pay-code-modal-container {
   width: 1000px; }
 
 .setup .jumbotron {

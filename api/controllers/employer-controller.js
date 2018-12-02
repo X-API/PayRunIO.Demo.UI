@@ -19,12 +19,13 @@ module.exports = class EmployerController extends BaseController {
         let revisions = await this.getRevisions(ctx, id);
         let pensions = await this.getPensions(ctx, employer, id);
         let payCodes = await this.getPayCodes(ctx, id);
+        let norminalCodes = await this.getNorminalCodes(ctx, id);
         let payRunCount = await this.getPayRunCount(paySchedules);
         let eeQueryStr = JSON.stringify(EmployeesQuery).replace("$$EmployerKey$$", id);
         let eeQuery = JSON.parse(eeQueryStr);   
         let employees = await apiWrapper.query(ctx, eeQuery);
 
-        console.log(employees);
+        console.log(norminalCodes);
 
         if (employer.RuleExclusions) {
             employer.RuleExclusions = employer.RuleExclusions.split(" ");
@@ -38,7 +39,8 @@ module.exports = class EmployerController extends BaseController {
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,
             Revisions: revisions,
-            PayCodes: payCodes
+            PayCodes: payCodes,
+            NominalCodes: norminalCodes
         });
     }
 
@@ -178,5 +180,11 @@ module.exports = class EmployerController extends BaseController {
         let payCodes = await apiWrapper.getAndExtractLinks(ctx, `Employer/${employerId}/PayCodes`);
         
         return payCodes;
-    }    
+    }
+
+    async getNorminalCodes(ctx, employerId) {
+        let norminalCodes = await apiWrapper.getAndExtractLinks(ctx, `Employer/${employerId}/NominalCodes`);
+        
+        return norminalCodes;
+    }
 };

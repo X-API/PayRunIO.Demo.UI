@@ -33,11 +33,176 @@
                             <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Code">Code</label>
+                                            <input type="text" 
+                                                class="form-control" 
+                                                id="Code" 
+                                                name="Code" 
+                                                value.bind="state.Code" 
+                                                placeholder="Code"
+                                                maxlength="35">
+                
+                                            <span class="notes">
+                                                The pay code identifier referenced on calcualtion pay lines. 
+                                                See <a href="https://developer.payrun.io/docs/key-concepts/revisible-objects.html" target="_blank">revisible objects</a> for more information on revisions and how they work.
+                                            </span>
+                                        </div>
 
+                                        <div class="form-group">
+                                            <label for="Description">Description</label>
+                                            <input type="text" 
+                                                class="form-control" 
+                                                id="Description" 
+                                                name="Description" 
+                                                value.bind="state.Description" 
+                                                placeholder="Description"
+                                                maxlength="200">
+                
+                                            <span class="notes">The description of the pay code.</span>
+                                        </div>                                        
+                                                                                    
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="Niable" name="Niable" checked.bind="state.Niable">
+                
+                                            <label class="form-check-label" for="Niable">
+                                                Niable?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Indicates if the value of the pay line should be applied before national insuration contribution calculation.
+                                            </span>
+                                        </div>  
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="Taxable" name="Taxable" checked.bind="state.Taxable">
+                
+                                            <label class="form-check-label" for="Taxable">
+                                                Taxable?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Indicates if the value of the pay line should be applied before PAYE tax calculation.
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="Benefit" name="Benefit" checked.bind="state.Benefit">
+                
+                                            <label class="form-check-label" for="Benefit">
+                                                Benefit?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Indicates if the value of the pay line is considerd a benefit in kind.
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="Notional" name="Notional" checked.bind="state.Notional">
+                
+                                            <label class="form-check-label" for="Notional">
+                                                Notional?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Indicates if the value of the pay line has a notional value for tax or national insurance.
+                                            </span>
+                                        </div>                                        
                                     </div>
 
                                     <div class="col-sm-12 col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="NonArrestable" name="NonArrestable" checked.bind="state.NonArrestable">
+                
+                                            <label class="form-check-label" for="NonArrestable">
+                                                NonArrestable?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Indicates if the value of the pay line should not be considered for recovery of a debt via an AOE.
+                                            </span>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="Readonly" name="Readonly" checked.bind="state.Readonly">
+                
+                                            <label class="form-check-label" for="Readonly">
+                                                Readonly?
+                                            </label>
+                
+                                            <span class="notes">
+                                                Determines if the pay code can be edited. Readonly pay codes cannot be altered.
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Territory">Territory</label>
+                
+                                            <select class="form-control" 
+                                                id="Territory" 
+                                                name="Territory"
+                                                value.bind="state.Territory">
+                                                <option repeat.for="method of territories" value.bind="method.value">
+                                                    ${method.text}
+                                                </option>
+                                            </select>
+                
+                                            <span class="notes">
+                                                Determines the calculator territory to be used when processing pay lines that reference this pay code.
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Region">Region</label>
+                
+                                            <select class="form-control" 
+                                                id="Region" 
+                                                name="Region"
+                                                value.bind="state.Region">
+                                                <option repeat.for="method of regions" value.bind="method.value">
+                                                    ${method.text}
+                                                </option>
+                                            </select>
+                
+                                            <span class="notes">
+                                                Determines the calculator region to be used when processing pay lines that reference this pay code.
+                                            </span>
+                                        </div>
                                         
+                                        <div class="form-group">
+                                            <label for="Type">Type</label>
+                
+                                            <select class="form-control" 
+                                                id="Type" 
+                                                name="Type"
+                                                value.bind="state.Type">
+                                                <option repeat.for="method of types" value.bind="method.value">
+                                                    ${method.text}
+                                                </option>
+                                            </select>
+                
+                                            <span class="notes">
+                                                The type of payment code; either Payment or Dedution.
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Type">Nominal Code</label>
+                
+                                            <select class="form-control" 
+                                                id="NominalCode" 
+                                                name="NominalCode"
+                                                value.bind="state.NominalCode">
+                                                <option repeat.for="code of nominalCodes" value.bind="code.Id">
+                                                    ${code.Description}
+                                                </option>
+                                            </select>
+                
+                                            <span class="notes">
+                                                The type of payment code; either Payment or Dedution.
+                                            </span>
+                                        </div>                                        
                                     </div>                                    
                                 </div>
                             </div>

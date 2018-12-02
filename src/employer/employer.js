@@ -5,7 +5,7 @@ import { DialogService } from "aurelia-dialog";
 import { Router } from "aurelia-router";
 import { PayScheduleModal } from "../pay-schedule/pay-schedule-modal";
 import { PensionModal } from "../pension/pension-modal";
-import { PayCodeModal } from "../pension/pension-modal";
+import { PayCodeModal } from "../pay-code/pay-code-modal";
 import { InfoModal } from "../pay-run/info-modal";
 import { NewPayRunModal } from "../pay-run/new-pay-run-modal";
 import { RtiTransactionModal } from "../rti-transaction/rti-transaction-modal";
@@ -176,7 +176,10 @@ export class Employer extends BaseViewModel {
     }
 
     addAPayCode() {
-        this.openPayCodeModal({});
+        this.openPayCodeModal({
+            Niable: false,
+            Taxable: false
+        });
     }
 
     editPayCode(payCode) {
@@ -205,11 +208,15 @@ export class Employer extends BaseViewModel {
     }
 
     openPayCodeModal(payCode) {
-        pension.employerId = this.employer.Id;
+        payCode.employerId = this.employer.Id;
         
+        let model = {
+            payCode: JSON.parse(JSON.stringify(payCode)),
+            nominalCodes: this.employer.NominalCodes
+        };
         let opts = {
             viewModel: PayCodeModal,
-            model: JSON.parse(JSON.stringify(payCode))
+            model: model
         };
 
         this.dialogService.open(opts).whenClosed(response => {

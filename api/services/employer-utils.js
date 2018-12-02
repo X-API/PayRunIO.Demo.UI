@@ -10,6 +10,7 @@ module.exports = class EmployerUtils {
         copy.RTITransactions = null;
         copy.Revisions = null;
         copy.PayCodes = null;
+        copy.NorminalCodes = null;
 
         if (copy.RuleExclusions) {
             copy.RuleExclusions = employer.RuleExclusions.join(" ");

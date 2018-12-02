@@ -12,34 +12,25 @@ export class PayCodeModal {
     }
 
     activate(state) {
-        this.state = state;
+        this.state = state.payCode;
 
-        // this.proRataMethods = [
-        //     { value: "NotSet", text: "Not set" },
-        //     { value: "Annual260Days", text: "Annual 260 days" },
-        //     { value: "Annual365Days", text: "Annual 365 days" },
-        //     { value: "AnnualQualifyingDays", text: "Annual qualifying days" },
-        //     { value: "DaysPerCalenderMonth", text: "Days per calender month" },
-        //     { value: "DaysPerTaxPeriod", text: "Days per tax period" },
-        // ];
+        this.nominalCodes = state.nominalCodes;
 
-        // this.taxationMethods = [
-        //     { value: "NotSet", text: "Not set" },
-        //     { value: "NetBased", text: "Net based" },
-        //     { value: "ReliefAtSource", text: "Relief at source" }
-        // ];
+        this.territories = [
+            { value: "UnitedKingdom", text: "United Kingdom" }
+        ];
 
-        this.setupValidationRules();
-    }
+        this.regions = [
+            { value: "NotSet", text: "Not set" },
+            { value: "England", text: "England" },
+            { value: "Scotland", text: "Scotland" }
+        ];
 
-    setupValidationRules() {
-        // ValidationRules
-        //     .ensure("SchemeName").required().withMessage("Scheme name is required")
-        //     .ensure("ProviderName").required().withMessage("Provider name is required")
-        //     .ensure("ProviderEmployerRef").required().withMessage("Provider employer ref is required")
-        //     .ensure("EffectiveDate").required().withMessage("Effective date is required")
-        //     .on(this.state);        
-    }    
+        this.types = [
+            { value: "Payment", text: "Payment" },
+            { value: "Deduction", text: "Deduction" }
+        ];
+    }  
 
     save() {
         this.validationController.validate().then(result => {
