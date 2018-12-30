@@ -47,7 +47,11 @@
                     <tr>
                         <th scope="col">Code</th>
                         <th scope="col">Name</th>
-                        <th width="200px"></th>
+                        <th scope="col">Pay Schedule</th>
+                        <th scope="col">NI Number</th>
+                        <th scope="col">Tax Code</th>
+                        <th scope="col">NI Table</th>
+                        <th width="100px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,15 +63,30 @@
                             </a>
                         </th>
                         <td>{{employeeName this}}</td>
-                        <td>
-                            <a class="btn-link" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Leaver</a>                        
-                            <a class="btn-link" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">P45</a>
-                            <a class="btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
-                            <a href="#" class="btn-link btn-danger">Delete</a>
+                        <td>{{PaySchedule}}</td>
+                        <td>{{NiNumber}}</td>
+                        <td>{{TaxCode}}</td>
+                        <td>{{NiLetter}}</td>
+                        <td class="text-right">
+                            <div class="dropdown show">
+                                <a class="btn btn-sm btn-default dropdown-toggle" 
+                                    href="#" 
+                                    role="button" 
+                                    id="employeeOptions" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false">
+                                    Options
+                                </a>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">Leaver</a>                        
+                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
+                                    <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
                     {{/each}}
