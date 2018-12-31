@@ -11,7 +11,6 @@ const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
-const P45InstructionController = require("./controllers/p45-instruction-controller");
 const SetupController = require("./controllers/setup-controller");
 
 let rootController = new RootController();
@@ -26,7 +25,6 @@ let jobController = new JobController();
 let rtiController = new RTIController();
 let apiLoggerController = new APILoggerController();
 let pensionController = new PensionController();
-let p45InstructionController = new P45InstructionController();
 let setupController = new SetupController();
 
 router
@@ -60,7 +58,6 @@ router
     .get("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx))
     .post("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx))
     //.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
-    //.get("/employer/:employerId/employee/:employeeId/p45", async ctx => { })
     .get("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
     .post("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
     //.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
@@ -102,10 +99,6 @@ router
     .post("/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
     .post("/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))
     .post("/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))
-
-    // p45 pay instruction
-    .post("/employer/:employerId/Employee/:employeeId/P45Instruction", async ctx => await p45InstructionController.postNewInstruction(ctx))
-    .post("/employer/:employerId/Employee/:employeeId/P45Instruction/:id", async ctx => await p45InstructionController.postExistingInstruction(ctx))
 
     // setup
     .get("/setup", async ctx => await setupController.get(ctx))
