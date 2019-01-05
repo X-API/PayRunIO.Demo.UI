@@ -3,8 +3,10 @@
         <tr>
             <th>Id</th>
             <th>Start Date</th>
-            <th>End Date</th>
-            <th>Description</th>
+            <th>Code</th>
+            <th>Units Accrued</th>
+            <th>Units Depleted</th>
+            <th>Value</th>
             <th width="50px"></th>
         </tr>
     </thead>
@@ -12,18 +14,24 @@
         {{#each Instructions}}
         <tr>
             <th scope="row">
-                <a class="launch-modal" data-modal-size="modal-lg" data-modal-size="modal-lg" data-modal-title="Holiday Reclaim" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="Holiday YTD" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
                     {{this.Id}}
                 </a>
-            </th>          
+            </th>
             <td>
                 {{this.StartDate}}
             </td>
             <td>
-                {{this.EndDate}}
+                {{this.Code}}
             </td>
             <td>
-                {{this.Description}}
+                {{UnitsAccrued}}
+            </td>
+            <td>
+                {{UnitsAccrued}}
+            </td>
+            <td>
+                {{formatSalary this.Value}}
             </td>
             <td>
                 <button type="button" 
@@ -33,7 +41,7 @@
                     data-id="{{this.Id}}">
                     Delete
                 </button>                
-            </td>                                         
+            </td>                                                         
         </tr>
         {{/each}}                    
     </tbody>

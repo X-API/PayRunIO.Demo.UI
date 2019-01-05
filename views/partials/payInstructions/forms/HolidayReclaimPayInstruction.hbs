@@ -1,5 +1,6 @@
-{{!-- <div class="row">
+<div class="row">
     <div class="col-sm-12 col-md-6">
+
         <div class="form-group">
             <label for="StartDate">Start date</label>
 
@@ -31,68 +32,134 @@
             <span class="notes">
                 The date the instruction will end, open ended instructions will run forever.
             </span>
-        </div>             
-                    
+        </div>  
+        
         <div class="form-group">
-            <label for="TaxBasis">Tax basis</label>
+            <label for="Code">Code</label>
 
-            {{#select TaxBasis}}
-            <select id="TaxBasis" name="TaxBasis" class="form-control" required>
-                <option value="Cumulative">Cumulative</option>
-                <option value="Week1Month1">Week1Month1</option>
+            <input type="text" 
+                class="form-control" 
+                id="Code" 
+                name="Code" 
+                value="{{Code}}" 
+                maxlength="35" 
+                pattern="[A-Za-z0-9]*">
+
+            <span class="notes">
+                The code that represents the pay type and tax treatment. [Optional] if omitted, code &quot;HOLIDAY&quot; is used.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="UnitsDepleted">Units Depleted</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="UnitsDepleted" 
+                name="UnitsDepleted" 
+                value="{{UnitsDepleted}}" 
+                min="0"
+                step="0.01">
+
+            <span class="notes">
+                The number of holiday entitlement units depleted during this period of leave. 
+                [Optional] If omitted, the number of units between leave start and end are calculated.
+                Note: You must specify the units depleted for irregular paid employees.
+            </span>
+        </div> 
+
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+
+        <div class="form-group">
+            <label for="LeaveStartDate">Leave Start Date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="LeaveStartDate" 
+                name="LeaveStartDate" 
+                value="{{LeaveStartDate}}" 
+            >
+
+            <span class="notes">
+                The date when the period of leave began. First day of the leave period.
+            </span>
+        </div>  
+
+        <div class="form-group">
+            <label for="LeaveEndDate">Leave End Date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="LeaveEndDate" 
+                name="LeaveEndDate" 
+                value="{{LeaveEndDate}}" 
+            >
+
+            <span class="notes">
+                The date when the period of leave ends. Final day of the leave period.
+            </span>
+        </div>      
+
+        <div class="form-group">
+            <label for="UoM">UoM</label>
+
+            {{#select Uom}}
+            <select id="UoM" name="UoM" class="form-control" required>
+                <option value="Hour">Hour</option>
+                <option value="Day">Day</option>
             </select>
             {{/select}}
 
             <span class="notes">
-                The tax basis to be used for the employee's tax calculations.
+                Determines the holiday entitlement unit type.
             </span>
-        </div>                                 
-    </div>
-
-    <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-            <label for="TaxCode">Tax code</label>
-            <input type="text" 
-                class="form-control" 
-                id="TaxCode" 
-                name="TaxCode" 
-                value="{{TaxCode}}" 
-                placeholder="Tax code to be used for the employee's tax calculations" 
-                required 
-                data-required-message="Tax code is required" 
-                minlength="2" 
-                maxlength="7" 
-                pattern="^(SD1|SD2|D1|BR|SBR|SD0|D0|NT)$|^[S]?((K{1}[0-9]{1,6})|([0-9]{1,6}[LMNPTYV]{1})$)">
         </div>
 
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="WithholdRefund" name="WithholdRefund" {{checkedIf WithholdRefund}}>
+        <div class="form-group">
+            <label for="RateOverride">Rate Override</label>
 
-            <label class="form-check-label" for="WithholdRefund">
-                Withhold refund?
+            <input type="number" 
+                class="form-control" 
+                id="RateOverride" 
+                name="RateOverride" 
+                value="{{RateOverride}}" 
+                min="0"
+                step="0.01">
+
+            <span class="notes">
+                [Optional] Allows the default statutory holiday payment rate to be overriden. 
+                Can be used when there is insufficient payment history [to calculate average].
+            </span>
+        </div> 
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="OffsetPayment" name="OffsetPayment" {{checkedIf OffsetPayment}}>
+
+            <label class="form-check-label" for="OffsetPayment">
+                Offset Payment?
             </label>
 
             <span class="notes">
-                Indicates if a tax refund should be withheld where there is nil taxable pay.
+                Enables to the holiday payment to be offset. When enabled, an additional payment line is generated to negate the value of the holiday payment. 
             </span>
         </div>
 
-        <div class="form-group">
-            <label for="Description">Description</label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="IgnoreInsufficientHistory" name="IgnoreInsufficientHistory" {{checkedIf IgnoreInsufficientHistory}}>
 
-            <input type="text" 
-                class="form-control" 
-                id="Description" 
-                name="Description" 
-                value="{{Description}}" 
-                placeholder="The pay line descripton override" 
-                maxlength="200">
+            <label class="form-check-label" for="IgnoreInsufficientHistory">
+                Ignore Insufficient History?
+            </label>
 
             <span class="notes">
-                This description will override the default description from the pay code. 
-                See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+                Allows the calculation of average weekly earnings when there is insufficient pay history. 
+                Statutory pay should be calculated using the previous 12 weeks. 
+                Enabling this option disables the 12 week requirement and allows the average to be calculated using a shorter date range.
+                <strong>Warning: Using this option may lead to non-compliant average weekly earning calculation and you are advised to use the Rate Override option instead.</strong>
             </span>
-        </div>             
+        </div>
+
     </div>
-</div> --}}
-<h5>Coming Soon</h5>
+</div>

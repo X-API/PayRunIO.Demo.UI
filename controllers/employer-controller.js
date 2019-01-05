@@ -72,6 +72,8 @@ module.exports = class EmployerController extends BaseController {
 
             return pension;
         });
+
+        let holidaySchemes = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/HolidaySchemes`);
         let paySchedules = await employerService.getPaySchedules(ctx, id);
         let rtiTransactions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${id}/RtiTransactions`);
 
@@ -98,6 +100,7 @@ module.exports = class EmployerController extends BaseController {
             ],
             Employees: employees.EmployeesTable.Employees,
             Pensions: extendedPensions,
+            HolidaySchemes: holidaySchemes,
             PaySchedules: paySchedules,
             PayRuns: payRunCount > 0,
             RTITransactions: rtiTransactions,

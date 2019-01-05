@@ -11,6 +11,7 @@ const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
+const HolidaySchemeController = require("./controllers/holidayScheme-controller");
 const SetupController = require("./controllers/setup-controller");
 
 let rootController = new RootController();
@@ -25,6 +26,7 @@ let jobController = new JobController();
 let rtiController = new RTIController();
 let apiLoggerController = new APILoggerController();
 let pensionController = new PensionController();
+let holidaySchemeController = new HolidaySchemeController();
 let setupController = new SetupController();
 
 router
@@ -99,6 +101,14 @@ router
     .post("/employer/:employerId/pension/:id", async ctx => await pensionController.postExistingPension(ctx))
     .post("/employer/:employerId/pension/:id/delete", async ctx => await pensionController.postDeletePension(ctx))
     .post("/employer/:employerId/pension/:id/ae-default", async ctx => await pensionController.postAEDefault(ctx))
+
+    // holiday schemes
+    .get("/employer/:employerId/holidayScheme", async ctx => await holidaySchemeController.getNewHolidayScheme(ctx))
+    .get("/employer/:employerId/holidayScheme", async ctx => await holidaySchemeController.getNewHolidayScheme(ctx))
+    .post("/employer/:employerId/holidayScheme", async ctx => await holidaySchemeController.postNewHolidayScheme(ctx))
+    .get("/employer/:employerId/holidayScheme/:id", async ctx => await holidaySchemeController.getExistingHolidayScheme(ctx))
+    .post("/employer/:employerId/holidayScheme/:id", async ctx => await holidaySchemeController.postExistingHolidayScheme(ctx))
+    .post("/employer/:employerId/holidayScheme/:id/delete", async ctx => await holidaySchemeController.postDeleteHolidayScheme(ctx))
 
     // setup
     .get("/setup", async ctx => await setupController.get(ctx))

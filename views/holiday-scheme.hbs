@@ -1,0 +1,147 @@
+{{#if Id}}
+<form method="POST" action="/Employer/{{EmployerId}}/HolidayScheme/{{Id}}" data-parsley-validate>
+{{else}}
+<form method="POST" action="/Employer/{{EmployerId}}/HolidayScheme" data-parsley-validate>
+{{/if}}
+
+    {{>breadcrumbs}}
+
+    {{>status}}
+
+    {{>validationErrors}}
+
+        <div class="tab-content" id="mySubTabContent">
+
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="Revision">Revision</label>
+                            <input type="number" class="form-control" id="Revision" name="Revision" value="{{Revision}}" placeholder="Revision number"
+                               readonly step="1" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="EffectiveDate">Effective date</label>
+                            <input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" value="{{EffectiveDate}}"
+                                placeholder="Date the revision will come into effect" required data-required-message="Effective date is required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Code">Code</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="Code" 
+                                name="Code" 
+                                value="{{Code}}" 
+                                placeholder="Code"
+                                maxlength="35">
+
+                            <span class="notes">Allows an override of the default pay code used by the holiday scheme.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SchemeName">Scheme Name</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="SchemeName" 
+                                name="SchemeName" 
+                                value="{{SchemeName}}" 
+                                placeholder="Scheme name"
+                                maxlength="250" 
+                                required  
+                                data-required-message="Scheme name is required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SchemeKey">Scheme Key</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="SchemeKey" 
+                                name="SchemeKey" 
+                                value="{{SchemeKey}}" 
+                                placeholder="The unique identifier of the holiday scheme. This value remains consistent for the entire history of the holiday scheme."
+                                maxlength="100" 
+                                required  
+                                data-required-message="Scheme key is required">
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="YearStartMonth">Starting Month</label>
+                            <input type="number" class="form-control" id="YearStartMonth" name="YearStartMonth" value="{{YearStartMonth}}"
+                             placeholder="Indicates the calendar month in which the holiday scheme entitlement period begins." step="1" min="1" max="12"
+                             required data-required-message="Scheme year starting month is required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="YearStartDay">Start Day</label>
+                            <input type="number" class="form-control" id="YearStartDay" name="YearStartDay" value="{{YearStartDay}}"
+                             placeholder="Indicates the day of month in which the holiday scheme entitlement period begins." step="1" min="1" max="31"
+                             required data-required-message="Scheme year starting day is required">
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="AnnualEntitlementWeeks">Annual Entitlement (Weeks)</label>
+                            <input type="number" class="form-control" id="AnnualEntitlementWeeks" name="AnnualEntitlementWeeks" value="{{AnnualEntitlementWeeks}}"
+                             placeholder="Determines the annual number of entitled days holiday for the holiday scheme." step="0.1" min="1" max="52">
+                        </div>
+                           
+                        <div class="form-group">
+                            <label for="MaxCarryOverDays">Max Carry Over Days</label>
+                            <input type="number" class="form-control" id="MaxCarryOverDays" name="MaxCarryOverDays" value="{{MaxCarryOverDays}}"
+                             placeholder="Determines the maximum number of entitled holiday days that can be carried over into a new annual holiday entitlement year." step="0.1" min="1" max="52">
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="AllowNegativeBalance" name="AllowNegativeBalance" {{checkedIf AllowNegativeBalance}}>
+
+                            <label class="form-check-label" for="AllowNegativeBalance">
+                                Allow Negative Balance?
+                            </label>
+
+                            <span class="notes">
+                                Indicates if the holiday scheme allows employees to use holiday entitlement before it has been accrued.
+                            </span>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="BankHolidayInclusive" name="BankHolidayInclusive" {{checkedIf BankHolidayInclusive}}>
+
+                            <label class="form-check-label" for="BankHolidayInclusive">
+                                Bank Holiday Inclusive?
+                            </label>
+
+                            <span class="notes">
+                               Indicates if the annual entitlement figure includes bank holidays.
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SchemeCeasedDate">Scheme Ceased Date</label>
+                            <input type="date" class="form-control" id="SchemeCeasedDate" name="SchemeCeasedDate" value="{{SchemeCeasedDate}}">
+
+                            <span class="notes">
+                                [Optional] Indicates the date at which the holiday scheme ceased to operate. 
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="EmployerId" name="EmployerId" value="{{EmployerId}}">
+</form>

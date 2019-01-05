@@ -1,10 +1,11 @@
-{{!-- <table class="table table-sm">
+<table class="table table-sm">
     <thead>
         <tr>
             <th>Id</th>
+            <th>Holiday Scheme</th>
             <th>Start Date</th>
-            <th>End Date</th>
-            <th>Description</th>
+            <th>Scheme Join Date</th>
+            <th>Accrual Type</th>
             <th width="50px"></th>
         </tr>
     </thead>
@@ -12,22 +13,28 @@
         {{#each Instructions}}
         <tr>
             <th scope="row">
-                <a class="launch-modal" data-modal-size="modal-lg" data-modal-size="modal-lg" data-modal-title="Tax Instruction" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                <a class="launch-modal" 
+                    data-modal-size="modal-lg" 
+                    data-modal-size="modal-lg" 
+                    data-modal-title="Holiday Scheme Membership" 
+                    href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
                     {{this.Id}}
                 </a>
-            </th>
+            </th>    
             <td>
-                {{this.TaxCode}}
-            </td>            
+                <a href="{{extractHref this.HolidayScheme}}">
+                    {{extractIdFromLink this.HolidayScheme}}
+                </a>
+            </td>
             <td>
                 {{this.StartDate}}
             </td>
             <td>
-                {{this.EndDate}}
-            </td>
+                {{this.SchemeJoinDate}}
+            </td>   
             <td>
-                {{this.Description}}
-            </td>
+                {{this.AccrualType}}
+            </td>         
             <td>
                 <button type="button" 
                     class="btn btn-danger btn-sm btn-delete-instruction" 
@@ -40,5 +47,4 @@
         </tr>
         {{/each}}                    
     </tbody>
-</table> --}}
-<h5>Coming Soon</h5>
+</table> 
