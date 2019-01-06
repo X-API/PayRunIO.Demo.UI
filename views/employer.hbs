@@ -191,6 +191,7 @@
                                         <th scope="col">Tax Period</th>
                                         <th scope="col">Pay Period</th>
                                         <th scope="col">Supplementary</th>
+                                        <th scope="col">Executed</th>
                                         <th scope="col">
                                             <a class="btn btn-sm btn-primary launch-modal float-right" 
                                                data-modal-title="Create PayRun"
@@ -211,6 +212,7 @@
                                         <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
                                         <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
                                         <td>{{this.IsSupplementary}}</td>
+                                        <td>{{this.Executed}}</td>
                                         <td class="text-right">
                                             {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 

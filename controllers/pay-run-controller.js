@@ -107,6 +107,7 @@ module.exports = class PayRunController extends BaseController {
         let nextPaymentDate;
         let nextPeriodStart;
         let nextPeriodEnd;
+        let isSupplementary;
 
         // query next rerun dates
         if (payRunId) {
@@ -115,6 +116,7 @@ module.exports = class PayRunController extends BaseController {
             nextPaymentDate = result.PayRun.PaymentDate;
             nextPeriodStart = result.PayRun.PeriodStart;
             nextPeriodEnd = result.PayRun.PeriodEnd;
+            isSupplementary = result.PayRun.IsSupplementary;
         }
 
         let body = await this.getExtendedViewModel(ctx, {
@@ -123,7 +125,8 @@ module.exports = class PayRunController extends BaseController {
             PayScheduleId: payScheduleId,
             PaymentDate: nextPaymentDate,
             StartDate: nextPeriodStart,
-            EndDate: nextPeriodEnd
+            EndDate: nextPeriodEnd,
+            IsSupplementary: isSupplementary
         });
 
         let model = Object.assign(body, { layout: "modal" });
@@ -176,14 +179,4 @@ module.exports = class PayRunController extends BaseController {
         let route = `/employer/${employerId}#runs`;
         await ctx.redirect(route);
     }
-
-    /*async rerunPayRun(ctx) {
-        let employerId = ctx.params.employerId;
-        let scheduleId = ctx.params.payScheduleId;
-        let payRunId = ctx.params.payRunId;
-
-        // todo: enqueue re-run job
-
-        return true;
-    }*/
 };
