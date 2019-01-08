@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="StartDate">Start date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StartDate" 
+                name="StartDate" 
+                value="{{StartDate}}" 
+                placeholder="The date the instruction will come into effect." 
+                required 
+                data-required-message="Start date is required"
+                {{minStartDate MinStartDate}}>
+
+            <span class="notes">
+                The date the instruction will come into effect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="EndDate" 
+                name="EndDate" 
+                value="{{EndDate}}" 
+                placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+            <span class="notes">
+                The date the instruction will end, open ended instructions will run forever.
+            </span>
+        </div>             
+
+        <div class="form-group">
+            <label for="SchemeJoinDate">Scheme Join Date</label>
+            <input type="date" class="form-control" id="SchemeJoinDate" name="SchemeJoinDate" value="{{SchemeJoinDate}}">
+
+            <span class="notes">
+                Indicates the date when the employee joined the holiday scheme.
+            </span>
+        </div>      
+
+        <div class="form-group">
+            <label for="AccrualType">Accrual Type</label>
+
+            {{#select AccrualType}}
+            <select id="AccrualType" name="AccrualType" class="form-control" required>
+                <option value="DaysWorkedPerWeek">Days Worked PerWeek</option>
+                <option value="HoursWorkedPerWeek">Hours Worked Per Week</option>
+                <option value="CasualOrIrregularHours">Casual Or Irregular Hours</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                Determines the type of holiday accrual.
+            </span>
+        </div>
+
+         <div class="form-group">
+            <label for="HolidayScheme">Holiday Scheme</label>
+
+            <select class="form-control" 
+                id="HolidayScheme" 
+                name="HolidayScheme" 
+                required 
+                data-required-message="Holiday scheme is required">
+                <option value="">Please Choose...</option>
+                
+                {{#each HolidaySchemes}}
+                <option value="{{this.Id}}" {{selectedIf Checked}}>{{this.Name}}</option>
+                {{/each}}
+            </select>
+
+            <span class="notes">
+                A link to the related holiday scheme.
+            </span>
+        </div>   
+
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+
+        <div class="form-group">
+            <label for="AnnualEntitlementDays">Annual Entitlement (Days)</label>
+            <input type="number" class="form-control" id="AnnualEntitlementDays" name="AnnualEntitlementDays" value="{{AnnualEntitlementDays}}"
+             step="0.1" min="0" max="365">
+
+             <span class="notes">
+                [Optional] The total number of holiday entitled days annually. If omitted; use value defined in holiday scheme.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="MaxCarryOverDays">Max Carry Over Days</label>
+            <input type="number" class="form-control" id="MaxCarryOverDays" name="MaxCarryOverDays" value="{{MaxCarryOverDays}}"
+             step="0.1" min="0" max="365">
+
+             <span class="notes">
+                [Optional] The maximum number of unused days that can be carried into the next holiday scheme annual period. If omitted; use value defined in holiday scheme.
+            </span>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="AllowNegativeBalance" name="AllowNegativeBalance" {{checkedIf AllowNegativeBalance}}>
+
+            <label class="form-check-label" for="AllowNegativeBalance">
+                Allow Negative Balance?
+            </label>
+
+            <span class="notes">
+                [Optional] Determines if holiday may be used before it is accrued. If omitted; use value defined in holiday scheme.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="SchemeExitDate">Scheme Exit Date</label>
+            <input type="date" class="form-control" id="SchemeExitDate" name="SchemeExitDate" value="{{SchemeExitDate}}">
+
+            <span class="notes">
+                [Optional] Used to specify the date when the employee left the holiday scheme. If omitted; employee considered to be continously within scheme.
+            </span>
+        </div>
+
+    </div>
+</div>

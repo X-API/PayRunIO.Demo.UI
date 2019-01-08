@@ -59,11 +59,7 @@ module.exports = class EmployeeController extends BaseController {
         let response = await apiWrapper.get(ctx, apiRoute);
         let payInstructions = await apiWrapper.getAndExtractLinks(ctx, `/Employer/${employerId}/Employee/${employeeId}/PayInstructions`);
 
-        let filteredPayInstructions = payInstructions.filter(pi => {
-            return pi.ObjectType !== "P45PayInstruction";
-        });
-
-        let canAddANewPayInstruction = filteredPayInstructions.filter(pi => pi.EndDate).length === filteredPayInstructions.length;
+        let canAddANewPayInstruction = payInstructions.filter(pi => pi.EndDate).length === payInstructions.length;
         let paySchedules = await employerService.getPaySchedules(ctx, employerId);
         let employee = EmployeeUtils.parseFromApi(response.Employee);
 
@@ -72,10 +68,10 @@ module.exports = class EmployeeController extends BaseController {
             title: employee.Code,
             EmployerId: employerId,
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
-            PayInstructions: filteredPayInstructions,
-            GroupedPayInstructions: this.getNormalGroupedPayInstructions(filteredPayInstructions),
-            GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(filteredPayInstructions),
-            CanAddANewPayInstruction: filteredPayInstructions.length === 0 || canAddANewPayInstruction,
+            PayInstructions: payInstructions,
+            GroupedPayInstructions: this.getNormalGroupedPayInstructions(payInstructions),
+            GroupedYTDPayInstructions: this.getYTDGroupedPayInstructions(payInstructions),
+            CanAddANewPayInstruction: payInstructions.length === 0 || canAddANewPayInstruction,
             P45PayInstruction: this.getP45PayInstruction(payInstructions),
             ShowTabs: true,
             Breadcrumbs: [

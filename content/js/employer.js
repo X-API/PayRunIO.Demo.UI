@@ -114,6 +114,38 @@ $(function() {
         });        
     });
 
+    $(".btn-delete-holiday-scheme").on("click", function() {
+        var $self = $(this);
+        var employerId = $self.attr("data-employer-id");        
+        var id = $self.attr("data-id");
+
+        bootbox.confirm({
+            title: "Are you sure?",
+            message: "Are you sure you want to delete this holiday scheme?",
+            callback: function(result) {
+                if (result) {
+                    $.post(`/employer/${employerId}/holidayscheme/${id}/delete`)
+                        .done(function() {
+                            var $tr = $self.closest("tr");
+                            
+                            $tr.find("td").fadeOut("fast", function() { 
+                                var $table = $tr.closest("table");
+
+                                if ($table.find("tbody tr").length < 2) {
+                                    $table.remove();
+                                }
+
+                                $tr.remove();                    
+                            });
+                        })
+                        .fail(function(xhr, status, error) {
+                            alert(error);
+                        });
+                }
+            }
+        });        
+    });
+
     $(document).on("click", ".job-info-container .close", function () {
         closeJobInfo();
     });    

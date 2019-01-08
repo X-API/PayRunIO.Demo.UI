@@ -98,7 +98,7 @@ module.exports = {
                             "Order": [
                                 {
                                     "@xsi:type": "Descending",
-                                    "@Property": "PaymentDate"
+                                    "@Property": "Sequence"
                                 }
                             ]
                         },
@@ -152,12 +152,18 @@ module.exports = {
                                     "@xsi:type": "RenderProperty",
                                     "@Name": "IsSupplementary",
                                     "@Property": "IsSupplementary"
+                                },
+                                {
+                                    "@xsi:type": "RenderProperty",
+                                    "@Name": "Executed",
+                                    "@Property": "Executed",
+                                    "@Format": "yyyy-MM-dd HH:mm:ss",
                                 }
                             ],
                             "Order": [
                                 {
                                     "@xsi:type": "Descending",
-                                    "@Property": "PaymentDate"
+                                    "@Property": "Sequence"
                                 }
                             ]
                         }

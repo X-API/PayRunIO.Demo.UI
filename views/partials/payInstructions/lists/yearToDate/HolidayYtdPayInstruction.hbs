@@ -1,0 +1,48 @@
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Start Date</th>
+            <th>Code</th>
+            <th>Units Accrued</th>
+            <th>Units Depleted</th>
+            <th>Value</th>
+            <th width="50px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each Instructions}}
+        <tr>
+            <th scope="row">
+                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="Holiday YTD" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                    {{this.Id}}
+                </a>
+            </th>
+            <td>
+                {{this.StartDate}}
+            </td>
+            <td>
+                {{this.Code}}
+            </td>
+            <td>
+                {{UnitsAccrued}}
+            </td>
+            <td>
+                {{UnitsAccrued}}
+            </td>
+            <td>
+                {{formatSalary this.Value}}
+            </td>
+            <td>
+                <button type="button" 
+                    class="btn btn-danger btn-sm btn-delete-instruction" 
+                    data-employer-id="{{../ParentContext.EmployerId}}" 
+                    data-employee-id="{{../ParentContext.Id}}" 
+                    data-id="{{this.Id}}">
+                    Delete
+                </button>                
+            </td>                                                         
+        </tr>
+        {{/each}}                    
+    </tbody>
+</table>

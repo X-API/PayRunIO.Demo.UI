@@ -1,0 +1,44 @@
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Start Date</th>
+            <th>Taxable Pay</th>
+            <th>Tax Paid</th>
+            <th>Leaving Date</th>
+            <th width="50px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each Instructions}}
+        <tr>
+            <th scope="row">
+                <a class="launch-modal" data-modal-size="modal-lg" data-modal-title="P45 Instruction" href="/employer/{{../ParentContext.EmployerId}}/employee/{{../ParentContext.Id}}/payInstruction/{{this.Id}}">
+                    {{this.Id}}
+                </a>
+            </th>
+            <td>
+                {{this.StartDate}}
+            </td>
+            <td>
+                {{fixedDecimal this.TaxablePay 2}}
+            </td>            
+            <td>
+                {{fixedDecimal this.TaxPaid 2}}
+            </td>
+            <td>
+                {{this.LeavingDate}}
+            </td>
+            <td>
+                <button type="button" 
+                    class="btn btn-danger btn-sm btn-delete-instruction" 
+                    data-employer-id="{{../ParentContext.EmployerId}}" 
+                    data-employee-id="{{../ParentContext.Id}}" 
+                    data-id="{{this.Id}}">
+                    Delete
+                </button>                
+            </td>                                                          
+        </tr>
+        {{/each}}                    
+    </tbody>
+</table>

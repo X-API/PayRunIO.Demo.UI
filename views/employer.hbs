@@ -17,15 +17,15 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pensions-tab" data-toggle="tab" href="#pensions" role="tab" aria-controls="pensions" aria-selected="false">Pensions</a>
-        </li>        
+        </li>      
+        <li class="nav-item">
+            <a class="nav-link" id="holidays-tab" data-toggle="tab" href="#holidays" role="tab" aria-controls="holidays" aria-selected="false">Holiday Schemes</a>
+        </li>  
         <li class="nav-item">
             <a class="nav-link" id="runs-tab" data-toggle="tab" href="#runs" role="tab" aria-controls="runs" aria-selected="false">Pay Runs</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="rti-submissions-tab" data-toggle="tab" href="#rti-submissions" role="tab" aria-controls="rti-submissions" aria-selected="false">RTI Submissions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="reports-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="reports" aria-selected="false">Reports</a>
+            <a class="nav-link" id="reports-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="reports" aria-selected="false">Reporting</a>
         </li>       
     </ul>
 
@@ -47,7 +47,11 @@
                     <tr>
                         <th scope="col">Code</th>
                         <th scope="col">Name</th>
-                        <th width="200px"></th>
+                        <th scope="col">Pay Schedule</th>
+                        <th scope="col">NI Number</th>
+                        <th scope="col">Tax Code</th>
+                        <th scope="col">NI Table</th>
+                        <th width="100px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,15 +63,30 @@
                             </a>
                         </th>
                         <td>{{employeeName this}}</td>
-                        <td>
-                            <a class="btn-link" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">Leaver</a>                        
-                            <a class="btn-link" 
-                               data-pay-schedule-id="{{this.Id}}" 
-                               data-employer-id="{{../Id}}">P45</a>
-                            <a class="btn-link" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
-                            <a href="#" class="btn-link btn-danger">Delete</a>
+                        <td>{{PaySchedule}}</td>
+                        <td>{{NiNumber}}</td>
+                        <td>{{TaxCode}}</td>
+                        <td>{{NiLetter}}</td>
+                        <td class="text-right">
+                            <div class="dropdown show">
+                                <a class="btn btn-sm btn-default dropdown-toggle" 
+                                    href="#" 
+                                    role="button" 
+                                    id="employeeOptions" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false">
+                                    Options
+                                </a>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">Leaver</a>                        
+                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
+                                    <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
                     {{/each}}
@@ -172,6 +191,7 @@
                                         <th scope="col">Tax Period</th>
                                         <th scope="col">Pay Period</th>
                                         <th scope="col">Supplementary</th>
+                                        <th scope="col">Executed</th>
                                         <th scope="col">
                                             <a class="btn btn-sm btn-primary launch-modal float-right" 
                                                data-modal-title="Create PayRun"
@@ -192,6 +212,7 @@
                                         <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
                                         <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
                                         <td>{{this.IsSupplementary}}</td>
+                                        <td>{{this.Executed}}</td>
                                         <td class="text-right">
                                             {{#ifCond ../HeadSequence this.Sequence this}}
                                             <button type="button" 
@@ -278,7 +299,53 @@
             {{/if}}
         </div>
 
-        <div class="tab-pane fade" id="rti-submissions" role="tabpanel" aria-labelledby="rti-submissions-tab">
+        <div class="tab-pane fade" id="holidays" role="tabpanel" aria-labelledby="holidays-tab">
+            <div class="row actions">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary" href="/Employer/{{Id}}/HolidayScheme" role="button">Add a Holiday Scheme</a>
+                </div>
+            </div>
+
+            {{#if HolidaySchemes}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Scheme Name</th>
+                        <th scope="col">Scheme Key</th>
+                        <th scope="col">Entitlement Weeks</th>
+                        <th scope="col">Holiday Year From</th>
+                        <th width="50px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each HolidaySchemes}}
+                    <tr>
+                        <td>
+                            <a href="/employer/{{../Id}}/HolidayScheme/{{this.Id}}">
+                                {{this.Id}}
+                            </a>                            
+                        </td>
+                        <td>{{this.SchemeName}}</td>
+                        <td>{{this.SchemeKey}}</td>
+                        <td>{{this.AnnualEntitlementWeeks}}</td>
+                        <td>{{this.YearStartDay}}/{{this.YearStartMonth}}</td>
+                        <td>
+                            <button type="button" 
+                                class="btn btn-link btn-danger btn-sm btn-delete-holiday-scheme" 
+                                data-employer-id="{{../Id}}" 
+                                data-id="{{this.Id}}">
+                                Delete
+                            </button>                             
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}            
+        </div>
+
+        <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
             {{#if PayRuns}}
             <div class="row actions">
                 <div class="col-sm-12">
@@ -327,14 +394,12 @@
                     {{/each}}
                 </tbody>
             </table>
-            {{/if}}        
-        </div>    
-
-        <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
-            <div class="coming-soon">
+            {{/if}}    
+            
+            {{!-- <div class="coming-soon">
                 <h4>Coming soon!</h4>
                 <p>Check soon to see this functionality wired up with the API</p>
-            </div>
+            </div> --}}
         </div>
 
     </div>    

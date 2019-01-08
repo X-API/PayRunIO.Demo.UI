@@ -1,0 +1,165 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+
+        <div class="form-group">
+            <label for="StartDate">Start date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StartDate" 
+                name="StartDate" 
+                value="{{StartDate}}" 
+                placeholder="The date the instruction will come into effect." 
+                required 
+                data-required-message="Start date is required"
+                {{minStartDate MinStartDate}}>
+
+            <span class="notes">
+                The date the instruction will come into effect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="EndDate" 
+                name="EndDate" 
+                value="{{EndDate}}" 
+                placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+            <span class="notes">
+                The date the instruction will end, open ended instructions will run forever.
+            </span>
+        </div>  
+        
+        <div class="form-group">
+            <label for="Code">Code</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Code" 
+                name="Code" 
+                value="{{Code}}" 
+                maxlength="35" 
+                pattern="[A-Za-z0-9]*">
+
+            <span class="notes">
+                The code that represents the pay type and tax treatment. [Optional] if omitted, code &quot;HOLIDAY&quot; is used.
+            </span>
+        </div> 
+
+        <div class="form-group">
+            <label for="UnitsDepleted">Units Depleted</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="UnitsDepleted" 
+                name="UnitsDepleted" 
+                value="{{UnitsDepleted}}" 
+                min="0"
+                step="0.01">
+
+            <span class="notes">
+                The number of holiday entitlement units depleted during this period of leave. 
+                [Optional] If omitted, the number of units between leave start and end are calculated.
+                Note: You must specify the units depleted for irregular paid employees.
+            </span>
+        </div> 
+
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+
+        <div class="form-group">
+            <label for="LeaveStartDate">Leave Start Date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="LeaveStartDate" 
+                name="LeaveStartDate" 
+                value="{{LeaveStartDate}}" 
+            >
+
+            <span class="notes">
+                The date when the period of leave began. First day of the leave period.
+            </span>
+        </div>  
+
+        <div class="form-group">
+            <label for="LeaveEndDate">Leave End Date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="LeaveEndDate" 
+                name="LeaveEndDate" 
+                value="{{LeaveEndDate}}" 
+            >
+
+            <span class="notes">
+                The date when the period of leave ends. Final day of the leave period.
+            </span>
+        </div>      
+
+        <div class="form-group">
+            <label for="UoM">UoM</label>
+
+            {{#select Uom}}
+            <select id="UoM" name="UoM" class="form-control" required>
+                <option value="Hour">Hour</option>
+                <option value="Day">Day</option>
+            </select>
+            {{/select}}
+
+            <span class="notes">
+                Determines the holiday entitlement unit type.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="RateOverride">Rate Override</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="RateOverride" 
+                name="RateOverride" 
+                value="{{RateOverride}}" 
+                min="0"
+                step="0.01">
+
+            <span class="notes">
+                [Optional] Allows the default statutory holiday payment rate to be overriden. 
+                Can be used when there is insufficient payment history [to calculate average].
+            </span>
+        </div> 
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="OffsetPayment" name="OffsetPayment" {{checkedIf OffsetPayment}}>
+
+            <label class="form-check-label" for="OffsetPayment">
+                Offset Payment?
+            </label>
+
+            <span class="notes">
+                Enables to the holiday payment to be offset. When enabled, an additional payment line is generated to negate the value of the holiday payment. 
+            </span>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="IgnoreInsufficientHistory" name="IgnoreInsufficientHistory" {{checkedIf IgnoreInsufficientHistory}}>
+
+            <label class="form-check-label" for="IgnoreInsufficientHistory">
+                Ignore Insufficient History?
+            </label>
+
+            <span class="notes">
+                Allows the calculation of average weekly earnings when there is insufficient pay history. 
+                Statutory pay should be calculated using the previous 12 weeks. 
+                Enabling this option disables the 12 week requirement and allows the average to be calculated using a shorter date range.
+                <strong>Warning: Using this option may lead to non-compliant average weekly earning calculation and you are advised to use the Rate Override option instead.</strong>
+            </span>
+        </div>
+
+    </div>
+</div>
