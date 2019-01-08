@@ -1,7 +1,7 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
-const HolidaySchemeUtils = require("../services/holidayScheme-utils");
+const HolidaySchemeUtils = require("../services/holiday-scheme-utils");
 
 let apiWrapper = new ApiWrapper();
 
