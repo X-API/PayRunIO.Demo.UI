@@ -15,9 +15,13 @@ module.exports = class HolidaySchemePayInstruction extends BaseInstruction {
         let extendedViewModel = await super.extendViewModel(ctx, vm);
         let holidaySchemes = await apiWrapper.getAndExtractLinks(ctx, `Employer/${vm.EmployerId}/HolidaySchemes`);
 
-        let href = extendedViewModel.HolidayScheme["@href"];
-        let parts = href.split("/");    
-        let selectedHolSchId = parts[parts.length - 1];
+        let selectedHolSchId = "";
+
+        if (extendedViewModel.HolidayScheme){
+            let href = extendedViewModel.HolidayScheme["@href"];
+            let parts = href.split("/");    
+            selectedHolSchId = parts[parts.length - 1];
+        }
 
         extendedViewModel.HolidaySchemes = holidaySchemes.map(hs => {
             return {
