@@ -11,7 +11,7 @@ const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
 const PensionController = require("./controllers/pension-controller");
-const HolidaySchemeController = require("./controllers/holidayScheme-controller");
+const HolidaySchemeController = require("./controllers/holiday-scheme-controller");
 const SetupController = require("./controllers/setup-controller");
 
 let rootController = new RootController();

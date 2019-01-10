@@ -16,9 +16,13 @@ module.exports = class PensionPayInstruction extends BaseInstruction {
         let extendedViewModel = await super.extendViewModel(ctx, vm);
         let pensions = await apiWrapper.getAndExtractLinks(ctx, `Employer/${vm.EmployerId}/Pensions`);
 
-        let href = extendedViewModel.Pension["@href"];
-        let parts = href.split("/");    
-        let selectedPenId = parts[parts.length - 1];
+        let selectedPenId = "";
+
+        if (extendedViewModel.Pension){
+            let href = extendedViewModel.Pension["@href"];
+            let parts = href.split("/");    
+            selectedPenId = parts[parts.length - 1];
+        }
 
         extendedViewModel.Pensions = pensions.map(pension => {
             return {
