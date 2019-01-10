@@ -68,6 +68,12 @@ module.exports = class PayRunController extends BaseController {
         let nextPaymentDate;
         let nextPeriodStart;
         let nextPeriodEnd;
+        let nextTaxPeriodStart;
+        let nextTaxPeriodEnd;
+        let lastPayDate;
+        let lastPeriodStart;
+        let lastPeriodEnd;
+        let lastTaxPeriodEnd;
 
         // query next PayRun dates
         if (payScheduleId) {
@@ -81,6 +87,13 @@ module.exports = class PayRunController extends BaseController {
             nextPaymentDate = queryResult.NextPayRunDates.NextPayDay;
             nextPeriodStart = queryResult.NextPayRunDates.NextPeriodStart;
             nextPeriodEnd = queryResult.NextPayRunDates.NextPeriodEnd;
+            nextTaxPeriodStart = queryResult.NextPayRunDates.NextTaxPeriodStart;
+            nextTaxPeriodEnd = queryResult.NextPayRunDates.NextTaxPeriodEnd;
+
+            lastPayDate = queryResult.NextPayRunDates.LastPayDay;
+            lastPeriodStart = queryResult.NextPayRunDates.LastPeriodStart;
+            lastPeriodEnd = queryResult.NextPayRunDates.LastPeriodEnd;
+            lastTaxPeriodEnd = queryResult.NextPayRunDates.LastTaxPeriodEnd;
         }
 
         let message = "";
@@ -92,7 +105,13 @@ module.exports = class PayRunController extends BaseController {
             PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PaymentDate: nextPaymentDate,
             StartDate: nextPeriodStart,
-            EndDate: nextPeriodEnd
+            EndDate: nextPeriodEnd,
+            TaxPeriodStart: nextTaxPeriodStart,
+            TaxPeriodEnd: nextTaxPeriodEnd,
+            LastPayDay: lastPayDate,
+            LastPeriodStart: lastPeriodStart,
+            LastPeriodEnd: lastPeriodEnd,
+            LastTaxPeriodEnd: lastTaxPeriodEnd
         });
 
         let model = Object.assign(body, { layout: "modal" });

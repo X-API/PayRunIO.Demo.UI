@@ -30,7 +30,9 @@
                     value="{{PaymentDate}}" 
                     placeholder="The date the employees were paid in the pay run" 
                     required 
-                    data-required-message="Payment Date is required">
+                    data-required-message="Payment Date is required",
+                    min="{{TaxPeriodStart}}"
+                    max="{{TaxPeriodEnd}}">
 
                 <span class="notes">The date you wish to appear on the employee's payslip (aka pay day).</span>
             </div>
@@ -78,4 +80,17 @@
 
         </div>
     </div>
+
+    <input id="NextPaymentDate" type="hidden" value="{{PaymentDate}}">
+    <input id="NextPeriodStart" type="hidden" value="{{StartDate}}">
+    <input id="NextPeriodEnd" type="hidden" value="{{EndDate}}">
+    <input id="NextTaxPeriodStart" type="hidden" value="{{TaxPeriodStart}}">
+    <input id="NextTaxPeriodEnd" type="hidden" value="{{TaxPeriodEnd}}">
+    <input id="SupMinPaymentDate" type="hidden" value="{{LastPayDay}}">
+    <input id="SupMaxPaymentDate" type="hidden" value="{{LastTaxPeriodEnd}}">
+    <input id="SupPeriodStart" type="hidden" value="{{LastPeriodStart}}">
+    <input id="SupPeriodEnd" type="hidden" value="{{LastPeriodEnd}}">
+
 </form>
+
+<script src="/js/pay-run-creation.js"></script>
