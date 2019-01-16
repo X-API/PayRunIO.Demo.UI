@@ -6,11 +6,65 @@ const EmployeeUtils = require("../services/employee-utils");
 const StatusUtils = require("../services/status-utils");
 const AppState = require("../app-state");
 const _ = require("lodash");
+const moment = require("moment");
+
 
 let apiWrapper = new ApiWrapper();
 let employerService = new EmployerService();
 
 module.exports = class EmployeeController extends BaseController {
+
+    async requestNewLeaver(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+
+        let lastPayDay = new Date(ctx.query.lastPayDay);
+        let defaultEffective = new Date(lastPayDay.getFullYear(),lastPayDay.getMonth(),lastPayDay.getDate()+1);
+
+        await ctx.render("leaver-details", await this.getExtendedViewModel(ctx, {
+            title: "Employee Leaver",
+            layout: "modal",
+            EmployerId: employerId,
+            EmployeeId: employeeId,
+            EffectiveDate: moment(defaultEffective).format("YYYY-MM-DD")
+        }));
+    }
+
+    async saveNewLeaver(ctx) {
+        let employerId = ctx.params.employerId;
+        let employeeId = ctx.params.employeeId;
+        let body = ctx.request.body;
+
+        let apiRoute = `/Employer/${employerId}/Employee/${employeeId}`;
+        let empResp = await apiWrapper.get(ctx, apiRoute);
+        let employee = empResp.Employee;
+
+        employee.EffectiveDate = body.EffectiveDate;
+        employee.LeavingDate = body.LeavingDate;
+        employee.LeaverReason = body.LeaverReason;
+
+        let response = await apiWrapper.put(ctx, `/Employer/${employerId}/Employee/${employeeId}`, { Employee: employee });
+
+        if (ctx.headers["x-requested-with"] === "XMLHttpRequest") {
+            ctx.body = {
+                Errors: ValidationParser.extractErrors(response)
+            };
+            return;
+        }
+
+        if (ValidationParser.containsErrors(response)) {            
+            let extendedBody = Object.assign(body, {
+                errors: ValidationParser.extractErrors(response),
+            });
+
+            await ctx.render("leaver-details", await this.getExtendedViewModel(ctx, extendedBody));
+
+            return;
+        }
+
+        await ctx.redirect(response.Link["@href"] + "?status=Leaver details saved&statusType=success");
+    }
+    
     async requestNewEmployee(ctx) {
         let employerId = ctx.params.employerId;
         let paySchedules = await employerService.getPaySchedules(ctx, employerId);

@@ -1,0 +1,67 @@
+<form method="POST" action="/employer/{{EmployerId}}/employee/{{EmployeeId}}/leaver" class="leaver" data-parsley-validate>
+
+    {{>validationErrors}}
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-12">
+
+            <div class="form-group">
+                <label for="EffectiveDate">Effective Date</label>
+                <input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" value="{{EffectiveDate}}" min="{{EffectiveDate}}"  placeholder="Effective Date">
+            </div>
+           
+            <div class="form-group">
+                <label for="LeavingDate">Leaving Date</label>
+                <input type="date" class="form-control" id="LeavingDate" name="LeavingDate" value="{{LeavingDate}}" placeholder="Leaving Date">
+            </div>
+
+            <div class="form-group">
+                <label for="LeaverReason">Leaver Reason</label>
+                
+                <select class="form-control" id="LeaverReason" name="LeaverReason">
+                    <option value="Resigned">Resigned</option>
+                    <option value="Dismissed">Dismissed</option>
+                    <option value="Redundant">Redundant</option>
+                    <option value="Retired">Retired</option>
+                    <option value="Deceased">Deceased</option>
+                    <option value="LegalCustody">Legal Custody</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>  
+
+        </div>        
+    </div>
+
+</form>
+
+<script>
+
+    $(document).on("submit", "form.leaver", function(e) {
+        e.preventDefault();
+        debugger;
+
+        var action = this.action;
+        var data = {};
+
+        $(this).serializeArray().forEach(function(x) {
+            data[x.name] = x.value;
+        });
+
+        $.post(action, data).done(function(data) {
+            if (data.Errors.length > 0) {
+                showValidationErrors(data.Errors, true);
+                return;
+            }
+
+            var baseUrlWithoutQueryString = window.location.href.split("?")[0];
+            var baseUrlWithoutHash = baseUrlWithoutQueryString.split("#")[0];
+            var rand = Math.random();
+            var hash = "#employees";
+            var urlToRedirectTo = baseUrlWithoutHash + "?status=Leaver details saved&statusType=success&rand=" + rand + hash;
+
+            window.location.replace(urlToRedirectTo);
+        });
+    });
+
+</script>

@@ -51,6 +51,7 @@
                         <th scope="col">NI Number</th>
                         <th scope="col">Tax Code</th>
                         <th scope="col">NI Table</th>
+                        <th scope="col">Status</th>
                         <th width="100px"></th>
                     </tr>
                 </thead>
@@ -67,23 +68,39 @@
                         <td>{{NiNumber}}</td>
                         <td>{{TaxCode}}</td>
                         <td>{{NiLetter}}</td>
+                        <td>{{Status}}</td>
                         <td class="text-right">
-                            <div class="dropdown show">
-                                <a class="btn btn-sm btn-default dropdown-toggle" 
-                                    href="#" 
-                                    role="button" 
-                                    id="employeeOptions" 
-                                    data-toggle="dropdown" 
-                                    aria-haspopup="true" 
-                                    aria-expanded="false">
-                                    Options
+
+                            <div class="btn-group">
+
+                                <a role="button" 
+                                    target="_blank"
+                                    href="/employer/{{../Id}}/report/payslip3?employerKey={{../Id}}&payScheduleKey={{PayScheduleKey}}&taxYear={{TaxYear}}&EmployeeCodes={{Code}}&TransformDefinitionKey=Payslip-A5-Basic-Pdf"
+                                    class="btn btn-sm btn-default">
+                                    Payslips
                                 </a>
 
+                                <button type="button" 
+                                    class="btn btn-sm btn-default dropdown-toggle dropdown-toggle-split" 
+                                    data-toggle="dropdown">
+                                </button>
+
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">Leaver</a>                        
-                                    <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
-                                    <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
+
+                                    {{#ifCond this.Status "Active" this}}
+                                        <a class="dropdown-item launch-modal" 
+                                            data-modal-title="Leaver" 
+                                            href="/employer/{{../Id}}/employee/{{this.Id}}/leaver?lastPayDay={{LastPayDay}}">
+                                            Leaver
+                                        </a>
+                                    {{/ifCond}}
+
+                                    {{#ifCond this.Status "Leaver" this}}
+                                        <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
+                                    {{/ifCond}}
+                            
+                                    {{!-- <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
+                                    <a class="dropdown-item" href="#">Delete</a> --}}
                                 </div>
                             </div>
 
@@ -190,8 +207,8 @@
                                         <th scope="col">Payment Date</th>
                                         <th scope="col">Tax Period</th>
                                         <th scope="col">Pay Period</th>
-                                        <th scope="col">Supplementary</th>
                                         <th scope="col">Executed</th>
+                                        <th scope="col">Employer Cost</th>
                                         <th scope="col">
                                             <a class="btn btn-sm btn-primary launch-modal float-right" 
                                                data-modal-title="Create PayRun"
@@ -209,24 +226,69 @@
                                                 {{formatDate this.PaymentDate}}
                                             </a>
                                         </th>
-                                        <td>{{this.TaxYear}}/{{this.TaxPeriod}}</td>
+                                        <td>
+                                            {{this.TaxYear}}/{{this.TaxPeriod}}
+                                            {{#ifCond this.IsSupplementary "True" this}}
+                                             (Sup)
+                                            {{/ifCond}}
+                                        </td>
                                         <td>{{formatDate this.PeriodStart}} - {{formatDate this.PeriodEnd}}</td>
-                                        <td>{{this.IsSupplementary}}</td>
                                         <td>{{this.Executed}}</td>
+                                        <td>-</td>
                                         <td class="text-right">
-                                            {{#ifCond ../HeadSequence this.Sequence this}}
-                                            <button type="button" 
-                                                class="btn btn-sm btn-rerun-pay-run launch-modal" 
-                                                data-modal-title="Rerun PayRun"
-                                                href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
-                                            </button>
-                                            <button type="button" 
-                                                class="btn btn-danger btn-sm btn-delete-pay-run" 
-                                                data-pay-run-id="{{Key}}"
-                                                data-pay-schedule-id="{{../Key}}"  
-                                                data-employer-id="{{../../Id}}">Delete
-                                            </button>   
-                                            {{/ifCond}}        
+
+                                            <div class="btn-group">
+
+                                                <a role="button" 
+                                                    target="_blank"
+                                                    href="/employer/{{../../Id}}/report/payslip3?employerKey={{../../Id}}&payScheduleKey={{../Key}}&taxYear={{this.TaxYear}}&paymentDate={{formatDate this.PaymentDate}}&TransformDefinitionKey=Payslip-A5-Basic-Pdf"
+                                                    class="btn btn-sm btn-default">
+                                                    Payslips
+                                                </a>
+
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-default dropdown-toggle dropdown-toggle-split" 
+                                                    data-toggle="dropdown">
+                                                </button>
+
+                                                <div class="dropdown-menu">
+
+                                                    <a class="dropdown-item"
+                                                       target="_blank"
+                                                       href="/employer/{{../../Id}}/report/payslip3?employerKey={{../../Id}}&payScheduleKey={{../Key}}&taxYear={{this.TaxYear}}&paymentDate={{formatDate this.PaymentDate}}">
+                                                       Payslip Data
+                                                    </a>
+
+                                                    <a class="dropdown-item"
+                                                       target="_blank"
+                                                       href="/employer/{{../../Id}}/report/GRO2NET?employerKey={{../../Id}}&payScheduleKey={{../Key}}&taxYear={{this.TaxYear}}&taxPeriod={{this.TaxPeriod}}">
+                                                       Gross to Net
+                                                    </a>
+
+                                                    <a class="dropdown-item"
+                                                       target="_blank"
+                                                       href="/employer/{{../../Id}}/report/NETPAY?employerKey={{../../Id}}&payScheduleKey={{../Key}}&taxYear={{this.TaxYear}}&taxPeriod={{this.TaxPeriod}}">
+                                                       Net Pay
+                                                    </a>
+
+                                                    {{#ifCond ../HeadSequence this.Sequence this}}
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a class="dropdown-item btn-rerun-pay-run launch-modal" 
+                                                        data-modal-title="Rerun PayRun"
+                                                        href="/employer/{{../../Id}}/reRun?paySchedule={{../Key}}&payRunId={{Key}}">Rerun
+                                                    </a>
+
+                                                    <a class="dropdown-item btn-delete-pay-run" 
+                                                        data-pay-run-id="{{Key}}"
+                                                        data-pay-schedule-id="{{../Key}}"  
+                                                        data-employer-id="{{../../Id}}">Delete
+                                                    </a>   
+                                                    {{/ifCond}}  
+
+                                                </div>
+                                            </div>
+  
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -370,30 +432,46 @@
             {{/if}}
 
             {{#if RTITransactions}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Tax Year</th>
-                        <th scope="col">Transmission Date</th>
-                        <th scope="col">Transaction Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each RTITransactions}}
-                    <tr>
-                        <th scope="row">
-                            <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}" target="_blank">
-                                {{this.Id}}
-                            </a>
-                        </th> 
-                        <td>{{TaxYear}}</td>
-                        <td>{{longDateTime TransmissionDate}}</td>
-                        <td>{{TransactionStatus}}</td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6>Full Payment Submission</h6>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Tax Year</th>
+                                            <th scope="col">Payment Date</th>
+                                            <th scope="col">Pay Schedule</th>
+                                            <th scope="col">Transmission Date</th>
+                                            <th scope="col">Transaction Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each RTITransactions}}
+                                        <tr>
+                                            <th scope="row">
+                                                <a href="/employer/{{../Id}}/rtiTransaction/{{this.Id}}" target="_blank">
+                                                    {{this.Id}}
+                                                </a>
+                                            </th> 
+                                            <td>{{TaxYear}}</td>
+                                            <td>{{formatDate PaymentDate}}</td>
+                                            <td>{{PaySchedule}}</td>
+                                            <td>{{longDateTime TransmissionDate}}</td>
+                                            <td>{{TransactionStatus}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
             {{/if}}    
             
             {{!-- <div class="coming-soon">
