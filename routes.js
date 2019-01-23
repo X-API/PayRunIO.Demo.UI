@@ -63,7 +63,7 @@ router
     .post("/employer/:employerId/employee/:employeeId/leaver", async ctx =>  await employeeController.saveNewLeaver(ctx))
     .get("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
     .post("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
-    //.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
+    .post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
 
     // pay instruction
     .get("/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))

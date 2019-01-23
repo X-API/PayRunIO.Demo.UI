@@ -46,13 +46,14 @@
                 <thead>
                     <tr>
                         <th scope="col">Code</th>
-                        <th scope="col">Name</th>
+                        <th  width="185px" scope="col">Name</th>
                         <th scope="col">Pay Schedule</th>
                         <th scope="col">NI Number</th>
                         <th scope="col">Tax Code</th>
                         <th scope="col">NI Table</th>
                         <th scope="col">Status</th>
-                        <th width="100px"></th>
+                        <th scope="col">Last Pay Date</th>
+                        <th width="70px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +70,13 @@
                         <td>{{TaxCode}}</td>
                         <td>{{NiLetter}}</td>
                         <td>{{Status}}</td>
+                        <td>
+                            {{#if LastPayDay}}
+                            {{formatDate LastPayDay}}
+                            {{else}}
+                             -
+                            {{/if}}
+                        </td>
                         <td class="text-right">
 
                             <div class="btn-group">
@@ -76,14 +84,14 @@
                                 <a role="button" 
                                     target="_blank"
                                     href="/employer/{{../Id}}/report/payslip3?employerKey={{../Id}}&payScheduleKey={{PayScheduleKey}}&taxYear={{TaxYear}}&EmployeeCodes={{Code}}&TransformDefinitionKey=Payslip-A5-Basic-Pdf"
-                                    class="btn btn-sm btn-default">
+                                    class="btn btn-sm btn-default {{disabledIf this.LastPayDay undefined this}}">
                                     Payslips
                                 </a>
 
                                 <button type="button" 
                                     class="btn btn-sm btn-default dropdown-toggle dropdown-toggle-split" 
                                     data-toggle="dropdown">
-                                </button>
+                                </button> 
 
                                 <div class="dropdown-menu">
 
@@ -99,8 +107,10 @@
                                         <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
                                     {{/ifCond}}
                             
-                                    {{!-- <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a>
-                                    <a class="dropdown-item" href="#">Delete</a> --}}
+                                    {{!-- <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a> --}}
+                                    {{#ifCond this.LastPayDay undefined this}}
+                                        <a class="dropdown-item" href="#">Delete</a>
+                                    {{/ifCond}}
                                 </div>
                             </div>
 
@@ -474,10 +484,6 @@
                 </div>
             {{/if}}    
             
-            {{!-- <div class="coming-soon">
-                <h4>Coming soon!</h4>
-                <p>Check soon to see this functionality wired up with the API</p>
-            </div> --}}
         </div>
 
     </div>    

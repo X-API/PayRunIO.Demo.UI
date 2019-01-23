@@ -63,8 +63,6 @@ module.exports = class PayRunController extends BaseController {
     async requestNewRun(ctx) {
         let employerId = ctx.params.employerId;
         let payScheduleId = ctx.query.paySchedule;
-        let paySchedules = await employerService.getPaySchedules(ctx, employerId);
-
         let nextPaymentDate;
         let nextPeriodStart;
         let nextPeriodEnd;
@@ -74,6 +72,7 @@ module.exports = class PayRunController extends BaseController {
         let lastPeriodStart;
         let lastPeriodEnd;
         let lastTaxPeriodEnd;
+        let employees;
 
         // query next PayRun dates
         if (payScheduleId) {
@@ -94,6 +93,7 @@ module.exports = class PayRunController extends BaseController {
             lastPeriodStart = queryResult.NextPayRunDates.LastPeriodStart;
             lastPeriodEnd = queryResult.NextPayRunDates.LastPeriodEnd;
             lastTaxPeriodEnd = queryResult.NextPayRunDates.LastTaxPeriodEnd;
+            employees = queryResult.NextPayRunDates.Employees;
         }
 
         let message = "";
@@ -102,7 +102,6 @@ module.exports = class PayRunController extends BaseController {
             Status: message,
             EmployerId: employerId,
             PayScheduleId: payScheduleId,
-            PaySchedules: paySchedules.PaySchedulesTable.PaySchedule,
             PaymentDate: nextPaymentDate,
             StartDate: nextPeriodStart,
             EndDate: nextPeriodEnd,
@@ -111,7 +110,8 @@ module.exports = class PayRunController extends BaseController {
             LastPayDay: lastPayDate,
             LastPeriodStart: lastPeriodStart,
             LastPeriodEnd: lastPeriodEnd,
-            LastTaxPeriodEnd: lastTaxPeriodEnd
+            LastTaxPeriodEnd: lastTaxPeriodEnd,
+            Employees: employees
         });
 
         let model = Object.assign(body, { layout: "modal" });

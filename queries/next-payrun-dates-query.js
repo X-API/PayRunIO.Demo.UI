@@ -172,7 +172,43 @@ module.exports = {
                             "@Property": "PaymentDate"
                         }
                     ]
-                }
+                },
+                {
+                    "@ItemName": "Employees",
+                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/Employees",
+                    "@UniqueKeyVariable": "[EmployeeKey]",
+                    "Output": [
+                        {
+                            "@xsi:type": "RenderArrayHint"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "Key",
+                            "@Value": "[EmployeeKey]"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "FirstName",
+                            "@Property": "FirstName",
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "LastName",
+                            "@Property": "LastName"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "Code",
+                            "@Property": "Code"
+                        }
+                    ],
+                    "Order": [
+                        {
+                            "@xsi:type": "Ascending",
+                            "@Property": "LastName"
+                        }
+                    ]
+                } 
             ]
         }
     }

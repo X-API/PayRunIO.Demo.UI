@@ -131,6 +131,7 @@ module.exports = class EmployeeController extends BaseController {
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },
+                { Name: "Employees", Url: `/employer/${employerId}#employees` },
                 { Name: employee.Code }
             ],
             Status: StatusUtils.extract(ctx)

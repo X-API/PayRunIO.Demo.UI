@@ -1,6 +1,7 @@
 const BaseController = require("./base-controller");
 const ApiWrapper = require("../services/api-wrapper");
 const ValidationParser = require("../services/validation-parser");
+const MinStartDateQuery = require("../queries/employee-last-pay-date");
 
 let apiWrapper = new ApiWrapper();
 
@@ -9,6 +10,15 @@ module.exports = class PayInstructionController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let instructionType = ctx.query.type || (ctx.session.body ? ctx.session.body.InstructionType : undefined);
+
+        let queryStr = JSON.stringify(MinStartDateQuery)
+            .replace("$$EmployerKey$$", employerId)
+            .replace("$$EmployeeKey$$", employeeId);
+
+        let query = JSON.parse(queryStr);
+        let queryResult = await apiWrapper.query(ctx, query);
+
+        let minInstructionStartDate = queryResult.MinStartQuery.LastPayDay;
 
         if (!instructionType) {
             await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#instructions`);
@@ -21,7 +31,7 @@ module.exports = class PayInstructionController extends BaseController {
             EmployerId: employerId,
             InstructionType: instructionType,
             EnableForm: true,
-            MinStartDate: null,
+            MinStartDate: minInstructionStartDate,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },

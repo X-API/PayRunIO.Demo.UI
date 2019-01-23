@@ -18,4 +18,12 @@ $(function() {
         } 
     });
 
+    $('#SelectEmployees').change(function() {
+        if(this.checked) {
+            $('#select-employees-grp').show();
+        } else {
+            $('#select-employees-grp').hide();
+        } 
+    });
+
 })
