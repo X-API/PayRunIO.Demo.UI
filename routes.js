@@ -115,6 +115,7 @@ router
 
     // setup
     .get("/setup", async ctx => await setupController.get(ctx))
+    .get("/setup/revoke", async ctx => await setupController.revoke(ctx))
     .post("/setup", async ctx => await setupController.post(ctx))
 ;
 

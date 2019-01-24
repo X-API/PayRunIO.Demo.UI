@@ -4,18 +4,25 @@ module.exports = class Globals {
     }
 
     static get apiUrl() {
-        if (this._setup && this._setup.Environment.toLowerCase() === "test") {
-            return "https://api.test.payrun.io/";
+        let env = process.env.NODE_ENV || "dev";
+        if (env === "dev")
+        {
+            return "http://localhost:3578";
         }
 
-        return "https://api.payrun.io/";
+        if (this._setup && this._setup.Environment.toLowerCase() === "production") {
+            return "https://api.payrun.io/";
+            
+        }
+
+        return "https://api.test.payrun.io/";
     }
 
     static get consumerKey() {
-        return this._setup ? this._setup.ConsumerKey : "kXrXIxDAJ0SzjCjgYyvhNg";
+        return this._setup ? this._setup.ConsumerKey : "";
     }
 
     static get consumerSecret() {
-        return this._setup ? this._setup.ConsumerSecret : "k55ebIyfF0ehiO4VY6SibA1Q90Nf3n0q6ylYGusp1lg";
+        return this._setup ? this._setup.ConsumerSecret : "";
     }  
 };

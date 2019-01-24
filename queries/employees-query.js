@@ -56,8 +56,14 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
+                            "@Name": "[PayScheduleHref]",
+                            "@Property": "PaySchedule.Href"
+                        },
+                        {
+                            "@xsi:type": "RenderUniqueKeyFromLink",
                             "@Name": "PayScheduleKey",
-                            "@Property": "PaySchedule.Key"
+                            "@Href": "[PayScheduleHref]"
                         },
                         {
                             "@xsi:type": "RenderProperty",

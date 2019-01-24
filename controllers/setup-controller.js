@@ -33,4 +33,16 @@ module.exports = class SetupController extends BaseController {
 
         await ctx.redirect("/employer");
     }
+
+    async revoke(ctx) {
+
+        ctx.cookies.set(SetupController.cookieKey, "{}", {
+            path: "/",
+            expires: new Date(1900, 1, 1),
+            overwrite: true,
+            httpOnly: false
+        });
+
+        await ctx.redirect("/employer");
+    }
 };

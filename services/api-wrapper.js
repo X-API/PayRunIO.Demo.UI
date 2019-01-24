@@ -3,6 +3,7 @@ const OAuth = require("oauth-1.0a");
 const Crypto  = require("crypto");
 const Url = require("url");
 const APILogger = require("./api-logger");
+const Constants = require("../constants");
 
 require("request-debug")(rp, (type, data) => {
     APILogger.log(type, data);
@@ -121,6 +122,8 @@ module.exports = class APIWrapper {
         }
 
         let setup = JSON.parse(ck);
+        Constants.setup(setup);
+        
         let oauth = OAuth({
             consumer: {
                 key: setup.ConsumerKey,
@@ -132,7 +135,7 @@ module.exports = class APIWrapper {
             }
         });
 
-        let apiUrl = setup.Environment.toLowerCase() === "test" ? "https://api.test.payrun.io/" : "https://api.payrun.io/";
+        let apiUrl = Constants.apiUrl;
         let url = Url.resolve(apiUrl, relativeUrl);
 
         let request_data = {
