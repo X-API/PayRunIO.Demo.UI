@@ -20,7 +20,8 @@ module.exports = class SalaryPayInstruction extends BaseInstruction {
 
             AnnualSalary: cleanBody.AnnualSalary,
             ProRataMethod: cleanBody.ProRataMethod,
-            RoundingOption: cleanBody.RoundingOption
+            RoundingOption: cleanBody.RoundingOption,
+            Code: cleanBody.Code
         };
     }    
 };
