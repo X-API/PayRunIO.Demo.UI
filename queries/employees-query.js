@@ -56,8 +56,37 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
+                            "@Name": "[PayScheduleHref]",
+                            "@Property": "PaySchedule.Href"
+                        },
+                        {
+                            "@xsi:type": "RenderUniqueKeyFromLink",
+                            "@Name": "PayScheduleKey",
+                            "@Href": "[PayScheduleHref]"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
                             "@Name": "NiNumber",
                             "@Property": "NiNumber"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
+                            "@Name": "[LeavingDate]",
+                            "@Property": "LeavingDate"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
+                            "@Name": "[StartDate]",
+                            "@Property": "StartDate"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Output": "Variable",
+                            "@Name": "[Status]",
+                            "@Value": "Active"
                         }
                     ],
                     "Group": [
@@ -83,6 +112,73 @@ module.exports = {
                             "Order": {
                                 "@xsi:type": "Descending",
                                 "@Property": "StartDate"
+                            }
+                        },
+                        {
+                            "@Selector": "/Employer/[EmployerKey]/Employee/[EmployeeKey]/PayRuns",
+                            "Filter": [
+                                {
+                                    "@xsi:type": "TakeFirst",
+                                    "@Value": "1"
+                                }
+                            ],
+                            "Output": [
+                                {
+                                    "@xsi:type": "Max",
+                                    "@Output": "Variable",
+                                    "@Name": "[LastPayDay]",
+                                    "@Property": "PaymentDate",
+                                    "@Format": "yyyy-MM-dd"
+                                },
+                                {
+                                    "@xsi:type": "RenderProperty",
+                                    "@Output": "Variable",
+                                    "@Name": "[PayFrequency]",
+                                    "@Property": "PayFrequency",
+                                    "@Format": "yyyy-MM-dd"
+                                },
+                                {
+                                    "@xsi:type": "RenderValue",
+                                    "@Name": "LastPayDay",
+                                    "@Value": "[LastPayDay]"
+                                },
+                                {
+                                	"@xsi:type": "RenderProperty",
+                                    "@Name": "TaxYear",
+                                    "@Property": "TaxYear"
+                                },
+                                {
+                                    "@xsi:type": "RenderNextDate",
+                                    "@Output": "Variable",
+                                    "@Name": "[NextPayDay]",
+                                    "@Date": "[LastPayDay]",
+                                    "@PayFrequency": "[PayFrequency]",
+                                    "@Format": "yyyy-MM-dd"
+                                },
+                                {
+                                    "@xsi:type": "RenderValue",
+                                    "@Name": "NextPayDay",
+                                    "@Value": "[NextPayDay]"
+                                }
+                            ],
+                            "Order": [
+                                {
+                                    "@xsi:type": "Descending",
+                                    "@Property": "PaymentDate"
+                                }
+                            ]
+                        },
+                        {
+                            "Condition": {
+                                "@xsi:type": "WhenLessThan",
+                                "@ValueA": "[LeavingDate]",
+                                "@ValueB": "[NextPayDay]"
+                            },
+                            "Output": {
+                                "@xsi:type": "RenderValue",
+                                "@Output": "Variable",
+                                "@Name": "[Status]",
+                                "@Value": "Leaver"
                             }
                         },
                         {
@@ -146,6 +242,13 @@ module.exports = {
                                         "@xsi:type": "RenderValue",
                                         "@Name": "TaxCode",
                                         "@Value": "$taxCode"
+                                    }
+                                },
+                                {
+                                    "Output": {
+                                        "@xsi:type": "RenderValue",
+                                        "@Name": "Status",
+                                        "@Value": "[Status]"
                                     }
                                 }
                         	]

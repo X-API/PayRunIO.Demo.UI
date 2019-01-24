@@ -32,7 +32,16 @@
                 role="tab" 
                 aria-controls="year-to-date-instructions" 
                 aria-selected="false">YTD Pay Instructions</a>
-        </li>         
+        </li>   
+        <li class="nav-item">
+            <a class="nav-link" 
+                id="reporting-tab" 
+                data-toggle="tab" 
+                href="#reporting" 
+                role="tab" 
+                aria-controls="reporting" 
+                aria-selected="false">Reporting</a>
+        </li>        
     </ul>
 
     <div class="tab-content" id="myTabContent">
@@ -129,6 +138,10 @@
                 </div>
             {{/each}}            
         </div> 
+
+        <div class="tab-pane fade" id="reporting">
+
+        </div>
     </div>        
 {{else}}
     {{>employeeForm}}

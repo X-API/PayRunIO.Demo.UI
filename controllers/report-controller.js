@@ -4,6 +4,22 @@ const ApiWrapper = require("../services/api-wrapper");
 let apiWrapper = new ApiWrapper();
 
 module.exports = class PaySlipController extends BaseController {
+
+    async getReport(ctx) {
+        let reportKey = ctx.params.reportKey;
+        let apiRoute = `/Report/${reportKey}/run?` + ctx.querystring;
+              
+        if (apiRoute.indexOf("TransformDefinitionKey") > -1) {
+            let response = await apiWrapper.getFile(ctx, apiRoute);
+            ctx.set("Content-type", "application/pdf");
+            ctx.body = response.body;
+        } else {
+            let response = await apiWrapper.get(ctx, apiRoute);
+            ctx.type = "text/plain; charset=utf-8";
+            ctx.body = JSON.stringify(response, null, 4);
+        }
+    }
+
     async getPaySlipData(ctx) {
         let employerId = ctx.params.employerId;
         let code = ctx.params.code;

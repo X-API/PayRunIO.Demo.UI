@@ -132,11 +132,10 @@
 
                     {{#select StarterDeclaration}}
                     <select class="form-control" id="StarterDeclaration" name="StarterDeclaration" required data-required-message="Starter declaration is required">
-                        <option value="PreviouslyReported">Previously Reported (included in previous FPS)</option>
+						<option value="PreviouslyReported">Previously Reported (included in previous FPS)</option>
                         <option value="A">A (this is the employee's 1st employment since the 6th April)</option>
                         <option value="B">B (this is the employee's only employment)</option>
-                        <option value="C">C (the employee has another employment or pension)</option>
-                    </select>
+                        <option value="C">C (the employee has another employment or pension)</option>                    </select>
                     {{/select}}
 
                     <span class="notes">
@@ -163,13 +162,13 @@
 
                     {{#multipleSelect NicLiability}}
                     <select class="form-control" id="NicLiability" name="NicLiability" multiple>
-                        <option value="IsFullyLiable">IsFullyLiable</option>
-                        <option value="HasOtherJob">HasOtherJob</option>
-                        <option value="IsFemaleEntitledToReducedRate">IsFemaleEntitledToReducedRate</option>
-                        <option value="IsNotLiable">IsNotLiable</option>
-                        <option value="IsContractedOut">IsContractedOut</option>
-                        <option value="IsApprentice">IsApprentice</option>
-                        <option value="LeaverBeyond6Weeks">LeaverBeyond6Weeks</option>
+                        <option value="IsFullyLiable">Is Fully Liable</option>
+                        <option value="HasOtherJob">Has Other Job</option>
+                        <option value="IsFemaleEntitledToReducedRate">Is Female Entitled to Reduced Rate</option>
+                        <option value="IsNotLiable">Is Not Liable</option>
+                        <option value="IsContractedOut">Is Contracted Out</option>
+                        <option value="IsApprentice">Is Apprentice</option>
+                        <option value="LeaverBeyond6Weeks">Leaver Beyond 6 Weeks</option>
                     </select>
                     {{/multipleSelect}}
 

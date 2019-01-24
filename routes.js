@@ -6,7 +6,7 @@ const PayScheduleController = require("./controllers/pay-schedule-controller");
 const PayInstructionController = require("./controllers/pay-instruction-controller");
 const PayRunController = require("./controllers/pay-run-controller");
 const CommentaryController = require("./controllers/commentary-controller");
-const PaySlipController = require("./controllers/pay-slip-controller");
+const PaySlipController = require("./controllers/report-controller");
 const JobController = require("./controllers/job-controller");
 const RTIController = require("./controllers/rti-controller");
 const APILoggerController = require("./controllers/api-logger-controller");
@@ -59,10 +59,11 @@ router
     .post("/employer/:employerId/employee", async ctx => await employeeController.addNewEmployee(ctx))
     .get("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.getEmployeeDetails(ctx))
     .post("/employer/:employerId/employee/:employeeId", async ctx => await employeeController.saveEmployeeDetails(ctx))
-    //.get("/employer/:employerId/employee/:employeeId/leaver-details", async ctx => { })
+    .get("/employer/:employerId/employee/:employeeId/leaver", async ctx =>  await employeeController.requestNewLeaver(ctx))
+    .post("/employer/:employerId/employee/:employeeId/leaver", async ctx =>  await employeeController.saveNewLeaver(ctx))
     .get("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.request60(ctx))
     .post("/employer/:employerId/employee/:employeeId/p60", async ctx => await employeeController.downloadP60(ctx))
-    //.post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
+    .post("/employer/:employerId/employee/:employeeId/delete", async ctx => { })
 
     // pay instruction
     .get("/employer/:employerId/employee/:employeeId/payInstruction/new", async ctx => await payInstructionController.requestNewInstruction(ctx))
@@ -85,6 +86,8 @@ router
     // pay slip
     .get("/employer/:employerId/employee/:employeeId/paySlipData/:code/:taxYear/:paymentDate/:paySchedule", async ctx => await paySlipController.getPaySlipData(ctx))
     .get("/employer/:employerId/employee/:employeeId/paySlipPdf/:code/:taxYear/:paymentDate/:paySchedule", async ctx => await paySlipController.getPaySlipPdf(ctx))
+    .get("/employer/:employerId/report/:reportKey", async ctx => await paySlipController.getReport(ctx))
+
 
     // rti transaction
     .get("/employer/:employerId/rtiTransaction", async ctx => await rtiController.getNewRtiInstruction(ctx))
@@ -112,6 +115,7 @@ router
 
     // setup
     .get("/setup", async ctx => await setupController.get(ctx))
+    .get("/setup/revoke", async ctx => await setupController.revoke(ctx))
     .post("/setup", async ctx => await setupController.post(ctx))
 ;
 

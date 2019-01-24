@@ -30,7 +30,9 @@
                     value="{{PaymentDate}}" 
                     placeholder="The date the employees were paid in the pay run" 
                     required 
-                    data-required-message="Payment Date is required">
+                    data-required-message="Payment Date is required",
+                    min="{{TaxPeriodStart}}"
+                    max="{{TaxPeriodEnd}}">
 
                 <span class="notes">The date you wish to appear on the employee's payslip (aka pay day).</span>
             </div>
@@ -65,17 +67,66 @@
                 </div>
             </div>
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="IsSupplementary" name="IsSupplementary" {{checkedIf IsSupplementary}}>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">   
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="IsSupplementary" name="IsSupplementary" {{checkedIf IsSupplementary}}>
 
-                <label class="form-check-label" for="IsSupplementary">
-                    Supplementary?
-                </label>
+                        <label class="form-check-label" for="IsSupplementary">
+                            Supplementary?
+                        </label>
 
-                {{!-- <span class="notes">
-                </span> --}}
+                        {{!-- <span class="notes">
+                        </span> --}}
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">   
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="SelectEmployees" name="SelectEmployees" {{checkedIf SelectEmployees}}>
+
+                        <label class="form-check-label" for="SelectEmployees">
+                            Select Employees
+                        </label>
+
+                        {{!-- <span class="notes">
+                        </span> --}}
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="select-employees-grp" class="form-group" style="display:none">
+                <label for="Employees">Employees</label>
+
+                {{!-- {{#multipleSelect Employees}} --}}
+                <select class="form-control" id="Employees" name="Employees" multiple>
+                    <option value="AllEmployees">--- All PaySchedule Employees ---</option>
+                    {{#each Employees}}
+                        <option value="/Employer/{{../EmployerId}}/Employee/{{Key}}">{{LastName}}, {{FirstName}} ({{Code}})</option>
+                    {{/each}}
+                </select>
+                {{!-- {{/multipleSelect}} --}}
+
+                <span class="notes">
+                    Select individual employess from the pay schedule to be included in the payrun.
+                    <br/>By default all employees from the pay schedule will be included.
+                </span>
             </div>
 
         </div>
     </div>
+
+    <input id="NextPaymentDate" type="hidden" value="{{PaymentDate}}">
+    <input id="NextPeriodStart" type="hidden" value="{{StartDate}}">
+    <input id="NextPeriodEnd" type="hidden" value="{{EndDate}}">
+    <input id="NextTaxPeriodStart" type="hidden" value="{{TaxPeriodStart}}">
+    <input id="NextTaxPeriodEnd" type="hidden" value="{{TaxPeriodEnd}}">
+    <input id="SupMinPaymentDate" type="hidden" value="{{LastPayDay}}">
+    <input id="SupMaxPaymentDate" type="hidden" value="{{LastTaxPeriodEnd}}">
+    <input id="SupPeriodStart" type="hidden" value="{{LastPeriodStart}}">
+    <input id="SupPeriodEnd" type="hidden" value="{{LastPeriodEnd}}">
+
 </form>
+
+<script src="/js/pay-run-creation.js"></script>

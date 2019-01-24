@@ -1,17 +1,17 @@
 module.exports = {
     "Query": {
-        "Variables": { "Variable": [{ "@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$" }] },
-        "RootNodeName": "PaySchedulesTable",
+        "Variables": { 
+        	"Variable": [
+	        	{ "@Name": "[EmployerKey]", "@Value": "$$EmployerKey$$" },
+	        	{ "@Name": "[PayScheduleKey]", "@Value": "$$PayScheduleKey$$" }]
+	        },
+        "RootNodeName": "PayScheduleDetail",
         "Groups": {
             "Group": [
                 {
                     "@ItemName": "PaySchedule",
-                    "@Selector": "/Employer/[EmployerKey]/PaySchedules",
-                    "@UniqueKeyVariable": "[PayScheduleKey]",
+                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]",
                     "Output": [
-                        {
-                            "@xsi:type": "RenderArrayHint"
-                        },
                         {
                             "@xsi:type": "RenderValue",
                             "@Name": "Key",

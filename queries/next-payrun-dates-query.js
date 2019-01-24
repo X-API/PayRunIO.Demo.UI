@@ -53,10 +53,51 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "RenderNextDate",
-                            "@Name": "NextPayDay",
+                            "@Name": "[NextPayDay]",
+                            "@Output": "Variable",
                             "@Date": "[LastPayDay]",
                             "@PayFrequency": "[PayFrequency]",
                             "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                        	"@xsi:type": "RenderValue",
+                            "@Name": "NextPayDay",
+                            "@Value": "[NextPayDay]",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriod",
+                            "@DisplayName": "[NextTaxPeriod]",
+                            "@Output": "Variable",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@Date": "[NextPayDay]",
+                            "@RenderOption": "PeriodOnly"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriod",
+                            "@DisplayName": "[NextTaxYear]",
+                            "@Output": "Variable",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@Date": "[NextPayDay]",
+                            "@RenderOption": "YearOnly"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriodDate",
+                            "@DisplayName": "NextTaxPeriodStart",
+                            "@Output": "Element",
+                            "@TaxYear": "[NextTaxYear]",
+                            "@TaxPeriod": "[NextTaxPeriod]",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@EndDate": "false"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriodDate",
+                            "@DisplayName": "NextTaxPeriodEnd",
+                            "@Output": "Element",
+                            "@TaxYear": "[NextTaxYear]",
+                            "@TaxPeriod": "[NextTaxPeriod]",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@EndDate": "true"
                         },
                         {
                             "@xsi:type": "RenderNextDate",
@@ -71,6 +112,58 @@ module.exports = {
                             "@Date": "[LastPeriodEnd]",
                             "@PayFrequency": "[PayFrequency]",
                             "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "LastPayDay",
+                            "@Value": "[LastPayDay]",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "LastPeriodStart",
+                            "@Value": "[LastPeriodStart]",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "LastPeriodEnd",
+                            "@Value": "[LastPeriodEnd]",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriod",
+                            "@DisplayName": "[LastTaxPeriod]",
+                            "@Output": "Variable",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@Date": "[LastPayDay]",
+                            "@RenderOption": "PeriodOnly"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriod",
+                            "@DisplayName": "[LastTaxYear]",
+                            "@Output": "Variable",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@Date": "[LastPayDay]",
+                            "@RenderOption": "YearOnly"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriodDate",
+                            "@DisplayName": "LastTaxPeriodStart",
+                            "@Output": "Element",
+                            "@TaxYear": "[LastTaxYear]",
+                            "@TaxPeriod": "[LastTaxPeriod]",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@EndDate": "false"
+                        },
+                        {
+                            "@xsi:type": "RenderTaxPeriodDate",
+                            "@DisplayName": "LastTaxPeriodEnd",
+                            "@Output": "Element",
+                            "@TaxYear": "[LastTaxYear]",
+                            "@TaxPeriod": "[LastTaxPeriod]",
+                            "@PayFrequency": "[PayFrequency]",
+                            "@EndDate": "true"
                         }
                     ],
                     "Order": [
@@ -79,7 +172,43 @@ module.exports = {
                             "@Property": "PaymentDate"
                         }
                     ]
-                }
+                },
+                {
+                    "@ItemName": "Employees",
+                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]/Employees",
+                    "@UniqueKeyVariable": "[EmployeeKey]",
+                    "Output": [
+                        {
+                            "@xsi:type": "RenderArrayHint"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "Key",
+                            "@Value": "[EmployeeKey]"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "FirstName",
+                            "@Property": "FirstName",
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "LastName",
+                            "@Property": "LastName"
+                        },
+                        {
+                            "@xsi:type": "RenderProperty",
+                            "@Name": "Code",
+                            "@Property": "Code"
+                        }
+                    ],
+                    "Order": [
+                        {
+                            "@xsi:type": "Ascending",
+                            "@Property": "LastName"
+                        }
+                    ]
+                } 
             ]
         }
     }
