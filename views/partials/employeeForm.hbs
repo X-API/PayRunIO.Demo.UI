@@ -132,12 +132,16 @@
 
                     {{#select StarterDeclaration}}
                     <select class="form-control" id="StarterDeclaration" name="StarterDeclaration" required data-required-message="Starter declaration is required">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="NA">N/A</option>
+                        <option value="PreviouslyReported">Previously Reported (included in previous FPS)</option>
+                        <option value="A">A (this is the employee's 1st employment since the 6th April)</option>
+                        <option value="B">B (this is the employee's only employment)</option>
+                        <option value="C">C (the employee has another employment or pension)</option>
                     </select>
                     {{/select}}
+
+                    <span class="notes">
+                        If the employee has been included in a previous FPS, you should be choose the "Previously Reported" option. This prevents duplicate FPS starter declarations being transmitted.
+                    </span>
                 </div>
 
                 <div class="form-group">
