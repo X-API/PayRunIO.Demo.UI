@@ -10,11 +10,27 @@ module.exports = {
                 {
                     "@Name": "[EmployeeKey]",
                     "@Value": "$$EmployeeKey$$"
+                },
+                {
+                    "@Name": "[PayScheduleKey]",
+                    "@Value": "$$PayScheduleKey$$"
                 }
             ]
         },
+
         "Groups": {
             "Group": [
+                {
+                    "@Selector": "/Employer/[EmployerKey]/PaySchedule/[PayScheduleKey]",
+                    "Output": [
+                    	{
+                            "@xsi:type": "RenderProperty",
+                            "@Output": "Variable",
+                            "@Property": "PayFrequency",
+                            "@Name": "[PayFrequency]"
+                        }
+                    ],
+                },
                 {
                     "@Selector": "/Employer/[EmployerKey]/Employee/[EmployeeKey]/PayRuns",
                     "Filter": [
@@ -31,8 +47,28 @@ module.exports = {
                         },
                         {
                             "@xsi:type": "Max",
-                            "@Name": "LastPayDay",
+                            "@Output": "Variable",
+                            "@Name": "[LastPayDay]",
                             "@Property": "PaymentDate",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Name": "LastPayDay",
+                            "@Value": "[LastPayDay]"
+                        },
+                        {
+                            "@xsi:type": "Max",
+                            "@Output": "Variable",
+                            "@Name": "[LastPeriodStart]",
+                            "@Property": "PeriodStart",
+                            "@Format": "yyyy-MM-dd"
+                        },
+                        {
+                            "@xsi:type": "RenderNextDate",
+                            "@Name": "NextPeriodStart",
+                            "@Date": "[LastPeriodStart]",
+                            "@PayFrequency": "[PayFrequency]",
                             "@Format": "yyyy-MM-dd"
                         }
                     ],

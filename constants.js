@@ -4,11 +4,11 @@ module.exports = class Globals {
     }
 
     static get apiUrl() {
-        // let env = process.env.NODE_ENV || "dev";
-        // if (env === "dev")
-        // {
-        //     return "http://localhost:3578";
-        // }
+        let env = process.env.NODE_ENV || "dev";
+        if (env === "dev")
+        {
+            return "http://localhost:3578";
+        }
 
         if (this._setup && this._setup.Environment.toLowerCase() === "production") {
             return "https://api.payrun.io/";

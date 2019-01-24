@@ -10,15 +10,19 @@ module.exports = class PayInstructionController extends BaseController {
         let employerId = ctx.params.employerId;
         let employeeId = ctx.params.employeeId;
         let instructionType = ctx.query.type || (ctx.session.body ? ctx.session.body.InstructionType : undefined);
+        let payScheduleKey = ctx.query.payScheduleKey;
 
         let queryStr = JSON.stringify(MinStartDateQuery)
             .replace("$$EmployerKey$$", employerId)
-            .replace("$$EmployeeKey$$", employeeId);
+            .replace("$$EmployeeKey$$", employeeId)
+            .replace("$$PayScheduleKey$$", payScheduleKey);
 
         let query = JSON.parse(queryStr);
         let queryResult = await apiWrapper.query(ctx, query);
 
-        let minInstructionStartDate = queryResult.MinStartQuery.LastPayDay;
+        let lastPayDay = new Date(queryResult.MinStartQuery.LastPayDay);
+        let minInstructionStartDate = new Date(lastPayDay.getFullYear(),lastPayDay.getMonth(),lastPayDay.getDate()+1); 
+        let defaultStartDate = queryResult.MinStartQuery.NextPeriodStart;
 
         if (!instructionType) {
             await ctx.redirect(`/employer/${employerId}/employee/${employeeId}#instructions`);
@@ -32,6 +36,7 @@ module.exports = class PayInstructionController extends BaseController {
             InstructionType: instructionType,
             EnableForm: true,
             MinStartDate: minInstructionStartDate,
+            StartDate: defaultStartDate,
             Breadcrumbs: [
                 { Name: "Employers", Url: "/employer" },
                 { Name: "Employer", Url: `/employer/${employerId}` },

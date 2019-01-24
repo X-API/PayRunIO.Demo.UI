@@ -29,7 +29,7 @@ module.exports = (ctx, ytd) => {
         let name = instance.name;
         let type = file.replace(".js", "");
 
-        return `<a class="${cssClass}" data-modal-size="modal-lg" data-modal-title="${name}" href="/employer/${ctx.EmployerId}/employee/${ctx.Id}/payInstruction/new?type=${type}">${name}</a>`;
+        return `<a class="${cssClass}" data-modal-size="modal-lg" data-modal-title="${name}" href="/employer/${ctx.EmployerId}/employee/${ctx.Id}/payInstruction/new?type=${type}&payScheduleKey=${ctx.PaySchedule}">${name}</a>`;
     }).join("");
 
     return new Handlebars.SafeString(html);

@@ -31,8 +31,8 @@
                     placeholder="The date the employees were paid in the pay run" 
                     required 
                     data-required-message="Payment Date is required",
-                    min="{{TaxPeriodStart}}"
-                    max="{{TaxPeriodEnd}}">
+                    {{minStartDate TaxPeriodStart}}
+                    {{maxStartDate TaxPeriodEnd}}>
 
                 <span class="notes">The date you wish to appear on the employee's payslip (aka pay day).</span>
             </div>

@@ -143,10 +143,13 @@ module.exports = class APIWrapper {
             method: method
         };
 
+        var headers = oauth.toHeader(oauth.authorize(request_data));
+        headers["x-source"] = "Demo-UI";
+
         let options = {
             uri: url,
             method: method,
-            headers: oauth.toHeader(oauth.authorize(request_data)),
+            headers: headers,
             json: true
         };
 

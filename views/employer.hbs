@@ -104,7 +104,11 @@
                                     {{/ifCond}}
 
                                     {{#ifCond this.Status "Leaver" this}}
-                                        <a class="dropdown-item" data-pay-schedule-id="{{this.Id}}" data-employer-id="{{../Id}}">P45</a>
+                                        <a class="dropdown-item" 
+                                            target="_blank"
+                                            href="/employer/{{../Id}}/report/P45?EmployerKey={{../Id}}&EmployeeKey={{Id}}&TransformDefinitionKey=P45-Pdf">
+                                            P45
+                                        </a>
                                     {{/ifCond}}
                             
                                     {{!-- <a class="dropdown-item" href="/Employer/{{../Id}}/Employee/{{Id}}/p60">P60</a> --}}

@@ -87,6 +87,12 @@ module.exports = {
                             "@Output": "Variable",
                             "@Name": "[Status]",
                             "@Value": "Active"
+                        },
+                        {
+                            "@xsi:type": "RenderValue",
+                            "@Output": "Variable",
+                            "@Name": "[NextPayDay]",
+                            "@Value": "0001-01-01"
                         }
                     ],
                     "Group": [
@@ -169,19 +175,6 @@ module.exports = {
                             ]
                         },
                         {
-                            "Condition": {
-                                "@xsi:type": "WhenLessThan",
-                                "@ValueA": "[LeavingDate]",
-                                "@ValueB": "[NextPayDay]"
-                            },
-                            "Output": {
-                                "@xsi:type": "RenderValue",
-                                "@Output": "Variable",
-                                "@Name": "[Status]",
-                                "@Value": "Leaver"
-                            }
-                        },
-                        {
                             "@Selector": "/Employer/[EmployerKey]/Employee/[EmployeeKey]/PayInstructions",
                             "Filter": [
                                 {
@@ -243,16 +236,42 @@ module.exports = {
                                         "@Name": "TaxCode",
                                         "@Value": "$taxCode"
                                     }
-                                },
-                                {
-                                    "Output": {
-                                        "@xsi:type": "RenderValue",
-                                        "@Name": "Status",
-                                        "@Value": "[Status]"
-                                    }
                                 }
                         	]
-                        }
+                        },
+		                {
+		                    "Condition": {
+		                        "@xsi:type": "WhenLessThan",
+		                        "@ValueA": "[LeavingDate]",
+		                        "@ValueB": "[NextPayDay]"
+		                    },
+		                    "Output": {
+		                        "@xsi:type": "RenderValue",
+		                        "@Output": "Variable",
+		                        "@Name": "[Status]",
+		                        "@Value": "Leaver"
+		                    }
+		                },
+		                {
+		                    "Condition": {
+		                        "@xsi:type": "WhenGreaterThan",
+		                        "@ValueA": "[StartDate]",
+		                        "@ValueB": "[NextPayDay]"
+		                    },
+		                    "Output": {
+		                        "@xsi:type": "RenderValue",
+		                        "@Output": "Variable",
+		                        "@Name": "[Status]",
+		                        "@Value": "New Starter"
+		                    }
+		                },
+		                {
+		                    "Output": {
+		                        "@xsi:type": "RenderValue",
+		                        "@Name": "Status",
+		                        "@Value": "[Status]"
+		                    }
+		                }
                     ]
                 }
             ]
