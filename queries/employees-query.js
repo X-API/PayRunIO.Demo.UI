@@ -182,19 +182,6 @@ module.exports = {
                             }
                         },
                         {
-                            "Condition": {
-                                "@xsi:type": "WhenGreaterThan",
-                                "@ValueA": "[StartDate]",
-                                "@ValueB": "[NextPayDay]"
-                            },
-                            "Output": {
-                                "@xsi:type": "RenderValue",
-                                "@Output": "Variable",
-                                "@Name": "[Status]",
-                                "@Value": "New Starter"
-                            }
-                        },
-                        {
                             "@Selector": "/Employer/[EmployerKey]/Employee/[EmployeeKey]/PayInstructions",
                             "Filter": [
                                 {
