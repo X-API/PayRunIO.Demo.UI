@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="StartDate">Start date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="StartDate" 
+                name="StartDate" 
+                value="{{StartDate}}" 
+                placeholder="The date the instruction will come into effect." 
+                required 
+                data-required-message="Start date is required"
+                {{minStartDate MinStartDate}}>
+
+            <span class="notes">
+                The date the instruction will come into effect.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End date</label>
+
+            <input type="date" 
+                class="form-control" 
+                id="EndDate" 
+                name="EndDate" 
+                value="{{EndDate}}" 
+                placeholder="The date the instruction will end, open ended instructions will run forever.">
+
+            <span class="notes">
+                The date the instruction will end, open ended instructions will run forever.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="Value">Value</label>
+
+            <input type="number" 
+                class="form-control" 
+                id="Value" 
+                name="Value" 
+                value="{{Value}}" 
+                step="0.01" 
+                placeholder="Value" 
+                required 
+                data-required-message="Value is required">
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-check">
+            <input class="form-check-input" 
+                type="checkbox" 
+                id="IsAdjustment" 
+                name="IsAdjustment" 
+                {{checkedIf IsAdjustment}}>
+
+            <label class="form-check-label" for="IsAdjustment">
+                Is Adjustment?
+            </label>
+
+            <span class="notes">
+                Indicates if the instruction is an adjustment. Pay lines 
+                generated from adjustment YTD instructions appear on the employee pay slip.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="Description" 
+                name="Description" 
+                value="{{Description}}" 
+                placeholder="The pay line description override" 
+                maxlength="200">
+
+            <span class="notes">
+                This description will override the default description from the pay code. 
+                See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
+            </span>
+        </div>             
+    </div>
+</div>
