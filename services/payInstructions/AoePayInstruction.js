@@ -36,7 +36,14 @@ module.exports = class AoePayInstruction extends BaseInstruction {
             ProtectedEarningsAmount: cleanBody.ProtectedEarningsAmount,
             DeductionAmount: cleanBody.DeductionAmount,
             ProtectedEarningsPercentage: cleanBody.ProtectedEarningsPercentage,
-            DeductionPercentage: cleanBody.DeductionPercentage
+            DeductionPercentage: cleanBody.DeductionPercentage,
+            BeneficiaryBankAccount: 
+            { 
+                AccountName: cleanBody.BeneficiaryBankAccountName,
+                AccountNumber: cleanBody.BeneficiaryBankAccountNumber,
+                SortCode: cleanBody.BeneficiaryBankSortCode,
+                Reference: cleanBody.BeneficiaryReference
+            }
         };
     }
 };

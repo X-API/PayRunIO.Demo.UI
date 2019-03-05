@@ -253,6 +253,59 @@
                 This description will override the default description from the pay code. 
                 See <a href="http://developer.payrun.io/docs/key-concepts/customising-the-payslip.html" target="_blank">Customising the Payslip</a> for more information on customising the payslip output and using runtime variables.
             </span>
-        </div>             
+        </div>         
+
+        <div class="form-group">
+            <label for="BeneficiaryBankAccountName">Beneficiary Account Name</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="BeneficiaryBankAccountName" 
+                name="BeneficiaryBankAccountName" 
+                value="{{BeneficiaryBankAccount.AccountName}}" 
+                placeholder="The beneficiary bank account name" 
+                maxlength="18">
+
+        </div>   
+
+        <div class="form-group">
+            <label for="BeneficiaryBankAccountNumber">Beneficiary Account Number</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="BeneficiaryBankAccountNumber" 
+                name="BeneficiaryBankAccountNumber" 
+                value="{{BeneficiaryBankAccount.AccountNumber}}" 
+                placeholder="The beneficiary bank account number" 
+                maxlength="8">
+
+        </div>   
+
+        <div class="form-group">
+            <label for="BeneficiaryBankSortCode">Beneficiary Sort Code</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="BeneficiaryBankSortCode" 
+                name="BeneficiaryBankSortCode" 
+                value="{{BeneficiaryBankAccount.SortCode}}" 
+                placeholder="The beneficiary sort code" 
+                maxlength="8">
+
+        </div>   
+
+        <div class="form-group">
+            <label for="BeneficiaryReference">Beneficiary Reference</label>
+
+            <input type="text" 
+                class="form-control" 
+                id="BeneficiaryReference" 
+                name="BeneficiaryReference" 
+                value="{{BeneficiaryBankAccount.Reference}}" 
+                placeholder="The beneficiary reference" 
+                maxlength="30">
+
+        </div>   
+
     </div>
 </div>
